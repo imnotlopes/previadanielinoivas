@@ -8,6 +8,21 @@ interface SeoProps {
   descricao: string
   /** Caminho absoluto a partir da raiz, ex.: "/pecas/kelly-romantico-minimalista-e-contemporaneo.webp". */
   imagem?: string
+  /**
+   * Sobrescreve o caminho da URL canônica.
+   *
+   * Por padrão a canônica é o pathname, o que joga fora a query string. Isso
+   * está certo para filtro que é só um recorte da mesma página, mas errado
+   * para o catálogo por categoria: cada categoria tem título e descrição
+   * próprios e é uma página de entrada legítima ("vestido de noiva em
+   * Timóteo"). Sem este parâmetro, a canônica apontaria para /catalogo e o
+   * Google descartaria a descrição da categoria.
+   */
+  caminho?: string
+  /** Tira a página do índice. Use em erro e em qualquer rota sem conteúdo próprio. */
+  naoIndexar?: boolean
+  /** Dados estruturados da página, serializados em JSON-LD. */
+  dadosEstruturados?: Record<string, unknown>
 }
 
 /**
@@ -19,11 +34,18 @@ interface SeoProps {
  * Facebook, que não executam JS. As tags de Open Graph que eles leem são as
  * estáticas do index.html. Ver a nota sobre pré-renderização no README.
  */
-export default function Seo({ titulo, descricao, imagem = '/og-image.jpg' }: SeoProps) {
+export default function Seo({
+  titulo,
+  descricao,
+  imagem = '/og-image.jpg',
+  caminho,
+  naoIndexar,
+  dadosEstruturados,
+}: SeoProps) {
   const { pathname } = useLocation()
 
   const tituloFinal = titulo ? `${titulo} | ${TITULO_BASE}` : TITULO_BASE
-  const urlCanonica = `${SITE_URL}${pathname}`
+  const urlCanonica = `${SITE_URL}${caminho ?? pathname}`
   const urlImagem = `${SITE_URL}${imagem}`
 
   return (
@@ -31,6 +53,7 @@ export default function Seo({ titulo, descricao, imagem = '/og-image.jpg' }: Seo
       <title>{tituloFinal}</title>
       <meta name="description" content={descricao} />
       <link rel="canonical" href={urlCanonica} />
+      {naoIndexar && <meta name="robots" content="noindex, follow" />}
 
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="pt_BR" />
@@ -44,6 +67,15 @@ export default function Seo({ titulo, descricao, imagem = '/og-image.jpg' }: Seo
       <meta name="twitter:title" content={tituloFinal} />
       <meta name="twitter:description" content={descricao} />
       <meta name="twitter:image" content={urlImagem} />
+
+      {dadosEstruturados && (
+        <script
+          type="application/ld+json"
+          // O conteúdo é montado aqui a partir dos dados do site, nunca de
+          // entrada externa, e JSON.stringify escapa o que vier dos textos.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(dadosEstruturados) }}
+        />
+      )}
     </>
   )
 }

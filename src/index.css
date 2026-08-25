@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   DESIGN TOKENS — Atelier Simone Sá
+   DESIGN TOKENS — Atelier Danielli Noivas
    Fonte única de verdade. O tailwind.config.ts apenas referencia estas vars.
    ========================================================================== */
 :root {
@@ -13,24 +13,48 @@
      `text-preto/70` e `bg-preto/50` são silenciosamente ignorados.
      Logo abaixo, cada uma ganha sua versão pronta para uso em CSS puro.
      ---------------------------------------------------------------------- */
-  --preto-rgb: 28 28 28; /* #1C1C1C */
-  --branco-rgb: 255 255 255; /* #FFFFFF */
-  --off-white-rgb: 249 249 249; /* #F9F9F9 */
   /*
-    Paleta estritamente preto e branco — não há cor de acento.
-    A hierarquia vem de PESO e PREENCHIMENTO (cheio x contorno), não de matiz.
-    O cinza abaixo é o preto rebaixado, usado em rótulos e texto de apoio;
-    é o mais claro que ainda cumpre 4,5:1 sobre off-white.
+    A PROPORÇÃO É PARTE DA PALETA
+    -----------------------------
+    Aproximadamente 70% off-white, 20% preto suave, 8% champagne e 2% dourado.
+    O dourado NÃO é cor estrutural: ele não pinta fundo, não pinta botão
+    principal e não carrega bloco de texto. Ele aparece em filete, ícone e
+    detalhe — o Instagram da marca já é saturado de dourado, e o site existe
+    para elevar isso, não para repetir.
   */
-  --cinza-rgb: 105 105 105; /* #696969 — rótulos e texto secundário */
-  --borda-rgb: 216 216 216; /* #D8D8D8 */
-  --borda-sutil-rgb: 221 221 221; /* #DDDDDD */
+  --preto-rgb: 36 35 33; /* #242321 — preto suave, levemente quente */
+  --branco-rgb: 255 255 255; /* #FFFFFF — cards e áreas de contraste */
+  --off-white-rgb: 250 249 246; /* #FAF9F6 — fundo principal */
+  --bege-rgb: 216 208 194; /* #D8D0C2 — champagne: divisores e superfícies */
+  --dourado-rgb: 201 181 107; /* #C9B56B — só detalhe */
+
+  /*
+    O cinza é o preto rebaixado, para rótulo e texto de apoio. Foi puxado para
+    o quente (#6B6560, e não o #696969 neutro de antes) para conversar com o
+    champagne; é o mais claro que ainda cumpre 4,5:1 sobre o off-white novo.
+  */
+  --cinza-rgb: 107 101 96; /* #6B6560 — 5,46:1 sobre off-white */
+
+  /*
+    ONDE O DOURADO NÃO PODE ENTRAR
+    ------------------------------
+    #C9B56B rende 1,94:1 sobre o off-white: é ilegível como texto em fundo
+    claro, e nenhum tamanho de fonte conserta isso. Sobre o preto suave ele
+    sobe para 7,71:1, e aí sim funciona como texto — é por isso que o dourado
+    do site aparece como filete em fundo claro e como palavra só em fundo
+    escuro.
+  */
+
+  --borda-rgb: 216 208 194; /* champagne, para divisor visível */
+  --borda-sutil-rgb: 232 227 217; /* #E8E3D9 — champagne rebaixado */
   --sucesso-rgb: 48 122 7; /* #307A07 */
   --erro-rgb: 203 43 43; /* #CB2B2B */
 
   --preto: rgb(var(--preto-rgb));
   --branco: rgb(var(--branco-rgb));
   --off-white: rgb(var(--off-white-rgb));
+  --bege: rgb(var(--bege-rgb));
+  --dourado: rgb(var(--dourado-rgb));
   --cinza: rgb(var(--cinza-rgb));
   --borda: rgb(var(--borda-rgb));
   --borda-sutil: rgb(var(--borda-sutil-rgb));
@@ -39,7 +63,8 @@
 
   /* --- Tipografia ------------------------------------------------------- */
   --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
-  --font-corpo: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Montserrat: geométrica e limpa, faz contraste com a serifada dos títulos. */
+  --font-corpo: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Escala fluida: min → preferido → max */
   --fs-h1: clamp(1.75rem, 1.35rem + 1.8vw, 2.375rem);
@@ -184,14 +209,21 @@
            transition-colors duration-300 ease-suave hover:text-cinza;
   }
 
-  /* Filete usado como divisor sob títulos. */
+  /*
+    Filete usado como divisor sob títulos.
+
+    É AQUI que mora a maior parte dos 2% de dourado do site: uma linha de 1px
+    por bloco, decorativa, sem exigência de contraste porque não carrega
+    informação. É o acento que se repete e por isso não precisa aparecer em
+    mais lugar nenhum.
+  */
   .filete {
-    @apply block h-px w-14 bg-preto;
+    @apply block h-px w-14 bg-dourado;
   }
 
-  /* Sobre fundo escuro o filete inverte. */
+  /* Sobre fundo escuro o dourado ganha corpo, então o filete não inverte. */
   .filete-claro {
-    @apply block h-px w-14 bg-branco;
+    @apply block h-px w-14 bg-dourado;
   }
 
   /* --- Botões ----------------------------------------------------------- */
@@ -203,9 +235,13 @@
   }
 
   /*
-    Sem cor de acento, a hierarquia dos botões vem do preenchimento:
+    A hierarquia dos botões vem do preenchimento, e não do matiz:
     preto cheio (mais forte) → branco cheio → contorno.
-    O hover inverte o preenchimento, em vez de mudar de matiz.
+    O hover inverte o preenchimento, em vez de mudar de cor.
+
+    O botão principal é PRETO SUAVE, nunca dourado. Botão dourado sobre fundo
+    claro não tem contraste para o texto de dentro, e é exatamente o clichê de
+    "dourado + noiva" que esta direção visual existe para evitar.
   */
   .btn-primario {
     @apply btn border-preto bg-preto text-branco hover:bg-branco hover:text-preto;

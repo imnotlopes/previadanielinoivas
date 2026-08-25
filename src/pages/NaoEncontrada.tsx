@@ -7,7 +7,8 @@ export default function NaoEncontrada() {
     <section className="container-luxo secao text-center">
       <Seo
         titulo="Página não encontrada"
-        descricao="O endereço acessado não existe no site do atelier Simone Sá."
+        descricao="O endereço acessado não existe no site da Danielli Noivas."
+        naoIndexar
       />
 
       <span className="eyebrow">Erro 404</span>

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 
 import { rotulosCategoria, type Peca } from '../data/pecas'
 import { cn } from '../lib/utils'
+import Preco from './Preco'
 
 interface CardPecaProps {
   peca: Peca
@@ -30,6 +31,7 @@ export default function CardPeca({ peca, prioridade = false, className }: CardPe
           {peca.nome}
         </h3>
         <p className="mt-1 text-sm text-preto/65">{peca.descricao}</p>
+        <Preco peca={peca} className="mt-2.5" />
       </div>
     </Link>
   )

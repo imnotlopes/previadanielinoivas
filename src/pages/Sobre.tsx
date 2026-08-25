@@ -3,29 +3,37 @@ import SecaoTitulo from '../components/SecaoTitulo'
 import Seo from '../components/Seo'
 import { brand } from '../lib/brand'
 
-const FOTO_SIMONE = '/atelier/simone.webp'
-const FOTO_EMBALAGEM = '/atelier/embalagem.webp'
+const FOTO_PROVADOR = '/atelier/provador.webp'
+const FOTO_ACESSORIOS = '/atelier/acessorios.webp'
 
+/**
+ * ATENÇÃO — TEXTO DE PRÉVIA
+ * -------------------------
+ * As quatro etapas abaixo descrevem como um aluguel de vestido costuma
+ * funcionar, não necessariamente como a Danielli trabalha. Prazos, número de
+ * provas e o que entra ou não no valor precisam ser confirmados com ela antes
+ * de publicar — é justamente isso que a cliente vem conferir nesta página.
+ */
 const PROCESSO = [
   {
-    titulo: 'Atendimento',
+    titulo: 'Agendamento',
     texto:
-      'Uma conversa sem pressa sobre a ocasião, as referências que você trouxe e o que o seu corpo pede. Saímos daqui com o desenho definido e o tecido escolhido.',
+      'Você chama no WhatsApp com a data do evento e a ocasião. A prova é com hora marcada, para que o provador seja seu e de mais ninguém naquele horário.',
   },
   {
     titulo: 'Prova',
     texto:
-      'A modelagem é desenvolvida do zero sobre as suas medidas e montada em tecido de prova, para acertar a estrutura antes de cortar o tecido definitivo.',
+      'Sem compromisso e sem limite de modelos. A gente separa o que combina com o seu corpo e com o tipo de festa, e você experimenta até aparecer aquele que você não quer mais tirar.',
   },
   {
-    titulo: 'Ajustes',
+    titulo: 'Reserva',
     texto:
-      'Dois a três encontros para afinar caimento, comprimento e cava. É aqui que a peça deixa de servir e passa a pertencer.',
+      'Escolhido o vestido, a data da sua festa fica bloqueada no nome dele. Ninguém mais aluga aquele modelo para o mesmo fim de semana.',
   },
   {
-    titulo: 'Entrega',
+    titulo: 'Ajuste e retirada',
     texto:
-      'A peça sai passada, embalada e com as instruções de conservação. Ajustes finos de última hora ficam por nossa conta.',
+      'O vestido é ajustado no seu corpo e fica pronto antes do dia. Você retira já passado e embalado, e devolve depois da festa sem se preocupar com a lavagem.',
   },
 ]
 
@@ -33,58 +41,57 @@ export default function Sobre() {
   return (
     <>
       <Seo
-        titulo="Sobre o atelier"
-        descricao="Conheça o atelier Simone Sá, em Timóteo, MG: modelagem construída do zero, três provas por peça e acabamento à mão. Atendimento individual com hora marcada."
-        imagem={FOTO_SIMONE}
+        titulo="Sobre a loja"
+        descricao={`Conheça a ${brand.nome}${
+          brand.cidade ? `, em ${brand.cidade}` : ''
+        }: acervo de vestidos de noiva, festa e 15 anos para alugar, com prova sem compromisso, hora marcada e ajuste incluso.`}
+        imagem={FOTO_PROVADOR}
       />
 
       {/* Abertura */}
       <section className="secao bg-off-white">
         <div className="container-luxo grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
-            <SecaoTitulo
-              eyebrow="Sobre"
-              titulo="O atelier"
-              nivel={1}
-            />
+            <SecaoTitulo eyebrow="Sobre" titulo="A loja" nivel={1} />
 
             <div className="mt-8 space-y-5 text-preto/75">
               <p>
-                O atelier {brand.nome} nasceu de um incômodo simples: roupa de festa
-                raramente cabe em quem a veste. Aqui não existe tabela de tamanho:
-                existe uma modelagem construída do zero, sobre as medidas e o corpo
-                de cada cliente.
+                A {brand.nome} existe para resolver um problema simples: o
+                vestido dos sonhos costuma custar o preço de uma festa inteira, e
+                é usado uma única vez. Alugar devolve esse dinheiro para o lugar
+                onde ele faz falta e não tira nada da noiva.
               </p>
               <p>
-                Trabalhamos com poucas peças por vez, e isso é uma escolha. Cada
-                vestido passa por três provas antes de sair, e boa parte do
-                acabamento, como bainhas, aplicações e forros, é feita à mão. O que
-                se vê por dentro da peça diz tanto quanto o que se vê por fora.
+                O acervo é escolhido peça por peça, e renovado a cada coleção que
+                chega. Tem princesa com cauda longa, tem sereia bordado, tem o
+                minimalista de manga fluida — e tem quem chegue procurando um e
+                saia levando o outro, o que acontece quase sempre.
               </p>
               <p>
-                Atendemos noivas, madrinhas, debutantes e daminhas,
-                além de alfaiataria sob medida para o guarda-roupa que continua
-                depois da festa. O atendimento é individual, com hora marcada.
+                Atendemos noivas, madrinhas, formandas e debutantes. O
+                atendimento é individual e com hora marcada, porque provar
+                vestido com alguém esperando atrás da porta não é provar
+                vestido.
               </p>
             </div>
           </div>
 
-          {/* Retrato da Simone: a página fala do atelier, então mostra quem
-              costura, não uma peça do catálogo. */}
+          {/* O provador, e não um retrato: é o lugar onde a decisão acontece,
+              e é ele que a cliente quer ver antes de marcar a prova. */}
           <figure>
             <div className="overflow-hidden bg-borda-sutil">
               <img
-                src={FOTO_SIMONE}
-                alt="Simone Sá no atelier, de camisa branca, segurando a tesoura de alfaiate ao lado do manequim de modelagem com o monograma da marca."
-                width={1254}
-                height={1254}
+                src={FOTO_PROVADOR}
+                alt="Noiva de vestido rendado com cauda longa em frente ao espelho do provador, com o vestido inteiro aparecendo no reflexo."
+                width={1365}
+                height={1706}
                 loading="lazy"
                 decoding="async"
                 className="aspect-square w-full object-cover"
               />
             </div>
             <figcaption className="mt-4 text-sm text-preto/65">
-              Simone Sá, à frente do atelier.
+              O provador da loja, onde a prova acontece com hora marcada.
             </figcaption>
           </figure>
         </div>
@@ -95,8 +102,8 @@ export default function Sobre() {
         <div className="container-luxo">
           <SecaoTitulo
             eyebrow="Como funciona"
-            titulo="O processo sob medida"
-            descricao="Do primeiro contato à entrega, em média quarenta e cinco dias."
+            titulo="Do primeiro contato à festa"
+            descricao="O ideal é procurar a loja com três a seis meses de antecedência: quanto antes, maior o acervo livre para a sua data."
             centralizado
           />
 
@@ -115,13 +122,13 @@ export default function Sobre() {
         </div>
       </section>
 
-      {/* Embalagem */}
+      {/* Acessórios */}
       <section className="secao bg-off-white">
         <div className="container-luxo grid items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <figure className="overflow-hidden bg-borda-sutil">
             <img
-              src={FOTO_EMBALAGEM}
-              alt="Três sacolas brancas do atelier alinhadas, cada uma com o monograma Simone Sá impresso e um laço de fita preta amarrado nas alças."
+              src={FOTO_ACESSORIOS}
+              alt="Par de sapatos brancos de bico fino ao lado de um par de brincos de pedras, sobre uma mesa de madeira clara."
               loading="lazy"
               decoding="async"
               className="aspect-[4/3] w-full object-cover"
@@ -129,18 +136,21 @@ export default function Sobre() {
           </figure>
 
           <div>
-            <SecaoTitulo eyebrow="A entrega" titulo="Como a peça chega até você" />
+            <SecaoTitulo eyebrow="Além do vestido" titulo="O que vai junto" />
 
             <div className="mt-8 space-y-5 text-preto/75">
               <p>
-                A peça sai do atelier passada, protegida em papel de seda e embalada
-                na sacola da casa, fechada com laço de fita preta. Junto vai a
-                instrução de conservação do tecido, escrita para aquela peça.
+                Véu, tiara, sapato e bolero: a loja também tem os acessórios que
+                fecham o visual, e eles são provados junto com o vestido. Ver
+                tudo montado de uma vez evita a surpresa de descobrir na véspera
+                que o véu briga com o penteado.
               </p>
+              {/* TODO: confirmar se acessório entra no valor do aluguel ou é
+                  cobrado à parte, e trocar a frase abaixo pela regra real. */}
               <p>
-                Não é enfeite: o vestido costuma ficar guardado semanas até o dia do
-                evento, e sair daqui já embalado do jeito certo é o que garante que
-                ele chegue ao evento como saiu da última prova.
+                Na prova a gente combina o que entra no aluguel e o que é à
+                parte, sem letra miúda. E se você já tem o seu véu de família, ele
+                é bem-vindo: dá para montar o conjunto em volta dele.
               </p>
             </div>
           </div>
@@ -150,26 +160,26 @@ export default function Sobre() {
       {/* CTA */}
       <section className="bg-preto text-branco">
         <div className="container-luxo secao flex flex-col items-center text-center">
-          <span className="font-display text-h6 uppercase tracking-luxo text-branco/70">
-            Vamos começar
+          <span className="font-display text-h6 uppercase tracking-luxo text-dourado">
+            Vamos marcar
           </span>
 
           <h2 className="mt-4 uppercase tracking-luxo text-branco">
-            Conte o que você imagina
+            Venha provar sem compromisso
           </h2>
           <span className="filete-claro mt-6" />
 
           <p className="mt-6 max-w-md text-branco/70">
-            Mande uma mensagem com a ocasião e a data. Respondemos com os próximos
-            passos e a disponibilidade da agenda.
+            Mande uma mensagem com a data do evento e a ocasião. Respondemos com
+            os horários livres e já separamos alguns modelos para você ver.
           </p>
 
           <BotaoWhatsapp
             variante="claro"
             className="mt-10"
-            mensagem={`Olá! Vim pelo site do Atelier ${brand.nome} e gostaria de agendar um atendimento.`}
+            mensagem={`Olá! Vim pelo site da ${brand.nome} e gostaria de agendar uma prova.`}
           >
-            Agendar atendimento
+            Agendar prova
           </BotaoWhatsapp>
         </div>
       </section>

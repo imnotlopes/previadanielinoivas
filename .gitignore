@@ -26,9 +26,11 @@ dist-ssr
 # Config local do agente/editor
 .claude/
 
-# Dump de fotos baixadas do Instagram, na raiz do projeto.
+# Dump de fotos baixadas do Instagram.
 # Material de trabalho, não código: as fotos que o site usa estão em
-# public/pecas/. Continuam no seu disco, apenas fora do repositório.
+# public/pecas/, geradas por scripts/importar-instagram.mjs a partir daqui.
+# Continuam no seu disco, apenas fora do repositório.
+instagram/
 imgi_*.jpg
 imgi_*.webp
 
@@ -37,3 +39,9 @@ print-do-site.jpeg
 
 # Prints das avaliacoes; o site usa o texto transcrito em src/data/google.ts
 avaliacoes-originais/
+
+# Projeto de referência copiado para dentro desta pasta (Next.js + Supabase).
+# Serve de fonte de ideias, não faz parte deste site — e traz .env.local e um
+# arquivo de senha junto. Fora do repositório.
+Lennys atelie/
+Lennys atelie - Exemplo/

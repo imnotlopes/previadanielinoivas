@@ -1,11 +1,13 @@
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import BannerCupom from './BannerCupom'
 import Faq from './Faq'
 import FloatWhatsapp from './FloatWhatsapp'
 import Footer from './Footer'
 import Header from './Header'
 import ScrollToTop from './ScrollToTop'
+import SecaoDepoimentos from './SecaoDepoimentos'
 import SecaoAvaliacoes, { SecaoMapa } from './SecaoGoogle'
 
 /** Reserva altura durante o carregamento do chunk, para o rodapé não saltar. */
@@ -23,6 +25,10 @@ export default function Layout() {
   return (
     <div className="flex min-h-svh flex-col bg-off-white">
       <ScrollToTop />
+
+      {/* Acima do cabeçalho e fora do sticky: a faixa é do fluxo, não da
+          casca fixa. Some sozinha quando não há cupom ativo. */}
+      <BannerCupom />
       <Header />
 
       <main className="flex-1">
@@ -30,8 +36,10 @@ export default function Layout() {
           <Outlet />
         </Suspense>
 
-        {/* Fecham toda página do site, nesta ordem: prova social, dúvidas e,
-            por último, onde encontrar o atelier. */}
+        {/* Fecham toda página do site, nesta ordem: prova social escolhida
+            pela casa, prova social pública, dúvidas e, por último, onde
+            encontrar a loja. */}
+        <SecaoDepoimentos />
         <SecaoAvaliacoes />
         <Faq />
         <SecaoMapa />

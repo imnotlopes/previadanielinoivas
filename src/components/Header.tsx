@@ -2,13 +2,15 @@ import { Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 
-import { brand, linkInstagram, navegacao } from '../lib/brand'
+import { brand, navegacao } from '../lib/brand'
+import { useContato } from '../lib/loja'
 import { cn } from '../lib/utils'
 import { IconeInstagram } from './icones'
 
 export default function Header() {
   const [aberto, setAberto] = useState(false)
   const { pathname } = useLocation()
+  const { instagram, linkInstagram } = useContato()
 
   // Fecha o menu ao navegar — sem isso ele fica aberto sobre a página nova.
   useEffect(() => setAberto(false), [pathname])
@@ -35,10 +37,11 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b border-borda-sutil bg-off-white/95 backdrop-blur">
       <div className="container-luxo flex h-20 items-center justify-between gap-6 md:h-24">
         {/*
-          Lockup horizontal: o símbolo da marca + o nome em texto.
-          A logo original é vertical (símbolo sobre o nome); reduzida à altura
-          do header, o "SIMONE SÁ" dela ficaria com ~5px e ilegível. Por isso
-          usamos só o símbolo e compomos o nome com a tipografia do site.
+          Lockup horizontal: o selo da marca + o nome em texto.
+          A logo é um selo circular com o nome escrito dentro; reduzida à
+          altura do header, o "DANIELLI" dela ficaria com ~4px e ilegível. Por
+          isso usamos o selo como símbolo e compomos o nome com a tipografia
+          do site, que é o que mantém o cabeçalho legível em 320px de tela.
         */}
         {/*
           `min-w-0` em vez de `shrink-0`: o nome é `whitespace-nowrap`, e num
@@ -54,13 +57,13 @@ export default function Header() {
           <img
             src="/logo-simbolo.webp"
             alt=""
-            width={480}
-            height={302}
-            className="h-8 w-auto shrink-0 md:h-10"
+            width={150}
+            height={150}
+            className="h-9 w-auto shrink-0 md:h-11"
           />
           <span className="block min-w-0">
             <span className="block truncate font-display text-h4 uppercase tracking-luxo-lg text-preto transition-colors duration-300 ease-suave group-hover:text-cinza">
-              {brand.nomeRegistrado}
+              {brand.nome}
             </span>
             <span className="mt-1.5 block font-display text-[0.6875rem] uppercase tracking-luxo-lg text-cinza">
               {brand.subtitulo}
@@ -80,7 +83,7 @@ export default function Header() {
             href={linkInstagram}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Instagram do atelier (${brand.instagram})`}
+            aria-label={`Instagram da loja (${instagram})`}
             className="text-preto transition-colors duration-300 ease-suave hover:text-cinza"
           >
             <IconeInstagram />

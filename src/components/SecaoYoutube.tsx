@@ -24,7 +24,7 @@ export default function SecaoYoutube() {
         <SecaoTitulo
           eyebrow="No YouTube"
           titulo="Bastidores em vídeo"
-          descricao="O processo por trás das peças, do corte à última prova."
+          descricao="Provas, bastidores e vestidos em movimento — que é como eles realmente aparecem na festa."
           centralizado
         />
 

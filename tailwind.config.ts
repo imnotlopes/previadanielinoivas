@@ -1,10 +1,10 @@
 import type { Config } from 'tailwindcss'
 
 /**
- * Design System — Atelier Simone Sá
- * Alta-costura / luxo minimalista: preto, off-white e um único acento dourado.
+ * Design System — Atelier Danielli Noivas
+ * Off-white, preto suave, champagne e pequenos acentos dourados.
  * Todos os valores abaixo apontam para as CSS variables declaradas em src/index.css,
- * que é a fonte única de verdade dos tokens.
+ * que é a fonte única de verdade dos tokens (inclusive da proporção da paleta).
  */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
@@ -19,6 +19,8 @@ export default {
         preto: 'rgb(var(--preto-rgb) / <alpha-value>)',
         branco: 'rgb(var(--branco-rgb) / <alpha-value>)',
         'off-white': 'rgb(var(--off-white-rgb) / <alpha-value>)',
+        bege: 'rgb(var(--bege-rgb) / <alpha-value>)',
+        dourado: 'rgb(var(--dourado-rgb) / <alpha-value>)',
         cinza: 'rgb(var(--cinza-rgb) / <alpha-value>)',
         borda: 'rgb(var(--borda-rgb) / <alpha-value>)',
         'borda-sutil': 'rgb(var(--borda-sutil-rgb) / <alpha-value>)',

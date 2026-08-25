@@ -18,7 +18,7 @@ export default function SecaoCasamentos() {
         <SecaoTitulo
           eyebrow="Casamentos"
           titulo="No dia delas"
-          descricao="Vestidos que saíram do atelier e foram para o altar."
+          descricao="Vestidos que saíram do nosso acervo e foram para o altar."
           centralizado
         />
 
@@ -50,7 +50,7 @@ export default function SecaoCasamentos() {
 
         <div className="mt-14 flex flex-col items-center gap-5 text-center">
           <p className="text-preto/70">
-            Noivas vestidas pelo atelier. O seu pode ser o próximo.
+            Noivas vestidas por nós. O próximo altar pode ser o seu.
           </p>
           <Link to="/catalogo?categoria=noiva" className="btn-primario">
             Ver vestidos de noiva

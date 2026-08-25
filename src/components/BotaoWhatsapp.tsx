@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react'
 
-import { linkWhatsApp } from '../lib/brand'
+import { useContato } from '../lib/loja'
 import { cn } from '../lib/utils'
 import { IconeWhatsapp } from './icones'
 
 interface BotaoWhatsappProps {
-  /** Texto já pré-preenchido na conversa. Personalize por peça/contexto. */
+  /** Texto já pré-preenchido na conversa. Personalize por vestido/contexto. */
   mensagem: string
   children?: ReactNode
   /**
@@ -29,6 +29,8 @@ export default function BotaoWhatsapp({
   tamanho = 'padrao',
   className,
 }: BotaoWhatsappProps) {
+  const { linkWhatsApp } = useContato()
+
   return (
     <a
       href={linkWhatsApp(mensagem)}

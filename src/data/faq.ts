@@ -6,26 +6,32 @@ export interface Pergunta {
 
 /**
  * Três perguntas — a FAQ aparece em todas as páginas, então precisa ser curta.
- * TODO: revise as respostas; são o que costuma valer para um atelier sob
- * medida, mas os prazos e condições precisam ser os seus de verdade.
+ *
+ * ATENÇÃO — RESPOSTAS DE PRÉVIA
+ * -----------------------------
+ * As respostas abaixo são o que costuma valer numa loja de aluguel de
+ * vestidos, escritas aqui para o site poder ser visto de pé. Prazo de reserva,
+ * o que entra no valor e a política de devolução PRECISAM ser os da Danielli:
+ * é exatamente isso que a cliente vem conferir, e errar aqui vira discussão no
+ * balcão depois.
  */
 export const perguntas: Pergunta[] = [
   {
-    id: 'prazo',
-    pergunta: 'Quanto tempo leva para a peça ficar pronta?',
+    id: 'antecedencia',
+    pergunta: 'Com quanto tempo de antecedência devo procurar a loja?',
     resposta:
-      'Em média quarenta e cinco dias, do primeiro atendimento à entrega, contando as provas. Vestidos de noiva e peças com bordado manual pedem mais tempo, e o ideal é procurar o atelier com três a quatro meses de antecedência.',
+      'De três a seis meses antes do evento é o ideal. Não é regra: dá para resolver em cima da hora, e acontece bastante. Mas quanto antes você provar, maior o número de modelos ainda livres para a sua data — em época de formatura e em dezembro o acervo esvazia rápido.',
   },
   {
-    id: 'atendimento',
-    pergunta: 'Preciso agendar para ser atendida?',
+    id: 'ajuste',
+    pergunta: 'O ajuste está incluído no aluguel?',
     resposta:
-      'Sim. O atendimento é individual e com hora marcada, para que a conversa sobre modelo, tecido e medidas aconteça sem pressa. É só chamar no WhatsApp com a ocasião e a data do evento que combinamos o melhor horário.',
+      'Sim. O vestido é ajustado no seu corpo e fica pronto antes do dia do evento, sem custo à parte. Se o seu manequim mudar entre a reserva e a festa, é só avisar que a gente refaz o ajuste.',
   },
   {
-    id: 'orcamento',
-    pergunta: 'Como funciona o orçamento?',
+    id: 'devolucao',
+    pergunta: 'Como funciona a devolução?',
     resposta:
-      'O valor depende do modelo, do tecido escolhido e do acabamento, então é fechado depois da primeira conversa. Não existe tabela pronta. Mande uma mensagem com a referência que você tem em mente e passamos uma estimativa.',
+      'Você devolve nos dias combinados na reserva, e a lavagem fica por nossa conta — não precisa lavar nem passar antes de trazer. Mancha de festa é normal e está prevista; só pedimos cuidado com rasgo e queimadura, que são o que de fato tira uma peça do acervo.',
   },
 ]

@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+import { pluginSeo } from './scripts/seo.js'
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), pluginSeo()],
   server: {
     // O Vite ignora PORT e vai somando a partir da 5173 quando a porta está
     // ocupada. Respeitar a variável deixa quem sobe o servidor escolher a

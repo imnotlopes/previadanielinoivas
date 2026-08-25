@@ -15,7 +15,8 @@
  */
 
 export const canalYoutube = {
-  handle: '@SimoneSaAtelier',
+  /** TODO: preencher com o canal da loja, se houver. Vazio some com o botão. */
+  handle: '',
   /** Preenchido a partir do handle; vira o botão "ver o canal". */
   get url() {
     return this.handle
@@ -32,32 +33,14 @@ export interface VideoYoutube {
 }
 
 /**
- * Os títulos abaixo são de exibição, não os do YouTube.
- * Os originais são cadeias de hashtag ("#noiva#wedding#casamento #viral"),
- * que ficariam ruins no card e piores ainda num leitor de tela.
+ * Nenhum vídeo cadastrado ainda — e por isso a seção do YouTube não aparece
+ * no site. Ela volta sozinha assim que o primeiro link entrar aqui.
+ *
+ * Os vídeos que estavam nesta lista eram de outra marca e foram removidos.
+ * Não invente identificador: um código qualquer de onze caracteres embute
+ * algum vídeo real de outra pessoa na home do site.
  */
-export const videos: VideoYoutube[] = [
-  {
-    link: 'https://www.youtube.com/shorts/rlBBAGYnOtQ',
-    titulo: 'Vestido de noiva',
-  },
-  {
-    link: 'https://www.youtube.com/shorts/_2TIbf6nlcQ',
-    titulo: 'O tecido zibeline',
-  },
-  {
-    link: 'https://www.youtube.com/shorts/KXHSt27GH0w',
-    titulo: 'Corset estruturado',
-  },
-  {
-    link: 'https://www.youtube.com/shorts/kiY2g5VdFNg',
-    titulo: 'Vestido de 15 anos',
-  },
-  {
-    link: 'https://www.youtube.com/shorts/L8Ull7J7_HI',
-    titulo: 'Vestido mãe e filha',
-  },
-]
+export const videos: VideoYoutube[] = []
 
 /**
  * Extrai o identificador do vídeo a partir de qualquer formato de link.

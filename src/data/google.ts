@@ -1,41 +1,56 @@
 /**
- * Dados do perfil do atelier no Google.
+ * Dados do perfil da loja no Google.
  *
- * O link curto (share.google) não é legível por robô, então endereço e
- * horários precisam ser preenchidos à mão a partir do seu Perfil da Empresa.
+ * ATENÇÃO — DADOS DE PRÉVIA
+ * -------------------------
+ * NADA neste arquivo veio do Google. Nota, quantidade de avaliações e os dez
+ * depoimentos abaixo foram ESCRITOS AQUI para o site poder ser visto de pé.
+ *
+ * Publicar depoimento inventado como se fosse de cliente é propaganda enganosa
+ * — e, no caso de nota e contagem, é atribuir ao Google um número que ele não
+ * deu. Antes do site ir ao ar, uma das duas coisas precisa acontecer:
+ *
+ *   1. abrir o Perfil da Empresa no Google e transcrever as avaliações reais,
+ *      junto com a nota e o total que constam lá; ou
+ *   2. esvaziar `avaliacoesGoogle` (`= []`) e zerar `totalAvaliacoes`, o que
+ *      já tira o bloco de avaliações do ar sozinho.
  */
 export const googleNegocio = {
-  nome: 'Simone Sá Atelier',
-
-  endereco: 'R. Santa Catarina, 620, Timotinho',
-  cidade: 'Timóteo',
-  estado: 'MG',
-  cep: '35180-476',
+  nome: 'Atelier Danielli Noivas',
 
   /**
-   * Nota e total como constam no perfil. O carrossel mostra as 20 avaliações
-   * transcritas até agora, que são uma seleção do total.
+   * TODO: PREENCHER ANTES DE PUBLICAR, a partir do Perfil da Empresa.
+   * Enquanto endereço e cidade estiverem vazios, o bloco de endereço e o mapa
+   * não aparecem — ver os guardas em components/SecaoGoogle.tsx.
    */
-  nota: 5,
-  totalAvaliacoes: 54,
+  endereco: '',
+  cidade: '',
+  estado: '',
+  cep: '',
 
-  /** Link do perfil — usado nos botões "ver no Google" e "como chegar". */
-  url: 'https://share.google/VhzpX0ojnGr80s6zZ',
+  /** TODO: FICTÍCIO. Copiar a nota e o total reais do perfil no Google. */
+  nota: 5,
+  totalAvaliacoes: 38,
+
+  /** TODO: link do perfil no Google. Vazio esconde os botões que dependem dele. */
+  url: '',
 
   /**
    * Busca pelo endereço completo, e não pelo nome, para o pin cair no lugar
-   * certo mesmo que o perfil mude de nome.
+   * certo mesmo que o perfil mude de nome. Fica vazio enquanto não houver
+   * endereço, e nesse caso o mapa não é renderizado.
    */
-  mapaEmbed:
-    'https://www.google.com/maps?q=' +
-    encodeURIComponent('R. Santa Catarina, 620, Timotinho, Timóteo - MG, 35180-476') +
-    '&output=embed',
+  get mapaEmbed() {
+    const completo = [this.endereco, this.cidade, this.estado, this.cep]
+      .filter(Boolean)
+      .join(', ')
+    return completo
+      ? `https://www.google.com/maps?q=${encodeURIComponent(completo)}&output=embed`
+      : ''
+  },
 
-  /** Conforme o perfil no Google. Deixe vazio para ocultar o bloco. */
-  horarios: [
-    { dias: 'Segunda a sexta', horas: '09h às 17h' },
-    { dias: 'Sábado e domingo', horas: 'Fechado' },
-  ] as Array<{ dias: string; horas: string }>,
+  /** TODO: conforme o perfil no Google. Deixe vazio para ocultar o bloco. */
+  horarios: [] as Array<{ dias: string; horas: string }>,
 }
 
 export interface AvaliacaoGoogle {
@@ -52,178 +67,94 @@ export interface AvaliacaoGoogle {
 }
 
 /**
- * Avaliações transcritas do perfil no Google, na íntegra.
+ * DEPOIMENTOS FICTÍCIOS — conteúdo de prévia, não publicar.
  *
- * São palavras de clientes reais: corrija apenas se a própria cliente pedir.
- * Erros de digitação do original foram mantidos de propósito.
+ * Os `id` começam com `exemplo-` de propósito: enquanto houver um `exemplo-`
+ * neste arquivo, o conteúdo ainda não é real. Ao transcrever as avaliações
+ * verdadeiras do Google, troque o id pelo nome de quem escreveu, como no
+ * restante do projeto.
  */
 export const avaliacoesGoogle: AvaliacaoGoogle[] = [
   {
-    /*
-      Abre o carrossel: é a avaliação que mais prova o ponto do atelier.
-      Vestido feito à distância, com as medidas tiradas por chamada de vídeo
-      dos Estados Unidos, e serviu na primeira vez que a cliente vestiu.
-    */
-    id: 'adilson-silva',
-    autor: 'Adilson Silva',
-    nota: 5,
-    quando: 'um ano atrás',
-    texto:
-      'Simone Sá é a profissional dos sonhos! Acreditem, se quiserem, que ela e eu trabalhamos nesse projeto maravilhoso À LONGA DISTÂNCIA, pois eu moro nos EUA! Meu marido tirou minhas medidas através enquanto a Simone estava em chamada de vídeo, nos guiando. Esse vestido foi para o casamento de uma filha do coração. Durante meses fomos conversando, ela fazendo ajustes de lá, e eu só orando daqui hahaha. Enfim, quando meu marido trouxe o vestido, e eu experimentei, QUASE não acreditei na perfeição com que ele serviu! Simone Sá é ALTA COSTURA, podem crer! Os detalhes no vestido encantaram a todos. Não vejo a hora de ter outra obra de arte dessas feita pela Simone. Obrigada, minha querida! Espero poder te conhecer em breve! ;)',
-  },
-  {
-    id: 'kenia-andrade',
-    autor: 'Kenia Andrade',
+    id: 'exemplo-1',
+    autor: 'Aline Ferreira',
     nota: 5,
     quando: '2 meses atrás',
     texto:
-      'Simone é uma profissional excelente! Costura divinamente bem! Tudo muito bem feito: a costura bem alinhada e com um acabamento excepcional! Fez um vestido de festa (vestido de madrinha de casamento) pra mim maravilhoso! Quando ela fez o vestido, eu morava a 200KM de distância, sendo que foi necessário encontrar com ela apenas para tirar as medidas e depois para fazer uma prova. No terceiro encontro já foi pra pegar o vestido pronto! Sem dúvida, é uma excelente profissional!',
+      'Fui provar sem nenhuma expectativa, só para ter ideia de preço, e saí de lá com o vestido reservado. Provei uns oito modelos com toda a calma do mundo, ninguém me apressou em momento nenhum. O que eu escolhi não era nem parecido com a foto que eu levei salva no celular.',
   },
   {
-    id: 'priscila-rezende',
-    autor: 'Priscila Rezende',
+    id: 'exemplo-2',
+    autor: 'Camila Duarte',
     nota: 5,
     quando: 'um mês atrás',
     localGuide: true,
     texto:
-      'Conheço o trabalho da Simone há muitosssss anos, e posso dizer com propriedade que ela é uma profissional de alto padrão, extremamente cuidadosa, sempre atenta aos mínimos detalhes, o que faz toda diferença na confecção de uma peça. Extremamente pontual, o que tbm faz uma diferença gigante num profissional. Podem confiar sem medo.',
+      'Atendimento maravilhoso do começo ao fim. O ajuste ficou perfeito, o vestido parecia feito para mim. Recebi elogio a festa inteira e ninguém acreditou que era alugado.',
   },
   {
-    id: 'glaucia-ferreira',
-    autor: 'Glaucia Ferreira',
-    nota: 5,
-    quando: '6 meses atrás',
-    texto:
-      'A Simone me atendeu na confecção do meu vestido de noiva. Ela prontamente trabalhou com a ideia que sugeri e transformou meu desejo em realidade. Sensibilidade, competência e agilidade foram os pontos fortes deste atendimento que, sem dúvida, marcou um dos momentos mais importantes da minha vida.',
-  },
-  {
-    id: 'juliana-hott',
-    autor: 'Juliana Nelly Vial Hott',
-    nota: 5,
-    quando: '6 meses atrás',
-    texto:
-      'O trabalho da Simone é impecável!! Ela fez o meu vestido do jeitinho que eu queria, ficou perfeito! O capricho e cuidado com todos os detalhes na entrega do produto, me surpreendeu muito! Simplesmente maravilhosa!! Recomendo demais!',
-  },
-  {
-    id: 'aparecida-damasceno',
-    autor: 'Aparecida Damasceno',
-    nota: 5,
-    quando: '2 meses atrás',
-    texto:
-      'Simone Sá Ateliê de Costura... O que dizer sobre ela? Profissional especializada em alta costura, carismática e dona de uma sensibilidade indescritível. Perfeição define o seu trabalho. Atendimento de excelência. Obrigada pela dedicação e carinho com que me recebe, e na entrega ao confeccionar minhas roupas. Grata sou!',
-  },
-  {
-    id: 'fernanda-menezes',
-    autor: 'Fernanda Menezes',
-    nota: 5,
-    quando: 'um ano atrás',
-    localGuide: true,
-    texto:
-      'Fiquei muito satisfeita com o trabalho da Simone. Ela é muito detalhista, pontual e atenciosa. Conseguiu adaptar minhas roupas perfeitamente ao meu corpo, e o acabamento ficou impecável. Além disso, o atendimento é sempre muito cordial e profissional. Recomendo de olhos fechados!',
-  },
-  {
-    id: 'sumaia-tavares',
-    autor: 'Sumaia Tavares',
-    nota: 5,
-    quando: '2 meses atrás',
-    texto:
-      'O trabalho da Simone é de excelência e zelo. Sempre atenciosa e superando as nossas expectativas. Ela confeccionou uma fantasia linda para o meu filho, do Darth Vader e ficou maravilhosa. Também produziu um vestido lindo, vermelho, com borboletas, para o primeiro aninho da minha filha. Ela tem o cuidado de indicar tecidos de qualidade para a confecção do trabalho e tem muito cuidado com os detalhes. Todos ficaram lindos e muito bem confeccionados!',
-  },
-  {
-    id: 'grecia-souza',
-    autor: 'Grécia de Andrade Souza',
-    nota: 5,
-    quando: '6 meses atrás',
-    texto:
-      'Simplesmente a melhor costureira do vale do aço! Profissional excelente, com muito conhecimento. Dá ótimas dicas, tem muita experiência. Impecável nos acabamentos, caprichosa e muito criativa!!! Minhas roupas feitas por ela são lindas e elegantes!',
-  },
-  {
-    id: 'jeanne-alves',
-    autor: 'Jeanne Alves',
-    nota: 5,
-    quando: '6 meses atrás',
-    texto:
-      'Nossa a Simone, ela é uma excelente profissional, uma costureira maravilhosa dedicada e muito carinhosa com os seus clientes. A Simone fez um vestido p mim e um para minha sobrinha. Amamos a costura dela, agora ela é a nossa costureira oficial pois eu já tinha desistido de manda fazer roupas p mim de tanta decepção com costureiras. A Simone pelo contrário provou que a profissão delas é feita com amor',
-  },
-  {
-    id: 'fabiana-oliveira',
-    autor: 'Fabiana Oliveira',
-    nota: 5,
-    quando: '2 meses atrás',
-    texto:
-      'Excelente profissional! Atendimento impecável, muito capricho e atenção em cada detalhe. As roupas ficaram perfeitas no corpo e exatamente como eu imaginei. Dá pra perceber o carinho e a dedicação no trabalho. E o melhor de tudo ela sempre compra as minhas ideias malucas rsrs... Super recomendo!',
-  },
-  {
-    id: 'm-almeida',
-    autor: 'M. Almeida',
-    nota: 5,
-    quando: '6 meses atrás',
-    texto:
-      'Perfeição define ela!!! Tão bom sonhar com uma roupa e ela reproduzir ainda melhor!! Há mais de 10 anos fazendo meus looks. Aprovada e super recomendo!!',
-  },
-  {
-    id: 'nobre-ortodontia',
-    autor: 'Nobre Ortodontia',
-    nota: 5,
-    quando: '6 meses atrás',
-    texto:
-      'Conheço a Simone há muito tempo, o trabalho dela é incrível, perfeito. Muito caprichosa e muito detalhista!! O vestido encaixa no corpo. Além do trabalho perfeito ela cumpre a risca os prazos da confecção do vestido. Super indico.',
-  },
-  {
-    id: 'isabella-godoy',
-    autor: 'Isabella Godoy',
+    id: 'exemplo-3',
+    autor: 'Renata Souza',
     nota: 5,
     quando: '3 meses atrás',
     texto:
-      'Vivi uma experiência maravilhosa com a Simone. Uma profissional muito dedicada, fez exatamente o vestido que eu queria... foi a realização de um sonho, valeu muito a pena.',
+      'Aluguei o vestido da minha filha para os 15 anos dela. Fomos muito bem atendidas, provamos com calma e o preço cabia no que a gente tinha. Ela se sentiu uma princesa.',
   },
   {
-    id: 'kelly-jaques',
-    autor: 'Kelly Jaques',
+    id: 'exemplo-4',
+    autor: 'Patrícia Nogueira',
     nota: 5,
-    quando: '2 meses atrás',
+    quando: '5 meses atrás',
     texto:
-      'Que experiência incrível, falei com Simone o que queria, e ela fez do jeitinho que pedi!!!! Ela é incrível, e faz tudo com muito amor, é o que faz toda diferença no trabalho dela',
+      'Sou madrinha de casamento com frequência e já é a terceira vez que alugo aqui. Sempre tem modelo novo e o acervo é muito bem cuidado. Nunca peguei vestido gasto ou com marca.',
   },
   {
-    id: 'junia-marise',
-    autor: 'Junia Marise',
+    id: 'exemplo-5',
+    autor: 'Jéssica Alves',
     nota: 5,
-    quando: '2 meses atrás',
+    quando: '6 meses atrás',
+    texto:
+      'Marquei a prova pelo WhatsApp e me responderam na hora. Chegando lá já tinham separado alguns modelos dentro do que eu tinha descrito. Isso economizou meu tempo e me deixou muito à vontade.',
+  },
+  {
+    id: 'exemplo-6',
+    autor: 'Bruna Carvalho',
+    nota: 5,
+    quando: '7 meses atrás',
+    texto:
+      'O que me ganhou foi a sinceridade. Eu estava decidida em um modelo e me disseram com todo o cuidado que outro cairia melhor em mim. Provei e era verdade. Confiei e não me arrependi.',
+  },
+  {
+    id: 'exemplo-7',
+    autor: 'Larissa Pimenta',
+    nota: 5,
+    quando: '8 meses atrás',
     localGuide: true,
     texto:
-      'Costura impecável. Preço justo. Atendimento personalizado. Faz exatamente o que é pedido, sugere melhorias, lojas com preços bons para tecidos, presta a consultoria para ajudar a escolher o tecido ideal.',
+      'Casei em dezembro e o vestido chegou impecável, passado e embalado. A devolução também foi simples, sem burocracia nenhuma. Recomendo de olhos fechados.',
   },
   {
-    id: 'silvinha-barros',
-    autor: 'Silvinha Barros',
+    id: 'exemplo-8',
+    autor: 'Vanessa Rocha',
     nota: 5,
-    quando: '2 meses atrás',
+    quando: '9 meses atrás',
     texto:
-      'Muito competente, habilidosa e atendimento personalizado. Minha melhor opção em costura no Vale do Aço.',
+      'Emagreci quase seis quilos entre a reserva e o casamento e refizeram o ajuste sem cobrar nada a mais. Isso para mim valeu mais do que qualquer desconto.',
   },
   {
-    id: 'rizia-martiniano',
-    autor: 'Rizia Kerem Martiniano',
-    nota: 5,
-    quando: '2 meses atrás',
-    texto:
-      'Excelente trabalho!! Costura impecável!!! Simone além de ser uma pessoa muito gentil e atenciosa trabalha muito bem!!!',
-  },
-  {
-    id: 'paloma-oliveira',
-    autor: 'Paloma Oliveira',
-    nota: 5,
-    quando: '2 meses atrás',
-    texto:
-      'Profissional excelente, atendeu e superou todas as minhas expectativas. Cuidadosa, detalhista e uma pessoa muito agradável. Recomendo.',
-  },
-  {
-    id: 'angela-damasceno',
-    autor: 'Angela Damasceno',
+    id: 'exemplo-9',
+    autor: 'Débora Martins',
     nota: 5,
     quando: 'um ano atrás',
     texto:
-      'Costureira simpática, com boas ideias, me ajudou na decisão do modelo, muito bom gosto e trabalho impecável. Meu vestido ficou lindo!',
+      'Loja linda, organizada e com uma variedade muito maior do que aparenta pela frente. Vale a visita mesmo que você já tenha ido em outras.',
+  },
+  {
+    id: 'exemplo-10',
+    autor: 'Simone Barbosa',
+    nota: 5,
+    quando: 'um ano atrás',
+    texto:
+      'Levei minha mãe e minha irmã junto e todo mundo foi bem recebido, com café e paciência para a nossa indecisão. Saí com o vestido e com o véu combinando.',
   },
 ]

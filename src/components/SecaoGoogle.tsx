@@ -14,12 +14,16 @@ import SecaoTitulo from './SecaoTitulo'
  * a FAQ entra entre os dois. Ver a ordem em components/Layout.tsx.
  */
 export default function SecaoAvaliacoes() {
+  // Sem avaliação transcrita não há prova social: a seção inteira sai do ar,
+  // em vez de mostrar uma nota solta sem nenhum depoimento embaixo.
+  if (avaliacoesGoogle.length === 0) return null
+
   return (
     <section className="secao bg-branco">
       <div className="container-luxo">
         <SecaoTitulo
           eyebrow="Avaliações no Google"
-          titulo="O que dizem sobre o atelier"
+          titulo="O que dizem sobre a loja"
           centralizado
         />
 
@@ -102,16 +106,18 @@ export default function SecaoAvaliacoes() {
         </ul>
         </div>
 
-        <div className="mt-14 flex justify-center">
-          <a
-            href={googleNegocio.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-contorno"
-          >
-            Ver no Google
-          </a>
-        </div>
+        {googleNegocio.url && (
+          <div className="mt-14 flex justify-center">
+            <a
+              href={googleNegocio.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-contorno"
+            >
+              Ver no Google
+            </a>
+          </div>
+        )}
       </div>
     </section>
   )
@@ -128,6 +134,10 @@ export function SecaoMapa() {
     .filter(Boolean)
     .join(', ')
 
+  // Sem endereço e sem telefone não sobra informação nenhuma para dar: a
+  // seção some inteira, em vez de exibir um cartão vazio com um mapa do mundo.
+  if (!enderecoCompleto && !brand.whatsappExibicao) return null
+
   return (
     /*
       Última seção antes do rodapé, então vai sem espaçamento embaixo: o
@@ -137,7 +147,7 @@ export function SecaoMapa() {
     */
     <section className="secao bg-branco pb-0">
       <div className="container-luxo">
-        <SecaoTitulo eyebrow="Onde estamos" titulo="Visite o atelier" centralizado />
+        <SecaoTitulo eyebrow="Onde estamos" titulo="Visite a loja" centralizado />
 
         <div className="mt-14 grid gap-px overflow-hidden border border-borda-sutil bg-borda-sutil lg:grid-cols-[1fr_1.4fr]">
           {/* Informações */}
@@ -167,22 +177,24 @@ export function SecaoMapa() {
                 </div>
               )}
 
-              <div className="flex gap-3">
-                <Phone size={18} strokeWidth={1.5} aria-hidden className="mt-0.5 shrink-0" />
-                <div>
-                  <dt className="font-display text-h6 uppercase tracking-luxo text-preto/65">
-                    Telefone
-                  </dt>
-                  <dd className="mt-1 text-sm">
-                    <a
-                      href={`tel:+${brand.whatsapp}`}
-                      className="underline-offset-4 transition-colors duration-300 ease-suave hover:text-cinza hover:underline"
-                    >
-                      {brand.whatsappExibicao}
-                    </a>
-                  </dd>
+              {brand.whatsappExibicao && (
+                <div className="flex gap-3">
+                  <Phone size={18} strokeWidth={1.5} aria-hidden className="mt-0.5 shrink-0" />
+                  <div>
+                    <dt className="font-display text-h6 uppercase tracking-luxo text-preto/65">
+                      Telefone
+                    </dt>
+                    <dd className="mt-1 text-sm">
+                      <a
+                        href={`tel:+${brand.whatsapp}`}
+                        className="underline-offset-4 transition-colors duration-300 ease-suave hover:text-cinza hover:underline"
+                      >
+                        {brand.whatsappExibicao}
+                      </a>
+                    </dd>
+                  </div>
                 </div>
-              </div>
+              )}
             </dl>
 
             {googleNegocio.horarios.length > 0 && (
@@ -201,14 +213,16 @@ export function SecaoMapa() {
               </div>
             )}
 
-            <a
-              href={googleNegocio.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primario btn-sm mt-auto self-start"
-            >
-              Como chegar
-            </a>
+            {googleNegocio.url && (
+              <a
+                href={googleNegocio.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primario btn-sm mt-auto self-start"
+              >
+                Como chegar
+              </a>
+            )}
           </div>
 
           {/*
@@ -222,16 +236,18 @@ export function SecaoMapa() {
             estoura a célula do grid e arrasta a página inteira de lado, o
             que só acontece no iPhone e não aparece em teste no desktop.
           */}
-          <div className="min-h-[320px] overflow-hidden bg-branco lg:min-h-[460px]">
-            <iframe
-              src={googleNegocio.mapaEmbed}
-              title={`Mapa com a localização do ${googleNegocio.nome}`}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
-              className="h-full min-h-[320px] w-px min-w-full border-0 grayscale lg:min-h-[460px]"
-            />
-          </div>
+          {googleNegocio.mapaEmbed && (
+            <div className="min-h-[320px] overflow-hidden bg-branco lg:min-h-[460px]">
+              <iframe
+                src={googleNegocio.mapaEmbed}
+                title={`Mapa com a localização do ${googleNegocio.nome}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                className="h-full min-h-[320px] w-px min-w-full border-0 grayscale lg:min-h-[460px]"
+              />
+            </div>
+          )}
         </div>
       </div>
     </section>
