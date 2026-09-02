@@ -45,7 +45,7 @@ const PASSO_PADRAO = 12
 const PASSO_DENSO = 30
 
 const ORDENACOES_BASE = [
-  { valor: 'padrao', rotulo: 'Ordem do acervo' },
+  { valor: 'padrao', rotulo: 'Destaques primeiro' },
   { valor: 'nome', rotulo: 'Nome (A–Z)' },
 ] as const
 
@@ -230,7 +230,21 @@ export default function GradeAcervo({
       return true
     })
 
-    if (ordem === 'nome') {
+    /*
+      A ORDEM PADRÃO É A CURADORIA DELA.
+
+      `destaque` já existia para escolher a amostra da apresentação; usá-lo
+      também aqui dá à Danielli um controle que ela não tinha: marcar um
+      vestido como destaque no painel o leva para o topo do catálogo. Quem
+      abre o link vê primeiro o que a loja quer mostrar, e não o que foi
+      cadastrado primeiro.
+
+      `sort` é estável, então dentro de cada grupo a ordem do acervo se
+      mantém — o destaque promove, não embaralha.
+    */
+    if (ordem === 'padrao') {
+      resultado.sort((a, b) => Number(Boolean(b.destaque)) - Number(Boolean(a.destaque)))
+    } else if (ordem === 'nome') {
       resultado.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
     } else if (ordem === 'menor-preco' || ordem === 'maior-preco') {
       /* Vestido sob consulta vai para o fim em qualquer direção: ele não tem

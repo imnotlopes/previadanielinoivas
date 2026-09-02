@@ -75,18 +75,46 @@ para a noiva. Cinco coisas existem por causa disso.
   "renda manga longa" acha o que tem as três.
 - **Ordenar por nome (A–Z)** existe sempre. Antes o seletor só aparecia com
   preço cadastrado, e como está tudo "sob consulta" ninguém conseguia ordenar.
+- **A ordem padrão é a curadoria dela:** vestido marcado como `destaque` no
+  painel vai para o topo do catálogo. Quem abre o link vê primeiro o que a
+  loja quer mostrar, não o que foi cadastrado primeiro.
 - **Voltar volta para onde estava.** Rolar até o vigésimo oitavo vestido,
   abrir a ficha e voltar não joga mais a pessoa no primeiro.
 
 Tudo isso mora na URL, então qualquer estado é um link que dá para colar no
 WhatsApp: `/catalogo?vista=denso&cor=marfim&ordem=nome`.
 
+### O catálogo é de noiva, e só
+
+Não é uma loja com uma seção de noiva. A diferença aparece em decisões que uma
+vitrine genérica não tomaria:
+
+- a data que se pergunta é a do **casamento**, não "do evento";
+- o próximo passo é a **prova**, nunca a compra;
+- **não existe caminho daqui para festa ou 15 anos** — nem no rodapé. Quem
+  está escolhendo vestido de casamento não quer ser oferecida outra coisa;
+- os selos falam em "o dia do seu casamento". A peça de festa tem a frase dela
+  (`detalheFesta` em `src/data/selos.ts`);
+- o fim da grade não é o fim do assunto: quem rolou 40 vestidos e não marcou
+  nenhum recebe um "não achou o seu? conta como você imagina", e quem marcou
+  recebe o empurrão para mandar.
+
 ### A lista de prova ("quero provar esses")
 
 O catálogo tem um marcador em cada vestido. A noiva marca enquanto folheia e a
 barra do rodapé transforma isso em **uma** mensagem de WhatsApp com os nomes,
-mais um link `?provar=slug-a,slug-b` que **reabre a mesma seleção** do lado da
-Danielli — os vestidos já ficam separados antes de a noiva chegar.
+a data do casamento, o manequim e um link `?provar=…&data=…` que **reabre a
+mesma seleção** do lado da Danielli — os vestidos já ficam separados antes de
+a noiva chegar.
+
+**A data é o que muda a resposta.** Sem ela, a primeira mensagem da loja é
+obrigatoriamente uma pergunta: disponibilidade de vestido de aluguel só existe
+em relação a um dia. Com ela, já dá para responder "esses três estão livres,
+vem quinta?".
+
+Data e manequim ficam **junto da lista, não em cada vestido** — ela tem um
+casamento só. Preencher na ficha preenche na barra, e vice-versa. Nenhum dos
+dois é obrigatório.
 
 Não é carrinho: não reserva, não cobra e não promete disponibilidade. Só a
 agenda da loja pode fazer isso.

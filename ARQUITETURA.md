@@ -717,6 +717,14 @@ até o detalhe, e quem segura a tela para outra pessoa ver não tem mão sobrand
 Arrastar de lado troca de foto só quando não há zoom; com zoom, o arrasto
 percorre a imagem.
 
+**Só noiva, e isso é uma decisão de produto.** O catálogo de noiva não
+compartilha vocabulário nem saída com festa: a data é a do casamento, os selos
+falam em casamento (`detalheFesta` cobre a exceção da peça de festa), o rodapé
+compacto anuncia só aluguel de noiva, e não há link daqui para os outros
+acervos. A loja atende festa e 15 anos — mas dizer isso dentro de uma peça de
+noiva é informar a noiva de que ela está numa loja de roupa de festa que
+também tem vestido de casamento.
+
 **A lista de prova** (`lib/selecao.ts`). Fora do React, com
 `useSyncExternalStore`: a seleção é lida em três lugares que não se conhecem
 (o marcador no card, a ficha, a barra do rodapé), e um provider re-renderizaria

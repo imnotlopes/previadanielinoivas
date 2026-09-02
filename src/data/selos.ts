@@ -4,7 +4,18 @@ import type { LucideIcon } from 'lucide-react'
 export interface Selo {
   icone: LucideIcon
   titulo: string
+  /** O texto padrão, escrito para a noiva — que é o público das três peças. */
   detalhe: string
+  /**
+   * Alternativa para a peça de festa, quando a frase da noiva não serve.
+   *
+   * Existe por causa de UMA palavra: "o dia do seu casamento" está certo para
+   * a noiva e errado para a formanda, e trocar a palavra é mais honesto do
+   * que achatar as duas num "seu evento" que não é a fala de ninguém.
+   *
+   * Só preencha nos selos que realmente mudam. Sem isto, vale `detalhe`.
+   */
+  detalheFesta?: string
 }
 
 /**
@@ -34,7 +45,8 @@ export const selos: Selo[] = [
   {
     icone: CalendarHeart,
     titulo: 'Data reservada',
-    detalhe: 'O vestido fica bloqueado para o dia da sua festa.',
+    detalhe: 'O vestido fica bloqueado para o dia do seu casamento.',
+    detalheFesta: 'O vestido fica bloqueado para o dia da sua festa.',
   },
   {
     icone: Sparkles,

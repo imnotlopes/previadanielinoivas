@@ -141,7 +141,9 @@ export default function Peca({ base }: PecaProps) {
 
               <Reserva peca={peca} />
 
-              <Selos />
+              {/* A ficha serve aos dois catálogos: um selo fala em casamento,
+                  e para a formanda a frase precisa ser a dela. */}
+              <Selos publico={peca.categoria === 'festa' ? 'festa' : 'noiva'} />
             </div>
           </div>
         </div>
@@ -150,12 +152,17 @@ export default function Peca({ base }: PecaProps) {
       {relacionadas.length > 0 && (
         <section className="secao bg-branco">
           <div className="container-luxo">
-            <SecaoTitulo eyebrow="Do mesmo acervo" titulo="Você também pode gostar" />
+            {/* "Provar junto" e não "você também pode gostar": aqui o convite
+                é somar à lista, que é o que esta tela existe para produzir —
+                e é assim que a noiva pensa, comparando modelos entre si. */}
+            <SecaoTitulo eyebrow="Do mesmo acervo" titulo="Para provar junto" />
 
             <ul className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {relacionadas.map((outra) => (
                 <li key={outra.slug}>
-                  <CardPeca peca={outra} base={base} />
+                  {/* Marcável daqui também: obrigar a abrir a ficha só para
+                      somar à lista é um clique a mais em cada comparação. */}
+                  <CardPeca peca={outra} base={base} comProvar />
                 </li>
               ))}
             </ul>

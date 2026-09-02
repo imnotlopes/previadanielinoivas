@@ -1,16 +1,25 @@
 import { selos } from '../data/selos'
 
+interface SelosProps {
+  /**
+   * Quem está lendo. Padrão `noiva`, que é o público de três das quatro
+   * peças — e o único lugar onde `festa` importa é a ficha de um vestido de
+   * festa. Ver `detalheFesta` em data/selos.ts.
+   */
+  publico?: 'noiva' | 'festa'
+}
+
 /**
- * Selos de confiança da página do vestido.
+ * Selos de confiança.
  *
- * Respondem, sem que ninguém pergunte, as quatro dúvidas que fazem a cliente
- * fechar a aba: preciso agendar? o vestido vai servir em mim? ele vai estar
+ * Respondem, sem que ninguém pergunte, as quatro dúvidas que fazem a noiva
+ * adiar a prova: preciso agendar? o vestido vai servir em mim? ele vai estar
  * livre na minha data? e depois, quem lava?
  *
  * O texto de cada um mora em data/selos.ts, com o aviso de que selo é
  * promessa e precisa ser confirmado antes de publicar.
  */
-export default function Selos() {
+export default function Selos({ publico = 'noiva' }: SelosProps) {
   if (selos.length === 0) return null
 
   return (
@@ -35,7 +44,11 @@ export default function Selos() {
               <p className="font-display text-h6 uppercase tracking-luxo text-preto">
                 {selo.titulo}
               </p>
-              <p className="mt-1 text-sm leading-relaxed text-preto/70">{selo.detalhe}</p>
+              <p className="mt-1 text-sm leading-relaxed text-preto/70">
+                {publico === 'festa' && selo.detalheFesta
+                  ? selo.detalheFesta
+                  : selo.detalhe}
+              </p>
             </div>
           </li>
         )

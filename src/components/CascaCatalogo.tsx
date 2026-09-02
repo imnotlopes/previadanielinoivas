@@ -41,7 +41,7 @@ export default function CascaCatalogo({ publico, children }: CascaCatalogoProps)
 
       <main className="flex-1">{children}</main>
 
-      <Rodape compacto />
+      <Rodape compacto publico={publico} />
 
       {/*
         Espaço para a barra não cobrir o fim do rodapé. A altura é generosa de
@@ -58,7 +58,7 @@ export default function CascaCatalogo({ publico, children }: CascaCatalogoProps)
         — e o da barra é melhor, porque leva junto os nomes dos vestidos.
       */}
       {quantidade === 0 && <FloatWhatsapp />}
-      <BarraSelecao base={base} />
+      <BarraSelecao base={base} publico={publico} />
     </div>
   )
 }

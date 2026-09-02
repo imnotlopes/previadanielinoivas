@@ -20,9 +20,19 @@ interface RodapeProps {
    * apresentações, onde ele fecha a leitura.
    */
   compacto?: boolean
+  /**
+   * De quem é a peça em que este rodapé está.
+   *
+   * Muda a linha do que a loja faz. Numa peça de noiva ela diz só vestido de
+   * noiva: a loja atende festa e 15 anos, mas anunciar isso no fim de uma
+   * apresentação de noiva é dizer para a noiva que ela está numa loja de
+   * roupa de festa que também tem vestido de casamento. Na peça de festa, o
+   * mesmo raciocínio ao contrário.
+   */
+  publico?: 'noiva' | 'festa'
 }
 
-export default function Rodape({ compacto = false }: RodapeProps) {
+export default function Rodape({ compacto = false, publico = 'noiva' }: RodapeProps) {
   const { instagram, linkInstagram, linkWhatsApp } = useContato()
 
   return (
@@ -54,8 +64,9 @@ export default function Rodape({ compacto = false }: RodapeProps) {
             <span className="filete-claro" />
 
             <p className="max-w-sm text-sm leading-relaxed text-branco/60">
-              Aluguel de vestidos de noiva, festa e 15 anos, com prova no
-              showroom e ajuste incluso.
+              {publico === 'noiva'
+                ? 'Aluguel de vestidos de noiva, com prova no showroom e ajuste incluso.'
+                : 'Aluguel de vestidos de festa e 15 anos, com prova no showroom e ajuste incluso.'}
             </p>
           </>
         )}
