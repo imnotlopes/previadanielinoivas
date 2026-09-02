@@ -31,6 +31,14 @@ export default function TopoMarca({ voltarPara = null }: TopoMarcaProps) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-borda-sutil bg-off-white/95 backdrop-blur">
+      {/*
+        ESTA ALTURA TEM UM ESPELHO.
+
+        A barra de busca do catálogo gruda logo abaixo, com `top-20 md:top-24`
+        (ver components/GradeAcervo.tsx). As duas medidas andam juntas: mudar
+        `h-20 md:h-24` aqui sem mudar lá deixa a barra por baixo do cabeçalho
+        ou com um vão aberto entre os dois.
+      */}
       <div className="container-luxo flex h-20 items-center justify-between gap-4 md:h-24">
         {/*
           `min-w-0` em vez de `shrink-0`: o nome é `whitespace-nowrap`, e num
