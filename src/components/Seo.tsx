@@ -11,12 +11,10 @@ interface SeoProps {
   /**
    * Sobrescreve o caminho da URL canônica.
    *
-   * Por padrão a canônica é o pathname, o que joga fora a query string. Isso
-   * está certo para filtro que é só um recorte da mesma página, mas errado
-   * para o catálogo por categoria: cada categoria tem título e descrição
-   * próprios e é uma página de entrada legítima ("vestido de noiva em
-   * Timóteo"). Sem este parâmetro, a canônica apontaria para /catalogo e o
-   * Google descartaria a descrição da categoria.
+   * Por padrão a canônica é o pathname, o que joga fora a query string — e é
+   * o certo para o catálogo, onde cor, numeração e busca são recortes da
+   * mesma página. Se cada combinação de filtro virasse endereço próprio, o
+   * buscador acharia dezenas de páginas quase idênticas disputando entre si.
    */
   caminho?: string
   /** Tira a página do índice. Use em erro e em qualquer rota sem conteúdo próprio. */
@@ -31,13 +29,14 @@ interface SeoProps {
  * O React 19 eleva `<title>` e `<meta>` para o <head> sozinho — por isso não há
  * react-helmet aqui. Vale saber do limite: isso roda no cliente, então serve ao
  * Google (que executa JS), mas NÃO aos robôs de preview do WhatsApp e do
- * Facebook, que não executam JS. As tags de Open Graph que eles leem são as
- * estáticas do index.html. Ver a nota sobre pré-renderização no README.
+ * Facebook, que não executam JS. O cartão que eles montam vem das tags
+ * estáticas escritas à mão no HTML de cada peça — index.html, catalogo.html e
+ * festa.html —, e é por isso que as peças são quatro arquivos separados.
  */
 export default function Seo({
   titulo,
   descricao,
-  imagem = '/og-image.jpg',
+  imagem = '/og-noiva.jpg',
   caminho,
   naoIndexar,
   dadosEstruturados,

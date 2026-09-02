@@ -7,7 +7,7 @@ import type { Plugin } from 'vite'
 // tsconfig; o arquivo em disco é .ts, e tanto o TypeScript quanto o Vite
 // fazem essa correspondência sozinhos.
 import { googleNegocio } from '../src/data/google.js'
-import { categoriasDisponiveis, pecas } from '../src/data/pecas.js'
+import { pecas, pecasPorCategoria, publicadas } from '../src/data/pecas.js'
 import { SITE_URL, brand, linkInstagram } from '../src/lib/brand.js'
 
 /**
@@ -31,15 +31,22 @@ function escaparXml(texto: string): string {
 }
 
 function montarSitemap(): string {
+  /*
+    As três peças de cliente, e as fichas dentro de cada catálogo.
+    O painel fica de fora — ele está no `Disallow` do robots e manda `noindex`.
+
+    Só vestido PUBLICADO entra: o que a Danielli ocultou no painel não deve ser
+    oferecido ao buscador, senão o Google indexa um endereço que responde
+    "saiu do acervo".
+  */
+  const noCatalogo = publicadas(pecas)
+
   const caminhos = [
     '/',
     '/catalogo',
-    // Cada categoria é página de entrada própria, com título, descrição e
-    // canônica próprios. Sem elas aqui, o Google só chegaria por link interno.
-    ...categoriasDisponiveis(pecas).map((categoria) => `/catalogo?categoria=${categoria}`),
-    '/como-funciona',
-    '/sobre',
-    ...pecas.map((peca) => `/peca/${peca.slug}`),
+    ...pecasPorCategoria(noCatalogo, 'noiva').map((peca) => `/catalogo/${peca.slug}`),
+    '/festa',
+    ...pecasPorCategoria(noCatalogo, 'festa').map((peca) => `/festa/${peca.slug}`),
   ]
 
   /*
@@ -102,7 +109,7 @@ function montarNegocio() {
       brand.cidade ? ` em ${brand.cidade}` : ''
     }. Prova com hora marcada, ajuste incluso e reserva para a data do evento.`,
     url: SITE_URL,
-    image: `${SITE_URL}/og-image.jpg`,
+    image: `${SITE_URL}/og-noiva.jpg`,
     priceRange: '$$',
 
     ...(brand.whatsapp ? { telephone: `+${brand.whatsapp}` } : {}),
@@ -148,7 +155,13 @@ export function pluginSeo(): Plugin {
     name: 'seo-atelier',
     apply: 'build',
 
-    transformIndexHtml() {
+    /*
+      O JSON-LD do negócio vai nas peças de cliente, e NÃO no painel: descrever
+      a loja em dados estruturados dentro de uma tela de operação convida o
+      buscador a indexar justamente o endereço que o robots manda ignorar.
+    */
+    transformIndexHtml(_html, ctx) {
+      if (ctx.path.includes('admin')) return []
       return [
         {
           tag: 'script',

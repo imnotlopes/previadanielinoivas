@@ -40,16 +40,26 @@ export default function Admin() {
       {/* O painel nunca deve aparecer em busca. */}
       <Seo titulo="Painel" descricao="Painel administrativo." naoIndexar />
 
-      <Sidebar aoSair={() => setEntrou(false)} />
+      <Navegacao aoSair={() => setEntrou(false)} />
 
-      <main className="min-w-0 flex-1 px-6 py-10 md:px-10 lg:py-14">
+      {/*
+        `pb-28` no celular: a navegação fica fixa no rodapé (ver Navegacao), e
+        sem essa folga o último botão de cada formulário nasce embaixo dela.
+      */}
+      <main className="min-w-0 flex-1 px-5 pb-28 pt-8 md:px-10 lg:py-14 lg:pb-14">
         <AvisoPrevia />
 
+        {/*
+          Rotas ABSOLUTAS. O painel virou uma aplicação própria (admin.html) e
+          este <Routes> casa contra o caminho inteiro da URL, não contra o
+          resto de uma rota-pai. Com `vestidos/*` relativo, nada casava e o
+          painel caía sempre no redirecionamento — sem erro nenhum no console.
+        */}
         <Routes>
-          <Route index element={<Inicio />} />
-          <Route path="vestidos/*" element={<PainelVestidos />} />
-          <Route path="cupons/*" element={<PainelCupons />} />
-          <Route path="configuracoes" element={<PainelConfiguracoes />} />
+          <Route path="/admin" element={<Inicio />} />
+          <Route path="/admin/vestidos/*" element={<PainelVestidos />} />
+          <Route path="/admin/cupons/*" element={<PainelCupons />} />
+          <Route path="/admin/configuracoes" element={<PainelConfiguracoes />} />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
       </main>
@@ -116,17 +126,72 @@ const MENU = [
   { para: '/admin/configuracoes', rotulo: 'Configurações', icone: Settings, exato: false },
 ]
 
-function Sidebar({ aoSair }: { aoSair: () => void }) {
+/**
+ * Navegação do painel — barra fixa embaixo no celular, coluna no desktop.
+ *
+ * A Danielli opera do celular: ela disse que não tem computador. Barra fixa no
+ * rodapé é onde o polegar alcança sem reposicionar a mão, e é o padrão que
+ * todo aplicativo de celular usa — não precisa ser aprendido.
+ *
+ * No desktop a mesma lista vira coluna à esquerda, que é onde o olho procura
+ * navegação numa tela larga.
+ */
+function Navegacao({ aoSair }: { aoSair: () => void }) {
   const navegar = useNavigate()
 
-  return (
-    <aside className="shrink-0 border-b border-borda-sutil bg-branco lg:w-64 lg:border-b-0 lg:border-r">
-      <div className="flex items-center gap-3 px-6 py-6">
-        <img src="/logo-simbolo.webp" alt="" width={150} height={150} className="h-9 w-auto" />
-        <span className="font-display text-h6 uppercase tracking-luxo">Painel</span>
-      </div>
+  function sair() {
+    gravarSessaoPainel(false)
+    aoSair()
+    navegar('/')
+  }
 
-      <nav aria-label="Painel" className="flex gap-1 overflow-x-auto px-4 pb-4 lg:flex-col lg:overflow-visible">
+  return (
+    <>
+      {/* Cabeçalho: só no desktop. No celular ele roubaria altura útil de uma
+          tela que já é pequena, e o rodapé fixo já diz onde a pessoa está. */}
+      <aside className="hidden shrink-0 border-borda-sutil bg-branco lg:flex lg:w-64 lg:flex-col lg:border-r">
+        <div className="flex items-center gap-3 px-6 py-6">
+          <img src="/logo-simbolo.webp" alt="" width={150} height={150} className="h-9 w-auto" />
+          <span className="font-display text-h6 uppercase tracking-luxo">Painel</span>
+        </div>
+
+        <nav aria-label="Painel" className="flex flex-col gap-1 px-4">
+          {MENU.map((item) => (
+            <NavLink
+              key={item.para}
+              to={item.para}
+              end={item.exato}
+              className={({ isActive }) =>
+                cn(
+                  'flex items-center gap-3 px-4 py-3 text-sm transition-colors duration-300 ease-suave',
+                  isActive ? 'bg-preto text-branco' : 'text-preto/75 hover:bg-off-white',
+                )
+              }
+            >
+              <item.icone size={17} strokeWidth={1.5} aria-hidden />
+              {item.rotulo}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="mt-auto border-t border-borda-sutil px-4 py-4">
+          <button
+            type="button"
+            onClick={sair}
+            className="flex w-full items-center gap-3 px-4 py-3 text-sm text-preto/75 transition-colors duration-300 ease-suave hover:bg-off-white"
+          >
+            <LogOut size={17} strokeWidth={1.5} aria-hidden />
+            Sair e voltar ao site
+          </button>
+        </div>
+      </aside>
+
+      {/* Barra fixa do celular. `pb-[env(safe-area-inset-bottom)]` respeita a
+          faixa do gesto de voltar no iPhone, que come os últimos pixels. */}
+      <nav
+        aria-label="Painel"
+        className="fixed inset-x-0 bottom-0 z-40 flex border-t border-borda-sutil bg-branco pb-[env(safe-area-inset-bottom)] lg:hidden"
+      >
         {MENU.map((item) => (
           <NavLink
             key={item.para}
@@ -134,32 +199,31 @@ function Sidebar({ aoSair }: { aoSair: () => void }) {
             end={item.exato}
             className={({ isActive }) =>
               cn(
-                'flex shrink-0 items-center gap-3 px-4 py-3 text-sm transition-colors duration-300 ease-suave',
-                isActive ? 'bg-preto text-branco' : 'text-preto/75 hover:bg-off-white',
+                /* min-h-16: alvo de toque confortável para o polegar. */
+                'flex min-h-16 flex-1 flex-col items-center justify-center gap-1 px-1 text-[0.6875rem] transition-colors duration-300 ease-suave',
+                isActive ? 'text-preto' : 'text-preto/50',
               )
             }
           >
-            <item.icone size={17} strokeWidth={1.5} aria-hidden />
-            {item.rotulo}
+            {({ isActive }) => (
+              <>
+                <item.icone size={20} strokeWidth={isActive ? 2 : 1.5} aria-hidden />
+                {item.rotulo}
+              </>
+            )}
           </NavLink>
         ))}
-      </nav>
 
-      <div className="border-t border-borda-sutil px-4 py-4 lg:mt-auto">
         <button
           type="button"
-          onClick={() => {
-            gravarSessaoPainel(false)
-            aoSair()
-            navegar('/')
-          }}
-          className="flex w-full items-center gap-3 px-4 py-3 text-sm text-preto/75 transition-colors duration-300 ease-suave hover:bg-off-white"
+          onClick={sair}
+          className="flex min-h-16 flex-1 flex-col items-center justify-center gap-1 px-1 text-[0.6875rem] text-preto/50"
         >
-          <LogOut size={17} strokeWidth={1.5} aria-hidden />
-          Sair e voltar ao site
+          <LogOut size={20} strokeWidth={1.5} aria-hidden />
+          Sair
         </button>
-      </div>
-    </aside>
+      </nav>
+    </>
   )
 }
 

@@ -1,27 +1,29 @@
 import { useEffect, useState } from 'react'
 
-import { buscarPeca } from '../data/pecas'
+import { buscarPeca, publicadas } from '../data/pecas'
 import { lerHistorico } from '../lib/historico'
 import { useLoja } from '../lib/loja'
 import CardPeca from './CardPeca'
 import SecaoTitulo from './SecaoTitulo'
 
 interface VistosRecentementeProps {
-  /** Slug da página atual, para o vestido aberto não aparecer na própria lista. */
+  /** Prefixo da peça atual: `/catalogo` ou `/festa`. */
+  base: string
+  /** Slug da ficha aberta, para o vestido não aparecer na própria lista. */
   exceto?: string
 }
 
 /**
- * Vestidos que a visitante já abriu, lidos do navegador dela.
+ * Vestidos que a cliente já abriu, lidos do navegador dela.
  *
- * Só aparece a partir de dois itens: com um só, a seção seria um lembrete de
- * que ela clicou uma vez, o que não ajuda ninguém a decidir.
+ * Só aparece a partir de dois: com um só, a seção seria um lembrete de que ela
+ * clicou uma vez, o que não ajuda ninguém a decidir.
  *
- * A leitura acontece em `useEffect` porque o histórico está no
- * `localStorage`, que não existe fora do navegador — ler durante a
- * renderização quebraria qualquer pré-render.
+ * A leitura acontece em `useEffect` porque o histórico está no `localStorage`,
+ * que não existe fora do navegador — ler durante a renderização quebraria
+ * qualquer pré-render.
  */
-export default function VistosRecentemente({ exceto }: VistosRecentementeProps) {
+export default function VistosRecentemente({ base, exceto }: VistosRecentementeProps) {
   const { pecas } = useLoja()
   const [slugs, setSlugs] = useState<string[]>([])
 
@@ -29,9 +31,13 @@ export default function VistosRecentemente({ exceto }: VistosRecentementeProps) 
     setSlugs(lerHistorico())
   }, [exceto])
 
+  /* `publicadas()` também aqui: um vestido ocultado no painel some do
+     histórico junto, em vez de virar um card que leva a "saiu do acervo". */
+  const visiveis = publicadas(pecas)
+
   const listadas = slugs
     .filter((slug) => slug !== exceto)
-    .map((slug) => buscarPeca(pecas, slug))
+    .map((slug) => buscarPeca(visiveis, slug))
     .filter((peca): peca is NonNullable<typeof peca> => peca !== undefined)
     .slice(0, 4)
 
@@ -45,7 +51,7 @@ export default function VistosRecentemente({ exceto }: VistosRecentementeProps) 
         <ul className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {listadas.map((peca) => (
             <li key={peca.slug}>
-              <CardPeca peca={peca} />
+              <CardPeca peca={peca} base={base} />
             </li>
           ))}
         </ul>

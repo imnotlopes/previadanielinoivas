@@ -8,47 +8,54 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <title data-seo-estatico>Danielli Noivas | Aluguel de vestidos de noiva e festa</title>
+    <!--
+      PEÇA 1 — APRESENTAÇÃO NOIVA
+
+      Este arquivo existe separado das outras peças por um motivo só: o CARTÃO
+      DO WHATSAPP. Quando a Danielli cola o link na conversa, o robô do
+      WhatsApp lê as tags abaixo para montar a prévia — e ele NÃO EXECUTA
+      JAVASCRIPT. Numa aplicação de página única os três links devolveriam o
+      mesmo HTML e o mesmo cartão; a noiva e a formanda receberiam previews
+      idênticos.
+
+      Ao mexer aqui, mexa também em catalogo.html e festa.html: os três textos
+      precisam continuar DIFERENTES entre si, senão o motivo de existirem
+      separados se perde.
+
+      TODO: trocar as URLs absolutas ao apontar para o domínio real, e
+      acrescentar a cidade quando `brand.cidade` for preenchida — estas tags
+      são texto fixo e não acompanham a constante.
+    -->
+    <title data-seo-estatico>Danielli Noivas | Vestidos de noiva para alugar</title>
     <meta
       data-seo-estatico
       name="description"
-      content="Aluguel de vestidos de noiva, de festa e de 15 anos. Prova com hora marcada e sem compromisso, ajuste incluso no aluguel e reserva garantida para a data do seu evento."
+      content="Vestidos de noiva para alugar. Prova com hora marcada e sem compromisso, ajuste incluso e a data do seu casamento reservada."
     />
 
-    <!--
-      Open Graph ESTÁTICO.
-      Os robôs de preview do WhatsApp, Facebook e Instagram não executam
-      JavaScript, então leem apenas o que está aqui — as tags por rota do
-      componente <Seo> não chegam neles. Ao trocar de domínio, atualize as
-      URLs absolutas abaixo E a constante SITE_URL em src/lib/brand.ts.
-
-      TODO: quando a cidade da loja for definida (brand.cidade), acrescente-a
-      ao título e à descrição daqui também. Estas tags são texto fixo e não
-      acompanham a constante como o resto do site.
-    -->
     <meta data-seo-estatico property="og:type" content="website" />
     <meta data-seo-estatico property="og:site_name" content="Atelier Danielli Noivas" />
     <meta data-seo-estatico property="og:locale" content="pt_BR" />
-    <meta data-seo-estatico property="og:title" content="Danielli Noivas | Aluguel de vestidos de noiva e festa" />
+    <meta data-seo-estatico property="og:title" content="Danielli Noivas | Vestidos de noiva" />
     <meta
       data-seo-estatico
       property="og:description"
-      content="Vestidos de noiva, festa e 15 anos para alugar. Prove sem compromisso, reserve a data e leve o vestido ajustado no seu corpo."
+      content="A noiva vem pra escolher o vestido, e o vestido acaba escolhendo ela. Prova sem compromisso e ajuste incluso."
     />
-    <meta data-seo-estatico property="og:url" content="https://danielli-noivas.vercel.app/" />
-    <meta data-seo-estatico property="og:image" content="https://danielli-noivas.vercel.app/og-image.jpg" />
+    <meta data-seo-estatico property="og:url" content="https://previadanielinoivas.vercel.app/" />
+    <meta data-seo-estatico property="og:image" content="https://previadanielinoivas.vercel.app/og-noiva.jpg" />
     <meta data-seo-estatico property="og:image:width" content="1200" />
     <meta data-seo-estatico property="og:image:height" content="630" />
     <meta data-seo-estatico property="og:image:alt" content="Noiva de vestido rendado com véu, no Atelier Danielli Noivas" />
 
     <meta data-seo-estatico name="twitter:card" content="summary_large_image" />
-    <meta data-seo-estatico name="twitter:title" content="Danielli Noivas | Aluguel de vestidos de noiva e festa" />
+    <meta data-seo-estatico name="twitter:title" content="Danielli Noivas | Vestidos de noiva" />
     <meta
       data-seo-estatico
       name="twitter:description"
-      content="Vestidos de noiva, festa e 15 anos para alugar. Prove sem compromisso, reserve a data e leve o vestido ajustado no seu corpo."
+      content="A noiva vem pra escolher o vestido, e o vestido acaba escolhendo ela."
     />
-    <meta data-seo-estatico name="twitter:image" content="https://danielli-noivas.vercel.app/og-image.jpg" />
+    <meta data-seo-estatico name="twitter:image" content="https://previadanielinoivas.vercel.app/og-noiva.jpg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -59,6 +66,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/entradas/noiva.tsx"></script>
   </body>
 </html>

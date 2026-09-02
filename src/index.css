@@ -76,6 +76,22 @@
 
   --tracking-luxo: 0.18em;
 
+  /*
+    ESCALA EDITORIAL
+    ----------------
+    Um degrau acima do h1. Existe porque a apresentação é lida como revista,
+    e revista abre página com tipo grande — o h1 de 2,375rem é tamanho de
+    título de site, não de abertura de matéria.
+
+    Uso restrito: abertura de folha e a frase da marca. Aplicado num
+    parágrafo comum vira grito.
+  */
+  --fs-display: clamp(2.5rem, 1.5rem + 4.6vw, 5.25rem);
+  --fs-display-sm: clamp(1.875rem, 1.35rem + 2.4vw, 3.25rem);
+
+  /* Mesma curva do `ease-suave` do Tailwind, disponível no CSS puro. */
+  --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
+
   /* --- Formas ----------------------------------------------------------- */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.07);
@@ -281,5 +297,100 @@
   /* --- Superfícies ------------------------------------------------------ */
   .card {
     @apply rounded-none border border-borda-sutil bg-branco shadow-sm;
+  }
+}
+
+/* ==========================================================================
+   EDITORIAL — folhas, tipo de abertura e movimento
+   --------------------------------------------------------------------------
+   O que separa "página que rola" de "sequência de páginas": altura de folha,
+   um degrau de tipo acima do h1, e conteúdo que CHEGA em vez de já estar lá.
+   O gatilho do movimento é JavaScript (lib/movimento.ts); a aparência é toda
+   daqui.
+   ========================================================================== */
+@layer components {
+  /*
+    Uma folha da apresentação.
+
+    `svh`, e não `vh`: no celular a barra do navegador some e volta, e `vh`
+    mede a tela SEM a barra — a folha nasceria mais alta que o visível e
+    cortaria o rodapé do bloco. É unidade de ALTURA, então não esbarra na
+    regra que proíbe largura em `vw`.
+
+    92% e não 100% de propósito: a faixa de folha seguinte que aparece na
+    borda inferior é o que diz "tem mais embaixo". Folha de tela cheia exata
+    engana a pessoa e ela para de rolar.
+  */
+  .folha {
+    @apply flex min-h-[92svh] flex-col justify-center py-secao;
+  }
+
+  /* Para blocos densos, onde travar altura só criaria vão vazio. */
+  .folha-curta {
+    @apply flex min-h-[70svh] flex-col justify-center py-secao;
+  }
+
+  .texto-display {
+    @apply font-display font-light text-preto;
+    font-size: var(--fs-display);
+    line-height: 1.04;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+
+  .texto-display-sm {
+    @apply font-display font-light text-preto;
+    font-size: var(--fs-display-sm);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    text-wrap: balance;
+  }
+
+  /*
+    Estado inicial da revelação.
+
+    Fica escondido SÓ depois que o JavaScript confirma que sabe revelar: o
+    hook nasce visível quando não há `IntersectionObserver` ou quando o
+    sistema pediu menos movimento, e nesses casos `.revelar-visivel` vem
+    junto na primeira pintura. Ou seja: nenhum caminho deixa texto invisível.
+  */
+  .revelar {
+    opacity: 0;
+    transform: translate3d(0, var(--revelar-distancia, 1.75rem), 0);
+    transition:
+      opacity 850ms var(--ease-suave) var(--revelar-atraso, 0ms),
+      transform 850ms var(--ease-suave) var(--revelar-atraso, 0ms);
+  }
+
+  .revelar-visivel {
+    opacity: 1;
+    transform: none;
+  }
+
+  /*
+    A moldura que recebe parallax. O deslocamento é escrito por
+    `useParallax` na variável `--parallax`, e a imagem é propositalmente
+    maior que a moldura para que o movimento não descubra a borda.
+  */
+  .parallax > img {
+    transform: translate3d(0, var(--parallax, 0px), 0) scale(1.12);
+    will-change: transform;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /*
+    Segunda barreira, independente do JavaScript. O bloco de base já anula a
+    duração das transições, mas isso sozinho não basta: sem esta regra um
+    elemento que ficasse com `.revelar` e sem `.revelar-visivel` seria
+    invisível de vez, em silêncio.
+  */
+  .revelar {
+    opacity: 1;
+    transform: none;
+  }
+
+  .parallax > img {
+    transform: none;
   }
 }

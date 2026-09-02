@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 import { perguntas } from '../data/faq'
 import BotaoWhatsapp from './BotaoWhatsapp'
+import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
 import { brand } from '../lib/brand'
 
@@ -10,29 +11,47 @@ import { brand } from '../lib/brand'
  * Acordeão em <details>/<summary>: abre e fecha sem JavaScript, já vem com
  * a semântica certa para leitor de tela e é localizável pelo Ctrl+F do
  * navegador mesmo fechado.
+ *
+ * NÃO É `.folha`, e isso é decisão. A lista já é alta, e travar altura mínima
+ * numa seção que passa da tela só cria vão vazio no topo. Folha é para bloco
+ * que precisa de espaço para respirar, não para bloco que já tem demais.
  */
 export default function Faq() {
+  if (perguntas.length === 0) return null
+
   return (
-    <section className="secao bg-off-white">
+    <section className="secao border-t border-borda-sutil bg-off-white">
       <div className="container-luxo">
-        <SecaoTitulo eyebrow="Dúvidas" titulo="Perguntas frequentes" centralizado />
+        <Revelar>
+          <SecaoTitulo eyebrow="Dúvidas" titulo="Perguntas frequentes" centralizado />
+        </Revelar>
 
         <ul className="mx-auto mt-14 flex max-w-3xl flex-col border-t border-borda-sutil">
-          {perguntas.map((item) => (
-            <li key={item.id} className="border-b border-borda-sutil">
+          {perguntas.map((item, indice) => (
+            <Revelar
+              key={item.id}
+              como="li"
+              distancia="curta"
+              /* Teto no escalonamento: com 10 perguntas, 60 ms cada já daria
+                 meio segundo até a última — e ninguém espera um FAQ chegar. */
+              atraso={Math.min(indice, 5) * 60}
+              className="border-b border-borda-sutil"
+            >
               <ItemFaq pergunta={item.pergunta} resposta={item.resposta} />
-            </li>
+            </Revelar>
           ))}
         </ul>
 
-        <div className="mt-14 flex flex-col items-center gap-5 text-center">
-          <p className="text-preto/70">Ficou com outra dúvida?</p>
-          <BotaoWhatsapp
-            mensagem={`Olá! Vim pelo site do Atelier ${brand.nome} e fiquei com uma dúvida.`}
-          >
-            Perguntar no WhatsApp
-          </BotaoWhatsapp>
-        </div>
+        <Revelar atraso={120}>
+          <div className="mt-14 flex flex-col items-center gap-5 text-center">
+            <p className="text-preto/70">Ficou com outra dúvida?</p>
+            <BotaoWhatsapp
+              mensagem={`Olá! Vim pelo site do Atelier ${brand.nome} e fiquei com uma dúvida.`}
+            >
+              Perguntar no WhatsApp
+            </BotaoWhatsapp>
+          </div>
+        </Revelar>
       </div>
     </section>
   )

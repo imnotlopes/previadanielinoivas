@@ -45,3 +45,14 @@ avaliacoes-originais/
 # arquivo de senha junto. Fora do repositório.
 Lennys atelie/
 Lennys atelie - Exemplo/
+
+# Material bruto dos fotógrafos: noivas reais, identificáveis, no dia do
+# casamento delas. O repositório é PÚBLICO — jogar isto aqui dentro publica
+# para qualquer pessoa na internet, com URL permanente e histórico do Git que
+# não se apaga só deletando o arquivo depois.
+#
+# Fica no disco, fora do repositório. O que o site publica são os WebP
+# derivados e aprovados, em public/, gerados por scripts/importar-fotografos.mjs
+# — mesma regra que já vale para a pasta instagram/.
+Fotográfos/
+Fotografos/

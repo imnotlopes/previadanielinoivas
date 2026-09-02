@@ -20,18 +20,22 @@ export interface Casamento {
  * script e adicione o casal abaixo. Peça autorização aos noivos antes de
  * publicar — são fotos de pessoas identificáveis, no dia do casamento delas.
  *
- * ATENÇÃO — NOMES DE PRÉVIA
- * -------------------------
- * As fotos são reais, tiradas do Instagram da loja, mas os nomes dos casais
- * abaixo foram INVENTADOS para o site poder ser visto de pé. Antes de
- * publicar: confirme quem é cada casal com a Danielli e, principalmente,
- * confirme que cada um autorizou o uso da foto no site. Enquanto não souber o
- * nome, deixe `casal: ''` — o rótulo some sozinho da imagem.
+ * ATENÇÃO — DUAS COISAS DIFERENTES, E AS DUAS PENDENTES
+ * -----------------------------------------------------
+ * 1. OS NOMES estão vazios porque os que existiam eram INVENTADOS. Nome falso
+ *    sobre a foto de um casamento real é atribuir a pessoas identificáveis uma
+ *    identidade que não é delas. Com `casal: ''` o rótulo some da imagem, que
+ *    é o comportamento correto enquanto ninguém confirmou quem é quem.
+ *
+ * 2. A AUTORIZAÇÃO continua pendente, e é o bloqueador mais sério deste
+ *    arquivo. São fotos de pessoas identificáveis no dia do casamento delas.
+ *    Um "pode usar" por escrito de cada casal, antes de qualquer link ir para
+ *    uma noiva. Enquanto isso não existir, o certo é esvaziar `casamentos`.
  */
 export const casamentos: Casamento[] = [
   {
     id: 'nathalia-e-joao',
-    casal: 'Nathália e João',
+    casal: '',
     fotos: [
       {
         src: '/casamentos/nathalia-e-joao-1.webp',
@@ -47,7 +51,7 @@ export const casamentos: Casamento[] = [
   },
   {
     id: 'camila-e-rodrigo',
-    casal: 'Camila e Rodrigo',
+    casal: '',
     fotos: [
       {
         src: '/casamentos/camila-e-rodrigo-1.webp',
@@ -68,7 +72,7 @@ export const casamentos: Casamento[] = [
   },
   {
     id: 'priscila-e-marcos',
-    casal: 'Priscila e Marcos',
+    casal: '',
     fotos: [
       {
         src: '/casamentos/priscila-e-marcos-1.webp',
@@ -89,7 +93,7 @@ export const casamentos: Casamento[] = [
   },
   {
     id: 'leticia-e-bruno',
-    casal: 'Letícia e Bruno',
+    casal: '',
     fotos: [
       {
         src: '/casamentos/leticia-e-bruno-1.webp',

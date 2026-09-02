@@ -3,6 +3,7 @@ import { MapPin, Phone } from 'lucide-react'
 import { avaliacoesGoogle, googleNegocio } from '../data/google'
 import { brand } from '../lib/brand'
 import { Estrelas } from './IconeEstrela'
+import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
 
 /* -------------------------------------------------------------------------- */
@@ -19,13 +20,15 @@ export default function SecaoAvaliacoes() {
   if (avaliacoesGoogle.length === 0) return null
 
   return (
-    <section className="secao bg-branco">
+    <section className="secao border-t border-borda-sutil bg-branco">
       <div className="container-luxo">
-        <SecaoTitulo
-          eyebrow="Avaliações no Google"
-          titulo="O que dizem sobre a loja"
-          centralizado
-        />
+        <Revelar>
+          <SecaoTitulo
+            eyebrow="Avaliações no Google"
+            titulo="O que dizem sobre a loja"
+            centralizado
+          />
+        </Revelar>
 
         <div className="mt-8 flex flex-col items-center gap-3">
           <Estrelas nota={googleNegocio.nota} className="flex items-center" />
@@ -145,9 +148,11 @@ export function SecaoMapa() {
       branco colada no rodapé preto, que variava com a largura da tela porque
       --espaco-secao é um clamp.
     */
-    <section className="secao bg-branco pb-0">
+    <section className="secao border-t border-borda-sutil bg-branco pb-0">
       <div className="container-luxo">
-        <SecaoTitulo eyebrow="Onde estamos" titulo="Visite a loja" centralizado />
+        <Revelar>
+          <SecaoTitulo eyebrow="Onde estamos" titulo="Visite a loja" centralizado />
+        </Revelar>
 
         <div className="mt-14 grid gap-px overflow-hidden border border-borda-sutil bg-borda-sutil lg:grid-cols-[1fr_1.4fr]">
           {/* Informações */}

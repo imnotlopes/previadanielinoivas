@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#242321" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!--
+      PEÇA 4 — PAINEL
+
+      `noindex` aqui, e `Disallow: /admin` no robots.txt gerado pelo build.
+      Sem Open Graph: este endereço não é para ser colado em conversa nenhuma,
+      e um cartão bonito só convidaria a compartilhar.
+    -->
+    <title data-seo-estatico>Painel | Danielli Noivas</title>
+    <meta data-seo-estatico name="robots" content="noindex, nofollow" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/entradas/admin.tsx"></script>
+  </body>
+</html>

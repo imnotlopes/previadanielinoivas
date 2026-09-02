@@ -42,23 +42,27 @@ export const brand = {
   email: '',
 } as const
 
-/** Título usado como sufixo em todas as páginas. */
-export const TITULO_BASE = 'Danielli Noivas | Aluguel de vestidos de noiva e festa'
+/**
+ * Sufixo de todos os títulos.
+ *
+ * É só o nome da marca, e não uma frase de venda: cada peça tem público
+ * próprio e escreve o próprio título. "Aluguel de vestidos de noiva e festa"
+ * ficava colado no fim do título da peça de festa, dizendo "noiva" para uma
+ * formanda.
+ */
+export const TITULO_BASE = 'Danielli Noivas'
 
 /**
- * TODO: trocar pelo domínio real após o deploy.
+ * Endereço onde as peças estão publicadas hoje.
+ *
  * Usado nas URLs canônicas e nas imagens de Open Graph, que precisam ser
- * absolutas — robô de preview não resolve caminho relativo.
- * Sem barra no final.
+ * absolutas — robô de preview não resolve caminho relativo. Sem barra no fim.
+ *
+ * TODO: trocar quando houver domínio próprio, e atualizar junto as URLs
+ * absolutas escritas à mão nos quatro HTML da raiz — elas são texto fixo e
+ * não acompanham esta constante.
  */
-export const SITE_URL = 'https://danielli-noivas.vercel.app'
-
-export const navegacao = [
-  { href: '/', rotulo: 'Início' },
-  { href: '/catalogo', rotulo: 'Catálogo' },
-  { href: '/como-funciona', rotulo: 'Como funciona' },
-  { href: '/sobre', rotulo: 'Sobre' },
-] as const
+export const SITE_URL = 'https://previadanielinoivas.vercel.app'
 
 /** URL do perfil no Instagram, derivada do @. */
 export const linkInstagram = `https://instagram.com/${brand.instagram.replace(/^@/, '')}`

@@ -43,8 +43,11 @@ export default function Reserva({ peca }: ReservaProps) {
     os dados dela, e o cupom por último, porque é o que menos muda a resposta.
   */
   const linhas = [
-    `Olá! Vi no site o vestido ${peca.nome} (${rotulosCategoria[peca.categoria]}, ${peca.descricao}).`,
-    final !== null ? `Valor no site: ${precoBRL(final)}.` : null,
+    `Olá! Vi no catálogo o vestido ${peca.nome} (${rotulosCategoria[peca.categoria]}, ${peca.descricao}).`,
+    /* A numeração cadastrada entra na mensagem para a loja não precisar
+       conferir a arara antes de responder se serve. */
+    peca.numeracao.length > 0 ? `Numeração no catálogo: ${peca.numeracao.join(', ')}.` : null,
+    final !== null ? `Valor no catálogo: ${precoBRL(final)}.` : null,
     tamanho ? `Meu manequim: ${tamanho}.` : null,
     data ? `Data do evento: ${formatarData(data)}.` : null,
     cupomAtivo ? `Cupom: ${cupomAtivo.codigo}.` : null,

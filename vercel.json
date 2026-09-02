@@ -1,4 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/catalogo", "destination": "/catalogo.html" },
+    { "source": "/catalogo/:caminho*", "destination": "/catalogo.html" },
+    { "source": "/festa", "destination": "/festa.html" },
+    { "source": "/festa/:caminho*", "destination": "/festa.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/admin/:caminho*", "destination": "/admin.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

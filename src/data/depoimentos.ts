@@ -1,9 +1,29 @@
 export interface Depoimento {
   id: string
+  /** Nome de quem falou. */
   autora: string
-  /** Uma linha de contexto: "noiva, casou em março" ou "mãe da debutante". */
+  /** Uma linha de contexto: "casou em março", "mãe da debutante". */
   contexto?: string
-  texto: string
+  /**
+   * A fala dela, como ela escreveu ou falou.
+   *
+   * Recorte pelo começo e pelo fim se precisar, nunca pelo meio: cortar o
+   * miolo de uma frase muda o que a pessoa disse. Erro de digitação do
+   * original se mantém — é o que faz soar como gente, e não como texto de
+   * agência.
+   */
+  fala: string
+  /**
+   * Foto DELA. Não é ilustração: é metade do depoimento.
+   *
+   * Uma frase elogiosa sem rosto é indistinguível de texto inventado — e este
+   * projeto já teve depoimento inventado uma vez. A foto é o que transforma
+   * "alguém disse isso" em "esta noiva disse isso".
+   *
+   * Caminho a partir de /public. Exibida em 3:4, como o resto do site.
+   */
+  foto: string
+  alt: string
 }
 
 /**
@@ -11,41 +31,35 @@ export interface Depoimento {
  *
  * São diferentes das avaliações do Google (`data/google.ts`): aquelas são
  * transcrição literal de um perfil público, que ninguém edita; estas são a
- * seleção da própria casa, e podem ser recortadas para caber no bloco.
+ * seleção da própria casa, com a foto da noiva junto.
  *
- * ATENÇÃO — TEXTOS DE PRÉVIA
- * --------------------------
- * Os quatro abaixo foram inventados para o site poder ser visto de pé. Antes
- * de publicar: substitua por depoimentos reais, com autorização de quem
- * escreveu, ou esvazie a lista — a seção some sozinha.
+ * VAZIO À ESPERA DO REAL
+ * ----------------------
+ * Havia quatro depoimentos inventados aqui, escritos para o site poder ser
+ * visto de pé. Foram removidos quando as peças viraram links mandados a
+ * noivas de verdade.
+ *
+ * A Danielli quer depoimentos e disse ter: print de conversa no WhatsApp já
+ * serve de fonte para a fala. A foto sai do material dos fotógrafos.
+ *
+ * PRECISA DE AUTORIZAÇÃO — DAS DUAS COISAS. Uma pessoa pode topar que a fala
+ * dela apareça e não querer o rosto, ou o contrário. Confirme as duas antes
+ * de publicar.
  */
-export const depoimentos: Depoimento[] = [
-  {
-    id: 'exemplo-1',
-    autora: 'Aline Ferreira',
-    contexto: 'noiva',
-    texto:
-      'Entrei só para ter ideia de preço e saí com o vestido reservado. O que eu escolhi não era nem parecido com a foto que eu levei salva no celular.',
-  },
-  {
-    id: 'exemplo-2',
-    autora: 'Renata Souza',
-    contexto: 'mãe da debutante',
-    texto:
-      'Provamos com calma, sem ninguém olhando o relógio. Minha filha se sentiu uma princesa e o valor coube no que a gente tinha.',
-  },
-  {
-    id: 'exemplo-3',
-    autora: 'Patrícia Nogueira',
-    contexto: 'madrinha',
-    texto:
-      'Terceira vez que alugo aqui. Sempre tem modelo novo e nunca peguei uma peça gasta ou com marca. Isso conta muito.',
-  },
-  {
-    id: 'exemplo-4',
-    autora: 'Vanessa Rocha',
-    contexto: 'noiva',
-    texto:
-      'Emagreci seis quilos entre a reserva e o casamento e refizeram o ajuste sem cobrar nada a mais. Valeu mais que qualquer desconto.',
-  },
-]
+export const depoimentos: Depoimento[] = []
+
+/**
+ * Mostra o espaço reservado enquanto não há depoimento cadastrado.
+ *
+ * Existe porque "a seção some sozinha quando está vazia" é o comportamento
+ * certo em produção e péssimo agora: sem isto, não dá para ver o formato nem
+ * decidir se ele funciona antes de sair caçando depoimento.
+ *
+ * O espaço é desenhado para ser INCONFUNDÍVEL com conteúdo — moldura
+ * tracejada e o texto dizendo o que vai ali. Ninguém olha e acha que é um
+ * depoimento de verdade.
+ *
+ * **Vire para `false` antes de mandar qualquer link para uma noiva.** Com a
+ * lista preenchida ele é ignorado de qualquer forma.
+ */
+export const mostrarEspacoReservado = true

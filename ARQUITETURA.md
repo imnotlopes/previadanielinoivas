@@ -10,6 +10,14 @@ subir para a Vercel), veja o [README](README.md).
 > separação entre `src/data/` e o resto funciona —, mas o conteúdo e a direção
 > visual são outros. Onde este documento fala de decisão antiga que mudou, ele
 > diz qual era e o que a substituiu.
+>
+> **Segunda virada, maior que a primeira.** A Danielli disse que *não quer
+> site*: "não quero mexer com site, por enquanto". O produto que ela quer é
+> **material de WhatsApp** — links que ela cola no meio da conversa. Isso
+> inverteu as prioridades do projeto inteiro. O que era um site com quatro
+> rotas virou **quatro peças independentes**, cada uma com HTML próprio, e o
+> preview do link deixou de ser "limitação conhecida, não prioridade" (§9)
+> para ser o requisito que determina a arquitetura. Ver §1-A.
 
 ---
 
@@ -47,6 +55,68 @@ Consequência prática: o conteúdo vive em arquivos TypeScript versionados no
 Git, não num CMS. Editar o catálogo é editar um array e fazer commit. Em troca
 de um pouco de fricção para quem edita, ganha-se site sem custo de servidor,
 sem tela de login, sem banco para migrar e com histórico completo de mudanças.
+
+---
+
+## 1-A. Quatro peças, e por que elas não são rotas
+
+O fluxo comercial da Danielli tem dois tempos:
+
+```
+noiva chama  →  "bom dia, vou te mandar nossa apresentação"
+             →  noiva vê como funciona
+             →  demonstra interesse
+             →  aí ela manda o catálogo
+```
+
+Duas peças, dois momentos, dois links. Mais uma terceira para festa e formatura
+— público diferente, sazonalidade diferente ("são dois clientes bem separados";
+época de formanda não é época de noiva) — e o painel, que é dela.
+
+```
+index.html     Apresentação Noiva     enxuta, a frase da marca, como funciona
+catalogo.html  Catálogo Noiva         o acervo navegável, cor e numeração
+festa.html     Festa e formatura      apresentação curta + acervo, num link só
+admin.html     Painel                 cadastrar, publicar, ocultar
+```
+
+**São arquivos HTML de verdade, e não rotas de uma aplicação só.** O motivo é
+um só, e é comercial: quando um link é colado no WhatsApp, o robô monta um
+cartão com foto e título, e **esse robô não executa JavaScript**. Numa SPA os
+três links devolveriam o mesmo `index.html` e portanto o mesmo cartão — a noiva
+e a formanda receberiam previews idênticos.
+
+Cada peça tem as próprias tags Open Graph escritas no arquivo e a própria
+imagem de preview, gerada por `scripts/og.mjs`. É a primeira impressão, antes
+de qualquer clique, e era o que a arquitetura anterior não sabia entregar.
+
+### O preço disso: `<a href>` entre peças, `<Link>` dentro delas
+
+Cada peça sobe o próprio React Router. O roteador de uma **não conhece as rotas
+da outra**: um `<Link to="/catalogo">` dentro da apresentação renderiza a rota
+de fallback dela, e o erro é **silencioso** — nada no console.
+
+A regra está escrita e comentada em `src/entradas/comum.tsx`, no bloco
+`CAMINHOS`. E duas tabelas precisam andar juntas ao acrescentar uma peça:
+`PECAS` em `vite.config.ts` (build e roteamento em desenvolvimento) e os
+`rewrites` do `vercel.json` (produção). O plugin `roteamentoDePecas` existe
+justamente para o servidor de desenvolvimento não divergir da Vercel — sem ele,
+`/catalogo` abre a apresentação em dev e o catálogo em produção, que é o tipo
+de divergência que custa uma tarde.
+
+### O que saiu do Layout, e por quê
+
+Depoimentos, avaliações do Google, FAQ e mapa ficavam grudados depois do
+`<Outlet />` em **toda** rota. A regra era "qualquer página precisa fechar
+sozinha, porque não se controla por onde a visita entra".
+
+Essa regra morreu com a reestruturação: agora cada link tem destino conhecido —
+a Danielli manda o link certo para a pessoa certa, ninguém cai aqui pelo
+Google. E num catálogo aquele material era ruído embaixo da grade. Tudo passou
+a ser conteúdo das apresentações, montado à mão dentro da página.
+
+Pelo mesmo motivo o topo perdeu o menu de navegação: um menu com quatro itens
+oferece saídas de uma peça que a cliente acabou de abrir.
 
 ---
 
@@ -219,6 +289,31 @@ loja de aluguel quem lê está comparando modelos, então a linha precisa dizer
 silhueta e o detalhe que identifica aquele: "Um ombro só, com babado
 estruturado". Continua sem chutar tecido — afirmar "renda francesa" sem certeza
 é pior do que dizer só "renda".
+
+**Quatro campos entraram com a reestruturação**, e cada um resolve uma coisa
+que a Danielli pediu:
+
+- **`numeracao`** é a *segunda pergunta de toda cliente*, depois do preço, e
+  não existia no modelo. Vira campo de primeira classe, não observação solta na
+  descrição: alimenta o filtro do catálogo, aparece no card e entra na mensagem
+  do WhatsApp — a loja responde "serve em você" sem conferir a arara.
+- **`ocasiao`** só existe dentro de festa. Formanda de alto padrão, formatura,
+  madrinha e mãe procuram coisas diferentes; é assim que a loja separa a arara,
+  e agora é assim que a cliente filtra.
+- **`video`** porque vestido parado na foto e vestido andando são coisas
+  diferentes. Ela perguntou se dava para pôr vídeo *dentro* do catálogo em vez
+  de mandar separado. Dá — e `components/VideoPeca.tsx` só carrega o player
+  depois do clique, senão cada ficha puxaria 1 MB de script antes de alguém
+  pedir.
+- **`publicado`** é a curadoria: *"eu não queria colocar tudo num catálogo,
+  porque tem modelo que eu não tenho foto profissional dele"*. O acervo interno
+  é maior que o catálogo publicado, e o interruptor é dela, no celular.
+
+O `publicado` tem uma regra que vale gravar: **tela de cliente chama
+`publicadas()` antes de qualquer outra coisa** — catálogo, apresentação, ficha,
+"vistos recentemente" e sitemap. Tela de painel usa a lista crua, porque lá o
+ponto é justamente ver o que está oculto. Link direto para vestido oculto
+responde "saiu do acervo"; não vaza.
 
 **A cidade não está escrita nos textos de SEO.** Ela sai de `brand.cidade`
 através de uma constante `local` no topo do arquivo, que devolve `' em Cidade,
@@ -446,10 +541,17 @@ Sem essa linha o documento fica com **duas** `<meta name="description">`, e o
 Google considera a primeira, que é a estática e genérica. Ou seja: as descrições
 por página seriam escritas e ignoradas. A limpeza roda antes do primeiro render.
 
-**Limite conhecido:** compartilhar o link de uma peça específica mostra o
-preview genérico do atelier, não a foto daquela peça. Resolver isso exige
-pré-renderizar as rotas no build (`vite-plugin-ssg` ou similar), o que mantém o
-site estático e na Vercel. Ficou de fora por não ser prioridade.
+**Isto deixou de ser limitação e virou arquitetura.** Enquanto o projeto era um
+site, "o preview do link é genérico" ficou registrado aqui como algo a resolver
+um dia. Quando as peças viraram links de WhatsApp, o cartão passou a ser a
+primeira impressão de tudo — e a saída foi o build multi-página da §1-A, com um
+HTML por peça e Open Graph próprio em cada um.
+
+O que **continua** limitado é o preview por vestido: compartilhar
+`/catalogo/noiva-sofia` mostra o cartão do catálogo, não a foto da Sofia.
+Resolver exigiria pré-renderizar as fichas no build (`vite-plugin-ssg` ou
+similar). Continua de fora, e agora com razão melhor: o link que circula é o do
+catálogo, não o de uma ficha.
 
 **SEO local:** está pendente, e de propósito. A cidade da loja ainda não foi
 informada, então `brand.cidade` está vazia e todas as strings de SEO saem sem
@@ -551,7 +653,114 @@ Quando o problema for confirmado resolvido, este arquivo, a chamada em
 
 ---
 
+## 12-A. O movimento editorial
+
+A apresentação deixou de ser "uma página que rola" e virou uma sequência de
+**folhas**. Duas peças fazem isso:
+
+- **`.folha`** (em `index.css`): `min-height: 92svh` mais centralização
+  vertical. É `svh` e não `vh` porque no celular a barra do navegador some e
+  volta, e `vh` mede a tela sem a barra — a folha nasceria mais alta que o
+  visível. E são 92%, não 100%: a faixa da folha seguinte aparecendo na borda
+  é o que diz "tem mais embaixo".
+- **`lib/movimento.ts`**: `useRevelar` (um `IntersectionObserver` por bloco) e
+  `useParallax` (deslocamento da foto escrito numa CSS variable, atualizado em
+  `requestAnimationFrame`).
+
+### Por que sem biblioteca de animação
+
+A recomendação inicial era usar uma. Duas coisas mudaram a conta:
+
+1. são **quatro aplicações** com bundles separados (§1-A), então ~30 KB de
+   dependência não são pagos uma vez;
+2. o que o projeto precisa — revelar ao entrar, escalonar, deslocar — não é
+   animação de layout. É transição de CSS disparada por um observador.
+
+O que se perde é interpolação entre estados arbitrários. Se aparecer transição
+de página ou reordenação animada de grade, vale trazer a biblioteca; nada aqui
+impede.
+
+### A regra que não pode ser quebrada
+
+**Nenhum caminho pode deixar texto invisível.** O estado inicial de
+`useRevelar` já nasce `true` quando não existe `IntersectionObserver` ou
+quando o sistema pediu `prefers-reduced-motion`, e há uma segunda barreira em
+CSS (`@media (prefers-reduced-motion: reduce) { .revelar { opacity: 1 } }`)
+que não depende de JavaScript nenhum.
+
+O observador também revela quando `boundingClientRect.top < 0`: sem isso,
+recarregar a página no meio da rolagem deixaria invisível para sempre todo
+bloco que ficou acima da tela.
+
+### Escalonar não é enfeite, é ordem de leitura
+
+Os quatro passos do "Como funciona" chegam com 90 ms de diferença. Sem isso
+eles chegam juntos e viram um bloco de texto. No mosaico dos casamentos o
+escalonamento é **por coluna** (`indice % 4`), não por foto: a 90 ms cada, doze
+fotos levariam mais de um segundo e a última chegaria depois de a pessoa já ter
+olhado o bloco todo.
+
+`FraseRevelada` (palavra por palavra) é reservada para **uma** frase por peça.
+O segundo uso destrói o efeito do primeiro.
+
+## 12-B. O catálogo como ferramenta de venda
+
+O catálogo não é vitrine: é o que a Danielli usa **na loja**, virando a tela
+para a noiva. Três coisas saíram daí.
+
+**O visor em tela cheia** (`components/Visor.tsx`). A foto grande da ficha é um
+botão, porque a expectativa universal de tocar numa foto é ampliar. O fundo é
+preto cheio, e não o preto suave da marca — qualquer fundo com luz própria
+altera a cor do marfim, e cor de vestido é o que a noiva está tentando julgar.
+O zoom foca **onde a pessoa tocou**: zoom que vai ao centro obriga a arrastar
+até o detalhe, e quem segura a tela para outra pessoa ver não tem mão sobrando.
+Arrastar de lado troca de foto só quando não há zoom; com zoom, o arrasto
+percorre a imagem.
+
+**A lista de prova** (`lib/selecao.ts`). Fora do React, com
+`useSyncExternalStore`: a seleção é lida em três lugares que não se conhecem
+(o marcador no card, a ficha, a barra do rodapé), e um provider re-renderizaria
+o catálogo inteiro a cada clique. O `?provar=` na URL vence o que está
+guardado, e é apagado da barra de endereço com `replaceState` — se ficasse,
+recarregar desfaria qualquer vestido que a noiva tirasse da lista.
+
+**A ficha técnica** (`silhueta`, `decote`, `manga`, `cauda`). Vocabulário da
+arara, não adjetivo de catálogo. Cada campo vira grupo de filtro, e cada grupo
+só é desenhado com dois valores distintos presentes.
+
+### Achar, que é o verbo desta tela
+
+- **Barra fixa.** `sticky top-20 md:top-24` — exatamente a altura do cabeçalho
+  (`h-20 md:h-24` em `TopoMarca`). **As duas medidas andam juntas:** mexer numa
+  sem mexer na outra deixa a barra por baixo do cabeçalho ou com um vão. O
+  `z-30` fica abaixo do cabeçalho (40) e da barra da lista de prova (50).
+- **A barra tem 81px no celular, não 230.** Ela ocupa a tela o tempo todo, e
+  cada pixel dela é pixel que a foto não tem. Só busca, modo de exibição e o
+  gatilho do painel ficam sempre visíveis; ordenação e filtros moram no painel
+  dobrável. O botão de filtros carrega o número de filtros ligados, porque com
+  o painel fechado ele é o único aviso de que a lista está cortada.
+- **Busca sem acento e por rótulo.** `normalizar()` tira diacrítico e caixa; o
+  texto buscável inclui os RÓTULOS (`'Manga longa'`), e não só os códigos
+  (`'longa'`) — sem isso, metade do que a noiva diz em voz alta não acharia
+  nada. Cada palavra digitada precisa aparecer em algum lugar.
+- **Restauração de rolagem** (`ScrollToTop`). Navegação nova abre no topo;
+  `POP` restaura a posição guardada por `location.key` num `Map` fora do
+  componente — ele é desmontado ao sair do catálogo. A guarda
+  `anterior.current === pathname` é o que impede a página de saltar a cada
+  letra digitada na busca, já que trocar filtro também cria entrada no
+  histórico.
+
 ## 13. Em aberto
+
+### O que a reestruturação resolveu
+
+- as **quatro peças** estão separadas, com HTML e cartão de WhatsApp próprios;
+- o **modelo de dados** tem numeração, ocasião, vídeo e o estado de publicação;
+- o **painel** é mobile-first, com o interruptor de publicar em primeiro plano;
+- a **ingestão dos fotógrafos** tem script e folhas de contato numeradas;
+- o **conteúdo inventado saiu**: avaliações, depoimentos e nomes de casais.
+
+### O que continua faltando
 
 - **`SITE_URL`** em `src/lib/brand.ts` ainda é um endereço inventado da Vercel.
   As URLs canônicas e de Open Graph só ficam corretas depois de apontar para o
@@ -574,13 +783,34 @@ Quando o problema for confirmado resolvido, este arquivo, a chamada em
   absolutas do `index.html` precisam acompanhar.
 - **A assinatura da marca** ("Sonhos existem para serem realizados") foi
   completada a partir de uma bio truncada no Instagram. Confirmar a frase.
+- **A ficha técnica está vazia em todo o acervo** (§12-B). Enquanto estiver, o
+  catálogo filtra só por cor — que é o filtro mais fraco dos quatro, porque
+  quase todo vestido de noiva é branco ou marfim.
+- **O bloco de autoridade da apresentação** (`data/atelier.ts`) está em espaço
+  reservado: falta o retrato da Danielli e os marcos. O único número real ali é
+  o tamanho do acervo, calculado do próprio catálogo.
 - **Preview por peça** ao compartilhar link, ver §9.
-- **O painel administrativo é uma maquete.** Grava no `localStorage`, não tem
-  autenticação (a "entrada" é um botão, e `/admin` é endereço público) e não
-  publica nada. Serve para decidir o que vale construir. Ligar isso de verdade
-  é outro projeto: banco, autenticação e envio de imagem — e nesse dia a
-  camada de `lib/loja.ts` é o ponto de costura, porque os componentes já leem
-  dela em vez de importar os dados direto.
+- **O painel administrativo é uma maquete, e agora isso é o gargalo.** Grava no
+  `localStorage`, não tem autenticação (a "entrada" é um botão, e `/admin` é
+  endereço público) e não envia foto — o cadastro pede um caminho que já exista
+  em `public/`.
+
+  Os três buracos são o mesmo trabalho: **banco + storage de imagem + login**.
+  E é trabalho obrigatório, não melhoria: a Danielli opera do celular ("eu tô
+  sem PC aqui, tô sem notebook, tô sem nada"), e um painel que grava no
+  navegador dela não faz o cadastro chegar ao aparelho da cliente.
+
+  A camada `lib/loja.ts` é o ponto de costura — as telas não mudam, porque
+  nenhuma importa os dados direto.
+
+- **A seleção das fotos dos fotógrafos.** O script e as folhas de contato
+  numeradas estão prontos (`scripts/importar-fotografos.mjs --folhas`), mas a
+  tabela `SELECAO` está vazia: preenchê-la depende da Danielli dizer qual
+  vestido é cada foto, e da autorização de cada noiva.
+- **A numeração de todos os vestidos.** Ela confirmou ter, e o campo está
+  pronto. Enquanto estiver vazio, o filtro de numeração não aparece e a
+  segunda pergunta de toda cliente continua sendo respondida no WhatsApp.
+
 - **Os cupons não contam uso.** O campo `usos` existe e é exibido, mas nada o
   incrementa: não há servidor para registrar a aplicação. Enquanto for assim,
   o número é o que alguém digitou no painel.
