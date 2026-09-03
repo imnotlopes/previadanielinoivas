@@ -47,6 +47,14 @@ export interface EstadoPersistido {
   pecas: Peca[]
   cupons: Cupom[]
   config: ConfigLoja
+  /**
+   * Slugs que a Danielli apagou no painel.
+   *
+   * Existe por causa da mesclagem em `carregar()`: sem uma lista explícita de
+   * apagados, um vestido removido no painel voltaria da semente no próximo
+   * carregamento, e ela apagaria o mesmo vestido para sempre.
+   */
+  removidos: string[]
 }
 
 export function configDaSemente(): ConfigLoja {
@@ -63,6 +71,7 @@ export function semente(): EstadoPersistido {
     pecas: pecasSemente,
     cupons: cuponsSemente,
     config: configDaSemente(),
+    removidos: [],
   }
 }
 
@@ -80,13 +89,53 @@ export function carregar(): EstadoPersistido {
     if (!bruto) return base
     const salvo = JSON.parse(bruto) as Partial<EstadoPersistido>
     return {
-      pecas: Array.isArray(salvo.pecas) ? salvo.pecas : base.pecas,
+      pecas: Array.isArray(salvo.pecas)
+        ? mesclarPecas(base.pecas, salvo.pecas, salvo.removidos ?? [])
+        : base.pecas,
       cupons: Array.isArray(salvo.cupons) ? salvo.cupons : base.cupons,
       config: { ...base.config, ...(salvo.config ?? {}) },
+      removidos: Array.isArray(salvo.removidos) ? salvo.removidos : [],
     }
   } catch {
     return base
   }
+}
+
+/**
+ * A EDIÇÃO DELA POR CIMA DA SEMENTE, CAMPO A CAMPO.
+ *
+ * Antes o array salvo SUBSTITUÍA o da semente inteiro, e isso tinha duas
+ * consequências que só aparecem com o tempo:
+ *
+ *  1. **Vestido novo no código não chegava nela.** Se ela mexeu no painel em
+ *     março, o catálogo dela ficou congelado em março — as peças que
+ *     entrassem depois simplesmente não existiam do lado dela.
+ *  2. **Campo novo em vestido antigo também não.** Foi assim que a capa do
+ *     catálogo sumiu em teste: a Aurora salva no painel não tinha o campo
+ *     `hero`, que só passou a existir depois, e a página caiu no caso "sem
+ *     capa" sem nenhum erro.
+ *
+ * Agora a semente é a base e o salvo é a camada de cima: o espalhamento copia
+ * só as chaves que existem no objeto salvo, então o que ela editou vence e o
+ * que ela nunca tocou continua vindo do código.
+ */
+function mesclarPecas(daSemente: Peca[], salvas: Peca[], removidos: string[]): Peca[] {
+  const porSlug = new Map(salvas.map((peca) => [peca.slug, peca]))
+  const apagados = new Set(removidos)
+
+  const resultado = daSemente
+    .filter((peca) => !apagados.has(peca.slug))
+    .map((peca) => {
+      const editada = porSlug.get(peca.slug)
+      return editada ? { ...peca, ...editada } : peca
+    })
+
+  /* As que ela criou do zero no painel não estão na semente: entram na
+     frente, que é onde ela acabou de colocá-las. */
+  const slugsDaSemente = new Set(daSemente.map((peca) => peca.slug))
+  const criadas = salvas.filter((peca) => !slugsDaSemente.has(peca.slug))
+
+  return [...criadas, ...resultado]
 }
 
 export interface Loja extends EstadoPersistido {

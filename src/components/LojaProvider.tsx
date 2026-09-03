@@ -102,7 +102,16 @@ export function LojaProvider({ children }: { children: ReactNode }) {
 
   const removerPeca = useCallback((slug: string) => {
     setEstado((atual) => {
-      const proximo = { ...atual, pecas: atual.pecas.filter((p) => p.slug !== slug) }
+      /* O slug entra na lista de apagados: sem isso a mesclagem em
+         `carregar()` traria o vestido de volta da semente no próximo
+         carregamento, e ela apagaria o mesmo vestido para sempre. */
+      const proximo = {
+        ...atual,
+        pecas: atual.pecas.filter((p) => p.slug !== slug),
+        removidos: atual.removidos.includes(slug)
+          ? atual.removidos
+          : [...atual.removidos, slug],
+      }
       try {
         localStorage.setItem(CHAVE_PAINEL, JSON.stringify(proximo))
       } catch {

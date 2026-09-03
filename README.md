@@ -43,6 +43,32 @@ aceitável: o que passava numa prévia interna vira problema aqui.
 | `src/lib/brand.ts` | `cidade` e `assinatura` |
 | os quatro `.html` da raiz | URLs absolutas, se o domínio mudar |
 
+### A capa do catálogo é a filha da casa
+
+Pedido da Danielli: a Natália, filha dela, é a capa — e a **Aurora** é o
+vestido que a Natália usou no próprio casamento. É o argumento de autoridade
+mais forte que a loja tem, e ele se conta numa frase.
+
+A capa não é decorativa: leva para a ficha da Aurora, que é a única do acervo
+com **hero** (duas fotos, uma para tela em pé e outra para tela deitada,
+servidas por `<picture media>`) e com **`historia`** — a linha que diz de onde
+o vestido veio.
+
+Só ganha hero quem tem história. Um acervo em que todo vestido abre com foto
+de tela cheia não destaca ninguém.
+
+⚠️ Confirmar com a Danielli a frase da história, e com a Natália a autorização
+de aparecer nomeada.
+
+### O card mostra o que ela precisa para vender
+
+- **Ficha técnica em linha** (silhueta · decote · manga) — some enquanto
+  ninguém classificou nada, que é o estado de hoje
+- **Quantas fotos o vestido tem**, a partir de três. É informação de quem
+  VENDE: com a noiva do lado, saber que um vestido tem seis fotos e outro tem
+  uma decide qual ela abre primeiro
+- Numeração em destaque quando existe
+
 ### A ficha técnica é o vocabulário da arara
 
 `silhueta`, `decote`, `manga` e `cauda` não são adjetivos de catálogo: são
@@ -396,6 +422,19 @@ O código é revalidado a cada carregamento — cupom vencido ou desativado para
 valer sozinho.
 
 ---
+
+## O painel não congela mais o catálogo
+
+A edição do painel é mesclada **campo a campo** sobre o código, e não substitui
+a lista inteira. Antes, quem mexesse no painel em março ficava com o catálogo
+congelado em março: vestido novo no código não chegava, e campo novo em
+vestido antigo também não — foi assim que a capa sumiu num teste, porque a
+Aurora salva no painel não tinha o campo `hero`.
+
+Agora o código é a base e a edição dela é a camada de cima. O que ela editou
+vence; o que ela nunca tocou continua vindo do código. Vestidos apagados no
+painel ficam numa lista `removidos`, senão voltariam da semente a cada
+carregamento.
 
 ## O painel (`/admin`)
 

@@ -1,7 +1,13 @@
-import { Play } from 'lucide-react'
+import { Images, Play } from 'lucide-react'
 import { Link, useHref } from 'react-router-dom'
 
-import { rotulosCor, type Peca } from '../data/pecas'
+import {
+  rotulosCor,
+  rotulosDecote,
+  rotulosManga,
+  rotulosSilhueta,
+  type Peca,
+} from '../data/pecas'
 import { cn } from '../lib/utils'
 import BotaoProvar from './BotaoProvar'
 import Preco from './Preco'
@@ -47,6 +53,14 @@ export default function CardPeca({
   className,
 }: CardPecaProps) {
   const denso = variante === 'denso'
+
+  /* Só o que foi classificado. `filter(Boolean)` é o que faz a linha sumir
+     inteira em vez de virar "· · ·" quando nada está preenchido. */
+  const ficha = [
+    peca.silhueta && rotulosSilhueta[peca.silhueta],
+    peca.decote && rotulosDecote[peca.decote],
+    peca.manga && rotulosManga[peca.manga],
+  ].filter(Boolean)
   const destino = `${base}/${peca.slug}`
 
   /*
@@ -71,17 +85,41 @@ export default function CardPeca({
 
         {/* Selo de vídeo: "tem vestido andando aqui dentro" é informação que
             muda o clique, e por isso aparece já na grade. */}
-        {peca.video && (
-          <span
-            className={cn(
-              'absolute bottom-1.5 right-1.5 inline-flex items-center gap-1.5 bg-preto/85 font-display text-[0.6875rem] uppercase tracking-luxo text-branco',
-              denso ? 'p-1.5' : 'bottom-3 right-3 px-2.5 py-1.5',
-            )}
-          >
-            <Play size={11} strokeWidth={2} aria-hidden />
-            {!denso && 'Vídeo'}
-          </span>
-        )}
+        {/*
+          QUANTO MATERIAL EXISTE PARA MOSTRAR.
+
+          É informação de quem VENDE, não de quem compra: com a noiva do lado,
+          saber que um vestido tem seis fotos e outro tem uma decide qual ela
+          abre primeiro. Só aparece a partir de três — "1 foto" é ruído, e
+          dizer que falta material não ajuda ninguém.
+        */}
+        <div
+          className={cn(
+            'absolute flex items-center gap-1.5',
+            denso ? 'bottom-1.5 right-1.5' : 'bottom-3 right-3',
+          )}
+        >
+          {peca.imagens.length >= 3 && !denso && (
+            <span className="inline-flex items-center gap-1.5 bg-preto/85 px-2.5 py-1.5 font-display text-[0.6875rem] uppercase tracking-luxo text-branco">
+              <Images size={11} strokeWidth={2} aria-hidden />
+              {peca.imagens.length}
+            </span>
+          )}
+
+          {/* Selo de vídeo: "tem vestido andando aqui dentro" é informação que
+              muda o clique, e por isso aparece já na grade. */}
+          {peca.video && (
+            <span
+              className={cn(
+                'inline-flex items-center gap-1.5 bg-preto/85 font-display text-[0.6875rem] uppercase tracking-luxo text-branco',
+                denso ? 'p-1.5' : 'px-2.5 py-1.5',
+              )}
+            >
+              <Play size={11} strokeWidth={2} aria-hidden />
+              {!denso && 'Vídeo'}
+            </span>
+          )}
+        </div>
       </div>
 
       {denso ? (
@@ -100,10 +138,25 @@ export default function CardPeca({
           </h3>
           <p className="mt-1 text-sm text-preto/65">{peca.descricao}</p>
 
+          {/*
+            A FICHA DA ARARA, NO CARD.
+
+            Silhueta, decote e manga são o vocabulário com que a escolha
+            acontece de pé na loja. Estavam só dentro da ficha, o que obrigava
+            a abrir vestido por vestido para responder "esse é sereia?". Aqui
+            a resposta está na grade.
+
+            Some inteira enquanto ninguém classificou nada — que é o estado de
+            hoje. Ver a ficha técnica em data/pecas.ts.
+          */}
+          {ficha.length > 0 && (
+            <p className="mt-1.5 text-sm text-preto/65">{ficha.join(' · ')}</p>
+          )}
+
           {/* Numeração é a segunda pergunta de toda cliente: quando existe, ela
               aparece antes de a pessoa precisar abrir a ficha. */}
           {peca.numeracao.length > 0 && (
-            <p className="mt-1.5 text-sm text-preto/65">
+            <p className="mt-1.5 font-display text-h6 uppercase tracking-luxo text-preto/70">
               Numeração {peca.numeracao.join(' · ')}
             </p>
           )}

@@ -1,4 +1,5 @@
 import BotaoWhatsapp from '../components/BotaoWhatsapp'
+import CapaCatalogo from '../components/CapaCatalogo'
 import GradeAcervo from '../components/GradeAcervo'
 import SecaoTitulo from '../components/SecaoTitulo'
 import Selos from '../components/Selos'
@@ -34,23 +35,50 @@ export default function CatalogoNoiva() {
   const { quantidade } = useSelecao()
   const acervo = pecasPorCategoria(publicadas(pecas), 'noiva')
 
+  /*
+    A capa é o vestido que TEM história cadastrada — hoje só a Aurora, a peça
+    que a filha da Danielli usou. Achar pelo campo, e não pelo slug, é o que
+    permite trocar a capa no painel um dia sem mexer em componente.
+
+    Se a Danielli ocultar esse vestido, a capa some sozinha e a página abre
+    direto na grade. É o comportamento certo: capa apontando para uma ficha
+    que responde "este vestido saiu do acervo" seria pior que capa nenhuma.
+  */
+  const capa = acervo.find((peca) => peca.hero && peca.historia)
+
   return (
     <>
-      <section className="secao bg-off-white">
-        <Seo
-          titulo="Vestidos de noiva"
-          descricao="Acervo de vestidos de noiva para alugar, com cor e numeração de cada modelo. Prova com hora marcada e ajuste incluso."
-          imagem={acervo[0]?.imagens[0]}
-        />
+      <Seo
+        titulo="Vestidos de noiva"
+        descricao="Acervo de vestidos de noiva para alugar, com cor e numeração de cada modelo. Prova com hora marcada e ajuste incluso."
+        /* A capa do catálogo é também o cartão que aparece no WhatsApp. */
+        imagem={capa?.hero?.largo ?? acervo[0]?.imagens[0]}
+      />
 
+      {capa && (
+        <CapaCatalogo peca={capa} base={CAMINHOS.catalogoNoiva} total={acervo.length} />
+      )}
+
+      <section className="secao bg-off-white">
         <div className="container-luxo">
-          <SecaoTitulo
-            eyebrow="Acervo de noiva"
-            titulo="Escolha os que você quer provar"
-            descricao="Marque quantos quiser com o + na foto. No fim, sai uma mensagem só com a sua lista — e a gente separa antes de você chegar."
-            nivel={1}
-            centralizado
-          />
+          {/* Sem capa, este vira o título principal da página; com ela, o h1
+              já foi usado lá e aqui desce para h2. */}
+          {capa ? (
+            <SecaoTitulo
+              eyebrow="Todo o acervo"
+              titulo="Os vestidos"
+              descricao="Filtre, busque pelo nome ou marque os que você quer provar."
+              centralizado
+            />
+          ) : (
+            <SecaoTitulo
+              eyebrow="Acervo de noiva"
+              titulo="Escolha os que você quer provar"
+              descricao="Marque quantos quiser com o + na foto. No fim, sai uma mensagem só com a sua lista — e a gente separa antes de você chegar."
+              nivel={1}
+              centralizado
+            />
+          )}
 
           <GradeAcervo
             acervo={acervo}

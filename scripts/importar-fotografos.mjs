@@ -97,6 +97,35 @@ const PERDA_TOLERADA = 0.25
  * para entrar no catálogo de festa quando a ocasião for confirmada.
  */
 const SELECAO = {
+  /*
+    O VESTIDO DA FILHA DA CASA.
+
+    A Aurora é o vestido que a Natália — filha da Danielli — usou no próprio
+    casamento, e ela é a capa do catálogo. Estas três fotos vêm da cobertura
+    do casamento: o vestido inteiro, as costas e ele dentro da igreja. É a
+    ficha mais rica do acervo de propósito: é para ela que a capa aponta.
+  */
+  'Casamento João e Natália': {
+    /*
+      O nº 41 NÃO entra aqui: ele é a capa do catálogo. Se a ficha abrisse com
+      a mesma foto, o clique na capa pareceria não ter levado a lugar nenhum.
+
+      Os três são VERTICAIS de propósito. As horizontais da cobertura (a saia
+      espalhada, o corredor da igreja) perdem metade da largura no corte 3:4 e
+      caem na regra do fundo desfocado — numa galeria de ficha, metade das
+      fotos com faixa borrada parece defeito.
+
+      A nº 42 também não entra: ela é a hero de celular desta mesma ficha, e
+      valeria a mesma repetição.
+
+      Mostram o que a foto de estúdio não mostra: as costas abertas de perfil,
+      o vestido dentro da igreja com o véu aberto, e ele em movimento na festa.
+    */
+    24: 'pecas/aurora-casamento.webp',
+    72: 'pecas/aurora-casamento-2.webp',
+    124: 'pecas/aurora-casamento-3.webp',
+  },
+
   'WhatsApp Unknown 2026-08-31': {
     /* -------------------------------------------------------------- noiva */
     1: 'pecas/alicia-renda-manga-longa.webp',

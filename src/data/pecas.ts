@@ -96,6 +96,31 @@ export interface Peca {
   cauda?: Cauda
 
   /**
+   * HERO DA FICHA — duas fotos, uma por formato de tela.
+   *
+   * Só os vestidos que têm história ganham hero. Um acervo em que todo mundo
+   * abre com foto de tela cheia não destaca ninguém.
+   *
+   * São DUAS fotos, e não uma redimensionada: uma hero de tela cheia é
+   * retângulo em pé no celular e faixa deitada no computador, e a mesma foto
+   * não serve nos dois. A horizontal cortada em retrato perde 60% da largura;
+   * a vertical esticada em faixa mostra o umbigo da noiva. Servidas por
+   * `<picture media>`, que — ao contrário do `<source media>` de vídeo —
+   * funciona.
+   */
+  hero?: { largo: string; alto: string }
+
+  /**
+   * Uma linha sobre o vestido que não é descrição de produto.
+   *
+   * É onde entra o que torna a peça diferente das outras trinta e nove: quem
+   * já casou com ela, de onde ela veio. Vazio na esmagadora maioria — história
+   * inventada para dar corpo ao catálogo é o tipo de frase que a noiva
+   * descobre sendo falsa na loja.
+   */
+  historia?: string
+
+  /**
    * A CURADORIA.
    *
    * Nem todo vestido do acervo entra no catálogo que a cliente recebe — a
@@ -319,8 +344,31 @@ export const pecas: Peca[] = [
       '/pecas/aurora-renda-gola-alta.webp',
       '/pecas/aurora-renda-gola-alta-2.webp',
       '/pecas/aurora-renda-gola-alta-3.webp',
+      /* Da cobertura do casamento da Natália: as costas de perfil, a igreja
+         com o véu aberto, e o vestido em movimento na festa. */
+      '/pecas/aurora-casamento.webp',
+      '/pecas/aurora-casamento-2.webp',
+      '/pecas/aurora-casamento-3.webp',
     ],
     destaque: true,
+
+    /*
+      O VESTIDO DA CAPA.
+
+      A Danielli pediu a filha, Natália, como capa do catálogo — e a Aurora é
+      o vestido que ela usou. É o argumento de autoridade mais forte que a
+      loja tem, e não custa nada dizer: quando a filha da dona casou, casou
+      com uma peça do acervo da casa.
+
+      TODO: confirmar a frase com a Danielli antes de publicar, e confirmar
+      com a Natália a autorização de aparecer com o nome.
+    */
+    hero: {
+      largo: '/casamentos/aurora-hero.webp',
+      alto: '/casamentos/aurora-hero-alto.webp',
+    },
+    historia:
+      'Foi o vestido que a Natália, filha da Danielli, escolheu para o próprio casamento.',
   },
   {
     slug: 'noiva-isadora',

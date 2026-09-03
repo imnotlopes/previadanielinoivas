@@ -7,6 +7,7 @@ import BotaoWhatsapp from '../components/BotaoWhatsapp'
 import CardPeca from '../components/CardPeca'
 import GaleriaPeca from '../components/GaleriaPeca'
 import Preco from '../components/Preco'
+import Revelar from '../components/Revelar'
 import Reserva from '../components/Reserva'
 import SecaoTitulo from '../components/SecaoTitulo'
 import Selos from '../components/Selos'
@@ -71,6 +72,59 @@ export default function Peca({ base }: PecaProps) {
         imagem={peca.imagens[0]}
       />
 
+      {/* ------------------------------------------------------------------ */}
+      {/* A hero — só nos vestidos que têm história                           */}
+      {/* ------------------------------------------------------------------ */}
+      {peca.hero && (
+        <section className="relative flex min-h-[62svh] items-end overflow-hidden md:min-h-[70svh]">
+          {/*
+            `<picture media>` porque são DUAS fotos, e não uma redimensionada:
+            no celular a hero é um retângulo em pé, no computador uma faixa
+            deitada, e a mesma imagem não serve nos dois. Ao contrário do
+            `<source media>` de vídeo, aqui o navegador respeita.
+          */}
+          <picture>
+            <source media="(min-width: 768px)" srcSet={peca.hero.largo} />
+            <img
+              src={peca.hero.alto}
+              alt={peca.nome}
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 size-full object-cover object-center"
+            />
+          </picture>
+
+          {/*
+            Véu de baixo para cima, e não da esquerda como o da apresentação:
+            aqui o texto fica ancorado no rodapé da hero, e o gradiente só
+            precisa escurecer a faixa onde ele está. Assim a foto continua
+            limpa em cima, que é onde está o vestido.
+          */}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-t from-preto/85 via-preto/35 to-transparent"
+          />
+
+          <div className="container-luxo relative pb-12 pt-24 md:pb-16">
+            <Revelar distancia="curta">
+              <span className="font-display text-h6 uppercase tracking-luxo-lg text-branco/70">
+                {rotulosCor[peca.cor]}
+              </span>
+              <h1 className="mt-4 texto-display text-branco">{peca.nome}</h1>
+              <span className="filete-claro mt-6" />
+            </Revelar>
+
+            {peca.historia && (
+              <Revelar atraso={140}>
+                <p className="mt-7 max-w-xl font-display text-h4 font-light italic leading-snug text-branco/90">
+                  {peca.historia}
+                </p>
+              </Revelar>
+            )}
+          </div>
+        </section>
+      )}
+
       <section className="secao bg-off-white">
         <div className="container-luxo">
           <Link to={base} className="link-menu inline-flex items-center gap-2">
@@ -86,14 +140,34 @@ export default function Peca({ base }: PecaProps) {
             </div>
 
             <div className="lg:pt-4">
-              <span className="eyebrow">{rotulosCor[peca.cor]}</span>
+              {/*
+                COM HERO, ESTE BLOCO NÃO REPETE O NOME.
 
-              <h1 className="mt-4 uppercase tracking-luxo">{peca.nome}</h1>
-              <span className="filete mt-6" />
+                Nome e cor já foram ditos lá em cima em corpo de display, a
+                dois dedos daqui. Repetir daria dois títulos de página e faria
+                a ficha parecer que recomeçou. No lugar entra a DESCRIÇÃO, que
+                é a informação que ainda não foi dada — e por isso o parágrafo
+                solto de descrição também sai.
+              */}
+              {peca.hero ? (
+                <>
+                  <span className="eyebrow">A peça</span>
+                  <h2 className="mt-4 font-display text-h3 font-light text-preto">
+                    {peca.descricao}
+                  </h2>
+                  <span className="filete mt-6" />
+                </>
+              ) : (
+                <>
+                  <span className="eyebrow">{rotulosCor[peca.cor]}</span>
+                  <h1 className="mt-4 uppercase tracking-luxo">{peca.nome}</h1>
+                  <span className="filete mt-6" />
 
-              <p className="mt-8 font-display text-h4 font-light text-preto/75">
-                {peca.descricao}
-              </p>
+                  <p className="mt-8 font-display text-h4 font-light text-preto/75">
+                    {peca.descricao}
+                  </p>
+                </>
+              )}
 
               {/*
                 Ficha técnica curta. Cada linha só aparece quando tem valor —

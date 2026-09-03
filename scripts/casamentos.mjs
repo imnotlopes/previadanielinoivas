@@ -109,6 +109,95 @@ const SELECAO = [
   },
 ]
 
+/**
+ * A CAPA DO CATÁLOGO.
+ *
+ * Pedido da própria Danielli: a filha dela, Natália, é a capa. Não é escolha
+ * de banco de imagem — é o argumento de autoridade mais forte que a loja tem:
+ * quando a filha da dona casou, casou vestida pelo acervo da casa.
+ *
+ * O nº 41 é ela sentada com o vestido inteiro aberto e a tiara: o vestido é o
+ * protagonista e o rosto aparece. Duas larguras porque a capa aparece em tela
+ * cheia no celular (~430px, 860 em retina) e numa coluna de ~590px no
+ * computador (1180 em retina).
+ */
+const CAPA = {
+  conjunto: 'Casamento João e Natália',
+  numero: 41,
+  nome: 'capa-natalia',
+  larguras: [800, 1400],
+}
+
+/**
+ * AS HEROES DA FICHA — duas fotos da mesma peça, uma por formato de tela.
+ *
+ * Não é redundância: é direção de arte. Uma hero de tela cheia no celular é
+ * um retângulo em pé; no computador é uma faixa deitada. A MESMA foto não
+ * serve nos dois — a horizontal cortada em retrato perde 60% da largura, e a
+ * vertical esticada em faixa mostra o umbigo da noiva.
+ *
+ * Então são duas fotos escolhidas para cada forma, servidas por `<picture>`
+ * com `media` — que, ao contrário do `<source media>` de vídeo, funciona.
+ *
+ * As duas foram escolhidas pelo mesmo critério: a que mais mostra VESTIDO na
+ * forma que aquela tela pede. A nº 43 é a noiva recostada com a saia toda
+ * aberta; a nº 42 são as costas com a saia inteira, em pé no quadro.
+ */
+const HEROIS = [
+  {
+    conjunto: 'Casamento João e Natália',
+    nome: 'aurora-hero',
+    largo: { numero: 43, proporcao: 16 / 9, larguras: [1000, 1800] },
+    /*
+      A 123 (perfil na festa) era mais bonita como retrato e errada como hero:
+      o recorte 4:5 fechava no busto e o VESTIDO sumia. Numa hero de ficha de
+      vestido, o vestido é o assunto — a 42 mostra as costas e a saia inteira.
+    */
+    alto: { numero: 42, proporcao: 4 / 5, larguras: [600, 1000] },
+  },
+]
+
+async function processarHerois() {
+  for (const { conjunto, nome, largo, alto } of HEROIS) {
+    const { dir, arquivos } = await fotosDe(conjunto)
+
+    for (const [sufixo, plano] of [['', largo], ['-alto', alto]]) {
+      const origem = arquivos[plano.numero - 1]
+      if (!origem) {
+        console.log(`· hero ${nome}${sufixo}: nº ${plano.numero} não existe`)
+        continue
+      }
+      for (const largura of plano.larguras) {
+        const maior = Math.max(...plano.larguras)
+        const arquivo =
+          largura === maior ? `${nome}${sufixo}.webp` : `${nome}${sufixo}-${largura}.webp`
+        const buffer = await recortar(path.join(dir, origem), largura, plano.proporcao)
+        await writeFile(path.join(DESTINO, arquivo), buffer)
+      }
+    }
+    console.log(`✓ hero: ${nome} (largo e alto, duas larguras cada)`)
+  }
+}
+
+async function processarCapa() {
+  const { dir, arquivos } = await fotosDe(CAPA.conjunto)
+  const origem = arquivos[CAPA.numero - 1]
+  if (!origem) {
+    console.log(`· capa: nº ${CAPA.numero} não existe em ${CAPA.conjunto}`)
+    return
+  }
+
+  for (const largura of CAPA.larguras) {
+    const nome =
+      largura === Math.max(...CAPA.larguras)
+        ? `${CAPA.nome}.webp`
+        : `${CAPA.nome}-${largura}.webp`
+    const buffer = await recortar(path.join(dir, origem), largura)
+    await writeFile(path.join(DESTINO, nome), buffer)
+  }
+  console.log(`✓ capa: ${CAPA.nome} em ${CAPA.larguras.join(' e ')}px`)
+}
+
 /* -------------------------------------------------------------------------- */
 /* Passo 1 — folhas de contato                                                 */
 /* -------------------------------------------------------------------------- */
@@ -213,13 +302,12 @@ async function montarFolhas() {
  * alternativa era a sequência inteira parecer quebrada — e porque cada foto
  * dessas ainda mostra o momento, só mais de perto.
  */
-async function paraTresQuartos(origem, largura) {
-  const alvoL = largura
-  const alvoA = Math.round((largura * 4) / 3)
+async function recortar(origem, largura, proporcao = 3 / 4) {
+  const alvoA = Math.round(largura / proporcao)
 
   return sharp(origem)
     .rotate()
-    .resize(alvoL, alvoA, { fit: 'cover', position: 'attention', withoutEnlargement: true })
+    .resize(largura, alvoA, { fit: 'cover', position: 'attention', withoutEnlargement: true })
     .webp({ quality: 76 })
     .toBuffer()
 }
@@ -253,7 +341,7 @@ async function processarSelecao() {
            navegador antigo sem `srcset` baixa. */
         const nome =
           largura === Math.max(...LARGURAS) ? `${base}.webp` : `${base}-${largura}.webp`
-        const buffer = await paraTresQuartos(path.join(dir, arquivos[indice]), largura)
+        const buffer = await recortar(path.join(dir, arquivos[indice]), largura)
         await writeFile(path.join(DESTINO, nome), buffer)
         bytes += buffer.length
       }
@@ -280,4 +368,6 @@ if (!ORIGEM || !existsSync(EXTRAIDO)) {
   await montarFolhas()
 } else {
   await processarSelecao()
+  await processarCapa()
+  await processarHerois()
 }
