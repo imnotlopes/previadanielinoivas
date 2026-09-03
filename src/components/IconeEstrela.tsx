@@ -17,7 +17,7 @@ export function IconeEstrela(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-/** Fileira de estrelas com rótulo textual — a nota não fica só no desenho. */
+/** Fileira de estrelas com rótulo textual, a nota não fica só no desenho. */
 export function Estrelas({ nota, className }: { nota: number; className?: string }) {
   const cheias = Math.round(nota)
 

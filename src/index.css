@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   DESIGN TOKENS — Atelier Danielli Noivas
+   DESIGN TOKENS: Atelier Danielli Noivas
    Fonte única de verdade. O tailwind.config.ts apenas referencia estas vars.
    ========================================================================== */
 :root {
   /* --- Cores ------------------------------------------------------------
      Cada cor é declarada como TRIO DE CANAIS ("R G B", sem vírgulas) porque é
-     o único formato em que o Tailwind consegue injetar alfa — sem isso,
+     o único formato em que o Tailwind consegue injetar alfa, sem isso,
      `text-preto/70` e `bg-preto/50` são silenciosamente ignorados.
      Logo abaixo, cada uma ganha sua versão pronta para uso em CSS puro.
      ---------------------------------------------------------------------- */
@@ -19,34 +19,34 @@
     Aproximadamente 70% off-white, 20% preto suave, 8% champagne e 2% dourado.
     O dourado NÃO é cor estrutural: ele não pinta fundo, não pinta botão
     principal e não carrega bloco de texto. Ele aparece em filete, ícone e
-    detalhe — o Instagram da marca já é saturado de dourado, e o site existe
+    detalhe, o Instagram da marca já é saturado de dourado, e o site existe
     para elevar isso, não para repetir.
   */
-  --preto-rgb: 36 35 33; /* #242321 — preto suave, levemente quente */
-  --branco-rgb: 255 255 255; /* #FFFFFF — cards e áreas de contraste */
-  --off-white-rgb: 250 249 246; /* #FAF9F6 — fundo principal */
-  --bege-rgb: 216 208 194; /* #D8D0C2 — champagne: divisores e superfícies */
-  --dourado-rgb: 201 181 107; /* #C9B56B — só detalhe */
+  --preto-rgb: 36 35 33; /* #242321, preto suave, levemente quente */
+  --branco-rgb: 255 255 255; /* #FFFFFF, cards e áreas de contraste */
+  --off-white-rgb: 250 249 246; /* #FAF9F6, fundo principal */
+  --bege-rgb: 216 208 194; /* #D8D0C2, champagne: divisores e superfícies */
+  --dourado-rgb: 201 181 107; /* #C9B56B, só detalhe */
 
   /*
     O cinza é o preto rebaixado, para rótulo e texto de apoio. Foi puxado para
     o quente (#6B6560, e não o #696969 neutro de antes) para conversar com o
     champagne; é o mais claro que ainda cumpre 4,5:1 sobre o off-white novo.
   */
-  --cinza-rgb: 107 101 96; /* #6B6560 — 5,46:1 sobre off-white */
+  --cinza-rgb: 107 101 96; /* #6B6560, 5,46:1 sobre off-white */
 
   /*
     ONDE O DOURADO NÃO PODE ENTRAR
     ------------------------------
     #C9B56B rende 1,94:1 sobre o off-white: é ilegível como texto em fundo
     claro, e nenhum tamanho de fonte conserta isso. Sobre o preto suave ele
-    sobe para 7,71:1, e aí sim funciona como texto — é por isso que o dourado
+    sobe para 7,71:1, e aí sim funciona como texto. É por isso que o dourado
     do site aparece como filete em fundo claro e como palavra só em fundo
     escuro.
   */
 
   --borda-rgb: 216 208 194; /* champagne, para divisor visível */
-  --borda-sutil-rgb: 232 227 217; /* #E8E3D9 — champagne rebaixado */
+  --borda-sutil-rgb: 232 227 217; /* #E8E3D9, champagne rebaixado */
   --sucesso-rgb: 48 122 7; /* #307A07 */
   --erro-rgb: 203 43 43; /* #CB2B2B */
 
@@ -80,7 +80,7 @@
     ESCALA EDITORIAL
     ----------------
     Um degrau acima do h1. Existe porque a apresentação é lida como revista,
-    e revista abre página com tipo grande — o h1 de 2,375rem é tamanho de
+    e revista abre página com tipo grande, o h1 de 2,375rem é tamanho de
     título de site, não de abertura de matéria.
 
     Uso restrito: abertura de folha e a frase da marca. Aplicado num
@@ -176,7 +176,7 @@
     text-wrap: pretty;
   }
 
-  /* Cantos totalmente retos em controles — regra da marca. */
+  /* Cantos totalmente retos em controles, regra da marca. */
   button,
   input,
   select,
@@ -301,7 +301,7 @@
 }
 
 /* ==========================================================================
-   EDITORIAL — folhas, tipo de abertura e movimento
+   EDITORIAL, folhas, tipo de abertura e movimento
    --------------------------------------------------------------------------
    O que separa "página que rola" de "sequência de páginas": altura de folha,
    um degrau de tipo acima do h1, e conteúdo que CHEGA em vez de já estar lá.
@@ -313,7 +313,7 @@
     Uma folha da apresentação.
 
     `svh`, e não `vh`: no celular a barra do navegador some e volta, e `vh`
-    mede a tela SEM a barra — a folha nasceria mais alta que o visível e
+    mede a tela SEM a barra, a folha nasceria mais alta que o visível e
     cortaria o rodapé do bloco. É unidade de ALTURA, então não esbarra na
     regra que proíbe largura em `vw`.
 

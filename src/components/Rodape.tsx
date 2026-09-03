@@ -10,7 +10,7 @@ const MENSAGEM_RODAPE = `Olá! Vim pelo link da ${brand.nome} e gostaria de conv
 
 /*
   `py-2.5` não é respiro: é alvo de toque. O texto tem 19px de altura, e no
-  celular um link dessa espessura é erro de dedo garantido — o padding leva a
+  celular um link dessa espessura é erro de dedo garantido, o padding leva a
   área tocável para perto dos 44px sem mudar nada do que se vê.
 */
 const classeContato =
@@ -52,7 +52,7 @@ export default function Rodape({ compacto = false, publico = 'noiva' }: RodapePr
           <>
             {/*
               O selo da marca. A arte disponível é a foto de perfil do
-              Instagram, quadrada e com 150px de lado — em ~160px ela ainda se
+              Instagram, quadrada e com 150px de lado, em ~160px ela ainda se
               segura, mas é o limite. Quando chegar o vetorial, troque
               public/logo.png e rode o script de importação.
             */}
@@ -99,7 +99,7 @@ export default function Rodape({ compacto = false, publico = 'noiva' }: RodapePr
         </div>
 
         {/*
-          ACESSO AO PAINEL — PROVISÓRIO, SÓ PARA A PRÉVIA.
+          ACESSO AO PAINEL: PROVISÓRIO, SÓ PARA A PRÉVIA.
 
           Existe para quem estiver vendo a demonstração achar o painel sem
           decorar o endereço. SAI ANTES DE QUALQUER LINK IR PARA UMA CLIENTE:

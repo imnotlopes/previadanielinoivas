@@ -11,17 +11,16 @@ import { useLoja } from '../lib/loja'
 import { useSelecao } from '../lib/selecao'
 
 /**
- * PEÇA 2 — Catálogo Noiva.
+ * PEÇA 2: Catálogo Noiva.
  *
  * É o que a Danielli manda depois que a noiva demonstra interesse. Casca de
- * ferramenta: sem FAQ, sem mapa, sem avaliações embaixo da grade — quem está
+ * ferramenta: sem FAQ, sem mapa, sem avaliações embaixo da grade, quem está
  * escolhendo vestido não quer institucional, quer filtrar.
  *
  * SÓ NOIVA. NADA ALÉM DISSO.
  * --------------------------
  * Este catálogo não é uma loja com uma seção de noiva: é um catálogo de
- * noiva. A diferença aparece em decisões que uma vitrine genérica não tomaria
- * — a data que se pergunta é a do CASAMENTO, o próximo passo é a prova e não
+ * noiva. A diferença aparece em decisões que uma vitrine genérica não tomaria, a data que se pergunta é a do CASAMENTO, o próximo passo é a prova e não
  * a compra, e não existe nenhum caminho daqui para festa ou debutante. Quem
  * está escolhendo vestido de casamento não quer ser oferecida outra coisa.
  *
@@ -36,7 +35,7 @@ export default function CatalogoNoiva() {
   const acervo = pecasPorCategoria(publicadas(pecas), 'noiva')
 
   /*
-    A capa é o vestido que TEM história cadastrada — hoje só a Aurora, a peça
+    A capa é o vestido que TEM história cadastrada, hoje só a Aurora, a peça
     que a filha da Danielli usou. Achar pelo campo, e não pelo slug, é o que
     permite trocar a capa no painel um dia sem mexer em componente.
 
@@ -74,7 +73,7 @@ export default function CatalogoNoiva() {
             <SecaoTitulo
               eyebrow="Acervo de noiva"
               titulo="Escolha os que você quer provar"
-              descricao="Marque quantos quiser com o + na foto. No fim, sai uma mensagem só com a sua lista — e a gente separa antes de você chegar."
+              descricao="Marque quantos quiser com o + na foto. No fim, sai uma mensagem só com a sua lista, e a gente separa antes de você chegar."
               nivel={1}
               centralizado
             />
@@ -105,7 +104,7 @@ export default function CatalogoNoiva() {
       {/*
         Quem rolou 40 vestidos e não marcou nenhum estava saindo sem caminho:
         a grade acabava e embaixo vinha o rodapé. E essa é justamente a noiva
-        que mais precisa de resposta — a que não achou o que imaginava.
+        que mais precisa de resposta, a que não achou o que imaginava.
 
         O bloco muda conforme ela marcou ou não. Oferecer "não achou o seu?"
         para quem acabou de montar uma lista de cinco seria não estar
@@ -135,7 +134,7 @@ export default function CatalogoNoiva() {
               <span className="filete mx-auto mt-6" />
               <p className="mx-auto mt-6 max-w-md text-preto/70">
                 Nem tudo que chega já está no catálogo, e nem todo vestido cai
-                na foto como cai no corpo. Descreve o que você tem na cabeça —
+                na foto como cai no corpo. Descreve o que você tem na cabeça:
                 pode ser que exista aqui, ou que esteja para chegar.
               </p>
 

@@ -12,7 +12,7 @@ export interface Peca {
   categoria: CategoriaPeca
   /**
    * O vestido em uma linha curta: silhueta e o detalhe que o identifica.
-   * Sem nome de tecido quando não há certeza — chutar "renda francesa" numa
+   * Sem nome de tecido quando não há certeza, chutar "renda francesa" numa
    * peça de aluguel é pior do que dizer só "renda".
    */
   descricao: string
@@ -30,7 +30,7 @@ export interface Peca {
    * Valor do aluguel, em reais. `null` significa "sob consulta", e é o
    * estado atual de todo o acervo: ninguém informou a tabela da loja, e
    * inventar preço de aluguel é o tipo de erro que a cliente só descobre
-   * dentro da loja. A interface inteira já funciona com preço — basta
+   * dentro da loja. A interface inteira já funciona com preço, basta
    * preencher aqui que o valor aparece no card, na página e no cálculo do
    * cupom.
    */
@@ -72,12 +72,12 @@ export interface Peca {
   video?: string
 
   /**
-   * FICHA TÉCNICA — o vocabulário da arara.
+   * FICHA TÉCNICA, o vocabulário da arara.
    * ---------------------------------------
    * Estes quatro campos são a linguagem que a Danielli usa de pé na loja, ao
    * lado da noiva: "esse é sereia", "esse tem manga longa", "esse é tomara
    * que caia". Não são adjetivos de catálogo, são a forma como a escolha
-   * acontece de verdade — a noiva chega dizendo "não quero nada tomara que
+   * acontece de verdade, a noiva chega dizendo "não quero nada tomara que
    * caia" e isso, sozinho, corta metade da arara.
    *
    * Por isso são campo, e não texto solto na descrição: campo vira filtro, e
@@ -96,7 +96,7 @@ export interface Peca {
   cauda?: Cauda
 
   /**
-   * HERO DA FICHA — duas fotos, uma por formato de tela.
+   * HERO DA FICHA, duas fotos, uma por formato de tela.
    *
    * Só os vestidos que têm história ganham hero. Um acervo em que todo mundo
    * abre com foto de tela cheia não destaca ninguém.
@@ -105,7 +105,7 @@ export interface Peca {
    * retângulo em pé no celular e faixa deitada no computador, e a mesma foto
    * não serve nos dois. A horizontal cortada em retrato perde 60% da largura;
    * a vertical esticada em faixa mostra o umbigo da noiva. Servidas por
-   * `<picture media>`, que — ao contrário do `<source media>` de vídeo —
+   * `<picture media>`, que, ao contrário do `<source media>` de vídeo,
    * funciona.
    */
   hero?: { largo: string; alto: string }
@@ -114,7 +114,7 @@ export interface Peca {
    * Uma linha sobre o vestido que não é descrição de produto.
    *
    * É onde entra o que torna a peça diferente das outras trinta e nove: quem
-   * já casou com ela, de onde ela veio. Vazio na esmagadora maioria — história
+   * já casou com ela, de onde ela veio. Vazio na esmagadora maioria, história
    * inventada para dar corpo ao catálogo é o tipo de frase que a noiva
    * descobre sendo falsa na loja.
    */
@@ -123,7 +123,7 @@ export interface Peca {
   /**
    * A CURADORIA.
    *
-   * Nem todo vestido do acervo entra no catálogo que a cliente recebe — a
+   * Nem todo vestido do acervo entra no catálogo que a cliente recebe, a
    * regra da Danielli é que só entra o que tem foto profissional. Este campo
    * é o interruptor disso, e ela liga e desliga do celular no painel.
    *
@@ -149,7 +149,7 @@ export const rotulosOcasiao: Record<OcasiaoFesta, string> = {
 }
 
 /**
- * SILHUETA — o formato do vestido no corpo.
+ * SILHUETA, o formato do vestido no corpo.
  *
  * A lista é curta por decisão, não por preguiça. Uma taxonomia de estilista
  * (trompete, semi-sereia, evasê, império…) é precisa e inútil aqui: a noiva
@@ -166,7 +166,7 @@ export const rotulosSilhueta: Record<Silhueta, string> = {
   justo: 'Justo',
 }
 
-/** DECOTE — depois da silhueta, é a segunda coisa que a noiva descarta. */
+/** DECOTE, depois da silhueta, é a segunda coisa que a noiva descarta. */
 export type Decote = 'tomara-que-caia' | 'v' | 'ilusao' | 'gola-alta' | 'ombro-a-ombro' | 'coracao'
 
 export const rotulosDecote: Record<Decote, string> = {
@@ -178,7 +178,7 @@ export const rotulosDecote: Record<Decote, string> = {
   coracao: 'Coração',
 }
 
-/** MANGA — o filtro de quem casa de dia, na igreja ou no calor. */
+/** MANGA, o filtro de quem casa de dia, na igreja ou no calor. */
 export type Manga = 'sem-manga' | 'alca-fina' | 'alca-larga' | 'curta' | 'tres-quartos' | 'longa'
 
 export const rotulosManga: Record<Manga, string> = {
@@ -190,7 +190,7 @@ export const rotulosManga: Record<Manga, string> = {
   longa: 'Manga longa',
 }
 
-/** CAUDA — muda o preço do buquê, do carro e da igreja. Não é detalhe. */
+/** CAUDA, muda o preço do buquê, do carro e da igreja. Não é detalhe. */
 export type Cauda = 'sem-cauda' | 'curta' | 'media' | 'longa'
 
 export const rotulosCauda: Record<Cauda, string> = {
@@ -256,8 +256,8 @@ export const rotulosCategoria: Record<CategoriaPeca, string> = {
  * São FUNÇÕES da cidade, e não tabelas prontas, por duas razões. A primeira é
  * que a busca desta loja é local: quem procura digita "aluguel de vestido de
  * noiva em <cidade>", e a cidade precisa entrar na frase, não ficar de fora.
- * A segunda é que a cidade é editável — vem de `brand.cidade` no site
- * publicado, e do painel na prévia —, então calcular na hora é o que mantém
+ * A segunda é que a cidade é editável, vem de `brand.cidade` no site
+ * publicado, e do painel na prévia, então calcular na hora é o que mantém
  * as duas fontes de acordo.
  *
  * Com a cidade vazia as frases saem sem ela: continuam corretas, só perdem o
@@ -312,7 +312,7 @@ export function descricaoCategoria(
 }
 
 /**
- * Catálogo — o acervo de aluguel.
+ * Catálogo, o acervo de aluguel.
  *
  * NOMES DE VESTIDO, NÃO DE CLIENTE
  * --------------------------------
@@ -322,7 +322,7 @@ export function descricaoCategoria(
  * várias noivas ao longo do tempo e não pertence a nenhuma delas; e nenhuma
  * cliente aparece identificada pelo nome sem ter autorizado.
  *
- * ATENÇÃO — CONTEÚDO DE PRÉVIA
+ * ATENÇÃO: CONTEÚDO DE PRÉVIA
  * ----------------------------
  * Os nomes e as descrições abaixo foram escritos aqui, a partir das fotos do
  * Instagram, para o site poder ser visto de pé. Eles NÃO vieram da Danielli.
@@ -355,7 +355,7 @@ export const pecas: Peca[] = [
     /*
       O VESTIDO DA CAPA.
 
-      A Danielli pediu a filha, Natália, como capa do catálogo — e a Aurora é
+      A Danielli pediu a filha, Natália, como capa do catálogo, e a Aurora é
       o vestido que ela usou. É o argumento de autoridade mais forte que a
       loja tem, e não custa nada dizer: quando a filha da dona casou, casou
       com uma peça do acervo da casa.
@@ -579,7 +579,7 @@ export const pecas: Peca[] = [
      Vestidos vindos do material dos fotógrafos.
 
      Agrupados por peça a partir das folhas de contato (ver
-     scripts/importar-fotografos.mjs). NOMES INVENTADOS, como os de cima —
+     scripts/importar-fotografos.mjs). NOMES INVENTADOS, como os de cima,
      são um ponto de partida para a Danielli corrigir, junto com a numeração
      e a cor de cada um.
 
@@ -1064,7 +1064,7 @@ export const pecas: Peca[] = [
  * Antes eles eram constantes derivadas direto do array `pecas`. Deixaram de
  * ser quando o painel administrativo entrou: com as edições guardadas no
  * navegador, a lista que a tela exibe não é mais a que está escrita neste
- * arquivo — é a semente daqui mesclada com o que foi editado. Ver lib/loja.ts.
+ * arquivo, é a semente daqui mesclada com o que foi editado. Ver lib/loja.ts.
  * Quem chama passa a lista viva, via `useLoja()`.
  *
  * A semente continua exportada porque o build precisa dela: scripts/seo.ts
@@ -1072,7 +1072,7 @@ export const pecas: Peca[] = [
  */
 
 /**
- * O FILTRO DA CURADORIA — passa em todo lugar que a cliente enxerga.
+ * O FILTRO DA CURADORIA, passa em todo lugar que a cliente enxerga.
  *
  * O acervo interno é maior que o catálogo publicado: entra no catálogo só o
  * que tem foto profissional, e quem decide isso é a Danielli, no painel.
@@ -1129,7 +1129,7 @@ export function ocasioesDisponiveis(lista: Peca[]): OcasiaoFesta[] {
  * Silhuetas que de fato existem na lista, na ordem dos rótulos.
  *
  * Como todo grupo de filtro deste catálogo, devolve lista vazia enquanto
- * ninguém classificou nada — e um grupo vazio não é desenhado. Filtro que não
+ * ninguém classificou nada, e um grupo vazio não é desenhado. Filtro que não
  * filtra nada é pior que filtro nenhum: ele promete um corte que não existe.
  */
 export function silhuetasDisponiveis(lista: Peca[]): Silhueta[] {

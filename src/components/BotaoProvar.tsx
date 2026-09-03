@@ -22,7 +22,7 @@ interface BotaoProvarProps {
  * --------------------------------
  * Marcado e não marcado se distinguem por PREENCHIMENTO e por ÍCONE (＋ vira
  * ✓), não por matiz. Quem não enxerga a diferença entre o contorno claro e o
- * preto cheio ainda vê o símbolo mudar — e a paleta da marca não tem cor de
+ * preto cheio ainda vê o símbolo mudar, e a paleta da marca não tem cor de
  * destaque para gastar aqui de qualquer forma.
  *
  * O rótulo acessível diz o nome do vestido inteiro. Numa grade de 40 cards,

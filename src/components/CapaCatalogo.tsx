@@ -21,14 +21,14 @@ const FOTO_MENOR = '/casamentos/capa-natalia-800.webp'
  * A CAPA DO CATÁLOGO.
  *
  * Pedido da Danielli: a filha dela, Natália, é a capa. Não é escolha de banco
- * de imagem — é o argumento de autoridade mais forte que a loja tem, e ele se
+ * de imagem, é o argumento de autoridade mais forte que a loja tem, e ele se
  * conta em uma frase: quando a filha da dona casou, casou com uma peça do
  * acervo da casa. Nenhum depoimento contratado chega perto disso.
  *
  * DUAS COLUNAS, E NÃO FOTO SANGRADA
  * ---------------------------------
  * A foto é retrato 3:4. Sangrada na tela inteira, ela é perfeita no celular e
- * vira uma faixa do meio da noiva no computador — e resolver isso pediria uma
+ * vira uma faixa do meio da noiva no computador, e resolver isso pediria uma
  * segunda foto, com outro recorte, só para a capa.
  *
  * Em duas colunas ela aparece inteira em qualquer largura, o texto nunca fica
@@ -39,7 +39,7 @@ const FOTO_MENOR = '/casamentos/capa-natalia-800.webp'
  * O TAMANHO É CONTIDO DE PROPÓSITO
  * --------------------------------
  * Este catálogo é a ferramenta que a Danielli usa de pé, com a noiva do lado.
- * Uma capa de tela cheia poria uma rolagem inteira entre ela e a grade — o
+ * Uma capa de tela cheia poria uma rolagem inteira entre ela e a grade, o
  * atrito que o resto desta peça foi desenhado para eliminar. A capa vale uma
  * abertura, não um pedágio.
  */
@@ -88,7 +88,7 @@ export default function CapaCatalogo({ peca, base, total }: CapaCatalogoProps) {
             <Revelar atraso={240}>
               <p className="mt-7 max-w-md text-preto/70">
                 Marque com o <strong className="font-semibold">+</strong> os que
-                você quer provar. No fim sai uma mensagem só com a sua lista — e
+                você quer provar. No fim sai uma mensagem só com a sua lista, e
                 a gente separa antes de você chegar.
               </p>
 

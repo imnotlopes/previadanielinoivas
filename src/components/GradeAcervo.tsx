@@ -31,12 +31,12 @@ import CardPeca from './CardPeca'
  * ================================
  * Nada de `useState` para filtro. A query string é a fonte de verdade, e isso
  * resolve o caso que mais importa aqui: a Danielli consegue mandar para a
- * noiva um link **já filtrado** — "olha os marfins no 42" — direto do
+ * noiva um link **já filtrado**: "olha os marfins no 42", direto do
  * WhatsApp. Também faz o botão voltar do navegador funcionar.
  *
  * `mostrar` e `vista` estão na URL pelo mesmo motivo: sem eles, quem clicou
  * "carregar mais" três vezes, abriu um vestido e voltou, cairia na primeira
- * dúzia — e no meio de um atendimento isso é ter que refazer o caminho na
+ * dúzia, e no meio de um atendimento isso é ter que refazer o caminho na
  * frente da noiva.
  */
 
@@ -68,7 +68,7 @@ function lista(bruto: string | null): string[] {
  * Tira acento e caixa para comparar.
  *
  * A busca precisa achar "Alícia" quando alguém digita "alicia", e achar
- * "Cecília" com "cecilia". Ninguém digita acento no meio de um atendimento —
+ * "Cecília" com "cecilia". Ninguém digita acento no meio de um atendimento,
  * e uma busca que devolve zero resultado para um vestido que está ali é o
  * tipo de falha que faz a pessoa desistir da busca e voltar a rolar.
  */
@@ -128,7 +128,7 @@ interface GradeAcervoProps {
  *
  *  1. **A barra de busca e filtro gruda no topo.** Achar um vestido no meio da
  *     lista e ter que rolar até em cima para filtrar é o atrito mais caro que
- *     esta tela pode ter — acontece a cada atendimento.
+ *     esta tela pode ter, acontece a cada atendimento.
  *  2. **A folha de contato.** Um modo em que cabem seis vestidos por linha, só
  *     foto e nome, para a noiva apontar. Descrição e preço em cada card são
  *     úteis para quem lê sozinha em casa e atrapalham quem está escolhendo com
@@ -156,7 +156,7 @@ export default function GradeAcervo({
     noiva chega dizendo "nada tomara que caia" e isso corta metade do acervo
     antes de olhar foto. Cor e numeração respondem depois.
 
-    Cada grupo só existe quando há vestido classificado — hoje nenhum está, e
+    Cada grupo só existe quando há vestido classificado, hoje nenhum está, e
     por isso os três somem inteiros. Ver a ficha técnica em data/pecas.ts.
   */
   const silhuetas = silhuetasDisponiveis(acervo)
@@ -184,7 +184,7 @@ export default function GradeAcervo({
   /*
     A ordenação por nome existe SEMPRE.
 
-    Antes o seletor inteiro só aparecia quando havia preço cadastrado — e como
+    Antes o seletor inteiro só aparecia quando havia preço cadastrado, e como
     o acervo está todo "sob consulta", ninguém conseguia ordenar por nome. Com
     40 vestidos batizados, "A–Z" é justamente o que resolve "cadê o Malu?".
   */
@@ -240,7 +240,7 @@ export default function GradeAcervo({
       cadastrado primeiro.
 
       `sort` é estável, então dentro de cada grupo a ordem do acervo se
-      mantém — o destaque promove, não embaralha.
+      mantém, o destaque promove, não embaralha.
     */
     if (ordem === 'padrao') {
       resultado.sort((a, b) => Number(Boolean(b.destaque)) - Number(Boolean(a.destaque)))
@@ -321,7 +321,7 @@ export default function GradeAcervo({
         A BARRA GRUDA NO TOPO.
 
         `top-20 md:top-24` é exatamente a altura do cabeçalho (`h-20 md:h-24`
-        em TopoMarca) — as duas medidas andam juntas, e mexer numa sem mexer na
+        em TopoMarca), as duas medidas andam juntas, e mexer numa sem mexer na
         outra deixa a barra por baixo do cabeçalho ou com um vão entre eles.
 
         O `z-30` fica ABAIXO do cabeçalho (z-40) e da barra da lista de prova
@@ -341,7 +341,7 @@ export default function GradeAcervo({
 
           Esta barra fica na tela o tempo todo, então cada pixel dela é pixel
           que o vestido não tem. Numa tela de 812px, uma barra de 230px come
-          quase um terço do que a noiva veio ver — e a foto é o produto.
+          quase um terço do que a noiva veio ver, e a foto é o produto.
 
           Por isso ordenação e filtros moram no painel dobrável, e só busca,
           modo de exibição e o gatilho do painel ficam sempre visíveis.
@@ -414,7 +414,7 @@ export default function GradeAcervo({
           A CONTAGEM MORA NA BARRA, e não solta no meio da página.
 
           É a resposta a "quantos ainda restam depois desse filtro?", e essa
-          pergunta é feita enquanto se rola — não só no topo.
+          pergunta é feita enquanto se rola, não só no topo.
         */}
         <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
           <p aria-live="polite" className="text-sm text-preto/65">
@@ -442,7 +442,7 @@ export default function GradeAcervo({
         A ORDENAÇÃO MORA AQUI, e não na barra. Ela é usada uma vez por sessão
         ("me mostra em ordem alfabética"), não a cada rolagem, e não vale a
         linha permanente que custaria. O painel existe mesmo quando não há
-        nenhum grupo de filtro, porque ordenar por nome sempre existe — se
+        nenhum grupo de filtro, porque ordenar por nome sempre existe, se
         dependesse de `temAlgumFiltro`, um acervo de uma cor só ficaria sem
         jeito de ordenar.
       */}
@@ -543,7 +543,7 @@ export default function GradeAcervo({
 
           {/*
             Numeração é a segunda pergunta de toda cliente. O grupo só aparece
-            quando existe numeração cadastrada — hoje não existe nenhuma, e um
+            quando existe numeração cadastrada, hoje não existe nenhuma, e um
             filtro vazio seria pior que filtro nenhum.
           */}
           {numeracoes.length > 0 && (

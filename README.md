@@ -1,4 +1,4 @@
-# Danielli Noivas — quatro peças de WhatsApp
+# Danielli Noivas: quatro peças de WhatsApp
 
 Não é um site. São **links que a Danielli cola na conversa do WhatsApp**, no
 meio do atendimento. Sem carrinho, sem checkout, sem estoque: o vestido é
@@ -20,38 +20,38 @@ React + Vite + TypeScript + Tailwind. Sem backend.
 O material vai direto para o WhatsApp de uma pessoa real. Isso muda o que é
 aceitável: o que passava numa prévia interna vira problema aqui.
 
-**Bloqueadores — não pode ir ao ar:**
+**Bloqueadores.** Não pode ir ao ar:
 
 | onde | o que falta |
 | --- | --- |
 | `src/data/casamentos.ts` | **autorização por escrito de cada casal.** São fotos de pessoas identificáveis no dia do casamento delas. Sem o "pode usar", esvazie a lista |
-| `src/lib/brand.ts` | `whatsapp` — sem número, **todo botão do site cai no Instagram**, e a lista de prova do catálogo se perde junto (a mensagem montada é descartada) |
+| `src/lib/brand.ts` | `whatsapp`: sem número, **todo botão do site cai no Instagram**, e a lista de prova do catálogo se perde junto (a mensagem montada é descartada) |
 
-**Pendências — o site funciona, mas sai mais fraco:**
+**Pendências.** O site funciona, mas sai mais fraco:
 
 | onde | o que falta |
 | --- | --- |
-| `src/data/pecas.ts` | `numeracao` de cada vestido (a Danielli tem) — é a segunda pergunta de toda cliente |
-| `src/data/pecas.ts` | **ficha técnica**: `silhueta`, `decote`, `manga`, `cauda`. Vazios em todo o acervo. Cada um vira filtro no catálogo assim que dois vestidos estiverem classificados — ver abaixo |
+| `src/data/pecas.ts` | `numeracao` de cada vestido (a Danielli tem): é a segunda pergunta de toda cliente |
+| `src/data/pecas.ts` | **ficha técnica**: `silhueta`, `decote`, `manga`, `cauda`. Vazios em todo o acervo. Cada um vira filtro no catálogo assim que dois vestidos estiverem classificados, ver abaixo |
 | `src/data/atelier.ts` | **retrato da Danielli e os marcos** (anos de atelier, noivas vestidas). É o bloco de autoridade da apresentação |
-| `src/data/pecas.ts` | `precoAluguel` — está tudo `null`, ou seja, "valor sob consulta" |
+| `src/data/pecas.ts` | `precoAluguel`: está tudo `null`, ou seja, "valor sob consulta" |
 | `src/data/pecas.ts` | nomes e descrições foram escritos aqui, a partir das fotos. Confirmar como a loja chama cada modelo |
-| `src/data/google.ts` | avaliações, nota, endereço e horários — **vazios de propósito**, ver abaixo |
-| `src/data/depoimentos.ts` | depoimentos reais — **foto da noiva + a fala dela** (ver abaixo) |
+| `src/data/google.ts` | avaliações, nota, endereço e horários. **Vazios de propósito**, ver abaixo |
+| `src/data/depoimentos.ts` | depoimentos reais: **foto da noiva + a fala dela** (ver abaixo) |
 | `src/data/faq.ts` | prazos e regra de devolução |
-| `src/data/selos.ts` | as quatro promessas — selo é promessa |
+| `src/data/selos.ts` | as quatro promessas. Selo é promessa |
 | `src/lib/brand.ts` | `cidade` e `assinatura` |
 | os quatro `.html` da raiz | URLs absolutas, se o domínio mudar |
 
 ### A capa do catálogo é a filha da casa
 
-Pedido da Danielli: a Natália, filha dela, é a capa — e a **Aurora** é o
+Pedido da Danielli: a Natália, filha dela, é a capa. E a **Aurora** é o
 vestido que a Natália usou no próprio casamento. É o argumento de autoridade
 mais forte que a loja tem, e ele se conta numa frase.
 
 A capa não é decorativa: leva para a ficha da Aurora, que é a única do acervo
 com **hero** (duas fotos, uma para tela em pé e outra para tela deitada,
-servidas por `<picture media>`) e com **`historia`** — a linha que diz de onde
+servidas por `<picture media>`) e com **`historia`**: a linha que diz de onde
 o vestido veio.
 
 Só ganha hero quem tem história. Um acervo em que todo vestido abre com foto
@@ -62,7 +62,7 @@ de aparecer nomeada.
 
 ### O card mostra o que ela precisa para vender
 
-- **Ficha técnica em linha** (silhueta · decote · manga) — some enquanto
+- **Ficha técnica em linha** (silhueta · decote · manga): some enquanto
   ninguém classificou nada, que é o estado de hoje
 - **Quantas fotos o vestido tem**, a partir de três. É informação de quem
   VENDE: com a noiva do lado, saber que um vestido tem seis fotos e outro tem
@@ -75,7 +75,7 @@ de aparecer nomeada.
 como a escolha acontece de pé na loja. A noiva chega dizendo "nada tomara que
 caia" e isso corta metade do acervo antes de ela olhar foto.
 
-Por isso são campo, e não texto na descrição — campo vira filtro. Estão todos
+Por isso são campo, e não texto na descrição. Campo vira filtro. Estão todos
 vazios, e a Danielli preenche pelo painel, em **Vestidos → Ficha técnica**.
 
 Duas regras que valem a pena saber antes de preencher:
@@ -96,7 +96,7 @@ para a noiva. Cinco coisas existem por causa disso.
 - **A folha de contato** (botão de ampliar, ou `?vista=denso`): seis vestidos
   por linha no computador, dois no celular, só foto e nome, 30 por vez. É o
   modo de a noiva apontar.
-- **A busca ignora acento** — "alicia" acha "Alícia" — e enxerga cor,
+- **A busca ignora acento** ("alicia" acha "Alícia") e enxerga cor,
   silhueta, decote, ocasião e numeração, não só o nome. Várias palavras somam:
   "renda manga longa" acha o que tem as três.
 - **Ordenar por nome (A–Z)** existe sempre. Antes o seletor só aparecia com
@@ -117,7 +117,7 @@ vitrine genérica não tomaria:
 
 - a data que se pergunta é a do **casamento**, não "do evento";
 - o próximo passo é a **prova**, nunca a compra;
-- **não existe caminho daqui para festa ou 15 anos** — nem no rodapé. Quem
+- **não existe caminho daqui para festa ou 15 anos**, nem no rodapé. Quem
   está escolhendo vestido de casamento não quer ser oferecida outra coisa;
 - os selos falam em "o dia do seu casamento". A peça de festa tem a frase dela
   (`detalheFesta` em `src/data/selos.ts`);
@@ -130,7 +130,7 @@ vitrine genérica não tomaria:
 O catálogo tem um marcador em cada vestido. A noiva marca enquanto folheia e a
 barra do rodapé transforma isso em **uma** mensagem de WhatsApp com os nomes,
 a data do casamento, o manequim e um link `?provar=…&data=…` que **reabre a
-mesma seleção** do lado da Danielli — os vestidos já ficam separados antes de
+mesma seleção** do lado da Danielli, os vestidos já ficam separados antes de
 a noiva chegar.
 
 **A data é o que muda a resposta.** Sem ela, a primeira mensagem da loja é
@@ -138,7 +138,7 @@ obrigatoriamente uma pergunta: disponibilidade de vestido de aluguel só existe
 em relação a um dia. Com ela, já dá para responder "esses três estão livres,
 vem quinta?".
 
-Data e manequim ficam **junto da lista, não em cada vestido** — ela tem um
+Data e manequim ficam **junto da lista, não em cada vestido**: ela tem um
 casamento só. Preencher na ficha preenche na barra, e vice-versa. Nenhum dos
 dois é obrigatório.
 
@@ -151,7 +151,7 @@ Fica no `localStorage` do navegador da noiva, teto de 12 vestidos. Ver
 ### Prova social: foto + fala
 
 O depoimento aqui não é texto solto: é a **foto da noiva ao lado da fala
-dela**. Uma frase elogiosa sem rosto é indistinguível de texto inventado — e
+dela**. Uma frase elogiosa sem rosto é indistinguível de texto inventado, e
 este projeto já teve depoimento inventado uma vez.
 
 Enquanto a lista está vazia, a seção mostra um **espaço reservado** de moldura
@@ -164,7 +164,7 @@ apareça e não querer o rosto.
 
 ### O que foi esvaziado, e por quê
 
-`google.ts` e `depoimentos.ts` **tinham conteúdo inventado** — 12 avaliações,
+`google.ts` e `depoimentos.ts` **tinham conteúdo inventado**: 12 avaliações,
 uma nota que o Google nunca deu e 4 depoimentos, escritos para o site poder ser
 visto de pé enquanto era prévia interna. Os nomes dos casais em
 `casamentos.ts` também eram inventados.
@@ -173,7 +173,7 @@ Foram esvaziados. Publicar avaliação inventada como real é propaganda enganos
 e nome falso sobre a foto de um casamento real atribui a pessoas identificáveis
 uma identidade que não é delas.
 
-**As seções somem sozinhas quando os dados estão vazios** — é assim que o site
+**As seções somem sozinhas quando os dados estão vazios**: é assim que o site
 fica honesto sem ficar quebrado. Preencher com o real liga tudo de volta.
 
 ### Aviso que não é do site
@@ -201,7 +201,7 @@ npm run dev
 | `npm run preview` | serve o `dist/` para conferir antes do deploy |
 | `npm run lint` | roda o oxlint |
 
-> Ao alterar `tailwind.config.ts`, **reinicie o `npm run dev`** — esse arquivo
+> Ao alterar `tailwind.config.ts`, **reinicie o `npm run dev`**: esse arquivo
 > não recarrega a quente.
 
 ---
@@ -215,8 +215,8 @@ O robô que monta o cartão **não executa JavaScript**. Numa aplicação de pá
 única os três links devolveriam o mesmo `index.html` e portanto o mesmo cartão:
 a noiva e a formanda receberiam previews idênticos.
 
-Por isso cada peça é um HTML de verdade — `index.html`, `catalogo.html`,
-`festa.html`, `admin.html` — com as próprias tags Open Graph escritas no
+Por isso cada peça é um HTML de verdade: `index.html`, `catalogo.html`,
+`festa.html`, `admin.html`, com as próprias tags Open Graph escritas no
 arquivo, e a própria imagem de preview (`og-noiva.jpg`, `og-catalogo.jpg`,
 `og-festa.jpg`, geradas por `node scripts/og.mjs`).
 
@@ -246,7 +246,7 @@ Tudo em **`src/data/pecas.ts`**:
   precoAluguel: null,              // null = "valor sob consulta"
   ocasiao: 'madrinha',             // só em festa
   video: undefined,                // link do YouTube ou arquivo em /public
-  publicado: true,                 // a curadoria — ver abaixo
+  publicado: true,                 // a curadoria. Ver abaixo
   imagens: ['/pecas/aurora-renda-gola-alta.webp'],
   destaque: true,                  // aparece na amostra da apresentação
 }
@@ -260,7 +260,7 @@ nenhuma cliente aparece identificada sem ter autorizado.
 diga silhueta e o detalhe que identifica ("Um ombro só, com babado
 estruturado"), nunca adjetivo de personalidade. E não chute tecido.
 
-### `publicado` — a curadoria
+### `publicado`: a curadoria
 
 Nem todo vestido do acervo entra no catálogo que a cliente recebe: a regra da
 Danielli é que só entra o que tem foto profissional. O acervo interno pode (e
@@ -268,7 +268,7 @@ deve) ser maior que o catálogo publicado.
 
 Quem enxerga o quê:
 
-- **tela de cliente** chama `publicadas()` antes de qualquer outra coisa —
+- **tela de cliente** chama `publicadas()` antes de qualquer outra coisa,
   catálogo, apresentação, ficha, "vistos recentemente" e sitemap;
 - **tela de painel** usa a lista crua, porque lá o ponto é ver e mexer no que
   está oculto.
@@ -283,21 +283,21 @@ valor de aluguel é erro que a cliente só descobre dentro da loja.
 
 A máquina inteira já existe em volta do vazio. Preencher um número acende o
 valor no card, na ficha, no cálculo do cupom e a ordenação por preço no
-catálogo — que hoje fica escondida.
+catálogo, que hoje fica escondida.
 
 ---
 
 ## Celular primeiro
 
-É onde a maioria abre — o link vai colado numa conversa de WhatsApp. O peso da
+É onde a maioria abre, o link vai colado numa conversa de WhatsApp. O peso da
 apresentação saiu de **7,9 MB para 1,9 MB** no celular, sem tirar conteúdo:
 
 | o que | como |
 | --- | --- |
-| vídeos: 7,4 → 1,9 MB | versão de 540px para tela estreita (`-540.mp4`), e carrossel horizontal no lugar dos três empilhados — só o primeiro entra na tela, os outros dois só baixam se ela arrastar |
+| vídeos: 7,4 → 1,9 MB | versão de 540px para tela estreita (`-540.mp4`), e carrossel horizontal no lugar dos três empilhados. Só o primeiro entra na tela, os outros dois só baixam se ela arrastar |
 | fotos dos casamentos: 854 → 434 KB | duas larguras (400 e 900) com `srcset` e um `sizes` por tamanho de quadro. Antes, um quadro de 160px recebia a foto de 900 |
 | alvos de toque | 44px no marcador "quero provar", no ícone do Instagram do topo e na pausa dos vídeos; 36–40px nos links de texto |
-| a pausa dos vídeos | era `opacity-0 group-hover` — **não existia no toque**, e ela é exigência de acessibilidade. Agora é visível no celular e escondida no computador |
+| a pausa dos vídeos | era `opacity-0 group-hover`: **não existia no toque**, e ela é exigência de acessibilidade. Agora é visível no celular e escondida no computador |
 
 O limiar do observador dos vídeos é 0,4 e não 0,25 por causa do carrossel: o
 vídeo seguinte fica com 22% à mostra, e um limiar menor disparava o download de
@@ -322,7 +322,7 @@ os pais, a igreja, a festa. Mexer lá muda a sequência na tela.
 
 **Ficou de fora:** mesa de doces, bar, decoração e retratos de convidados (o
 conjunto "Fornecedores" existe porque o mesmo pacote vai para o buffet e o
-decorador), e **qualquer foto com o nome do casal legível** — bastidor
+decorador), e **qualquer foto com o nome do casal legível**: bastidor
 bordado, placa, cardápio. O campo `casal` está vazio esperando autorização do
 nome; deixar o nome aparecer dentro da foto publicaria o que aquele campo
 vazio está segurando.
@@ -339,19 +339,19 @@ que é servido soma **7,4 MB**, incluindo os pôsteres.
 node scripts/videos.mjs   # lê videos-originais/ → escreve public/videos/
 ```
 
-Os originais ficam em `videos-originais/`, **fora do Git** — 33 MB que nunca
+Os originais ficam em `videos-originais/`, **fora do Git**: 33 MB que nunca
 são servidos, guardados só para permitir reencodar com outro alvo sem pedir os
 arquivos de novo.
 
 O script tira a faixa de áudio (autoplay só existe mudo, então ela era peso
-puro), comprime em CRF 31 — calibrado quadro a quadro contra o original, a
-pedraria e a renda sobrevivem — e gera um pôster `.webp` de cada um.
+puro), comprime em CRF 31. Calibrado quadro a quadro contra o original, a
+pedraria e a renda sobrevivem, e gera um pôster `.webp` de cada um.
 
 **Onde cada um está:**
 
 | arquivo | onde | por quê |
 | --- | --- | --- |
-| `atelier.mp4` | folha "Quem atende" | panorâmica pelos manequins: prova que existe loja e acervo de verdade. **A Danielli não aparece nele** — o retrato dela continua faltando |
+| `atelier.mp4` | folha "Quem atende" | panorâmica pelos manequins: prova que existe loja e acervo de verdade. **A Danielli não aparece nele**: o retrato dela continua faltando |
 | `editorial-1/2/3.mp4` | folha "De perto, e em movimento" | tríptico sobre preto, entre "O que está incluído" e a amostra do acervo |
 
 **Vertical não vai para a abertura.** 9:16 numa tela larga é cortar dois terços
@@ -365,10 +365,10 @@ Nada baixa antes de entrar na tela, e o vídeo pausa ao sair. Com
 
 Dois caminhos, os dois com tabela versionada no Git:
 
-**Instagram** (`scripts/importar-instagram.mjs`) — a tabela `MAPA` traduz o
+**Instagram** (`scripts/importar-instagram.mjs`): a tabela `MAPA` traduz o
 número da foto no dump para o caminho que o site usa.
 
-**Fotógrafos** (`scripts/importar-fotografos.mjs`) — três passos, e o do meio é
+**Fotógrafos** (`scripts/importar-fotografos.mjs`): três passos, e o do meio é
 humano:
 
 ```bash
@@ -379,7 +379,7 @@ node scripts/importar-fotografos.mjs            # processa só o escolhido
 
 O passo humano existe porque os fotógrafos entregam a cobertura inteira do
 casamento, não um catálogo. No conjunto "Fornecedores - Thamiris e Rodrigo" são
-185 fotos e a maioria é maquiagem, sapato do noivo, decoração e mesa de doces —
+185 fotos e a maioria é maquiagem, sapato do noivo, decoração e mesa de doces,
 o pacote vai para todos os fornecedores da festa. Um import cego jogaria
 bandeja de frios no catálogo de noiva.
 
@@ -387,7 +387,7 @@ A tabela `SELECAO` já está preenchida com **24 vestidos de noiva** (48 fotos)
 tirados do conjunto de vestidos. Ficaram de fora, e é decisão a levar para a
 Danielli:
 
-- **20 fotos com marca d'água de outra loja** — VIASPOSA, RAINHA, IDEAL noivas
+- **20 fotos com marca d'água de outra loja**: VIASPOSA, RAINHA, IDEAL noivas
   e CENTER NOIVAS. São fotos de catálogo dos fornecedores e estão entre as
   melhores do lote, mas a marca de outra loja dentro do catálogo dela derruba
   justamente a autoridade que ele existe para construir. Pedir a versão limpa
@@ -396,7 +396,7 @@ Danielli:
   material de catálogo de noiva.
 
 O script gira pelo EXIF, corta em **3:4** e converte para WebP com no máximo
-1600px. Foto muito fora de 3:4 perderia mais de 25% no corte — nesse caso ela
+1600px. Foto muito fora de 3:4 perderia mais de 25% no corte, nesse caso ela
 ganha fundo desfocado nas laterais em vez de ser cortada, para o vestido
 aparecer inteiro.
 
@@ -418,7 +418,7 @@ Quem abre vê uma faixa no topo, guardada no navegador por 30 dias, e o código
 entra na mensagem do WhatsApp. **Não há checkout**: o cupom é um recado para a
 loja saber por onde a cliente chegou.
 
-O código é revalidado a cada carregamento — cupom vencido ou desativado para de
+O código é revalidado a cada carregamento, cupom vencido ou desativado para de
 valer sozinho.
 
 ---
@@ -428,7 +428,7 @@ valer sozinho.
 A edição do painel é mesclada **campo a campo** sobre o código, e não substitui
 a lista inteira. Antes, quem mexesse no painel em março ficava com o catálogo
 congelado em março: vestido novo no código não chegava, e campo novo em
-vestido antigo também não — foi assim que a capa sumiu num teste, porque a
+vestido antigo também não, foi assim que a capa sumiu num teste, porque a
 Aurora salva no painel não tinha o campo `hero`.
 
 Agora o código é a base e a edição dela é a camada de cima. O que ela editou
@@ -440,7 +440,7 @@ carregamento.
 
 Feito para o **celular**: a Danielli não tem computador. Navegação fixa no
 rodapé, cartões em vez de tabela, e o interruptor de publicar em primeiro
-plano — é a ação que ela mais vai repetir.
+plano, é a ação que ela mais vai repetir.
 
 O que ele **ainda não** é:
 
@@ -452,7 +452,7 @@ O que ele **ainda não** é:
 
 **Os três buracos são o mesmo trabalho**, e é o próximo passo do projeto: banco
 + storage de imagem + login. A camada `src/lib/loja.ts` é onde isso se costura
-— as telas não mudam, porque nenhuma delas importa os dados direto.
+as telas não mudam, porque nenhuma delas importa os dados direto.
 
 Enquanto isso, o painel serve para decidir o que vale construir, e avisa isso
 na própria tela.
@@ -494,7 +494,7 @@ de onde vem a lista de vestidos.
 
 ### Cores
 
-Trios de canais RGB, não hex — é o único formato em que o Tailwind injeta
+Trios de canais RGB, não hex. É o único formato em que o Tailwind injeta
 transparência. Com hex, `text-preto/70` falha em silêncio.
 
 | cor | hex | uso | fatia |

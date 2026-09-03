@@ -3,13 +3,13 @@ import Revelar from './Revelar'
 import VideoVertical from './VideoVertical'
 
 /**
- * O tríptico — três vestidos em movimento, sobre preto.
+ * O tríptico, três vestidos em movimento, sobre preto.
  *
  * POR QUE ESTA FOLHA EXISTE
  * -------------------------
  * É o argumento da própria marca, cumprido em vez de afirmado. A página já
  * diz, com todas as letras, que "vestido bonito na foto e vestido bonito nela
- * são coisas diferentes" — e até aqui provava isso só com fotos. O vídeo é o
+ * são coisas diferentes", e até aqui provava isso só com fotos. O vídeo é o
  * que fecha a dúvida de caimento: o brilho do bordado muda com a luz, o tule
  * pesa, a cauda arrasta. Nada disso existe numa imagem parada.
  *
@@ -17,7 +17,7 @@ import VideoVertical from './VideoVertical'
  * -------------------
  * Duas razões, e nenhuma é estética pura. A primeira é que vídeo se vê melhor
  * sem luz em volta: fundo claro rebaixa o contraste de um marfim sobre marfim,
- * que é exatamente o que estes vídeos têm. A segunda é ritmo — esta é a
+ * que é exatamente o que estes vídeos têm. A segunda é ritmo, esta é a
  * segunda batida escura da apresentação, e ela cai entre duas folhas claras.
  *
  * POR QUE TRÊS LADO A LADO
@@ -28,8 +28,7 @@ import VideoVertical from './VideoVertical'
  *
  * NO CELULAR É CARROSSEL, E O MOTIVO É PESO
  * -----------------------------------------
- * Empilhados, os três entravam na tela um depois do outro conforme ela rolava
- * — e os três baixavam. São 6,7 MB numa peça que é aberta no 4G, no meio de
+ * Empilhados, os três entravam na tela um depois do outro conforme ela rolava, e os três baixavam. São 6,7 MB numa peça que é aberta no 4G, no meio de
  * uma conversa de WhatsApp. Também eram três telas cheias de vídeo para passar
  * antes de chegar ao resto da apresentação.
  *
@@ -37,7 +36,7 @@ import VideoVertical from './VideoVertical'
  * dois não baixam enquanto ela não arrastar. Quem quer ver vê; quem não quer
  * não paga.
  *
- * Os quadros ocupam 78% da largura de propósito — o pedaço do vizinho
+ * Os quadros ocupam 78% da largura de propósito, o pedaço do vizinho
  * aparecendo na borda é o que diz que dá para arrastar. Em 100% pareceria um
  * vídeo só.
  */
@@ -67,7 +66,7 @@ export default function SecaoVestidosEmMovimento() {
           `-mx-6 px-6` sangra a rolagem até a borda da tela: sem isso o
           carrossel para na margem do container e o vídeo do lado fica cortado
           no meio do nada. As larguras são PORCENTAGEM do container, e não
-          `vw` — dentro de um container que rola de lado, `vw` ignora a barra
+          `vw`, dentro de um container que rola de lado, `vw` ignora a barra
           de rolagem e devolve a rolagem lateral da página inteira.
         */}
         <ul

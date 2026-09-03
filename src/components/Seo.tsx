@@ -11,7 +11,7 @@ interface SeoProps {
   /**
    * Sobrescreve o caminho da URL canônica.
    *
-   * Por padrão a canônica é o pathname, o que joga fora a query string — e é
+   * Por padrão a canônica é o pathname, o que joga fora a query string, e é
    * o certo para o catálogo, onde cor, numeração e busca são recortes da
    * mesma página. Se cada combinação de filtro virasse endereço próprio, o
    * buscador acharia dezenas de páginas quase idênticas disputando entre si.
@@ -26,12 +26,12 @@ interface SeoProps {
 /**
  * Metadados por rota.
  *
- * O React 19 eleva `<title>` e `<meta>` para o <head> sozinho — por isso não há
+ * O React 19 eleva `<title>` e `<meta>` para o <head> sozinho, por isso não há
  * react-helmet aqui. Vale saber do limite: isso roda no cliente, então serve ao
  * Google (que executa JS), mas NÃO aos robôs de preview do WhatsApp e do
  * Facebook, que não executam JS. O cartão que eles montam vem das tags
- * estáticas escritas à mão no HTML de cada peça — index.html, catalogo.html e
- * festa.html —, e é por isso que as peças são quatro arquivos separados.
+ * estáticas escritas à mão no HTML de cada peça, index.html, catalogo.html e
+ * festa.html, e é por isso que as peças são quatro arquivos separados.
  */
 export default function Seo({
   titulo,

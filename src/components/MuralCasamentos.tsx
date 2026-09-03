@@ -6,7 +6,7 @@ import { movimentoReduzido } from '../lib/movimento'
 import { cn } from '../lib/utils'
 
 /**
- * O MOSAICO — quadros de três tamanhos.
+ * O MOSAICO, quadros de três tamanhos.
  *
  * Uma grade de quadros iguais é uma planilha de fotos. O que dá ritmo é a
  * diferença de tamanho: uma foto grande puxa o olho, as pequenas ao redor
@@ -18,7 +18,7 @@ import { cn } from '../lib/utils'
  * Não é coincidência: as alturas de linha foram escolhidas para que
  * `1 coluna × 2 linhas`, `2 × 4` e `3 × 6` caiam todas na mesma proporção das
  * fotos. Sem isso, o quadro pequeno seria uma tira horizontal e mostraria uma
- * faixa do meio da noiva — sem cabeça e sem saia.
+ * faixa do meio da noiva, sem cabeça e sem saia.
  *
  * O TERCEIRO TAMANHO SÓ EXISTE EM TELA LARGA
  * ------------------------------------------
@@ -34,7 +34,7 @@ import { cn } from '../lib/utils'
   uma ou duas colunas, e eles se acomodam sozinhos sem deixar vão.
 
   A partir de 1280px a posição é DITADA. Com peças de três larguras num grid
-  de seis colunas, o encaixe automático — mesmo com `dense` — deixava duas
+  de seis colunas, o encaixe automático, mesmo com `dense`, deixava duas
   linhas de buraco: ele acomoda cada peça no primeiro lugar em que ela cabe,
   e "cabe" não é o mesmo que "fecha o desenho". Escrito à mão, o mosaico
   fecha exatamente em doze linhas.
@@ -48,7 +48,7 @@ const MEDIA = 'col-span-1 row-span-2'
 const PEQUENA = 'col-span-1 row-span-2'
 
 /*
-  `sizes` DIZ AO NAVEGADOR DE QUE TAMANHO O QUADRO VAI SER — antes de a folha
+  `sizes` DIZ AO NAVEGADOR DE QUE TAMANHO O QUADRO VAI SER, antes de a folha
   de estilo existir, que e quando ele decide qual arquivo buscar.
 
   Sem isto, ele assume a largura da janela inteira e baixa a foto de 900px
@@ -68,7 +68,7 @@ interface Formato {
 }
 
 const FORMATOS: Formato[] = [
-  /* Bloco 1 — a grande à esquerda. */
+  /* Bloco 1, a grande à esquerda. */
   { classe: `${GRANDE} xl:col-start-1 xl:col-span-3 xl:row-start-1 xl:row-span-6`, sizes: GRANDE_SIZES },
   { classe: `${MEDIA} xl:col-start-4 xl:col-span-2 xl:row-start-1 xl:row-span-4`, sizes: MEDIA_SIZES },
   { classe: `${PEQUENA} xl:col-start-6 xl:col-span-1 xl:row-start-1 xl:row-span-2`, sizes: PEQUENA_SIZES },
@@ -76,7 +76,7 @@ const FORMATOS: Formato[] = [
   { classe: `${PEQUENA} xl:col-start-4 xl:col-span-1 xl:row-start-5 xl:row-span-2`, sizes: PEQUENA_SIZES },
   { classe: `${PEQUENA} xl:col-start-5 xl:col-span-1 xl:row-start-5 xl:row-span-2`, sizes: PEQUENA_SIZES },
   { classe: `${PEQUENA} xl:col-start-6 xl:col-span-1 xl:row-start-5 xl:row-span-2`, sizes: PEQUENA_SIZES },
-  /* Bloco 2 — a grande à direita. */
+  /* Bloco 2, a grande à direita. */
   { classe: `${MEDIA} xl:col-start-1 xl:col-span-2 xl:row-start-7 xl:row-span-4`, sizes: MEDIA_SIZES },
   { classe: `${PEQUENA} xl:col-start-3 xl:col-span-1 xl:row-start-7 xl:row-span-2`, sizes: PEQUENA_SIZES },
   { classe: `${PEQUENA} xl:col-start-3 xl:col-span-1 xl:row-start-9 xl:row-span-2`, sizes: PEQUENA_SIZES },
@@ -91,7 +91,7 @@ const QUADROS = FORMATOS.length
 /**
  * De quanto em quanto tempo UM quadro troca.
  *
- * Não é o tempo que cada foto fica — é o intervalo entre trocas no mosaico
+ * Não é o tempo que cada foto fica, é o intervalo entre trocas no mosaico
  * inteiro. Com catorze quadros e 900 ms, cada um fica cerca de treze segundos,
  * e a cada instante só um está mudando.
  */
@@ -102,7 +102,7 @@ interface MuralCasamentosProps {
 }
 
 /**
- * O mural — várias fotos trocando ao mesmo tempo.
+ * O mural, várias fotos trocando ao mesmo tempo.
  *
  * COMO ISTO CHEGOU AQUI
  * ---------------------
@@ -113,18 +113,18 @@ interface MuralCasamentosProps {
  *  2. Uma sequência grande por casamento, com setas, pausa, contador e barra
  *     de progresso. Virou player de vídeo, e isto não é vídeo.
  *  3. Duas sequências lado a lado, sem moldura. Melhor, mas com duas fotos na
- *     tela inteira a parede quase não se move — parece uma imagem só.
+ *     tela inteira a parede quase não se move, parece uma imagem só.
  *  4. Oito quadros iguais em grade. Movimento resolvido, ritmo não: grade
  *     uniforme é planilha de fotos.
  *
- * Agora são catorze quadros de três tamanhos, trocando em rodízio — o mosaico
+ * Agora são catorze quadros de três tamanhos, trocando em rodízio, o mosaico
  * de antes, só que vivo.
  *
  * UM DE CADA VEZ, EM RODÍZIO
  * --------------------------
  * Um relógio só, que a cada 900 ms troca UM quadro e passa a vez adiante. Se
  * os catorze tivessem cronômetro próprio, mais cedo ou mais tarde eles cairiam em
- * sincronia e a parede piscaria inteira — que é o efeito de máquina que este
+ * sincronia e a parede piscaria inteira, que é o efeito de máquina que este
  * bloco não pode ter. Em rodízio, o movimento nunca para e nunca chama a
  * atenção para si.
  *
@@ -143,7 +143,7 @@ export default function MuralCasamentos({ casamentos }: MuralCasamentosProps) {
 
   /*
     O mosaico é dividido em catorze pilhas de fotos. Cada quadro percorre a sua e
-    só a sua — assim uma foto nunca aparece em dois lugares ao mesmo tempo,
+    só a sua, assim uma foto nunca aparece em dois lugares ao mesmo tempo,
     que é o defeito mais visível que um mural destes pode ter.
   */
   const pilhas = useMemo(() => dividir(casamentos, QUADROS), [casamentos])
@@ -190,12 +190,12 @@ export default function MuralCasamentos({ casamentos }: MuralCasamentosProps) {
         `grid-flow-dense` é o que fecha os buracos: com quadros de três
         tamanhos, a colocação normal deixa vãos toda vez que o próximo quadro
         não cabe no espaço que sobrou. O preço é a ordem visual não seguir
-        exatamente a do DOM — irrelevante aqui, onde as fotos são decorativas.
+        exatamente a do DOM, irrelevante aqui, onde as fotos são decorativas.
 
         A ALTURA DA LINHA MUDA JUNTO COM O NÚMERO DE COLUNAS, e é isso que
         mantém os quadros em pé. A proporção de um quadro é largura da coluna
         contra duas linhas: aumentar a tela sem aumentar a linha engorda a
-        coluna e o quadro vira faixa horizontal — que numa foto de noiva
+        coluna e o quadro vira faixa horizontal, que numa foto de noiva
         mostra o meio do vestido, sem cabeça e sem saia. Por isso a contagem
         de colunas sobe (2 → 4 → 6) e a linha acompanha.
       */}
@@ -224,7 +224,7 @@ export default function MuralCasamentos({ casamentos }: MuralCasamentosProps) {
       {/*
         O único controle, e ele é obrigação: conteúdo que se move sozinho por
         mais de cinco segundos precisa de um jeito de parar (WCAG 2.2.2).
-        Discreto de propósito — o assunto da seção são as fotos, não o botão.
+        Discreto de propósito, o assunto da seção são as fotos, não o botão.
       */}
       {!semMovimento && (
         <div className="mt-6 flex justify-center">
@@ -263,7 +263,7 @@ function Quadro({
 }) {
   /*
     Só o que já apareceu, mais a próxima, fica no DOM. A próxima entra com
-    opacidade zero justamente para o navegador buscá-la antes da hora —
+    opacidade zero justamente para o navegador buscá-la antes da hora,
     senão cada troca começaria com um quadro em branco.
   */
   const proxima = fotos.length > 0 ? (atual + 1) % fotos.length : 0

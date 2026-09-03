@@ -20,7 +20,7 @@ interface BotaoWhatsappProps {
 
 /**
  * Único caminho de contato do site. Abre o WhatsApp em nova aba com a
- * mensagem já escrita — a cliente só precisa apertar enviar.
+ * mensagem já escrita, a cliente só precisa apertar enviar.
  */
 export default function BotaoWhatsapp({
   mensagem,

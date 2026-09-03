@@ -5,7 +5,7 @@ import { pecas as pecasSemente, type Peca } from '../data/pecas.js'
 import { brand } from './brand.js'
 
 /**
- * ESTADO DA LOJA — E O QUE ELE NÃO É
+ * ESTADO DA LOJA: E O QUE ELE NÃO É
  * ==================================
  *
  * Este arquivo é a espinha da prévia. Ele junta três coisas:
@@ -24,8 +24,8 @@ import { brand } from './brand.js'
  *   - dois computadores enxergam catálogos diferentes;
  *   - o build (sitemap, JSON-LD) continua lendo só a semente.
  *
- * Serve para demonstrar as telas e o fluxo — "é assim que vai ser cadastrar
- * um vestido" — e para experimentar conteúdo sem mexer em código. Publicar
+ * Serve para demonstrar as telas e o fluxo: "é assim que vai ser cadastrar
+ * um vestido", e para experimentar conteúdo sem mexer em código. Publicar
  * de verdade continua sendo editar src/data/ e fazer deploy, até existir um
  * backend. O painel avisa isso na própria tela.
  */
@@ -108,7 +108,7 @@ export function carregar(): EstadoPersistido {
  * consequências que só aparecem com o tempo:
  *
  *  1. **Vestido novo no código não chegava nela.** Se ela mexeu no painel em
- *     março, o catálogo dela ficou congelado em março — as peças que
+ *     março, o catálogo dela ficou congelado em março, as peças que
  *     entrassem depois simplesmente não existiam do lado dela.
  *  2. **Campo novo em vestido antigo também não.** Foi assim que a capa do
  *     catálogo sumiu em teste: a Aurora salva no painel não tinha o campo

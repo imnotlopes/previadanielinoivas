@@ -43,7 +43,7 @@ export default function SecaoAvaliacoes() {
         {/*
           Carrossel horizontal com scroll nativo: arrasta no touch, roda o
           shift+scroll no desktop e o teclado navega pelos cards porque cada
-          um é focável. Sem biblioteca e sem autoplay — quem lê avaliação
+          um é focável. Sem biblioteca e sem autoplay, quem lê avaliação
           quer controlar o próprio ritmo.
 
           O `snap` prende cada card na borda esquerda. Os cards têm altura

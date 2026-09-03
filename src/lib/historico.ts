@@ -2,7 +2,7 @@
  * Histórico de vestidos vistos, guardado no navegador da visitante.
  *
  * Fica em `localStorage` e não em cookie de propósito: é informação só dela,
- * não precisa ir para servidor nenhum, e o site é estático — não há servidor
+ * não precisa ir para servidor nenhum, e o site é estático, não há servidor
  * para receber.
  *
  * Nada aqui identifica a pessoa. É uma lista de slugs no aparelho dela.
@@ -29,7 +29,7 @@ export function lerHistorico(): string[] {
 /**
  * Põe o vestido no topo do histórico.
  *
- * Se ele já estava na lista, sobe em vez de duplicar — o que interessa é a
+ * Se ele já estava na lista, sobe em vez de duplicar, o que interessa é a
  * última vez que ela olhou, não quantas vezes.
  */
 export function registrarVisto(slug: string): void {

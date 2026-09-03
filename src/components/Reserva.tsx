@@ -11,7 +11,7 @@ interface ReservaProps {
 /**
  * Bloco de agendamento da ficha: manequim, data e o botão do WhatsApp.
  *
- * OS CAMPOS SÃO OS MESMOS DA LISTA DE PROVA — literalmente.
+ * OS CAMPOS SÃO OS MESMOS DA LISTA DE PROVA, literalmente.
  * ---------------------------------------------------------
  * Antes eram estado local desta tela, e o resultado é que uma noiva que
  * abrisse cinco fichas digitava a data do casamento cinco vezes. Ela tem um
@@ -19,7 +19,7 @@ interface ReservaProps {
  * então preencher aqui preenche na barra da lista, e vice-versa.
  *
  * Os dois existem para qualificar a conversa. Sem eles a loja recebe "oi,
- * tenho interesse" e gasta duas mensagens perguntando manequim e data — com
+ * tenho interesse" e gasta duas mensagens perguntando manequim e data, com
  * eles, a resposta já pode ser "esse está livre no seu dia, vem quinta?".
  *
  * NENHUM CAMPO É OBRIGATÓRIO, de propósito. Exigir preenchimento antes de
@@ -30,7 +30,7 @@ interface ReservaProps {
  * a pedir o que o acervo não tem.
  *
  * O link é remontado a cada tecla e o elemento continua sendo um `<a>` de
- * verdade — o WhatsApp abre pela navegação nativa, e não por `window.open`,
+ * verdade, o WhatsApp abre pela navegação nativa, e não por `window.open`,
  * que bloqueador de pop-up derruba no celular.
  */
 export default function Reserva({ peca }: ReservaProps) {

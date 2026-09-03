@@ -7,7 +7,7 @@ import ScrollToTop from '../components/ScrollToTop'
 import { montar } from './comum'
 
 /**
- * Peça 3 — festa e formatura: apresentação curta E acervo no mesmo link.
+ * Peça 3, festa e formatura: apresentação curta E acervo no mesmo link.
  *
  * Não é economia de trabalho, é o pedido da loja. Noiva e festa são clientes
  * diferentes, com sazonalidade diferente, e a de festa não passa por um

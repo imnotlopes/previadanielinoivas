@@ -96,8 +96,8 @@ export default function PainelConfiguracoes() {
             placeholder="Timóteo, MG"
           />
           <p className="mt-2 text-sm text-preto/60">
-            No formato "Cidade, UF". É o termo que mais traz cliente na busca —
-            "aluguel de vestido de noiva em…".
+            No formato "Cidade, UF". É o termo que mais traz cliente na
+            busca: "aluguel de vestido de noiva em…".
           </p>
         </div>
 

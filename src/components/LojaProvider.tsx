@@ -23,7 +23,7 @@ import {
  * quente do Vite. As funções, os tipos e os ganchos ficam no lib; o
  * componente fica neste arquivo, sozinho.
  *
- * O que este estado é — e o que ele não é — está documentado em lib/loja.ts.
+ * O que este estado é, e o que ele não é, está documentado em lib/loja.ts.
  */
 export function LojaProvider({ children }: { children: ReactNode }) {
   const [estado, setEstado] = useState<EstadoPersistido>(semente)

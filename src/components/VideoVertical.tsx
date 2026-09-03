@@ -28,14 +28,14 @@ interface VideoVerticalProps {
  * DUAS VERSÕES DO MESMO VÍDEO
  * ---------------------------
  * A de 540px vai para telas estreitas, a de 720px para o resto. É metade dos
- * bytes num bloco que responde por quase todo o peso da apresentação — e a
+ * bytes num bloco que responde por quase todo o peso da apresentação, e a
  * maioria das noivas abre isto no celular, no 4G.
  *
  * NADA BAIXA ANTES DE ENTRAR NA TELA
  * ----------------------------------
  * `preload="none"` e o `src` só é preenchido quando o bloco chega ao campo de
  * visão. Três vídeos de ~2,5 MB carregados de largada seriam 7 MB gastos por
- * uma noiva que talvez pare na terceira folha — e esta apresentação vive de
+ * uma noiva que talvez pare na terceira folha, e esta apresentação vive de
  * ser aberta no 4G, no meio de uma conversa de WhatsApp.
  *
  * E PAUSA AO SAIR
@@ -47,13 +47,13 @@ interface VideoVerticalProps {
  * ------------
  * Não é escolha estética: navegador nenhum deixa um vídeo com som começar
  * sozinho. Os arquivos já vêm sem faixa de áudio (ver scripts/videos.mjs),
- * então não há nada para desmutar — se um dia entrar vídeo com a Danielli
+ * então não há nada para desmutar, se um dia entrar vídeo com a Danielli
  * falando, ele precisa de outro tratamento: capa e botão de play.
  *
  * ACESSIBILIDADE
  * --------------
  * Conteúdo que se move sozinho por mais de cinco segundos precisa de um jeito
- * de parar (WCAG 2.2.2) — daí o botão de pausa, que aparece no hover e para
+ * de parar (WCAG 2.2.2), daí o botão de pausa, que aparece no hover e para
  * quem navega por teclado. E com `prefers-reduced-motion` o vídeo nem é
  * montado: fica o pôster, que é um quadro do próprio vídeo.
  */
@@ -71,7 +71,7 @@ export default function VideoVertical({
     QUAL ARQUIVO, DECIDIDO UMA VEZ NA MONTAGEM.
 
     `<source media=...>` seria o caminho declarado, mas navegador nenhum o
-    respeita de verdade há anos — a escolha por media query só funciona para
+    respeita de verdade há anos, a escolha por media query só funciona para
     imagem. Como o `src` deste componente já é preenchido por JavaScript
     quando o bloco entra na tela, decidir aqui não custa nada.
 
@@ -102,7 +102,7 @@ export default function VideoVertical({
         40%, e o número tem uma razão precisa: no carrossel do celular o vídeo
         seguinte fica com 22% de largura à mostra, para dizer que dá para
         arrastar. Com um limiar de 25% aquele pedaço às vezes bastava para
-        disparar o download — 1,2 MB de um vídeo que ninguém pediu.
+        disparar o download, 1,2 MB de um vídeo que ninguém pediu.
       */
       { threshold: 0.4 },
     )
@@ -112,7 +112,7 @@ export default function VideoVertical({
   }, [semMovimento])
 
   /* Entrou na tela uma vez: o arquivo passa a valer a pena baixar. Não volta
-     atrás — descarregar e rebaixar a cada rolagem seria pior que manter. */
+     atrás, descarregar e rebaixar a cada rolagem seria pior que manter. */
   useEffect(() => {
     if (naTela) setCarregar(true)
   }, [naTela])
@@ -165,7 +165,7 @@ export default function VideoVertical({
         <>
           <video
             ref={video}
-            /* Vazio até entrar na tela — é isto que segura o download. */
+            /* Vazio até entrar na tela, é isto que segura o download. */
             src={carregar ? arquivo : undefined}
             poster={poster}
             muted
@@ -184,7 +184,7 @@ export default function VideoVertical({
               VISÍVEL NO CELULAR, ESCONDIDO NO COMPUTADOR.
 
               `opacity-0 group-hover` sozinho fazia o botão simplesmente não
-              existir no toque — não há hover num dedo. E ele não é enfeite:
+              existir no toque, não há hover num dedo. E ele não é enfeite:
               é a única forma de parar um vídeo que começa sozinho, que é
               exigência de acessibilidade (WCAG 2.2.2).
 

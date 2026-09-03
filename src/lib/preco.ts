@@ -28,7 +28,7 @@ export interface PrecoCalculado {
  * Preço de um vestido, já considerando o cupom ativo.
  *
  * É a única função do projeto que calcula desconto. Nenhum componente deve
- * multiplicar ou subtrair preço por conta própria — se a regra mudar (cupom
+ * multiplicar ou subtrair preço por conta própria, se a regra mudar (cupom
  * cumulativo, desconto só em festa), muda aqui e vale para o site inteiro.
  *
  * Duas coisas separadas convivem:

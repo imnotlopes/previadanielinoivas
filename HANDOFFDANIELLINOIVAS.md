@@ -1,4 +1,4 @@
-# Handoff — Danielli Noivas
+# Handoff: Danielli Noivas
 
 > Documento de passagem de uma sessão remota (Claude Code na nuvem) para uma
 > sessão local. Contém tudo que foi levantado e decidido: o estado real do
@@ -12,20 +12,20 @@
 
 ## 1. Onde o projeto está
 
-**Repositório:** `imnotlopes/previadanielinoivas` — **público**, default branch
+**Repositório:** `imnotlopes/previadanielinoivas`: **público**, default branch
 `main`, deploy em `previadanielinoivas.vercel.app`.
 
 **Branch de trabalho da sessão remota:** `claude/projeto-sem-arquivos-locais-fsrlnb`
 (idêntica ao remoto, no commit `06992e1 "Adapta o site para a Danielli Noivas,
 loja de aluguel"`).
 
-**Build:** validado e passando. `npm install` + `npm run build` rodam limpos —
+**Build:** validado e passando. `npm install` + `npm run build` rodam limpos,
 TypeScript + Vite, build em ~2s.
 
 Uma observação sobre o `package-lock.json`: rodar `npm install` com npm 10.9.7
 apaga 102 linhas de campos `libc`/`glibc` das dependências opcionais do `sharp`,
 porque o lockfile foi gerado por um npm mais novo. Isso é ruído de versão de
-ferramenta, não mudança real. **Não commite esse diff** — reverta com
+ferramenta, não mudança real. **Não commite esse diff**: reverta com
 `git checkout -- package-lock.json`.
 
 ---
@@ -38,7 +38,7 @@ continua no WhatsApp.
 
 O código nasceu como vitrine de um atelier de costura **sob medida** e foi
 readaptado para a Danielli, que é loja de **aluguel**. A estrutura sobreviveu
-inteira à troca — o que é a prova de que a separação entre `src/data/` e o resto
+inteira à troca, o que é a prova de que a separação entre `src/data/` e o resto
 funciona.
 
 ### Conteúdo atual, conferido
@@ -46,9 +46,9 @@ funciona.
 | item | quantidade |
 |---|---|
 | vestidos em `src/data/pecas.ts` | **27** |
-| — categoria `noiva` | 16 |
-| — categoria `festa` | 6 |
-| — categoria `debutante` | 5 |
+|, categoria `noiva` | 16 |
+|, categoria `festa` | 6 |
+|, categoria `debutante` | 5 |
 | marcados como `destaque` | 6 |
 | fotos em `public/pecas/` | 43 |
 | fotos em `public/casamentos/` | 11 |
@@ -72,11 +72,11 @@ Sem biblioteca de componentes (nada de shadcn/MUI). Tailwind 3.4 e **não** a 4,
 por decisão deliberada: a 4 move a config para dentro do CSS e o projeto foi
 especificado com `tailwind.config.ts` + `theme.extend`.
 
-### As três camadas — e a do meio é o ativo mais importante
+### As três camadas, e a do meio é o ativo mais importante
 
 | camada | onde | o que faz |
 |---|---|---|
-| **conteúdo** | `src/data/*.ts` | a *semente*: peças, cupons, FAQ, casamentos, avaliações, YouTube — versionada no Git |
+| **conteúdo** | `src/data/*.ts` | a *semente*: peças, cupons, FAQ, casamentos, avaliações, YouTube. Versionada no Git |
 | **estado** | `src/lib/loja.ts` + `src/components/LojaProvider.tsx` | junta semente + edições do painel (localStorage) + cupom da visitante |
 | **telas** | `src/pages/`, `src/components/` | leem `useLoja()`, **nunca** importam os dados direto |
 
@@ -94,7 +94,7 @@ hot-reload do Vite.
 
 ```
 /                    Home            (vitrine)
-/catalogo            Catalogo        (filtro por categoria, cor, busca, ordem, paginação — tudo na URL)
+/catalogo            Catalogo        (filtro por categoria, cor, busca, ordem, paginação. Tudo na URL)
 /peca/:slug          Peca            (ficha + galeria)
 /sobre               Sobre
 /como-funciona       ComoFunciona
@@ -103,7 +103,7 @@ hot-reload do Vite.
 ```
 
 Cada página é um `React.lazy`. O `<Suspense>` fica **dentro do Layout, em volta
-do `<Outlet />`** — se ficasse por fora das `<Routes>`, header e rodapé
+do `<Outlet />`**: se ficasse por fora das `<Routes>`, header e rodapé
 sumiriam e voltariam a cada troca de rota.
 
 ### O modelo de dados atual
@@ -135,7 +135,7 @@ que valem manter:
 
 ---
 
-## 3. O brief da cliente (Danielli) — o que ela pediu
+## 3. O brief da cliente (Danielli): o que ela pediu
 
 Chegou por áudio transcrito. Isto é o que ficou definido:
 
@@ -144,7 +144,7 @@ Chegou por áudio transcrito. Isto é o que ficou definido:
 > "não quero mexer com site, por enquanto"
 
 O produto é **material de WhatsApp**: links que ela manda pra cliente no meio da
-conversa. Isso inverte as prioridades — o que importa passa a ser o preview do
+conversa. Isso inverte as prioridades, o que importa passa a ser o preview do
 link, o celular e a curadoria; não SEO nem navegação.
 
 ### 3.2. O fluxo comercial dela
@@ -169,21 +169,21 @@ catálogos separados. Pra mim, não precisa conectar nada."
 | 4 | **Painel** | a Danielli, no celular | cadastrar, publicar, esconder |
 
 Depois: **15 anos / debutante**. (Ela falou "catálogo pra térreo", que é ruído
-de transcrição — logo em seguida diz "depois a gente volta de 15 anos também".)
+de transcrição, logo em seguida diz "depois a gente volta de 15 anos também".)
 
 **Por que festa é separado de noiva:** são clientes diferentes, com sazonalidade
-diferente. Nas palavras dela, "são dois clientes bem separados" — época de
+diferente. Nas palavras dela, "são dois clientes bem separados". Época de
 formanda não é época de noiva. Dentro de festa ela distingue: formanda de alto
 padrão, formatura normal, madrinha e mãe.
 
 Título que ela pediu para essa peça: **"Vestidos de festas e formatura"**.
 
-### 3.4. A frase da marca — obrigatória na apresentação
+### 3.4. A frase da marca, obrigatória na apresentação
 
 > **"A noiva vem pra escolher o vestido, e o vestido acaba escolhendo ela."**
 
 O contexto que ela deu, e que precisa aparecer junto: a noiva chega com um
-vestido salvo no celular, um print — mas só se resolve **no corpo, no espelho**.
+vestido salvo no celular, um print. Mas só se resolve **no corpo, no espelho**.
 É o melhor argumento pra ela sair do celular e vir provar.
 
 ### 3.5. Regra de vocabulário
@@ -193,7 +193,7 @@ vestido salvo no celular, um print — mas só se resolve **no corpo, no espelho
 
 Nas palavras dela: "sempre vamos enfatizar que ela é a noiva".
 
-### 3.6. Curadoria — ela não quer tudo no catálogo
+### 3.6. Curadoria, ela não quer tudo no catálogo
 
 > "eu não queria colocar tudo num catálogo, porque tem modelo que eu não tenho
 > foto profissional dele"
@@ -208,7 +208,7 @@ ser maior que o catálogo que a cliente recebe.
 > eu vou ter que mexer, eu vou ter que comprar um notebook urgente"
 
 **Requisito duro:** o painel precisa ser operável do celular, e precisa ter
-banco de verdade — um painel que grava no `localStorage` do navegador dela não
+banco de verdade, um painel que grava no `localStorage` do navegador dela não
 serve, porque o que ela cadastra tem que chegar no aparelho da cliente.
 
 Ela também pediu para ser ensinada: "você me dá os cortes, você me ensina?
@@ -217,10 +217,10 @@ porque eu sou péssima nessas coisas".
 ### 3.8. Material que ela tem
 
 - **PDFs dos fotógrafos** com noivas reais que casaram usando vestidos dela
-- **Fotos da filha** — sugeridas para a capa, porque "aí eu sei que não vai ter
+- **Fotos da filha**: sugeridas para a capa, porque "aí eu sei que não vai ter
   problema" (autorização)
 - **Vídeos** dos vestidos em modelos, além das fotos
-- **Cor e numeração de todas as fotos** — ela confirmou ter os dois
+- **Cor e numeração de todas as fotos**: ela confirmou ter os dois
 - Coleção de festa e todas as cores que tem
 
 ### 3.9. Perguntas que ela fez, e as respostas
@@ -230,12 +230,12 @@ porque eu sou péssima nessas coisas".
 | Dá pra pôr vídeo no catálogo? | **Sim.** Abre dentro do próprio catálogo, sem mandar separado |
 | Consigo mexer só pelo celular? | **Sim**, se o painel for feito pra celular com banco real. Não precisa comprar notebook |
 | Os catálogos ficam conectados? | **Não.** Links separados. Ligar a apresentação ao catálogo depois é um botão |
-| Quanto custa? | **Não respondido — é o Edson quem responde.** Ela perguntou pra ele |
+| Quanto custa? | **Não respondido, é o Edson quem responde.** Ela perguntou pra ele |
 
 ### 3.10. Ela quer depoimentos e Google
 
 Gostou da ideia de depoimento ("eu acho muito bacana"). Também citou o Google
-como interessante. Ver a seção 5 — o que existe hoje nesses dois arquivos é
+como interessante. Ver a seção 5, o que existe hoje nesses dois arquivos é
 fictício e precisa ser substituído pelo real.
 
 ---
@@ -268,7 +268,7 @@ Depois: **15 anos**.
 
 1. **As seções institucionais saem do `Layout`.** Hoje `SecaoDepoimentos`,
    `SecaoAvaliacoes`, `Faq` e `SecaoMapa` ficam grudadas depois do `<Outlet />`
-   em toda rota — a regra era "qualquer página precisa fechar sozinha", porque
+   em toda rota, a regra era "qualquer página precisa fechar sozinha", porque
    não se controla por onde a visita entra. **Num catálogo isso é ruído:** quem
    está filtrando vestidos não quer FAQ e mapa embaixo da grade. Esse material
    passa a ser das apresentações.
@@ -277,11 +277,11 @@ Depois: **15 anos**.
    catálogo tem casca de ferramenta, enxuta; o painel já tem a sua.
 
 3. **`/sobre` e `/como-funciona`** são dobradas nas apresentações ou aposentadas
-   (decisão em aberto — ver seção 6).
+   (decisão em aberto, ver seção 6).
 
 ---
 
-## 5. Implicações técnicas — as cinco que importam
+## 5. Implicações técnicas, as cinco que importam
 
 ### 5.1. O preview do link vira o item mais importante do projeto
 
@@ -299,7 +299,7 @@ estáticas. Mantém tudo estático e barato na Vercel. Alternativa mais pesada:
 pré-renderizar as rotas (`vite-plugin-ssg`).
 
 Atenção ao mecanismo que já existe: `index.html` tem OG estático marcado com
-`data-seo-estatico`, e `main.tsx` remove essas tags antes do primeiro render —
+`data-seo-estatico`, e `main.tsx` remove essas tags antes do primeiro render,
 senão o documento fica com **duas** `<meta name="description">` e o Google
 considera a estática, genérica. Qualquer mudança na estratégia de SEO precisa
 respeitar isso.
@@ -308,11 +308,11 @@ respeitar isso.
 
 Hoje: sem autenticação (a "entrada" é um botão e `/admin` é endereço público),
 grava em `localStorage`, e o cadastro de fotos é uma `<textarea>` onde se cola
-caminhos — porque as fotos entram por `scripts/importar-instagram.mjs`, não por
+caminhos, porque as fotos entram por `scripts/importar-instagram.mjs`, não por
 upload.
 
 Com a Danielli operando do celular, os três buracos viram o trabalho central.
-**A camada `lib/loja.ts` é onde isso se costura** — as telas não mudam.
+**A camada `lib/loja.ts` é onde isso se costura**: as telas não mudam.
 
 Opção levantada: **Supabase** (banco + storage de imagem + auth). O conector
 estava disponível na sessão remota.
@@ -334,7 +334,7 @@ Numeração é a **segunda pergunta de toda cliente** e hoje não existe no mode
 ### 5.4. Mobile-first dos dois lados
 
 A noiva olha no celular. A Danielli **cadastra** no celular. Não é só
-responsividade do catálogo — o painel inteiro precisa ser pensado para o polegar.
+responsividade do catálogo, o painel inteiro precisa ser pensado para o polegar.
 
 ### 5.5. Pipeline de ingestão de PDF
 
@@ -346,52 +346,52 @@ para o dump do Instagram (tabela `MAPA` traduz o número da foto para o caminho
 que o site usa, e redimensiona para no máximo 1600px no lado maior).
 
 Nota sobre corte: as fotos são exibidas em **3:4** (`aspect-[3/4] object-cover`).
-Foto muito vertical perde altura no corte — uma 1:2,6 mostra só 51% de si mesma,
+Foto muito vertical perde altura no corte, uma 1:2,6 mostra só 51% de si mesma,
 o que corta cabeça e barra do vestido. Quando não há foto melhor, a saída usada
 no projeto foi preencher as laterais com uma versão desfocada e escurecida da
 própria imagem até chegar em 3:4. Ver `marcia-classico-e-elegante.webp`.
 
 ---
 
-## 6. O QUE NÃO PODE IR AO AR — bloqueadores
+## 6. O QUE NÃO PODE IR AO AR, bloqueadores
 
 Estes já estavam no projeto e ficam **graves** agora, porque o material vai
 direto pro WhatsApp de uma cliente:
 
 ### 6.1. As avaliações do Google são fictícias
 
-`src/data/google.ts` — o próprio arquivo avisa em caixa alta: *"NADA neste
+`src/data/google.ts`: o próprio arquivo avisa em caixa alta: *"NADA neste
 arquivo veio do Google. Nota, quantidade de avaliações e os dez depoimentos
 abaixo foram ESCRITOS AQUI."* São 12 avaliações inventadas, mais `nota: 5` e
 `totalAvaliacoes: 38` que o Google nunca deu.
 
 **Publicar isso é propaganda enganosa.** Saídas: transcrever as reais do Perfil
-da Empresa, ou esvaziar `avaliacoesGoogle = []` e zerar `totalAvaliacoes` — a
+da Empresa, ou esvaziar `avaliacoesGoogle = []` e zerar `totalAvaliacoes`: a
 seção some sozinha.
 
 ### 6.2. Os nomes dos casais foram inventados
 
-`src/data/casamentos.ts` — 7 casamentos com nomes fictícios sobre **fotos de
+`src/data/casamentos.ts`: 7 casamentos com nomes fictícios sobre **fotos de
 pessoas reais e identificáveis no dia do casamento delas**. Confirmar nome e
 autorização de cada casal antes de qualquer publicação.
 
 ### 6.3. Os depoimentos são inventados
 
-`src/data/depoimentos.ts` — os 4 foram escritos para o site poder ser visto de
+`src/data/depoimentos.ts`: os 4 foram escritos para o site poder ser visto de
 pé. Substituir por reais (a Danielli quer, e tem) ou esvaziar.
 
 ### 6.4. Contato e identidade em branco
 
 Em `src/lib/brand.ts`:
 
-- `whatsapp: ''` e `whatsappExibicao: ''` — **enquanto vazio, todos os botões de
+- `whatsapp: ''` e `whatsappExibicao: ''`: **enquanto vazio, todos os botões de
   WhatsApp do site caem no Instagram**
-- `cidade: ''` — os títulos de SEO saem sem cidade, que é o termo que mais traz
+- `cidade: ''`: os títulos de SEO saem sem cidade, que é o termo que mais traz
   cliente local
-- `SITE_URL` ainda é um endereço inventado da Vercel — as URLs canônicas e de
+- `SITE_URL` ainda é um endereço inventado da Vercel, as URLs canônicas e de
   Open Graph só ficam corretas depois de apontar pro domínio real
 - `assinatura: 'Sonhos existem para serem realizados'` foi completada a partir
-  de uma bio truncada no Instagram — confirmar a frase com ela
+  de uma bio truncada no Instagram, confirmar a frase com ela
 
 ---
 
@@ -399,33 +399,33 @@ Em `src/lib/brand.ts`:
 
 Foram levantadas na sessão remota e **não foram respondidas**:
 
-1. **Persistência do painel** — Supabase (banco real) · continuar no
+1. **Persistência do painel**: Supabase (banco real) · continuar no
    localStorage por enquanto · Git como banco (painel exporta `src/data`, publicar
    = commit).
    *Observação: o requisito 3.7 (ela só tem celular) praticamente elimina as
    opções 2 e 3.*
 
-2. **Público do catálogo** — só público (cliente navega) · só interno
+2. **Público do catálogo**: só público (cliente navega) · só interno
    (ferramenta de acervo) · os dois, com visões diferentes.
 
 3. **Destino de `/sobre`, `/como-funciona`, depoimentos, FAQ, Google e
-   casamentos** — dobrar nas apresentações · manter as rotas mas tirar do Layout
+   casamentos**: dobrar nas apresentações · manter as rotas mas tirar do Layout
    · aposentar.
 
-4. **Dados de aluguel** — só numeração · numeração + status (disponível /
+4. **Dados de aluguel**: só numeração · numeração + status (disponível /
    alugado / manutenção) · tudo incluindo agenda de reserva por data · nada,
    mantém como vitrine.
    *Observação: o `ARQUITETURA.md` assume hoje, de forma consciente, que "o site
-   não sabe se um vestido está livre numa data" — disponibilidade é assunto da
+   não sabe se um vestido está livre numa data", disponibilidade é assunto da
    conversa no WhatsApp.*
 
 ---
 
-## 8. Material e privacidade — ler antes de mover arquivo
+## 8. Material e privacidade, ler antes de mover arquivo
 
 **O repositório é PÚBLICO.** Confirmado via API do GitHub: `"private": false`.
 
-As 43 fotos já em `public/pecas/` vieram do Instagram — já eram públicas, risco
+As 43 fotos já em `public/pecas/` vieram do Instagram, já eram públicas, risco
 baixo. **O material novo é diferente:** os PDFs dos fotógrafos são noivas reais
 identificáveis no dia do casamento delas, e há fotos da filha da Danielli.
 
@@ -433,23 +433,23 @@ Jogar isso num repositório público publica pra qualquer pessoa na internet, co
 URL permanente e histórico do Git que **não se apaga só deletando o arquivo
 depois**.
 
-O `.gitignore` do projeto já tinha tomado essa decisão de propósito — o dump do
+O `.gitignore` do projeto já tinha tomado essa decisão de propósito, o dump do
 Instagram, os prints das avaliações e o projeto de referência estão todos
 excluídos, com o comentário *"continuam no seu disco, apenas fora do
 repositório"*. **Manter a regra para o material novo.**
 
 Caminhos possíveis, em ordem de recomendação:
 
-1. **Trabalhar localmente** (é o que está sendo feito com este handoff) — os
+1. **Trabalhar localmente** (é o que está sendo feito com este handoff): os
    arquivos estão do lado, sem upload e sem exposição.
-2. **Tornar o repositório privado** — se for preciso versionar o material. Não
+2. **Tornar o repositório privado**: se for preciso versionar o material. Não
    impede o deploy na Vercel.
 3. **Manter o material fora do Git** e commitar só os WebP derivados que forem
-   aprovados para publicação — que é o padrão que o projeto já usa.
+   aprovados para publicação, que é o padrão que o projeto já usa.
 
 ---
 
-## 9. Armadilhas do projeto — registradas para não custarem tempo de novo
+## 9. Armadilhas do projeto, registradas para não custarem tempo de novo
 
 Do `ARQUITETURA.md` §11, vale ter em mente:
 
@@ -462,7 +462,7 @@ Do `ARQUITETURA.md` §11, vale ter em mente:
   `npm run dev`.
 - **`overflow-x: clip`, e não `hidden`, no `html`.** `hidden` na raiz transforma
   o elemento em contêiner de rolagem e quebra o `position: sticky` do cabeçalho.
-- **Nunca dimensione elemento em `vw` dentro de contêiner rolável** — `100vw`
+- **Nunca dimensione elemento em `vw` dentro de contêiner rolável**: `100vw`
   inclui a barra de rolagem e vira estouro horizontal. Os cards do carrossel
   usam `rem`.
 - **iOS Safari dimensiona iframe pelo conteúdo** e ignora largura percentual. O
@@ -481,11 +481,11 @@ suave sobe para 7,71:1. Por isso o botão principal é preto, não dourado.
 
 Sugestão de ordem, do que destrava mais para o que depende de decisão:
 
-1. **Calibrar a ingestão** — abrir 2 ou 3 PDFs dos fotógrafos, ver a qualidade
+1. **Calibrar a ingestão**: abrir 2 ou 3 PDFs dos fotógrafos, ver a qualidade
    real, decidir o corte, e escrever `scripts/importar-pdf.mjs`.
-2. **Fechar as decisões da seção 7** — principalmente a 1 (persistência), que
+2. **Fechar as decisões da seção 7**: principalmente a 1 (persistência), que
    determina todo o resto.
-3. **Separar as três peças** — rotas, cascas, e o build multi-página que resolve
+3. **Separar as três peças**: rotas, cascas, e o build multi-página que resolve
    o preview de WhatsApp (5.1).
 4. **Modelo de dados novo** (5.3) e a migração das 27 peças existentes.
 5. **A apresentação de noiva**, com a frase da marca e o vocabulário da seção 3.5.
@@ -495,14 +495,14 @@ Sugestão de ordem, do que destrava mais para o que depende de decisão:
 
 ### O que perguntar para a Danielli
 
-1. Os **PDFs originais** dos fotógrafos (não print de tela) — resolução importa
+1. Os **PDFs originais** dos fotógrafos (não print de tela): resolução importa
 2. Por vestido: **nome ou código, cor, numeração e categoria** (noiva / festa /
    formatura / madrinha / mãe)
-3. **Quais vestidos NÃO entram** — os sem foto profissional
+3. **Quais vestidos NÃO entram**: os sem foto profissional
 4. As **fotos da filha** para a capa
-5. **Vídeos** — pode ser link do Instagram, se for mais fácil
-6. **Depoimentos reais** — print da conversa no WhatsApp já serve
-7. **Autorização das noivas reais** — um "pode usar" por escrito de cada uma
+5. **Vídeos**: pode ser link do Instagram, se for mais fácil
+6. **Depoimentos reais**: print da conversa no WhatsApp já serve
+7. **Autorização das noivas reais**: um "pode usar" por escrito de cada uma
 8. **WhatsApp oficial e link do Google da loja** (para puxar as avaliações
    verdadeiras)
 9. **Confirmar a assinatura da marca** ("Sonhos existem para serem realizados")
@@ -511,11 +511,11 @@ Sugestão de ordem, do que destrava mais para o que depende de decisão:
 
 ## 11. Documentos do próprio projeto
 
-Vale ler antes de mexer — são densos e explicam o *porquê* de cada decisão:
+Vale ler antes de mexer, são densos e explicam o *porquê* de cada decisão:
 
-- **`ARQUITETURA.md`** (586 linhas) — o que foi decidido, por quê, e onde cada
+- **`ARQUITETURA.md`** (586 linhas): o que foi decidido, por quê, e onde cada
   decisão mora no código. As seções mais úteis agora: §1 (escopo), §5-A (a
   camada de estado), §9 (SEO em duas camadas), §11 (armadilhas), §13 (em aberto).
-- **`README.md`** (360 linhas) — operação: trocar telefone, adicionar vestido,
+- **`README.md`** (360 linhas): operação: trocar telefone, adicionar vestido,
   subir para a Vercel. A primeira tabela lista todo o conteúdo de prévia que
   precisa ser substituído.

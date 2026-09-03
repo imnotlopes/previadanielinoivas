@@ -7,7 +7,7 @@
  * =======================
  * Quando a Danielli cola um link no WhatsApp, o robô monta um cartão com a
  * imagem que o HTML daquela peça declara. Se as três peças apontassem para a
- * mesma imagem, a noiva e a formanda receberiam cartões idênticos — e o motivo
+ * mesma imagem, a noiva e a formanda receberiam cartões idênticos, e o motivo
  * de existirem três links separados se perderia logo na primeira impressão.
  *
  * O cartão é a primeira impressão, antes de qualquer clique. Cada uma destas
@@ -40,7 +40,7 @@ const PECAS = [
       Dois painéis, e não um retrato só.
 
       Uma foto 3:4 cortada em 1200x630 vira uma faixa horizontal estreita: com
-      `position: 'top'` sobra o rosto e o vestido some — justamente o que a
+      `position: 'top'` sobra o rosto e o vestido some, justamente o que a
       peça vende. Com dois painéis cabe o rosto E o vestido inteiro, que é a
       dupla que faz a noiva abrir o link.
     */

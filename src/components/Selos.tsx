@@ -3,7 +3,7 @@ import { selos } from '../data/selos'
 interface SelosProps {
   /**
    * Quem está lendo. Padrão `noiva`, que é o público de três das quatro
-   * peças — e o único lugar onde `festa` importa é a ficha de um vestido de
+   * peças, e o único lugar onde `festa` importa é a ficha de um vestido de
    * festa. Ver `detalheFesta` em data/selos.ts.
    */
   publico?: 'noiva' | 'festa'

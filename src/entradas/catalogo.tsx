@@ -6,7 +6,7 @@ import CascaCatalogo from '../components/CascaCatalogo'
 import ScrollToTop from '../components/ScrollToTop'
 import { montar } from './comum'
 
-/** Peça 2 — o acervo de noiva, mandado depois que ela demonstra interesse. */
+/** Peça 2, o acervo de noiva, mandado depois que ela demonstra interesse. */
 const CatalogoNoiva = lazy(() => import('../pages/CatalogoNoiva'))
 const Peca = lazy(() => import('../pages/Peca'))
 

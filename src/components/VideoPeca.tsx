@@ -11,7 +11,7 @@ interface VideoPecaProps {
  * Vídeo do vestido em movimento.
  *
  * Vestido parado na foto e vestido andando são coisas diferentes, e é o vídeo
- * que fecha a dúvida sobre caimento — foi por isso que a Danielli pediu vídeo
+ * que fecha a dúvida sobre caimento, foi por isso que a Danielli pediu vídeo
  * dentro do catálogo, em vez de mandar separado no WhatsApp.
  *
  * NADA CARREGA ANTES DO CLIQUE. Um `<iframe>` do YouTube puxa perto de 1 MB de

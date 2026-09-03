@@ -9,7 +9,7 @@
  * redimensiona: nada em public/ precisa passar de 1600px de lado maior.
  *
  * A tabela MAPA abaixo é a fonte de verdade dessa tradução. Para trocar a foto
- * de uma peça, mude o número à esquerda e rode de novo — o resto do site
+ * de uma peça, mude o número à esquerda e rode de novo, o resto do site
  * continua apontando para o mesmo caminho.
  *
  * A pasta instagram/ NÃO faz parte do repositório (ver .gitignore). Ela é
@@ -96,7 +96,7 @@ const MAPA = {
   33: 'pecas/rebeca-sereia-preto.webp',
 
   // ATENÇÃO: a logo NÃO entra nesta tabela. A arte da marca é
-  // public/logo.png, com fundo removido à mão — ver o bloco de identidade
+  // public/logo.png, com fundo removido à mão, ver o bloco de identidade
   // mais abaixo. A foto de perfil do Instagram não serve mais como origem.
 
   // ----------------------------------------------------------- casamentos
@@ -125,12 +125,12 @@ const MAPA = {
  * Arte da marca, já com o fundo removido à mão.
  *
  * Fica em public/ e não em instagram/ porque é asset de verdade, versionado
- * junto com o site — a origem dele foi a foto de perfil do Instagram, mas o
+ * junto com o site, a origem dele foi a foto de perfil do Instagram, mas o
  * recorte do fundo é trabalho manual que não dá para refazer por script.
  */
 const LOGO = path.join(DESTINO, 'logo.png')
 
-/** Preview de link. Precisa ser JPEG e 1200x630 — ver scripts/webp.mjs. */
+/** Preview de link. Precisa ser JPEG e 1200x630, ver scripts/webp.mjs. */
 const OG = { origem: 36, largura: 1200, altura: 630 }
 
 /**
@@ -140,7 +140,7 @@ const OG = { origem: 36, largura: 1200, altura: 630 }
  * A logo é dourada e clara: sobre a barra escura de um navegador em tema
  * escuro, ou sobre a tela inicial de um celular com papel de parede claro, o
  * traço somem. Um quadrado branco com a logo dentro aparece em qualquer
- * lugar — e é o que o iOS espera do apple-touch-icon, que não suporta alfa.
+ * lugar, e é o que o iOS espera do apple-touch-icon, que não suporta alfa.
  */
 const ICONES = [
   { arquivo: 'favicon.png', lado: 180 },
@@ -152,7 +152,7 @@ const ICONES = [
  *
  * `claro` é a versão para fundo escuro (o rodapé preto). Ela não é a mesma
  * arte: é a silhueta da logo preenchida de branco, tirada do próprio canal
- * alfa. Foi preciso porque a arte perdeu o fundo creme — sobre preto, o
+ * alfa. Foi preciso porque a arte perdeu o fundo creme, sobre preto, o
  * "Danielli" em dourado escuro e o "NOIVAS" simplesmente sumiriam. Como a
  * filigrana é desenhada em traço fino, a silhueta preserva o desenho inteiro
  * em vez de virar uma mancha.
@@ -172,7 +172,7 @@ const LOGOS = [
  * Encorpa a arte para uso em fundo claro.
  *
  * O dourado da logo é bem claro; reduzida à altura do cabeçalho (44px) sobre
- * o off-white, ela ficava como uma mancha pálida — parecia imagem quebrada,
+ * o off-white, ela ficava como uma mancha pálida, parecia imagem quebrada,
  * não selo de marca. O `linear(0.8, 0)` multiplica os canais RGB por 0,8:
  * escurece mantendo o matiz e o alfa intactos, então o lettering continua
  * sendo o mesmo, só que presente. Não é recolorir a marca.
@@ -270,7 +270,7 @@ if (existsSync(LOGO)) {
     escritos++
   }
 } else {
-  console.log(`logo não encontrada em ${LOGO} — variações não foram geradas`)
+  console.log(`logo não encontrada em ${LOGO}, variações não foram geradas`)
 }
 
 // --- relatório -------------------------------------------------------------

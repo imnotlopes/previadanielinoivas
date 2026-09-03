@@ -22,7 +22,7 @@ const FOTO_PROVADOR = '/atelier/provador.webp'
 /**
  * A FRASE DA MARCA.
  *
- * Veio da própria Danielli e é o eixo desta página inteira — não é um slogan
+ * Veio da própria Danielli e é o eixo desta página inteira, não é um slogan
  * decorativo que dá para trocar por outro. Ela responde à objeção que trava
  * toda noiva: "já vi um vestido no Instagram, por que eu iria até a loja?".
  *
@@ -33,7 +33,7 @@ const FRASE_DA_MARCA =
   'A noiva vem pra escolher o vestido, e o vestido acaba escolhendo ela.'
 
 /**
- * ATENÇÃO — TEXTO DE PRÉVIA
+ * ATENÇÃO: TEXTO DE PRÉVIA
  * -------------------------
  * As etapas descrevem como um aluguel costuma funcionar, não necessariamente
  * como a Danielli trabalha. Confirmar antes de mandar para uma noiva.
@@ -62,12 +62,12 @@ const PASSOS = [
 ]
 
 /**
- * PEÇA 1 — Apresentação Noiva.
+ * PEÇA 1: Apresentação Noiva.
  *
  * É o que a Danielli manda no primeiro "bom dia, vou te mandar nossa
  * apresentação". Enxuta de propósito: quem está do outro lado ainda não pediu
  * para ver vestido, pediu para entender a loja. O catálogo vem depois, quando
- * ela demonstra interesse — e é para lá que aponta o botão do fim.
+ * ela demonstra interesse, e é para lá que aponta o botão do fim.
  *
  * NÃO É UMA PÁGINA QUE ROLA, SÃO FOLHAS
  * -------------------------------------
@@ -76,11 +76,11 @@ const PASSOS = [
  * loja" de "material que ela manda no WhatsApp e a noiva folheia": num site a
  * pessoa varre a página atrás de um link, aqui ela lê um assunto por vez.
  *
- * O ritmo depende de as folhas ALTERNAREM fundo — off-white, branco, preto.
+ * O ritmo depende de as folhas ALTERNAREM fundo: off-white, branco, preto.
  * Duas folhas claras seguidas se fundem numa só e o efeito se perde.
  *
  * VOCABULÁRIO: aqui é sempre **noiva**, nunca "cliente". Regra da casa, e ela
- * insistiu nisso — "sempre vamos enfatizar que ela é a noiva".
+ * insistiu nisso: "sempre vamos enfatizar que ela é a noiva".
  */
 export default function ApresentacaoNoiva() {
   const { pecas } = useLoja()
@@ -195,7 +195,7 @@ export default function ApresentacaoNoiva() {
 
               A frase tem doze palavras. No tamanho da abertura ela ocupa seis
               linhas no celular e vira parede; e `tracking-luxo` (0,18em) é
-              medida de rótulo pequeno — aplicada a corpo grande, afasta tanto
+              medida de rótulo pequeno, aplicada a corpo grande, afasta tanto
               as letras que a palavra deixa de ser lida de uma vez.
             */}
             <FraseRevelada
@@ -214,7 +214,7 @@ export default function ApresentacaoNoiva() {
                 </p>
                 <p>
                   E quase nunca é esse o vestido que ela leva. Não porque mudou
-                  de ideia — é que vestido bonito na foto e vestido bonito nela
+                  de ideia. É que vestido bonito na foto e vestido bonito nela
                   são coisas diferentes, e isso só o espelho do provador
                   resolve.
                 </p>
@@ -286,7 +286,7 @@ export default function ApresentacaoNoiva() {
       {/* ------------------------------------------------------------------ */}
       {/*
         O que sobrou da antiga página /sobre, reduzido ao que convence: o
-        lugar onde a decisão acontece. A rota separada foi aposentada — numa
+        lugar onde a decisão acontece. A rota separada foi aposentada, numa
         peça que a noiva lê de uma vez, mandar ela a outra página é perdê-la.
       */}
       <section className="bg-off-white">
@@ -319,7 +319,7 @@ export default function ApresentacaoNoiva() {
                 <div className="mt-8 max-w-lg space-y-5 text-preto/75">
                   <p>
                     O atendimento é individual e com hora marcada. Naquele
-                    horário o provador é seu — provar vestido com alguém
+                    horário o provador é seu. Provar vestido com alguém
                     esperando atrás da porta não é provar vestido.
                   </p>
                   <p>
@@ -408,7 +408,7 @@ export default function ApresentacaoNoiva() {
         onde a visita entra") deixou de valer: cada link agora tem destino
         conhecido, e no catálogo esse material era só ruído embaixo da grade.
 
-        Todas somem sozinhas enquanto não houver dado real cadastrado — que é
+        Todas somem sozinhas enquanto não houver dado real cadastrado, que é
         o estado de hoje para depoimentos e avaliações.
 
         E é por SUMIREM que cada uma leva um fio de 1px no topo. Com três

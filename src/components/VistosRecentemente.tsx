@@ -20,7 +20,7 @@ interface VistosRecentementeProps {
  * clicou uma vez, o que não ajuda ninguém a decidir.
  *
  * A leitura acontece em `useEffect` porque o histórico está no `localStorage`,
- * que não existe fora do navegador — ler durante a renderização quebraria
+ * que não existe fora do navegador, ler durante a renderização quebraria
  * qualquer pré-render.
  */
 export default function VistosRecentemente({ base, exceto }: VistosRecentementeProps) {

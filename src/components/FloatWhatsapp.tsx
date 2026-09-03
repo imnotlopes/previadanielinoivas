@@ -6,7 +6,7 @@ const MENSAGEM_GENERICA = `Olá! Vim pelo site da ${brand.nome} e gostaria de ma
 
 /**
  * Botão flutuante de contato, presente em todas as páginas.
- * O formato redondo é a ÚNICA exceção deliberada ao radius 0 do design system —
+ * O formato redondo é a ÚNICA exceção deliberada ao radius 0 do design system,
  * é um elemento de interface, não uma superfície da marca.
  */
 export default function FloatWhatsapp() {

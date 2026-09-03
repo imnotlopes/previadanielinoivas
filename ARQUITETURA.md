@@ -6,14 +6,14 @@ subir para a Vercel), veja o [README](README.md).
 
 > **Nota de origem.** Este código nasceu como vitrine de um atelier de costura
 > **sob medida** e foi readaptado para a **Danielli Noivas**, que é loja de
-> **aluguel**. A estrutura sobreviveu inteira à troca — é a prova de que a
-> separação entre `src/data/` e o resto funciona —, mas o conteúdo e a direção
+> **aluguel**. A estrutura sobreviveu inteira à troca, é a prova de que a
+> separação entre `src/data/` e o resto funciona, mas o conteúdo e a direção
 > visual são outros. Onde este documento fala de decisão antiga que mudou, ele
 > diz qual era e o que a substituiu.
 >
 > **Segunda virada, maior que a primeira.** A Danielli disse que *não quer
 > site*: "não quero mexer com site, por enquanto". O produto que ela quer é
-> **material de WhatsApp** — links que ela cola no meio da conversa. Isso
+> **material de WhatsApp**: links que ela cola no meio da conversa. Isso
 > inverteu as prioridades do projeto inteiro. O que era um site com quatro
 > rotas virou **quatro peças independentes**, cada uma com HTML próprio, e o
 > preview do link deixou de ser "limitação conhecida, não prioridade" (§9)
@@ -39,7 +39,7 @@ Há duas exceções aparentes, e as duas confirmam a regra:
 **O cupom de parceira** parece transação, mas não é. Ele chega por `?cupom=` na
 URL, fica guardado no navegador da visitante e é copiado para dentro da
 mensagem do WhatsApp. Nenhum valor é cobrado, nenhum uso é contabilizado no
-servidor — porque não há servidor. O cupom é um recado.
+servidor, porque não há servidor. O cupom é um recado.
 
 **O painel administrativo** parece um sistema, mas é uma maquete funcional. Ele
 grava no `localStorage` de quem está mexendo, e nada do que é editado ali chega
@@ -70,8 +70,8 @@ noiva chama  →  "bom dia, vou te mandar nossa apresentação"
 ```
 
 Duas peças, dois momentos, dois links. Mais uma terceira para festa e formatura
-— público diferente, sazonalidade diferente ("são dois clientes bem separados";
-época de formanda não é época de noiva) — e o painel, que é dela.
+público diferente, sazonalidade diferente ("são dois clientes bem separados";
+época de formanda não é época de noiva): e o painel, que é dela.
 
 ```
 index.html     Apresentação Noiva     enxuta, a frase da marca, como funciona
@@ -83,7 +83,7 @@ admin.html     Painel                 cadastrar, publicar, ocultar
 **São arquivos HTML de verdade, e não rotas de uma aplicação só.** O motivo é
 um só, e é comercial: quando um link é colado no WhatsApp, o robô monta um
 cartão com foto e título, e **esse robô não executa JavaScript**. Numa SPA os
-três links devolveriam o mesmo `index.html` e portanto o mesmo cartão — a noiva
+três links devolveriam o mesmo `index.html` e portanto o mesmo cartão, a noiva
 e a formanda receberiam previews idênticos.
 
 Cada peça tem as próprias tags Open Graph escritas no arquivo e a própria
@@ -94,13 +94,13 @@ de qualquer clique, e era o que a arquitetura anterior não sabia entregar.
 
 Cada peça sobe o próprio React Router. O roteador de uma **não conhece as rotas
 da outra**: um `<Link to="/catalogo">` dentro da apresentação renderiza a rota
-de fallback dela, e o erro é **silencioso** — nada no console.
+de fallback dela, e o erro é **silencioso**: nada no console.
 
 A regra está escrita e comentada em `src/entradas/comum.tsx`, no bloco
 `CAMINHOS`. E duas tabelas precisam andar juntas ao acrescentar uma peça:
 `PECAS` em `vite.config.ts` (build e roteamento em desenvolvimento) e os
 `rewrites` do `vercel.json` (produção). O plugin `roteamentoDePecas` existe
-justamente para o servidor de desenvolvimento não divergir da Vercel — sem ele,
+justamente para o servidor de desenvolvimento não divergir da Vercel, sem ele,
 `/catalogo` abre a apresentação em dev e o catálogo em produção, que é o tipo
 de divergência que custa uma tarde.
 
@@ -110,7 +110,7 @@ Depoimentos, avaliações do Google, FAQ e mapa ficavam grudados depois do
 `<Outlet />` em **toda** rota. A regra era "qualquer página precisa fechar
 sozinha, porque não se controla por onde a visita entra".
 
-Essa regra morreu com a reestruturação: agora cada link tem destino conhecido —
+Essa regra morreu com a reestruturação: agora cada link tem destino conhecido,
 a Danielli manda o link certo para a pessoa certa, ninguém cai aqui pelo
 Google. E num catálogo aquele material era ruído embaixo da grade. Tudo passou
 a ser conteúdo das apresentações, montado à mão dentro da página.
@@ -153,7 +153,7 @@ public/
   casamentos/       casamentos de clientes, exibidos na home
   atelier/          provador, atendimento, acessórios
   og-image.jpg      preview ao compartilhar link (1200x630)
-  logo.png          ARTE DA MARCA — origem de todas as variações
+  logo.png          ARTE DA MARCA, origem de todas as variações
   favicon.png · apple-touch-icon.png · logo-*.webp
 
 src/
@@ -174,7 +174,7 @@ scripts/
 chega com nomes como `imgi_36_753237135_..._n.webp`; a tabela `MAPA` em
 `scripts/importar-instagram.mjs` traduz o número de cada foto para o caminho que
 o site usa e já redimensiona. Trocar a foto de um vestido é mudar um número
-nessa tabela e rodar o script — nenhum arquivo de `src/` é tocado.
+nessa tabela e rodar o script, nenhum arquivo de `src/` é tocado.
 
 A separação que importa é **`data/` versus todo o resto**. Quem for mexer no
 conteúdo do site mexe só em `src/data/`. Nenhum componente tem número de
@@ -213,16 +213,16 @@ uma cor for trocada, converta o hex para os três canais decimais.
 | Preto suave | `#242321` | títulos, textos e faixas invertidas | ~20% |
 | Bege champagne | `#D8D0C2` | divisores e superfícies secundárias | ~8% |
 | Dourado | `#C9B56B` | só detalhe | ~2% |
-| Branco | `#FFFFFF` | cards e áreas de contraste | — |
+| Branco | `#FFFFFF` | cards e áreas de contraste |, |
 
 A versão anterior deste site era estritamente preto e branco, sem acento. A
-Danielli tem dourado na logo, e ignorá-lo seria descolar o site da marca — mas o
+Danielli tem dourado na logo, e ignorá-lo seria descolar o site da marca. Mas o
 Instagram dela já é saturado de "dourado + noiva + ornamentação", e repetir isso
 no site entregaria mais do mesmo. Daí a proporção acima: **o dourado entra, mas
 com teto.**
 
 **O teto não é gosto, é contraste.** `#C9B56B` sobre o off-white rende 1,94:1.
-Isso é ilegível como texto, e nenhum tamanho de fonte conserta — nem o mínimo de
+Isso é ilegível como texto, e nenhum tamanho de fonte conserta. Nem o mínimo de
 3:1 que a WCAG aceita para texto grande. Sobre o preto suave o mesmo dourado
 sobe para 7,71:1 e passa folgado. A regra que sai daí é operacional:
 
@@ -230,7 +230,7 @@ sobe para 7,71:1 e passa folgado. A regra que sai daí é operacional:
 
 Por isso o botão principal é preto suave, e não dourado: botão dourado não teria
 contraste para o texto de dentro dele. A hierarquia dos botões continua vindo de
-**peso e preenchimento** — cheio contra contorno —, não de matiz.
+**peso e preenchimento** (cheio contra contorno), não de matiz.
 
 O `--cinza` (`#6B6560`) é o preto rebaixado para rótulos e texto de apoio. Não
 foi escolhido no olho: é o cinza mais claro que ainda cumpre 4,5:1 sobre o
@@ -278,7 +278,7 @@ sob medida para loja de aluguel:
 **O título é o nome do vestido, não o da cliente.** Na versão anterior era o
 contrário: cada peça era feita para uma pessoa, e o site ficava mais forte
 dizendo isso. Aqui o mesmo vestido veste várias noivas ao longo dos anos e não
-pertence a nenhuma delas — batizá-lo pelo nome de uma seria errado no ano
+pertence a nenhuma delas, batizá-lo pelo nome de uma seria errado no ano
 seguinte. E há o lado prático: nenhuma cliente aparece identificada pelo nome
 sem ter autorizado. O nome próprio também serve de código na conversa ("quero
 provar o Aurora").
@@ -287,7 +287,7 @@ provar o Aurora").
 costureira descrevia a peça ("Romântico, Minimalista e Contemporâneo"). Numa
 loja de aluguel quem lê está comparando modelos, então a linha precisa dizer
 silhueta e o detalhe que identifica aquele: "Um ombro só, com babado
-estruturado". Continua sem chutar tecido — afirmar "renda francesa" sem certeza
+estruturado". Continua sem chutar tecido, afirmar "renda francesa" sem certeza
 é pior do que dizer só "renda".
 
 **Quatro campos entraram com a reestruturação**, e cada um resolve uma coisa
@@ -296,13 +296,13 @@ que a Danielli pediu:
 - **`numeracao`** é a *segunda pergunta de toda cliente*, depois do preço, e
   não existia no modelo. Vira campo de primeira classe, não observação solta na
   descrição: alimenta o filtro do catálogo, aparece no card e entra na mensagem
-  do WhatsApp — a loja responde "serve em você" sem conferir a arara.
+  do WhatsApp, a loja responde "serve em você" sem conferir a arara.
 - **`ocasiao`** só existe dentro de festa. Formanda de alto padrão, formatura,
   madrinha e mãe procuram coisas diferentes; é assim que a loja separa a arara,
   e agora é assim que a cliente filtra.
 - **`video`** porque vestido parado na foto e vestido andando são coisas
   diferentes. Ela perguntou se dava para pôr vídeo *dentro* do catálogo em vez
-  de mandar separado. Dá — e `components/VideoPeca.tsx` só carrega o player
+  de mandar separado. Dá, e `components/VideoPeca.tsx` só carrega o player
   depois do clique, senão cada ficha puxaria 1 MB de script antes de alguém
   pedir.
 - **`publicado`** é a curadoria: *"eu não queria colocar tudo num catálogo,
@@ -310,7 +310,7 @@ que a Danielli pediu:
   é maior que o catálogo publicado, e o interruptor é dela, no celular.
 
 O `publicado` tem uma regra que vale gravar: **tela de cliente chama
-`publicadas()` antes de qualquer outra coisa** — catálogo, apresentação, ficha,
+`publicadas()` antes de qualquer outra coisa**: catálogo, apresentação, ficha,
 "vistos recentemente" e sitemap. Tela de painel usa a lista crua, porque lá o
 ponto é justamente ver o que está oculto. Link direto para vestido oculto
 responde "saiu do acervo"; não vaza.
@@ -318,7 +318,7 @@ responde "saiu do acervo"; não vaza.
 **A cidade não está escrita nos textos de SEO.** Ela sai de `brand.cidade`
 através de uma constante `local` no topo do arquivo, que devolve `' em Cidade,
 UF'` ou string vazia. Enquanto a constante estiver vazia os títulos saem sem
-cidade — corretos, só sem o termo que mais traz cliente. Foi feito assim porque
+cidade, corretos, só sem o termo que mais traz cliente. Foi feito assim porque
 a cidade aparecia em quinze strings diferentes, e quinze pontos de edição à mão
 é onde uma delas fica para trás.
 
@@ -390,7 +390,7 @@ cliente só descobre dentro da loja.
 O que existe é a máquina inteira pronta em volta do vazio: `lib/preco.ts` é a
 única função do projeto que calcula desconto, o componente `<Preco>` decide
 sozinho entre valor, valor riscado e "sob consulta", e o catálogo esconde a
-ordenação por preço enquanto `temPreco()` for falso — filtro que não filtra
+ordenação por preço enquanto `temPreco()` for falso, filtro que não filtra
 nada é pior que filtro ausente, porque a cliente mexe, não acontece nada, e
 conclui que o site está quebrado.
 
@@ -500,7 +500,7 @@ de preview e ícone de sistema nem sempre entendem WebP.
   escurecimento preserva matiz e alfa, então o lettering continua o mesmo.
 - **`-claro`**, para o rodapé preto: a silhueta preenchida de branco, tirada do
   próprio canal alfa. Sem isso o "Danielli" em dourado escuro sumiria no fundo.
-  Funciona porque a filigrana é desenhada em traço fino — a silhueta preserva o
+  Funciona porque a filigrana é desenhada em traço fino, a silhueta preserva o
   desenho em vez de virar um borrão.
 - **ícones**, achatados sobre branco: o `apple-touch-icon` do iOS não aceita
   alfa, e logo clara com fundo transparente desaparece na barra de um navegador
@@ -544,7 +544,7 @@ por página seriam escritas e ignoradas. A limpeza roda antes do primeiro render
 **Isto deixou de ser limitação e virou arquitetura.** Enquanto o projeto era um
 site, "o preview do link é genérico" ficou registrado aqui como algo a resolver
 um dia. Quando as peças viraram links de WhatsApp, o cartão passou a ser a
-primeira impressão de tudo — e a saída foi o build multi-página da §1-A, com um
+primeira impressão de tudo, e a saída foi o build multi-página da §1-A, com um
 HTML por peça e Open Graph próprio em cada um.
 
 O que **continua** limitado é o preview por vestido: compartilhar
@@ -562,7 +562,7 @@ de Open Graph do `index.html` são a exceção, por serem texto fixo.
 negócio e injeta no `index.html` durante o build, mas cada bloco é condicional:
 sem telefone não sai `telephone`, sem endereço não sai `address`, e o
 `aggregateRating` só entra quando há link do perfil no Google apontado em
-`googleNegocio.url`. Campo em branco no JSON-LD é pior do que campo ausente — e
+`googleNegocio.url`. Campo em branco no JSON-LD é pior do que campo ausente, e
 declarar nota sem um perfil público onde conferi-la é o tipo de coisa que rende
 penalidade manual.
 
@@ -570,8 +570,8 @@ penalidade manual.
 
 ## 10. Acessibilidade, performance e deploy
 
-**Acessibilidade.** Contraste medido por script a cada troca de paleta — a
-regra do dourado da §4 saiu dessa medição —, `alt`
+**Acessibilidade.** Contraste medido por script a cada troca de paleta, a
+regra do dourado da §4 saiu dessa medição, `alt`
 descritivo em toda imagem de conteúdo e `alt=""` nas decorativas, carrossel com
 `role="region"` e `tabIndex`, foco visível, hierarquia de heading sem pular
 nível, e `<span className="sr-only">` onde o rótulo visual não basta.
@@ -660,7 +660,7 @@ A apresentação deixou de ser "uma página que rola" e virou uma sequência de
 
 - **`.folha`** (em `index.css`): `min-height: 92svh` mais centralização
   vertical. É `svh` e não `vh` porque no celular a barra do navegador some e
-  volta, e `vh` mede a tela sem a barra — a folha nasceria mais alta que o
+  volta, e `vh` mede a tela sem a barra. A folha nasceria mais alta que o
   visível. E são 92%, não 100%: a faixa da folha seguinte aparecendo na borda
   é o que diz "tem mais embaixo".
 - **`lib/movimento.ts`**: `useRevelar` (um `IntersectionObserver` por bloco) e
@@ -673,7 +673,7 @@ A recomendação inicial era usar uma. Duas coisas mudaram a conta:
 
 1. são **quatro aplicações** com bundles separados (§1-A), então ~30 KB de
    dependência não são pagos uma vez;
-2. o que o projeto precisa — revelar ao entrar, escalonar, deslocar — não é
+2. o que o projeto precisa (revelar ao entrar, escalonar, deslocar) não é
    animação de layout. É transição de CSS disparada por um observador.
 
 O que se perde é interpolação entre estados arbitrários. Se aparecer transição
@@ -710,7 +710,7 @@ para a noiva. Três coisas saíram daí.
 
 **O visor em tela cheia** (`components/Visor.tsx`). A foto grande da ficha é um
 botão, porque a expectativa universal de tocar numa foto é ampliar. O fundo é
-preto cheio, e não o preto suave da marca — qualquer fundo com luz própria
+preto cheio, e não o preto suave da marca. Qualquer fundo com luz própria
 altera a cor do marfim, e cor de vestido é o que a noiva está tentando julgar.
 O zoom foca **onde a pessoa tocou**: zoom que vai ao centro obriga a arrastar
 até o detalhe, e quem segura a tela para outra pessoa ver não tem mão sobrando.
@@ -721,7 +721,7 @@ percorre a imagem.
 compartilha vocabulário nem saída com festa: a data é a do casamento, os selos
 falam em casamento (`detalheFesta` cobre a exceção da peça de festa), o rodapé
 compacto anuncia só aluguel de noiva, e não há link daqui para os outros
-acervos. A loja atende festa e 15 anos — mas dizer isso dentro de uma peça de
+acervos. A loja atende festa e 15 anos, mas dizer isso dentro de uma peça de
 noiva é informar a noiva de que ela está numa loja de roupa de festa que
 também tem vestido de casamento.
 
@@ -729,7 +729,7 @@ também tem vestido de casamento.
 `useSyncExternalStore`: a seleção é lida em três lugares que não se conhecem
 (o marcador no card, a ficha, a barra do rodapé), e um provider re-renderizaria
 o catálogo inteiro a cada clique. O `?provar=` na URL vence o que está
-guardado, e é apagado da barra de endereço com `replaceState` — se ficasse,
+guardado, e é apagado da barra de endereço com `replaceState`: se ficasse,
 recarregar desfaria qualquer vestido que a noiva tirasse da lista.
 
 **A ficha técnica** (`silhueta`, `decote`, `manga`, `cauda`). Vocabulário da
@@ -738,7 +738,7 @@ só é desenhado com dois valores distintos presentes.
 
 ### Achar, que é o verbo desta tela
 
-- **Barra fixa.** `sticky top-20 md:top-24` — exatamente a altura do cabeçalho
+- **Barra fixa.** `sticky top-20 md:top-24`: exatamente a altura do cabeçalho
   (`h-20 md:h-24` em `TopoMarca`). **As duas medidas andam juntas:** mexer numa
   sem mexer na outra deixa a barra por baixo do cabeçalho ou com um vão. O
   `z-30` fica abaixo do cabeçalho (40) e da barra da lista de prova (50).
@@ -749,11 +749,11 @@ só é desenhado com dois valores distintos presentes.
   o painel fechado ele é o único aviso de que a lista está cortada.
 - **Busca sem acento e por rótulo.** `normalizar()` tira diacrítico e caixa; o
   texto buscável inclui os RÓTULOS (`'Manga longa'`), e não só os códigos
-  (`'longa'`) — sem isso, metade do que a noiva diz em voz alta não acharia
+  (`'longa'`): sem isso, metade do que a noiva diz em voz alta não acharia
   nada. Cada palavra digitada precisa aparecer em algum lugar.
 - **Restauração de rolagem** (`ScrollToTop`). Navegação nova abre no topo;
   `POP` restaura a posição guardada por `location.key` num `Map` fora do
-  componente — ele é desmontado ao sair do catálogo. A guarda
+  componente, ele é desmontado ao sair do catálogo. A guarda
   `anterior.current === pathname` é o que impede a página de saltar a cada
   letra digitada na busca, já que trocar filtro também cria entrada no
   histórico.
@@ -779,7 +779,7 @@ só é desenhado com dois valores distintos presentes.
   [README](README.md). Os dois pontos que **impedem** a publicação:
   - **as avaliações do Google em `data/google.ts` são fictícias**, assim como a
     nota e a contagem. Publicá-las como reais é propaganda enganosa. Ou
-    transcreva as verdadeiras do Perfil da Empresa, ou zere a lista — a seção
+    transcreva as verdadeiras do Perfil da Empresa, ou zere a lista. A seção
     some sozinha;
   - **os nomes dos casais em `data/casamentos.ts` foram inventados**, e as fotos
     são de pessoas identificáveis no dia do casamento delas. Confirme os nomes e
@@ -792,7 +792,7 @@ só é desenhado com dois valores distintos presentes.
 - **A assinatura da marca** ("Sonhos existem para serem realizados") foi
   completada a partir de uma bio truncada no Instagram. Confirmar a frase.
 - **A ficha técnica está vazia em todo o acervo** (§12-B). Enquanto estiver, o
-  catálogo filtra só por cor — que é o filtro mais fraco dos quatro, porque
+  catálogo filtra só por cor, que é o filtro mais fraco dos quatro, porque
   quase todo vestido de noiva é branco ou marfim.
 - **O bloco de autoridade da apresentação** (`data/atelier.ts`) está em espaço
   reservado: falta o retrato da Danielli e os marcos. O único número real ali é
@@ -800,7 +800,7 @@ só é desenhado com dois valores distintos presentes.
 - **Preview por peça** ao compartilhar link, ver §9.
 - **O painel administrativo é uma maquete, e agora isso é o gargalo.** Grava no
   `localStorage`, não tem autenticação (a "entrada" é um botão, e `/admin` é
-  endereço público) e não envia foto — o cadastro pede um caminho que já exista
+  endereço público) e não envia foto, o cadastro pede um caminho que já exista
   em `public/`.
 
   Os três buracos são o mesmo trabalho: **banco + storage de imagem + login**.
@@ -808,7 +808,7 @@ só é desenhado com dois valores distintos presentes.
   sem PC aqui, tô sem notebook, tô sem nada"), e um painel que grava no
   navegador dela não faz o cadastro chegar ao aparelho da cliente.
 
-  A camada `lib/loja.ts` é o ponto de costura — as telas não mudam, porque
+  A camada `lib/loja.ts` é o ponto de costura, as telas não mudam, porque
   nenhuma importa os dados direto.
 
 - **A seleção das fotos dos fotógrafos.** O script e as folhas de contato

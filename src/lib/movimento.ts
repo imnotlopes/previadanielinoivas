@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * MOVIMENTO — as fundações do editorial.
+ * MOVIMENTO, as fundações do editorial.
  * ======================================
  *
  * A apresentação precisa parecer uma sequência de páginas de revista, e não
@@ -16,13 +16,13 @@ import { useEffect, useRef, useState } from 'react'
  *  1. São QUATRO aplicações independentes (ver entradas/comum.tsx), cada uma
  *     com o próprio bundle. Uma dependência de ~30 KB não é paga uma vez.
  *  2. O que este projeto precisa é revelar ao entrar, escalonar e um
- *     deslocamento de parallax. Nada disso é animação de layout — é transição
+ *     deslocamento de parallax. Nada disso é animação de layout, é transição
  *     de CSS disparada por um observador. Biblioteca resolveria o mesmo com
  *     uma API maior.
  *
  * O custo de fazer à mão é não ter interpolação entre estados arbitrários.
  * Se um dia aparecer transição de página ou reordenação animada de grade,
- * aí sim vale trazer uma biblioteca — este arquivo não impede isso.
+ * aí sim vale trazer uma biblioteca, este arquivo não impede isso.
  *
  * ACESSIBILIDADE NÃO É OPCIONAL AQUI
  * ----------------------------------
@@ -44,7 +44,7 @@ export function movimentoReduzido(): boolean {
  *
  * A regra que evita o pior defeito possível deste arquivo: se o navegador não
  * tem `IntersectionObserver`, ou se a pessoa pediu menos movimento, tudo
- * começa revelado. Página em branco por causa de enfeite é falha grave — o
+ * começa revelado. Página em branco por causa de enfeite é falha grave, o
  * texto é o produto, a animação é o embrulho.
  */
 function comecaRevelado(): boolean {
@@ -57,7 +57,7 @@ interface OpcoesRevelar {
   /**
    * Quanto antes do elemento tocar a borda inferior a revelação dispara.
    * O padrão adianta um pouco, para o conteúdo já estar chegando quando entra
-   * no campo de visão — revelar exatamente na borda parece atraso.
+   * no campo de visão, revelar exatamente na borda parece atraso.
    */
   margem?: string
 }
@@ -140,7 +140,7 @@ export function useParallax<T extends HTMLElement = HTMLDivElement>(intensidade 
       /*
         -1 quando o bloco está inteiro abaixo da tela, +1 quando já passou
         inteiro por cima. No meio da tela dá 0, que é onde a foto fica na
-        posição neutra — é isso que impede o corte aparecer na borda.
+        posição neutra, é isso que impede o corte aparecer na borda.
       */
       const progresso = (caixa.top + caixa.height / 2 - alturaTela / 2) / alturaTela
       const limitado = Math.max(-1, Math.min(1, progresso))

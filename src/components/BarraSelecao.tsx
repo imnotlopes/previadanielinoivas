@@ -33,7 +33,7 @@ interface BarraSelecaoProps {
  * A MENSAGEM É O PRODUTO
  * ----------------------
  * Ela é escrita na primeira pessoa da noiva, porque é a noiva que aperta
- * enviar — texto em terceira pessoa ("a cliente selecionou") entrega que foi
+ * enviar, texto em terceira pessoa ("a cliente selecionou") entrega que foi
  * um sistema que escreveu, e a conversa começa com cara de formulário.
  *
  * Os nomes vão por extenso, um por linha. Só o link não bastaria: no WhatsApp
@@ -42,7 +42,7 @@ interface BarraSelecaoProps {
  *
  * A DATA É O QUE MUDA A RESPOSTA
  * ------------------------------
- * Sem ela, a primeira resposta da loja é obrigatoriamente uma pergunta —
+ * Sem ela, a primeira resposta da loja é obrigatoriamente uma pergunta,
  * disponibilidade de vestido de aluguel só existe em relação a um dia. Com
  * ela, a resposta já pode ser "esses três estão livres, vem quinta?".
  * Por isso o campo fica aberto assim que o primeiro vestido é marcado, em vez
@@ -65,7 +65,7 @@ export default function BarraSelecao({ base, publico }: BarraSelecaoProps) {
   /*
     NASCE RECOLHIDA.
 
-    Com os dois campos abertos a barra ocupa 500px de uma tela de 812 — ou
+    Com os dois campos abertos a barra ocupa 500px de uma tela de 812, ou
     seja, tapa o catálogo que ela está usando para escolher. Fechada são
     ~200px, e o convite para a data continua visível numa linha só.
   */
@@ -101,7 +101,7 @@ export default function BarraSelecao({ base, publico }: BarraSelecaoProps) {
 
             {/*
               Os nomes ficam visíveis, e cada um com o seu X. Uma barra que diz
-              só "5 vestidos" obriga a noiva a lembrar quais são — e o momento
+              só "5 vestidos" obriga a noiva a lembrar quais são, e o momento
               de tirar um da lista é exatamente este, antes de mandar.
             */}
             <ul className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5">
@@ -136,7 +136,7 @@ export default function BarraSelecao({ base, publico }: BarraSelecaoProps) {
         {/*
           O GATILHO É A PRÓPRIA DATA, e não um "abrir" genérico.
 
-          Fechada, esta linha é o único texto da barra além dos nomes — e ela
+          Fechada, esta linha é o único texto da barra além dos nomes, e ela
           diz exatamente o que a loja precisa e por quê. Um botão "abrir" no
           lugar dela esconderia o campo mais importante atrás de uma palavra
           que não promete nada.
@@ -160,8 +160,8 @@ export default function BarraSelecao({ base, publico }: BarraSelecaoProps) {
             ) : (
               <span>
                 {noiva
-                  ? 'Colocar a data do casamento — a gente já diz quais estão livres'
-                  : 'Colocar a data do evento — a gente já diz quais estão livres'}
+                  ? 'Colocar a data do casamento: a gente já diz quais estão livres'
+                  : 'Colocar a data do evento: a gente já diz quais estão livres'}
               </span>
             )}
           </button>
@@ -276,7 +276,7 @@ export default function BarraSelecao({ base, publico }: BarraSelecaoProps) {
  *
  * A ORDEM DAS LINHAS É A ORDEM EM QUE A LOJA PRECISA LER: quais vestidos,
  * quando é o dia, qual o manequim. O link vem por último porque é o que menos
- * muda a resposta — e é o que fecha o ciclo: `?provar=` reabre a seleção
+ * muda a resposta, e é o que fecha o ciclo: `?provar=` reabre a seleção
  * exata do outro lado, então a Danielli separa os vestidos antes de a noiva
  * chegar em vez de reconstituir a lista pela conversa.
  */
@@ -295,7 +295,11 @@ function montarMensagem(
       ? 'Olá! Separei estes vestidos no catálogo de noiva e queria provar:'
       : 'Olá! Separei estes vestidos no catálogo e queria provar:',
     '',
-    ...escolhidos.map((peca) => `• ${peca.nome} — ${peca.descricao}`),
+    /* A descrição entra entre parênteses, com inicial minúscula: numa lista
+       de WhatsApp ela é aposto do nome, não uma segunda frase. */
+    ...escolhidos.map(
+      (peca) => `• ${peca.nome} (${minuscula(peca.descricao)})`,
+    ),
   ]
 
   /* Bloco dela, só quando existe. Um parágrafo em branco entre a lista e os
@@ -313,4 +317,9 @@ function montarMensagem(
   partes.push('', `Minha seleção: ${SITE_URL}${base}?${parametros.toString()}`)
 
   return partes.join('\n')
+}
+
+/** "Renda com gola alta" → "renda com gola alta". */
+function minuscula(texto: string): string {
+  return texto.charAt(0).toLowerCase() + texto.slice(1)
 }

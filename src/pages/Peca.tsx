@@ -38,7 +38,7 @@ interface PecaProps {
  *
  * O `base` é o que diz de onde a cliente veio: ele monta o link de voltar, os
  * relacionados e a URL do próprio endereço. Sem ele a ficha não saberia se
- * está dentro da peça de noiva ou da de festa — e cada peça é uma aplicação
+ * está dentro da peça de noiva ou da de festa, e cada peça é uma aplicação
  * separada, com rotas próprias.
  */
 export default function Peca({ base }: PecaProps) {
@@ -73,7 +73,7 @@ export default function Peca({ base }: PecaProps) {
       />
 
       {/* ------------------------------------------------------------------ */}
-      {/* A hero — só nos vestidos que têm história                           */}
+      {/* A hero, só nos vestidos que têm história                           */}
       {/* ------------------------------------------------------------------ */}
       {peca.hero && (
         <section className="relative flex min-h-[62svh] items-end overflow-hidden md:min-h-[70svh]">
@@ -146,7 +146,7 @@ export default function Peca({ base }: PecaProps) {
                 Nome e cor já foram ditos lá em cima em corpo de display, a
                 dois dedos daqui. Repetir daria dois títulos de página e faria
                 a ficha parecer que recomeçou. No lugar entra a DESCRIÇÃO, que
-                é a informação que ainda não foi dada — e por isso o parágrafo
+                é a informação que ainda não foi dada, e por isso o parágrafo
                 solto de descrição também sai.
               */}
               {peca.hero ? (
@@ -170,7 +170,7 @@ export default function Peca({ base }: PecaProps) {
               )}
 
               {/*
-                Ficha técnica curta. Cada linha só aparece quando tem valor —
+                Ficha técnica curta. Cada linha só aparece quando tem valor,
                 rótulo com traço no lugar do dado é ruído, e nesta ficha o
                 espaço é do vestido.
               */}
@@ -227,7 +227,7 @@ export default function Peca({ base }: PecaProps) {
         <section className="secao bg-branco">
           <div className="container-luxo">
             {/* "Provar junto" e não "você também pode gostar": aqui o convite
-                é somar à lista, que é o que esta tela existe para produzir —
+                é somar à lista, que é o que esta tela existe para produzir,
                 e é assim que a noiva pensa, comparando modelos entre si. */}
             <SecaoTitulo eyebrow="Do mesmo acervo" titulo="Para provar junto" />
 

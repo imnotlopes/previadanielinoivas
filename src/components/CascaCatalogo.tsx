@@ -9,17 +9,17 @@ import Rodape from './Rodape'
 import TopoMarca from './TopoMarca'
 
 interface CascaCatalogoProps {
-  /** Muda só o link de volta do topo — cada catálogo volta para a sua peça. */
+  /** Muda só o link de volta do topo, cada catálogo volta para a sua peça. */
   publico: 'noiva' | 'festa'
   children: ReactNode
 }
 
 /**
- * Casca do catálogo — ferramenta, não peça de marca.
+ * Casca do catálogo, ferramenta, não peça de marca.
  *
  * Quem chega aqui já foi apresentado à loja e está com uma tarefa na mão:
  * achar um vestido. Por isso a casca é enxuta e tudo que competiria com a
- * grade ficou de fora — FAQ, mapa, avaliações e depoimentos moram nas
+ * grade ficou de fora: FAQ, mapa, avaliações e depoimentos moram nas
  * apresentações.
  *
  * O rodapé vem na versão `compacto`: quem chegou ao fim de uma grade de
@@ -54,8 +54,7 @@ export default function CascaCatalogo({ publico, children }: CascaCatalogoProps)
         Um botão de contato por vez.
 
         Com a lista montada, o botão redondo e a barra ficariam empilhados no
-        mesmo canto, oferecendo dois caminhos diferentes para o mesmo WhatsApp
-        — e o da barra é melhor, porque leva junto os nomes dos vestidos.
+        mesmo canto, oferecendo dois caminhos diferentes para o mesmo WhatsApp, e o da barra é melhor, porque leva junto os nomes dos vestidos.
       */}
       {quantidade === 0 && <FloatWhatsapp />}
       <BarraSelecao base={base} publico={publico} />

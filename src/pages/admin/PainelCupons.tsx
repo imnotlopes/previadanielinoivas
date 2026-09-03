@@ -74,7 +74,7 @@ function Listagem() {
                     </Link>
                   </td>
                   <td className="p-4">{descontoLegivel(cupom)}</td>
-                  <td className="p-4">{cupom.parceira || '—'}</td>
+                  <td className="p-4">{cupom.parceira || 'sem parceira'}</td>
                   <td className="p-4">
                     {cupom.validade ? formatarData(cupom.validade) : 'sem prazo'}
                   </td>

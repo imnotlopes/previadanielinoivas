@@ -1,11 +1,11 @@
 /**
- * Constantes da marca — fonte única de verdade.
+ * Constantes da marca, fonte única de verdade.
  * Tudo que é "identidade" ou "contato" mora aqui; nenhum componente
  * deve hardcodar número, @ ou nome do atelier.
  */
 export const brand = {
   /**
-   * Nome corrente. Use em texto que a cliente lê como conversa —
+   * Nome corrente. Use em texto que a cliente lê como conversa,
    * mensagens de WhatsApp, descrições, meta tags.
    */
   nome: 'Danielli Noivas',
@@ -25,7 +25,7 @@ export const brand = {
    * TODO: PREENCHER ANTES DE PUBLICAR.
    * Formato internacional, apenas dígitos: 55 + DDD + número.
    * Enquanto estiver vazio, todos os botões de WhatsApp do site caem no
-   * Instagram — ver `linkWhatsApp` no fim deste arquivo.
+   * Instagram, ver `linkWhatsApp` no fim deste arquivo.
    */
   whatsapp: '',
   /** Mesmo número, formatado para leitura. */
@@ -56,10 +56,10 @@ export const TITULO_BASE = 'Danielli Noivas'
  * Endereço onde as peças estão publicadas hoje.
  *
  * Usado nas URLs canônicas e nas imagens de Open Graph, que precisam ser
- * absolutas — robô de preview não resolve caminho relativo. Sem barra no fim.
+ * absolutas, robô de preview não resolve caminho relativo. Sem barra no fim.
  *
  * TODO: trocar quando houver domínio próprio, e atualizar junto as URLs
- * absolutas escritas à mão nos quatro HTML da raiz — elas são texto fixo e
+ * absolutas escritas à mão nos quatro HTML da raiz, elas são texto fixo e
  * não acompanham esta constante.
  */
 export const SITE_URL = 'https://previadanielinoivas.vercel.app'

@@ -40,7 +40,7 @@ export default function Preco({ peca, variante = 'card', className }: PrecoProps
   return (
     <p className={cn('flex flex-wrap items-baseline gap-x-2.5 gap-y-1', className)}>
       {/* Riscado: primeiro a promoção da própria peça, senão o preço cheio
-          que o cupom abateu. Nunca os dois — dois valores riscados lado a
+          que o cupom abateu. Nunca os dois, dois valores riscados lado a
           lado é o tipo de vitrine que faz a cliente desconfiar da conta. */}
       {(promocionalDe ?? (temDesconto ? original : null)) !== null && (
         <span

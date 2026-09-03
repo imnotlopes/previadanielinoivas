@@ -18,7 +18,7 @@ interface CardPecaProps {
    * Prefixo da ficha: `/catalogo` ou `/festa`.
    *
    * A ficha do vestido mora dentro do catálogo de onde a cliente veio, e não
-   * numa rota global — cada peça é uma aplicação separada e não conhece as
+   * numa rota global, cada peça é uma aplicação separada e não conhece as
    * rotas das outras.
    */
   base: string
@@ -36,7 +36,7 @@ interface CardPecaProps {
    * `denso` é a folha de contato: só foto e nome, em coluna estreita.
    *
    * Existe para o balcão. Quando a Danielli vira a tela para a noiva, o que
-   * serve é ver MUITO vestido de uma vez e ela apontar — descrição, cor e
+   * serve é ver MUITO vestido de uma vez e ela apontar, descrição, cor e
    * preço em cada card só afastam as fotos uma da outra.
    */
   variante?: 'padrao' | 'denso'
@@ -66,7 +66,7 @@ export default function CardPeca({
   /*
     Dentro da própria peça o `<Link>` do router é o certo (navegação sem
     recarregar). Entre peças diferentes ele não funciona, porque o roteador de
-    uma não conhece as rotas da outra — e o erro é silencioso. `useHref`
+    uma não conhece as rotas da outra, e o erro é silencioso. `useHref`
     resolve o caminho e a comparação abaixo decide qual usar.
   */
   const href = useHref(destino)
@@ -90,7 +90,7 @@ export default function CardPeca({
 
           É informação de quem VENDE, não de quem compra: com a noiva do lado,
           saber que um vestido tem seis fotos e outro tem uma decide qual ela
-          abre primeiro. Só aparece a partir de três — "1 foto" é ruído, e
+          abre primeiro. Só aparece a partir de três: "1 foto" é ruído, e
           dizer que falta material não ajuda ninguém.
         */}
         <div
@@ -146,7 +146,7 @@ export default function CardPeca({
             a abrir vestido por vestido para responder "esse é sereia?". Aqui
             a resposta está na grade.
 
-            Some inteira enquanto ninguém classificou nada — que é o estado de
+            Some inteira enquanto ninguém classificou nada, que é o estado de
             hoje. Ver a ficha técnica em data/pecas.ts.
           */}
           {ficha.length > 0 && (
@@ -172,7 +172,7 @@ export default function CardPeca({
 
     Botão dentro de âncora é HTML inválido, e na prática o clique acaba
     navegando junto: a noiva marcaria o vestido e cairia na ficha dele.
-    Por isso o `group` mora no invólucro — assim o hover da foto continua
+    Por isso o `group` mora no invólucro, assim o hover da foto continua
     valendo para o card inteiro.
   */
   const classe = 'block'

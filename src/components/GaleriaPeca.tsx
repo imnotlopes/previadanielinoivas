@@ -14,7 +14,7 @@ interface GaleriaPecaProps {
  *
  * A foto grande É UM BOTÃO. Numa ficha de vestido a primeira coisa que a
  * pessoa faz é tocar na foto, e a expectativa universal desse toque é
- * ampliar — não fazer nada é o comportamento que faz parecer que a página
+ * ampliar, não fazer nada é o comportamento que faz parecer que a página
  * travou. O ícone de expandir está lá só para quem não tenta.
  *
  * O visor é montado sob demanda: enquanto ninguém abre, ele não existe no

@@ -2,7 +2,7 @@
  * OS VÍDEOS DA APRESENTAÇÃO.
  *
  * Todos verticais (9:16), mudos e em laço. Os arquivos servidos aqui são a
- * versão comprimida — os originais ficam em `videos-originais/`, fora do Git,
+ * versão comprimida. Os originais ficam em `videos-originais/`, fora do Git,
  * e `scripts/videos.mjs` gera o par .mp4 + .webp (o pôster).
  *
  * VERTICAL NÃO É FORMATO DE FUNDO
@@ -18,7 +18,7 @@ export interface VideoEditorial {
    * Arquivo menor, para telas estreitas.
    *
    * No carrossel do celular o vídeo aparece com ~255px de largura, e servir
-   * ali o arquivo de 720px é mandar o dobro dos pixels que cabem — num bloco
+   * ali o arquivo de 720px é mandar o dobro dos pixels que cabem, num bloco
    * que responde por quase todo o peso da página. Ausente quando o vídeo já
    * nasceu pequeno.
    */
@@ -32,7 +32,7 @@ export interface VideoEditorial {
   POR QUE NÃO HÁ LEGENDA EMBAIXO DE CADA VÍDEO
   --------------------------------------------
   A primeira versão tinha: "O bordado de perto", "O caimento no corpo", "A
-  cauda em movimento". Bonito, e falso — foram escritas olhando UM quadro de
+  cauda em movimento". Bonito, e falso, foram escritas olhando UM quadro de
   cada arquivo. Vendo os trinta segundos inteiros, os três são reels de
   vários vestidos em vários salões, e nenhum é sobre um assunto só.
 
@@ -42,14 +42,14 @@ export interface VideoEditorial {
 */
 
 /**
- * A loja por dentro — panorâmica pelos manequins.
+ * A loja por dentro, panorâmica pelos manequins.
  *
  * Vai no bloco "Quem atende", que é o de autoridade: uma noiva que recebe um
  * link precisa saber que existe loja de verdade, com acervo pendurado, e não
  * um perfil que revende foto.
  *
  * ATENÇÃO: a Danielli NÃO aparece neste vídeo. Ele mostra o acervo, não quem
- * atende — o retrato dela continua faltando. Ver `retrato` em data/atelier.ts.
+ * atende, o retrato dela continua faltando. Ver `retrato` em data/atelier.ts.
  */
 export const videoAtelier: VideoEditorial = {
   src: '/videos/atelier.mp4',
@@ -58,10 +58,10 @@ export const videoAtelier: VideoEditorial = {
 }
 
 /**
- * O tríptico — três vestidos em movimento.
+ * O tríptico, três vestidos em movimento.
  *
  * São três reels de trinta segundos, cada um passeando por vários vestidos em
- * salões diferentes — plano aberto, caminhada e fechado no bordado. Como os
+ * salões diferentes, plano aberto, caminhada e fechado no bordado. Como os
  * três têm a mesma natureza, a ordem entre eles é indiferente; o que importa
  * é serem três, porque três 9:16 lado a lado formam uma faixa que ocupa a
  * largura inteira sem cortar quadro nenhum.

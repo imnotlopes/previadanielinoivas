@@ -2,7 +2,7 @@
  * O QUE SUSTENTA A AUTORIDADE DA CASA.
  *
  * A Danielli pediu uma apresentação que mostre a autoridade dela. Autoridade
- * não se declara — "referência em noivas" é o que toda loja escreve, e por
+ * não se declara: "referência em noivas" é o que toda loja escreve, e por
  * isso não convence ninguém. O que convence é número verificável e rosto.
  *
  * Este arquivo guarda os dois. Está vazio de propósito: nada aqui pode ser
@@ -36,7 +36,7 @@ export const marcos: Marco[] = []
  * Retrato da Danielli, caminho a partir de /public.
  *
  * A noiva vai entregar o dia do casamento a uma pessoa. Uma apresentação de
- * atelier sem o rosto de quem atende passa a impressão de intermediário — que
+ * atelier sem o rosto de quem atende passa a impressão de intermediário, que
  * é exatamente o contrário do que ela quer comunicar.
  *
  * `null` enquanto não houver foto. Precisa ser foto DELA na loja, não foto de

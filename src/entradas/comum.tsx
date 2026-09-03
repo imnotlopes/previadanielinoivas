@@ -21,13 +21,13 @@ import '../index.css'
  *
  * A Danielli não quer site: ela quer links para colar no WhatsApp no meio da
  * conversa. Quando um link é colado, o WhatsApp mostra um cartão com foto e
- * título — e esse cartão é a primeira impressão, antes de qualquer clique.
+ * título, e esse cartão é a primeira impressão, antes de qualquer clique.
  *
  * O robô que monta esse cartão NÃO EXECUTA JAVASCRIPT. Numa aplicação de
  * página única, os três links devolveriam o mesmo `index.html` e portanto o
  * mesmo cartão: a noiva e a formanda receberiam previews idênticos. Um HTML
  * por peça, cada um com as suas próprias tags Open Graph escritas no arquivo,
- * é o que resolve — e mantém tudo estático e barato na Vercel.
+ * é o que resolve, e mantém tudo estático e barato na Vercel.
  *
  * O preço disso é a regra abaixo.
  */
@@ -38,7 +38,7 @@ import '../index.css'
  * Cada peça é uma aplicação separada: o React Router de uma não conhece as
  * rotas da outra. Um `<Link to="/catalogo">` dentro da apresentação renderiza
  * a rota "não encontrada" dela, porque `/catalogo` não existe naquele
- * roteador — e o erro é silencioso, sem nada no console.
+ * roteador, e o erro é silencioso, sem nada no console.
  *
  * Para ir de uma peça a outra use `<a href>`, que faz o navegador buscar o
  * HTML novo. `<Link>` continua certo DENTRO da mesma peça (catálogo → ficha
@@ -57,7 +57,7 @@ export const CAMINHOS = {
  * A limpeza das tags de SEO estáticas roda aqui, e não em cada entrada, para
  * não ser esquecida numa delas: sem ela o documento fica com DUAS
  * `<meta name="description">` e o Google considera a primeira, que é a
- * estática e genérica — ou seja, as descrições por rota seriam escritas e
+ * estática e genérica, ou seja, as descrições por rota seriam escritas e
  * ignoradas.
  */
 export function montar(app: ReactNode) {

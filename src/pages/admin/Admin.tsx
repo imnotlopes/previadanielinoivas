@@ -10,7 +10,7 @@ import PainelCupons from './PainelCupons'
 import PainelVestidos from './PainelVestidos'
 
 /**
- * PAINEL ADMINISTRATIVO — PRÉVIA
+ * PAINEL ADMINISTRATIVO: PRÉVIA
  * ==============================
  *
  * Existe para mostrar como será operar a loja: cadastrar vestido, criar
@@ -53,7 +53,7 @@ export default function Admin() {
           Rotas ABSOLUTAS. O painel virou uma aplicação própria (admin.html) e
           este <Routes> casa contra o caminho inteiro da URL, não contra o
           resto de uma rota-pai. Com `vestidos/*` relativo, nada casava e o
-          painel caía sempre no redirecionamento — sem erro nenhum no console.
+          painel caía sempre no redirecionamento, sem erro nenhum no console.
         */}
         <Routes>
           <Route path="/admin" element={<Inicio />} />
@@ -85,7 +85,7 @@ function Entrada({ aoEntrar }: { aoEntrar: () => void }) {
         {/*
           Sem campo de senha de propósito. Um formulário de login que aceita
           qualquer coisa ensina a pessoa a confiar numa proteção que não
-          existe — e este endereço é público. Melhor dizer a verdade na cara.
+          existe, e este endereço é público. Melhor dizer a verdade na cara.
         */}
         <p className="mt-6 text-sm leading-relaxed text-preto/70">
           Esta é uma <strong>demonstração</strong>. Não há senha nem banco de
@@ -127,11 +127,11 @@ const MENU = [
 ]
 
 /**
- * Navegação do painel — barra fixa embaixo no celular, coluna no desktop.
+ * Navegação do painel, barra fixa embaixo no celular, coluna no desktop.
  *
  * A Danielli opera do celular: ela disse que não tem computador. Barra fixa no
  * rodapé é onde o polegar alcança sem reposicionar a mão, e é o padrão que
- * todo aplicativo de celular usa — não precisa ser aprendido.
+ * todo aplicativo de celular usa, não precisa ser aprendido.
  *
  * No desktop a mesma lista vira coluna à esquerda, que é onde o olho procura
  * navegação numa tela larga.
@@ -285,8 +285,8 @@ function Inicio() {
   ]
 
   const pendencias = [
-    !config.whatsapp && 'Número de WhatsApp não preenchido — os botões do site caem no Instagram.',
-    !config.cidade && 'Cidade não preenchida — os títulos de busca saem sem ela.',
+    !config.whatsapp && 'Número de WhatsApp não preenchido: os botões do site caem no Instagram.',
+    !config.cidade && 'Cidade não preenchida: os títulos de busca saem sem ela.',
     pecas.every((p) => p.precoAluguel === null) &&
       'Nenhum vestido tem preço: todos aparecem como "valor sob consulta".',
   ].filter(Boolean) as string[]

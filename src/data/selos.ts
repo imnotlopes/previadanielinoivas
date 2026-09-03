@@ -4,7 +4,7 @@ import type { LucideIcon } from 'lucide-react'
 export interface Selo {
   icone: LucideIcon
   titulo: string
-  /** O texto padrão, escrito para a noiva — que é o público das três peças. */
+  /** O texto padrão, escrito para a noiva, que é o público das três peças. */
   detalhe: string
   /**
    * Alternativa para a peça de festa, quando a frase da noiva não serve.
@@ -21,14 +21,14 @@ export interface Selo {
 /**
  * Selos de confiança da página do vestido.
  *
- * ATENÇÃO — CONFIRME CADA UM ANTES DE PUBLICAR.
+ * ATENÇÃO: CONFIRME CADA UM ANTES DE PUBLICAR.
  * Selo no site é promessa. Se diz "ajuste incluso" e o ajuste for cobrado à
  * parte, a cliente descobre na hora de pagar e a conversa começa errada.
  * Melhor três selos verdadeiros que quatro bonitos: apague o que não for
  * verdade em vez de suavizar o texto.
  *
  * Os quatro abaixo são consistentes com o "Como funciona" da home e da página
- * Sobre, mas nasceram da mesma redação de prévia — nenhum foi confirmado com
+ * Sobre, mas nasceram da mesma redação de prévia, nenhum foi confirmado com
  * a Danielli.
  */
 export const selos: Selo[] = [

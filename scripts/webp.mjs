@@ -6,10 +6,10 @@
  *
  * O que NÃO é convertido, de propósito:
  *
- *   og-image.jpg  — é a imagem de preview de link. Os robôs do WhatsApp, do
+ *   og-image.jpg , é a imagem de preview de link. Os robôs do WhatsApp, do
  *                   Facebook e do Instagram não leem WebP de forma
  *                   confiável; em WebP o preview sai sem imagem.
- *   favicon.png   — ícone de aba e de tela inicial. PNG é o formato que
+ *   favicon.png  , ícone de aba e de tela inicial. PNG é o formato que
  *                   todo navegador e todo sistema aceitam sem ressalva.
  *
  * Depois de rodar, atualize os caminhos nos arquivos de src/data/.

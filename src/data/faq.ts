@@ -5,9 +5,9 @@ export interface Pergunta {
 }
 
 /**
- * Três perguntas — a FAQ aparece em todas as páginas, então precisa ser curta.
+ * Três perguntas, a FAQ aparece em todas as páginas, então precisa ser curta.
  *
- * ATENÇÃO — RESPOSTAS DE PRÉVIA
+ * ATENÇÃO: RESPOSTAS DE PRÉVIA
  * -----------------------------
  * As respostas abaixo são o que costuma valer numa loja de aluguel de
  * vestidos, escritas aqui para o site poder ser visto de pé. Prazo de reserva,
@@ -20,7 +20,7 @@ export const perguntas: Pergunta[] = [
     id: 'antecedencia',
     pergunta: 'Com quanto tempo de antecedência devo procurar a loja?',
     resposta:
-      'De três a seis meses antes do evento é o ideal. Não é regra: dá para resolver em cima da hora, e acontece bastante. Mas quanto antes você provar, maior o número de modelos ainda livres para a sua data — em época de formatura e em dezembro o acervo esvazia rápido.',
+      'De três a seis meses antes do evento é o ideal. Não é regra: dá para resolver em cima da hora, e acontece bastante. Mas quanto antes você provar, maior o número de modelos ainda livres para a sua data. Em época de formatura e em dezembro o acervo esvazia rápido.',
   },
   {
     id: 'ajuste',
@@ -32,6 +32,6 @@ export const perguntas: Pergunta[] = [
     id: 'devolucao',
     pergunta: 'Como funciona a devolução?',
     resposta:
-      'Você devolve nos dias combinados na reserva, e a lavagem fica por nossa conta — não precisa lavar nem passar antes de trazer. Mancha de festa é normal e está prevista; só pedimos cuidado com rasgo e queimadura, que são o que de fato tira uma peça do acervo.',
+      'Você devolve nos dias combinados na reserva, e a lavagem fica por nossa conta: não precisa lavar nem passar antes de trazer. Mancha de festa é normal e está prevista; só pedimos cuidado com rasgo e queimadura, que são o que de fato tira uma peça do acervo.',
   },
 ]

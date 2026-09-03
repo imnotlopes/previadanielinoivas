@@ -9,7 +9,7 @@ import { brand } from '../lib/brand'
 import { useLoja } from '../lib/loja'
 
 /**
- * PEÇA 3 — Festa e formatura.
+ * PEÇA 3: Festa e formatura.
  *
  * APRESENTAÇÃO E CATÁLOGO NO MESMO LINK, e isso é decisão de negócio, não
  * economia de arquivo. A cliente de festa não passa pelo primeiro contato de
@@ -18,7 +18,7 @@ import { useLoja } from '../lib/loja'
  * à toa.
  *
  * Por que é peça separada da noiva: são dois públicos com sazonalidade
- * diferente — época de formanda não é época de noiva. Dentro de festa, a loja
+ * diferente, época de formanda não é época de noiva. Dentro de festa, a loja
  * ainda distingue formanda de alto padrão, formatura, madrinha e mãe, e é isso
  * que o filtro de ocasião atende.
  *
@@ -63,7 +63,7 @@ export default function FestaFormatura() {
             <p className="mt-8 text-preto/75">
               Acervo para alugar, com prova sem compromisso e ajuste incluído no
               valor. Você reserva a data do evento e leva o vestido pronto, no
-              seu corpo — sem gastar o preço de uma festa inteira numa roupa que
+              seu corpo, sem gastar o preço de uma festa inteira numa roupa que
               se usa uma vez.
             </p>
 
@@ -109,9 +109,8 @@ export default function FestaFormatura() {
                 </h2>
                 <p className="mt-4 text-preto/65">
                   A coleção de festa é renovada a cada temporada. Tire um filtro
-                  ou chame no WhatsApp para saber o que entrou —{' '}
-                  {Object.values(rotulosOcasiao).join(', ').toLowerCase()}, tem
-                  para todas.
+                  ou chame no WhatsApp para saber o que entrou. Tem para{' '}
+                  {Object.values(rotulosOcasiao).join(', ').toLowerCase()}.
                 </p>
               </>
             }

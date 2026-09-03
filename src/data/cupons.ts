@@ -3,7 +3,7 @@ export interface Cupom {
   /** Como a cliente digita, sempre em maiúsculas. Vira o `?cupom=` da URL. */
   codigo: string
   tipoDesconto: 'percentual' | 'valor'
-  /** 10 para 10%, ou 50 para R$ 50,00 — conforme o tipo. */
+  /** 10 para 10%, ou 50 para R$ 50,00, conforme o tipo. */
   valor: number
   /** Nome de quem divulga. Aparece na faixa: "cupom X de Fulana". */
   parceira?: string
@@ -25,10 +25,10 @@ export interface Cupom {
  * para dentro da mensagem do WhatsApp. Não há checkout: o cupom é um recado
  * para a loja saber por onde a cliente chegou e qual desconto prometer.
  *
- * ATENÇÃO — DADOS DE PRÉVIA
+ * ATENÇÃO: DADOS DE PRÉVIA
  * -------------------------
  * Os três cupons abaixo foram inventados para demonstrar o mecanismo. Antes de
- * publicar: troque pelos combinados de verdade, ou esvazie a lista — sem
+ * publicar: troque pelos combinados de verdade, ou esvazie a lista, sem
  * cupom cadastrado, a faixa e todo o resto somem sozinhos.
  *
  * Enquanto os vestidos estiverem sem preço ("sob consulta"), o desconto não

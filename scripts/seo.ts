@@ -33,7 +33,7 @@ function escaparXml(texto: string): string {
 function montarSitemap(): string {
   /*
     As três peças de cliente, e as fichas dentro de cada catálogo.
-    O painel fica de fora — ele está no `Disallow` do robots e manda `noindex`.
+    O painel fica de fora, ele está no `Disallow` do robots e manda `noindex`.
 
     Só vestido PUBLICADO entra: o que a Danielli ocultou no painel não deve ser
     oferecido ao buscador, senão o Google indexa um endereço que responde

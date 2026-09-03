@@ -8,7 +8,7 @@
  * ====================================
  * Os fotógrafos entregam a cobertura inteira do casamento, não um catálogo de
  * vestidos. O conjunto "Fornecedores - Thamiris e Rodrigo" tem 185 fotos e a
- * maioria é maquiagem, sapato do noivo, decoração, banda e mesa de doces —
+ * maioria é maquiagem, sapato do noivo, decoração, banda e mesa de doces,
  * o arquivo existe porque o mesmo pacote vai para todos os fornecedores da
  * festa. Só uma fração é o vestido.
  *
@@ -25,7 +25,7 @@
  * tabela é a fonte de verdade da tradução, fica versionada no Git, e trocar
  * uma foto é mudar um número e rodar de novo.
  *
- * PRIVACIDADE — LER ANTES DE MEXER
+ * PRIVACIDADE: LER ANTES DE MEXER
  * ================================
  * A pasta Fotográfos/ está no .gitignore e precisa continuar. São noivas
  * reais, identificáveis, no dia do casamento delas, e o repositório é PÚBLICO.
@@ -36,7 +36,7 @@
  * ====================
  * Este script não descompacta: o Node não traz leitor de zip, e instalar um
  * pacote para descompactar três arquivos que já estão no disco não se paga.
- * Descompacte à mão para `Fotográfos/extraido/<nome do conjunto>/` — uma pasta
+ * Descompacte à mão para `Fotográfos/extraido/<nome do conjunto>/`, uma pasta
  * por conjunto, as fotos soltas dentro.
  */
 import { existsSync } from 'node:fs'
@@ -63,7 +63,7 @@ const LADO_MAXIMO = 1600
 const PERDA_TOLERADA = 0.25
 
 /**
- * A SELEÇÃO — conjunto → { número na folha: caminho dentro de public/ }.
+ * A SELEÇÃO, conjunto → { número na folha: caminho dentro de public/ }.
  *
  * O número é o que aparece no canto de cada miniatura da folha de contato.
  *
@@ -71,7 +71,7 @@ const PERDA_TOLERADA = 0.25
  * ==============================================================
  * As fotos foram agrupadas POR VESTIDO olhando as folhas: mesma noiva, mesma
  * sessão, mesma peça. Onde a certeza era menor, o vestido entrou SOZINHO em
- * vez de ser juntado a outro — juntar depois é uma linha; separar um vestido
+ * vez de ser juntado a outro, juntar depois é uma linha; separar um vestido
  * que virou dois na cabeça da cliente é conversa ruim no balcão.
  *
  * Os NOMES são inventados, como os do resto do catálogo, e existem para a
@@ -80,27 +80,27 @@ const PERDA_TOLERADA = 0.25
  *
  * O QUE FICOU DE FORA, E POR QUÊ
  * ==============================
- * **20 fotos com marca d'água de outra loja** — VIASPOSA/vértice (30, 31, 32),
+ * **20 fotos com marca d'água de outra loja**: VIASPOSA/vértice (30, 31, 32),
  * RAINHA (33 a 41), IDEAL noivas/Raízes (59, 60, 61, 63, 64) e CENTER
  * NOIVAS/Solar (62, 65, 66). São fotos de catálogo dos fornecedores, e várias
- * estão entre as melhores do conjunto — mas a marca de outra loja dentro do
+ * estão entre as melhores do conjunto, mas a marca de outra loja dentro do
  * catálogo da Danielli derruba justamente a autoridade que ele existe para
  * construir. Pedir a versão limpa ao fornecedor resolve; fotografar as peças
  * dela resolve melhor.
  *
- * **4 prints de tela** (42, 43, 68, 96) — resolução de captura de celular.
+ * **4 prints de tela** (42, 43, 68, 96): resolução de captura de celular.
  *
- * **Fotos de noivo e de casal** (73, 74, 89 a 95) — são material de casamento,
+ * **Fotos de noivo e de casal** (73, 74, 89 a 95): são material de casamento,
  * não de catálogo. Entram na apresentação quando houver autorização.
  *
- * **Um vestido de festa** (94) — dourado bordado, boa foto. Fica anotado aqui
+ * **Um vestido de festa** (94), dourado bordado, boa foto. Fica anotado aqui
  * para entrar no catálogo de festa quando a ocasião for confirmada.
  */
 const SELECAO = {
   /*
     O VESTIDO DA FILHA DA CASA.
 
-    A Aurora é o vestido que a Natália — filha da Danielli — usou no próprio
+    A Aurora é o vestido que a Natália, filha da Danielli, usou no próprio
     casamento, e ela é a capa do catálogo. Estas três fotos vêm da cobertura
     do casamento: o vestido inteiro, as costas e ele dentro da igreja. É a
     ficha mais rica do acervo de propósito: é para ela que a capa aponta.
@@ -112,7 +112,7 @@ const SELECAO = {
 
       Os três são VERTICAIS de propósito. As horizontais da cobertura (a saia
       espalhada, o corredor da igreja) perdem metade da largura no corte 3:4 e
-      caem na regra do fundo desfocado — numa galeria de ficha, metade das
+      caem na regra do fundo desfocado, numa galeria de ficha, metade das
       fotos com faixa borrada parece defeito.
 
       A nº 42 também não entra: ela é a hero de celular desta mesma ficha, e
@@ -204,7 +204,7 @@ const SELECAO = {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Passo 1 — folhas de contato                                                 */
+/* Passo 1, folhas de contato                                                 */
 /* -------------------------------------------------------------------------- */
 
 const COLS = 6
@@ -279,7 +279,7 @@ async function montarFolhas() {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Passo 2 — processar a seleção                                               */
+/* Passo 2, processar a seleção                                               */
 /* -------------------------------------------------------------------------- */
 
 /**
@@ -288,7 +288,7 @@ async function montarFolhas() {
  * Foto muito fora dessa proporção perde demais no corte: uma 1:2,6 mostra só
  * 51% de si mesma, o que decapita a noiva ou come a barra do vestido. Quando o
  * corte passaria de 25%, a saída é preencher as laterais com uma versão
- * desfocada e escurecida da própria imagem até fechar 3:4 — o vestido aparece
+ * desfocada e escurecida da própria imagem até fechar 3:4, o vestido aparece
  * inteiro e o enquadramento continua sendo o do fotógrafo.
  *
  * `position: 'attention'` no corte normal: o sharp procura a região de maior
@@ -380,7 +380,7 @@ if (!ORIGEM) {
     console.log('Abra com a Danielli, anote os números e preencha a SELECAO deste arquivo.')
   }
 } else if (Object.keys(SELECAO).length === 0) {
-  console.log('A tabela SELECAO está vazia — nada a processar.')
+  console.log('A tabela SELECAO está vazia, nada a processar.')
   console.log('Rode com --folhas para montar as folhas de contato primeiro.')
 } else {
   await processarSelecao()

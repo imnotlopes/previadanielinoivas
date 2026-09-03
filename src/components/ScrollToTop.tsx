@@ -7,7 +7,7 @@ import { useLocation, useNavigationType } from 'react-router-dom'
  * VOLTAR PRECISA VOLTAR PARA ONDE ESTAVA
  * --------------------------------------
  * O comportamento anterior era simples demais: topo a cada troca de rota,
- * inclusive no botão voltar. Num catálogo de 40 vestidos isso custa caro — a
+ * inclusive no botão voltar. Num catálogo de 40 vestidos isso custa caro, a
  * noiva rola até o vigésimo oitavo, abre a ficha, volta, e cai no primeiro.
  * Com a Danielli atendendo de pé, é ela quem tem de refazer a rolagem na
  * frente da cliente.
@@ -26,7 +26,7 @@ import { useLocation, useNavigationType } from 'react-router-dom'
  *
  * Fora do componente de propósito: precisa sobreviver à desmontagem, que é
  * exatamente o que acontece quando se sai do catálogo para a ficha.
- * `location.key` é estável por entrada — o React Router devolve a mesma chave
+ * `location.key` é estável por entrada, o React Router devolve a mesma chave
  * ao voltar para ela.
  */
 const posicoes = new Map<string, number>()
@@ -56,7 +56,7 @@ export default function ScrollToTop() {
     /*
       Só o caminho conta. Trocar filtro ou digitar na busca também cria
       entrada no histórico, e sem esta guarda a página saltaria para o topo a
-      cada letra digitada — com o campo de busca fixo no topo, o texto ficaria
+      cada letra digitada, com o campo de busca fixo no topo, o texto ficaria
       parado e a lista pulando embaixo dele.
     */
     if (anterior.current === pathname) return

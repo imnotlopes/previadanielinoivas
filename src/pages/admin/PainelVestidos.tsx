@@ -40,7 +40,7 @@ export default function PainelVestidos() {
 /**
  * Lista do acervo, em cartões e não em tabela.
  *
- * A Danielli opera do celular — ela disse que não tem computador. Tabela com
+ * A Danielli opera do celular, ela disse que não tem computador. Tabela com
  * seis colunas em tela de 375px vira rolagem lateral, e rolagem lateral com o
  * polegar é a forma mais rápida de alguém desistir de usar um painel.
  *
@@ -139,7 +139,7 @@ function Listagem() {
             {/*
               Alvo de toque grande (44px é o mínimo confortável para o polegar)
               e estado dito em palavra, não só em ícone: "olho cortado" sozinho
-              é ambíguo — pode ser "está oculto" ou "clique para ocultar".
+              é ambíguo, pode ser "está oculto" ou "clique para ocultar".
             */}
             <button
               type="button"
@@ -395,7 +395,7 @@ function Formulario() {
         )}
 
         {/*
-          FICHA TÉCNICA — o vocabulário da arara.
+          FICHA TÉCNICA, o vocabulário da arara.
 
           Vem depois da cor e antes da numeração porque é essa a ordem da
           conversa na loja: a noiva descarta por formato antes de perguntar
@@ -403,7 +403,7 @@ function Formulario() {
 
           Todos começam em "não informar", e é assim que devem ficar até ela
           conferir peça por peça. Um decote errado no catálogo é uma noiva que
-          vem à loja provar um vestido que não queria — pior que campo vazio.
+          vem à loja provar um vestido que não queria, pior que campo vazio.
         */}
         <fieldset className="border border-borda-sutil bg-branco p-5">
           <legend className="px-2 font-display text-h6 uppercase tracking-luxo">
@@ -515,7 +515,7 @@ function Formulario() {
           />
           <p className="mt-2 text-sm text-preto/60">
             Abre dentro da própria ficha, sem precisar mandar separado. Link do
-            Instagram também funciona, mas abre fora — o Instagram não deixa
+            Instagram também funciona, mas abre fora: o Instagram não deixa
             outro site exibir o vídeo por dentro.
           </p>
         </div>
@@ -531,7 +531,7 @@ function Formulario() {
           />
           {/*
             TODO: o envio de foto pelo celular é o buraco que mais dói neste
-            painel — hoje é preciso colar um caminho de arquivo que já exista
+            painel, hoje é preciso colar um caminho de arquivo que já exista
             em public/. Resolver junto com o banco de verdade.
           */}
           <p className="mt-2 text-sm text-preto/60">
@@ -572,8 +572,8 @@ function Formulario() {
 /**
  * Um campo da ficha técnica.
  *
- * Os quatro têm exatamente a mesma forma — rótulo, "não informar" e a lista de
- * opções —, e escrever quatro `<select>` iguais à mão é convidar a divergência
+ * Os quatro têm exatamente a mesma forma, rótulo, "não informar" e a lista de
+ * opções, e escrever quatro `<select>` iguais à mão é convidar a divergência
  * na quinta vez que alguém mexer aqui.
  *
  * "Não informar" é o valor vazio de propósito: é diferente de "sem cauda", que

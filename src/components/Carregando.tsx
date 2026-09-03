@@ -2,7 +2,7 @@
  * Espera do chunk da rota.
  *
  * Reserva 60svh de altura para o rodapé não saltar quando o conteúdo chega.
- * O filete é o único elemento que pisca — sem spinner, que numa peça de marca
+ * O filete é o único elemento que pisca, sem spinner, que numa peça de marca
  * parece erro de carregamento.
  */
 export default function Carregando() {

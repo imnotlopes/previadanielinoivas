@@ -4,12 +4,12 @@ import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
 
 /**
- * Depoimentos — foto da noiva ao lado da fala dela.
+ * Depoimentos, foto da noiva ao lado da fala dela.
  *
  * O FORMATO É O ARGUMENTO. Uma frase elogiosa solta é indistinguível de texto
  * inventado, e este projeto já teve depoimento inventado uma vez. Com o rosto
  * ao lado, deixa de ser "alguém disse isso" e passa a ser "esta noiva disse
- * isso" — que é a diferença entre enfeite e prova.
+ * isso", que é a diferença entre enfeite e prova.
  *
  * Por isso não é card em grade: cada depoimento ocupa a largura toda, com a
  * foto grande e a fala em corpo de display. Grade de quatro cartõezinhos
@@ -120,7 +120,7 @@ function EspacoReservado() {
         </p>
         <p className="mt-6 max-w-md text-sm leading-relaxed text-preto/60">
           Espaço reservado. Cada depoimento é a <strong>foto dela</strong> mais a{' '}
-          <strong>fala dela</strong> — print de conversa no WhatsApp serve de
+          <strong>fala dela</strong>. Print de conversa no WhatsApp serve de
           fonte para o texto, e a foto sai do material dos fotógrafos. Precisa
           de autorização das duas coisas: uma pessoa pode topar a fala e não
           querer o rosto.

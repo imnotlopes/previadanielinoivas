@@ -16,7 +16,7 @@ import sharp from 'sharp'
  * 4G, e o bloco fica um retângulo preto até desistir.
  *
  * Os três editoriais vinham com trilha de áudio de 317 kbps que nunca vai ser
- * ouvida — vídeo em autoplay só toca mudo, por regra do navegador. Jogar a
+ * ouvida, vídeo em autoplay só toca mudo, por regra do navegador. Jogar a
  * faixa fora sozinho já corta mais de 1 MB de cada um.
  *
  * O ALVO
@@ -32,7 +32,7 @@ import sharp from 'sharp'
  * O PÔSTER NÃO É ENFEITE
  * ----------------------
  * É o primeiro quadro salvo como WebP, e ele é o que aparece enquanto o vídeo
- * não carregou — e o que aparece PARA SEMPRE para quem pediu
+ * não carregou, e o que aparece PARA SEMPRE para quem pediu
  * `prefers-reduced-motion`. Sem pôster, cada bloco de vídeo é um buraco preto
  * no meio da leitura.
  *
@@ -45,7 +45,7 @@ const SAIDA = 'public/videos'
 /**
  * UMA VERSÃO SÓ PARA CELULAR, E ELA É A QUE MAIS IMPORTA.
  *
- * No carrossel do celular o vídeo aparece com cerca de 255px de largura — 510
+ * No carrossel do celular o vídeo aparece com cerca de 255px de largura, 510
  * numa tela retina. Servir ali o arquivo de 720px é mandar o dobro dos pixels
  * que cabem, e vídeo é 90% do peso desta página.
  *

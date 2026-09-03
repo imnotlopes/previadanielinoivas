@@ -21,7 +21,7 @@ interface VisorProps {
    *
    * Quem folheou até a quinta foto em tela cheia espera encontrar a quinta
    * ao fechar. Voltar para a primeira dá a impressão de que a navegação não
-   * foi registrada — e na prova, obriga a refazer o caminho na frente da
+   * foi registrada, e na prova, obriga a refazer o caminho na frente da
    * noiva.
    */
   aoFechar: (indiceFinal: number) => void
@@ -34,13 +34,13 @@ const FATOR_ZOOM = 2.4
 const LIMIAR_ARRASTO = 55
 
 /**
- * A FOTO EM TELA CHEIA — o momento de venda.
+ * A FOTO EM TELA CHEIA, o momento de venda.
  * ==========================================
  *
  * Este componente existe por causa de uma frase da conversa: o catálogo é a
  * ferramenta que a Danielli usa NA LOJA, ao apresentar os vestidos para a
  * noiva. Isso é uma tela sendo virada para outra pessoa, a dois palmos do
- * rosto — e nesse enquadramento a grade de cards não serve de nada.
+ * rosto, e nesse enquadramento a grade de cards não serve de nada.
  *
  * O que serve é a foto ocupando tudo, e o zoom. Vestido de noiva se vende no
  * detalhe: o bordado do corpete, o acabamento do decote, o tipo de renda. Sem
@@ -56,7 +56,7 @@ const LIMIAR_ARRASTO = 55
  *    centro obriga a arrastar até o detalhe, e quem está segurando a tela para
  *    outra pessoa ver não tem mão sobrando.
  *  - Arrastar de lado troca de foto só quando NÃO está com zoom. Com zoom, o
- *    arrasto é para percorrer a imagem — que é o gesto que a mão já espera.
+ *    arrasto é para percorrer a imagem, que é o gesto que a mão já espera.
  */
 export default function Visor({ imagens, indiceInicial, nome, aoFechar }: VisorProps) {
   const [indice, setIndice] = useState(indiceInicial)
@@ -215,7 +215,7 @@ export default function Visor({ imagens, indiceInicial, nome, aoFechar }: VisorP
       >
         <img
           src={imagens[indice]}
-          alt={`${nome} — foto ${indice + 1} de ${imagens.length}`}
+          alt={`${nome}, foto ${indice + 1} de ${imagens.length}`}
           draggable={false}
           onPointerUp={(evento) => {
             /* Um arrasto não pode virar zoom por acidente. */

@@ -6,14 +6,14 @@ import Rodape from './Rodape'
 import TopoMarca from './TopoMarca'
 
 /**
- * Casca da apresentação — peça de marca.
+ * Casca da apresentação, peça de marca.
  *
  * Sem menu de navegação. A apresentação é uma peça única que se lê de cima a
  * baixo, e um menu com quatro itens convidaria a sair dela antes do fim. O
  * único caminho adiante é o botão do fim da página, que leva ao catálogo.
  *
- * O que ficava grudado no fim de TODA rota — depoimentos, avaliações, FAQ e
- * mapa — saiu do layout e virou conteúdo desta peça, montado à mão dentro da
+ * O que ficava grudado no fim de TODA rota (depoimentos, avaliações, FAQ e
+ * mapa) saiu do layout e virou conteúdo desta peça, montado à mão dentro da
  * página. A regra antiga ("qualquer página precisa fechar sozinha, porque não
  * se controla por onde a visita entra") deixou de valer quando cada link
  * passou a ter um destino conhecido: a noiva não cai aqui pelo Google, ela

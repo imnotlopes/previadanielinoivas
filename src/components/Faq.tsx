@@ -33,7 +33,7 @@ export default function Faq() {
               como="li"
               distancia="curta"
               /* Teto no escalonamento: com 10 perguntas, 60 ms cada já daria
-                 meio segundo até a última — e ninguém espera um FAQ chegar. */
+                 meio segundo até a última, e ninguém espera um FAQ chegar. */
               atraso={Math.min(indice, 5) * 60}
               className="border-b border-borda-sutil"
             >

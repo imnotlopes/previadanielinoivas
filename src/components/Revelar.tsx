@@ -10,7 +10,7 @@ interface RevelarProps {
    * `indice * 90` e os itens chegam em cascata em vez de em bloco.
    *
    * Cuidado com o total. Acima de uns 600 ms de atraso a pessoa já leu o
-   * bloco e está esperando ele aparecer — o que é o oposto do efeito.
+   * bloco e está esperando ele aparecer, o que é o oposto do efeito.
    */
   atraso?: number
   /**
@@ -37,7 +37,7 @@ const DISTANCIAS: Record<NonNullable<RevelarProps['distancia']>, string> = {
  * dos cards, por exemplo) sem que as duas transformações briguem.
  *
  * Sem JavaScript, com `prefers-reduced-motion` ou em navegador sem
- * `IntersectionObserver`, nasce revelado — ver lib/movimento.ts.
+ * `IntersectionObserver`, nasce revelado, ver lib/movimento.ts.
  */
 export default function Revelar({
   children,
@@ -76,13 +76,13 @@ interface FraseReveladaProps {
 /**
  * A mesma revelação, mas palavra por palavra.
  *
- * Reservada para UMA frase por peça — a frase da marca. Aplicada em texto
+ * Reservada para UMA frase por peça, a frase da marca. Aplicada em texto
  * corrido vira efeito de apresentação de slides barata, e o segundo uso já
  * destrói o efeito do primeiro.
  *
  * Acessibilidade: as palavras continuam sendo texto, separadas por espaços de
  * verdade, dentro de um único elemento. Leitor de tela lê a frase inteira e
- * seguida — o que não aconteceria com uma `<span>` por letra.
+ * seguida, o que não aconteceria com uma `<span>` por letra.
  */
 export function FraseRevelada({
   texto,

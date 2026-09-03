@@ -5,14 +5,14 @@ import SecaoTitulo from './SecaoTitulo'
 import MuralCasamentos from './MuralCasamentos'
 
 /**
- * "No dia delas" — uma sequência por casamento.
+ * "No dia delas", uma sequência por casamento.
  *
  * O QUE MUDOU, E POR QUÊ
  * ----------------------
  * Era um mosaico de doze fotos soltas. Um mosaico diz "temos fotos bonitas", e
  * a noiva já viu mil no Instagram. Uma sequência cronológica diz outra coisa:
  * que um vestido daqui atravessou o dia inteiro de alguém, do roupão ao
- * brinde. É a diferença entre mostrar o produto e mostrar a consequência — e
+ * brinde. É a diferença entre mostrar o produto e mostrar a consequência, e
  * nesta página é a consequência que faz marcar a prova.
  *
  * OITO QUADROS, NÃO DOIS
@@ -20,7 +20,7 @@ import MuralCasamentos from './MuralCasamentos'
  * Com duas fotos grandes ocupando a seção, a parede quase não se movia: uma
  * troca a cada três segundos e meio, em dois lugares, lê-se como imagem
  * parada. Com oito quadros em rodízio há sempre alguma coisa mudando, e o que
- * se vê é o acervo passando — que é o assunto.
+ * se vê é o acervo passando, que é o assunto.
  *
  * A mecânica está em MuralCasamentos; aqui fica só o enquadramento da seção.
  */

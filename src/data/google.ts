@@ -11,7 +11,7 @@ export const googleNegocio = {
   /**
    * TODO: PREENCHER ANTES DE PUBLICAR, a partir do Perfil da Empresa.
    * Enquanto endereço e cidade estiverem vazios, o bloco de endereço e o mapa
-   * não aparecem — ver os guardas em components/SecaoGoogle.tsx.
+   * não aparecem, ver os guardas em components/SecaoGoogle.tsx.
    */
   endereco: '',
   cidade: '',
@@ -57,7 +57,7 @@ export interface AvaliacaoGoogle {
 }
 
 /**
- * VAZIO DE PROPÓSITO — não era, e foi esvaziado.
+ * VAZIO DE PROPÓSITO, não era, e foi esvaziado.
  *
  * Este arquivo continha 12 avaliações inventadas, mais `nota: 5` e
  * `totalAvaliacoes: 38` que o Google nunca deu. Serviam para o site poder ser

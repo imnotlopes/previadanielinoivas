@@ -1,25 +1,25 @@
 /**
- * OS CASAMENTOS — uma sequência por casal, não um mosaico de fotos soltas.
+ * OS CASAMENTOS, uma sequência por casal, não um mosaico de fotos soltas.
  * =======================================================================
  *
  * Antes isto era uma lista plana de doze fotos numa grade. Virou uma lista de
  * CASAMENTOS, cada um com dezenas de fotos em ordem cronológica, porque o que
  * a seção precisa mostrar não é "temos fotos bonitas": é que um vestido daqui
- * atravessou o dia inteiro de alguém. Isso só se vê em sequência — a noiva de
+ * atravessou o dia inteiro de alguém. Isso só se vê em sequência, a noiva de
  * roupão, a mãe fechando o botão, o pai na porta, a igreja, o brinde.
  *
  * A ORDEM DAS FOTOS É O ROTEIRO. Elas foram escolhidas e ordenadas à mão em
  * `scripts/casamentos.mjs`, e é lá que se mexe: os números da folha de contato
  * são a fonte, este arquivo é o resultado colado.
  *
- * ⚠️ BLOQUEADOR — AUTORIZAÇÃO DOS NOIVOS
+ * ⚠️ BLOQUEADOR: AUTORIZAÇÃO DOS NOIVOS
  * ======================================
  * São pessoas reais, identificáveis, no dia do casamento delas, e o link é
  * mandado para desconhecidas por WhatsApp. **Cada casal precisa autorizar por
  * escrito antes de isto ir ao ar**, e a autorização é de duas coisas
  * separadas: as fotos e o nome.
  *
- * Enquanto `casal` estiver vazio, a sequência aparece sem nome nenhum — que é
+ * Enquanto `casal` estiver vazio, a sequência aparece sem nome nenhum, que é
  * o estado seguro. Preencher o nome é dizer publicamente quem são.
  */
 
@@ -27,7 +27,7 @@ export interface Casamento {
   /** Identificador estável, usado como chave e prefixo dos arquivos. */
   id: string
   /**
-   * "João Pedro e Natália". Vazio enquanto não houver autorização do NOME —
+   * "João Pedro e Natália". Vazio enquanto não houver autorização do NOME,
    * que é separada da autorização das fotos. Ver o bloqueador acima.
    */
   casal: string
@@ -38,7 +38,7 @@ export interface Casamento {
    *
    * É UMA por casamento, e não uma por foto, de propósito: sessenta textos
    * alternativos descrevendo variações da mesma cena não ajudam ninguém a
-   * navegar — atrapalham. Quem lê com leitor de tela precisa saber que ali há
+   * navegar, atrapalham. Quem lê com leitor de tela precisa saber que ali há
    * uma sequência de fotos daquele casamento, e seguir em frente.
    */
   descricao: string

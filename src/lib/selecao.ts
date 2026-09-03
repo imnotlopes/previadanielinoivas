@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react'
 
 /**
- * "QUERO PROVAR ESSES" — a lista que a noiva monta enquanto folheia.
+ * "QUERO PROVAR ESSES", a lista que a noiva monta enquanto folheia.
  * =================================================================
  *
  * É o recurso que transforma o catálogo de vitrine em ferramenta de venda.
@@ -12,7 +12,7 @@ import { useSyncExternalStore } from 'react'
  * cinco, e manda "gostei do terceiro e daquele de manga". A Danielli não faz
  * ideia de quais são. Ou pior: a noiva chega na loja e não lembra.
  *
- * Com isto, ela marca enquanto vê, e sai UMA mensagem com os nomes — mais o
+ * Com isto, ela marca enquanto vê, e sai UMA mensagem com os nomes, mais o
  * link que reabre exatamente a mesma seleção do lado da Danielli. Os vestidos
  * já estão separados quando ela chega.
  *
@@ -128,7 +128,7 @@ function definir(proximo: Guardado) {
  *
  * O parâmetro é apagado da barra de endereço logo depois, com
  * `replaceState`. Se ficasse, recarregar a página desfaria qualquer vestido
- * que ela tirasse da lista — o link continuaria mandando na tela.
+ * que ela tirasse da lista, o link continuaria mandando na tela.
  */
 function iniciar() {
   if (typeof window === 'undefined') return
@@ -228,7 +228,7 @@ export function useSelecao(): Selecao {
  * Marca ou desmarca um vestido.
  *
  * O limite de 12 não é técnico. É que "quero provar esses" com 30 vestidos
- * não é uma seleção, é o catálogo de novo — e a Danielli receberia uma
+ * não é uma seleção, é o catálogo de novo, e a Danielli receberia uma
  * mensagem que não ajuda a separar nada. Uma prova rende de seis a dez
  * vestidos; 12 já é folga.
  */

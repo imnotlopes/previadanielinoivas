@@ -1,7 +1,7 @@
 import type { SVGProps } from 'react'
 
 /**
- * O lucide-react v1 removeu os ícones de marca — não existem mais `Instagram`
+ * O lucide-react v1 removeu os ícones de marca, não existem mais `Instagram`
  * nem WhatsApp no pacote. Estes dois são desenhados aqui, seguindo as mesmas
  * convenções do lucide (viewBox 24, traço em currentColor, cantos arredondados)
  * para que fiquem visualmente coerentes com os ícones importados.

@@ -19,8 +19,8 @@ interface TopoMarcaProps {
  * SEM MENU DE NAVEGAÇÃO, e isso é a mudança mais visível da reestruturação.
  * Antes havia quatro itens (Início, Catálogo, Como funciona, Sobre) porque o
  * projeto era um site e não se controlava por onde a visita entrava. Agora
- * cada link tem destino conhecido — a Danielli manda o link certo para a
- * pessoa certa — e um menu só ofereceria saídas de uma peça que a cliente
+ * cada link tem destino conhecido, a Danielli manda o link certo para a
+ * pessoa certa, e um menu só ofereceria saídas de uma peça que a cliente
  * acabou de abrir.
  *
  * O link do Instagram fica porque é o único que leva para MAIS da marca, não
