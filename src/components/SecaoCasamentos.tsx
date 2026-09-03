@@ -1,26 +1,36 @@
-import { fotosCasamentos } from '../data/casamentos'
+import { casamentos } from '../data/casamentos'
 import { CAMINHOS } from '../entradas/comum'
-import { cn } from '../lib/utils'
 import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
+import MuralCasamentos from './MuralCasamentos'
 
 /**
- * Vitrine dos casamentos atendidos.
+ * "No dia delas" — uma sequência por casamento.
  *
- * Grade em mosaico: as fotos em retrato ocupam duas linhas, as quadradas
- * uma só. Assim o bloco respira sem precisar recortar todas no mesmo
- * formato, que é o que costuma decapitar noiva em foto de casamento.
+ * O QUE MUDOU, E POR QUÊ
+ * ----------------------
+ * Era um mosaico de doze fotos soltas. Um mosaico diz "temos fotos bonitas", e
+ * a noiva já viu mil no Instagram. Uma sequência cronológica diz outra coisa:
+ * que um vestido daqui atravessou o dia inteiro de alguém, do roupão ao
+ * brinde. É a diferença entre mostrar o produto e mostrar a consequência — e
+ * nesta página é a consequência que faz marcar a prova.
  *
- * As fotos chegam escalonadas, e o escalonamento é POR COLUNA e não por foto:
- * com 90 ms cada, um mosaico de doze fotos levaria mais de um segundo para
- * terminar e a última chegaria depois de a pessoa já ter olhado o bloco todo.
+ * OITO QUADROS, NÃO DOIS
+ * ----------------------
+ * Com duas fotos grandes ocupando a seção, a parede quase não se movia: uma
+ * troca a cada três segundos e meio, em dois lugares, lê-se como imagem
+ * parada. Com oito quadros em rodízio há sempre alguma coisa mudando, e o que
+ * se vê é o acervo passando — que é o assunto.
+ *
+ * A mecânica está em MuralCasamentos; aqui fica só o enquadramento da seção.
  */
 export default function SecaoCasamentos() {
-  if (fotosCasamentos.length === 0) return null
+  const comFotos = casamentos.filter((c) => c.fotos.length > 0)
+  if (comFotos.length === 0) return null
 
   return (
     <section className="border-t border-borda-sutil bg-branco">
-      <div className="container-luxo folha">
+      <div className="container-luxo secao">
         <Revelar>
           <SecaoTitulo
             eyebrow="Casamentos"
@@ -30,37 +40,14 @@ export default function SecaoCasamentos() {
           />
         </Revelar>
 
-        <ul className="mt-14 grid auto-rows-[minmax(0,180px)] grid-cols-2 gap-4 sm:auto-rows-[minmax(0,220px)] lg:grid-cols-4 lg:gap-5">
-          {fotosCasamentos.map((foto, indice) => (
-            <Revelar
-              key={foto.src}
-              como="li"
-              distancia="curta"
-              atraso={(indice % 4) * 90}
-              className={cn(
-                'group relative overflow-hidden bg-borda-sutil',
-                foto.formato === 'retrato' ? 'row-span-2' : 'row-span-1',
-              )}
-            >
-              <img
-                src={foto.src}
-                alt={foto.alt}
-                loading="lazy"
-                decoding="async"
-                className="size-full object-cover transition-transform duration-700 ease-suave group-hover:scale-[1.04]"
-              />
-
-              {foto.casal && (
-                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-preto/80 to-transparent p-4 pt-10 font-display text-h6 uppercase tracking-luxo text-branco">
-                  {foto.casal}
-                </span>
-              )}
-            </Revelar>
-          ))}
-        </ul>
+        <Revelar distancia="curta">
+          <div className="mt-14">
+            <MuralCasamentos casamentos={comFotos} />
+          </div>
+        </Revelar>
 
         <Revelar atraso={160}>
-          <div className="mt-14 flex flex-col items-center gap-5 text-center">
+          <div className="mt-16 flex flex-col items-center gap-5 text-center">
             <p className="text-preto/70">
               Noivas vestidas por nós. O próximo altar pode ser o seu.
             </p>

@@ -261,6 +261,33 @@ catálogo — que hoje fica escondida.
 
 ---
 
+## Os casamentos
+
+61 fotos de dois casamentos, escolhidas e ordenadas à mão a partir de 337.
+
+```bash
+node scripts/casamentos.mjs --folhas   # folhas de contato numeradas
+node scripts/casamentos.mjs            # processa a tabela SELECAO
+```
+
+A seção virou um **mural de oito quadros**: um relógio só troca UM quadro a
+cada 900 ms e passa a vez adiante. Se cada quadro tivesse cronômetro próprio,
+mais cedo ou mais tarde cairiam em sincronia e a parede piscaria inteira.
+Quadros pares são de um casamento, ímpares do outro.
+
+A ordem dos números em `SELECAO` é a ordem que aparece: preparação, o vestido,
+os pais, a igreja, a festa. Mexer lá muda a sequência na tela.
+
+**Ficou de fora:** mesa de doces, bar, decoração e retratos de convidados (o
+conjunto "Fornecedores" existe porque o mesmo pacote vai para o buffet e o
+decorador), e **qualquer foto com o nome do casal legível** — bastidor
+bordado, placa, cardápio. O campo `casal` está vazio esperando autorização do
+nome; deixar o nome aparecer dentro da foto publicaria o que aquele campo
+vazio está segurando.
+
+⚠️ **Bloqueador:** autorização por escrito de cada casal, das fotos **e** do
+nome, que são coisas separadas.
+
 ## Vídeos
 
 Quatro verticais (9:16), mudos e em laço. Os originais somavam **33 MB**; o
