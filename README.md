@@ -261,6 +261,22 @@ catálogo — que hoje fica escondida.
 
 ---
 
+## Celular primeiro
+
+É onde a maioria abre — o link vai colado numa conversa de WhatsApp. O peso da
+apresentação saiu de **7,9 MB para 1,9 MB** no celular, sem tirar conteúdo:
+
+| o que | como |
+| --- | --- |
+| vídeos: 7,4 → 1,9 MB | versão de 540px para tela estreita (`-540.mp4`), e carrossel horizontal no lugar dos três empilhados — só o primeiro entra na tela, os outros dois só baixam se ela arrastar |
+| fotos dos casamentos: 854 → 434 KB | duas larguras (400 e 900) com `srcset` e um `sizes` por tamanho de quadro. Antes, um quadro de 160px recebia a foto de 900 |
+| alvos de toque | 44px no marcador "quero provar", no ícone do Instagram do topo e na pausa dos vídeos; 36–40px nos links de texto |
+| a pausa dos vídeos | era `opacity-0 group-hover` — **não existia no toque**, e ela é exigência de acessibilidade. Agora é visível no celular e escondida no computador |
+
+O limiar do observador dos vídeos é 0,4 e não 0,25 por causa do carrossel: o
+vídeo seguinte fica com 22% à mostra, e um limiar menor disparava o download de
+1,2 MB que ninguém pediu.
+
 ## Os casamentos
 
 61 fotos de dois casamentos, escolhidas e ordenadas à mão a partir de 337.

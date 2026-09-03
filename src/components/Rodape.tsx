@@ -8,8 +8,13 @@ import { IconeInstagram, IconeWhatsapp } from './icones'
 
 const MENSAGEM_RODAPE = `Olá! Vim pelo link da ${brand.nome} e gostaria de conversar.`
 
+/*
+  `py-2.5` não é respiro: é alvo de toque. O texto tem 19px de altura, e no
+  celular um link dessa espessura é erro de dedo garantido — o padding leva a
+  área tocável para perto dos 44px sem mudar nada do que se vê.
+*/
 const classeContato =
-  'inline-flex items-center gap-3 font-display text-h6 uppercase tracking-luxo text-branco/80 transition-colors duration-300 ease-suave hover:text-branco'
+  'inline-flex items-center gap-3 py-2.5 font-display text-h6 uppercase tracking-luxo text-branco/80 transition-colors duration-300 ease-suave hover:text-branco'
 
 interface RodapeProps {
   /**

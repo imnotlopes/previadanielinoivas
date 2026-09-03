@@ -88,7 +88,11 @@ export default function TopoMarca({ voltarPara = null }: TopoMarcaProps) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Instagram da loja (${instagram})`}
-            className="text-preto transition-colors duration-300 ease-suave hover:text-cinza"
+            /* `-mr-3 p-3`: o ícone tem 20px e o alvo precisa de 44. O padding
+               cria a área de toque e a margem negativa a devolve ao layout,
+               para o ícone continuar alinhado com a borda do container. */
+            className="-mr-3 inline-flex items-center justify-center p-3 text-preto
+                       transition-colors duration-300 ease-suave hover:text-cinza"
           >
             <IconeInstagram />
           </a>

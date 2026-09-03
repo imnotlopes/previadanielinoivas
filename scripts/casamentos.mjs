@@ -46,13 +46,16 @@ const EXTRAIDO = ORIGEM && path.join(ORIGEM, 'extraido')
 const FOLHAS = ORIGEM && path.join(ORIGEM, 'folhas-casamentos')
 
 /**
- * Altura da foto publicada. A largura sai daí, em 3:4.
+ * DUAS LARGURAS, PORQUE O MOSAICO TEM QUADROS DE TAMANHOS DIFERENTES.
  *
- * A sequência é exibida em, no máximo, ~640px de largura no computador e a
- * largura da tela no celular. 1200px cobre tela retina nos dois casos; acima
- * disso é peso que ninguém vê.
+ * Um quadro pequeno no celular tem 160px de largura. Servir nele a mesma foto
+ * de 900px que a peça grande usa é mandar quatro vezes mais bytes do que a
+ * tela consegue mostrar — e a maioria das noivas abre isto no 4G.
+ *
+ * 400 cobre os quadros pequenos e médios até em tela retina; 900 cobre o
+ * grande. Quem escolhe é o navegador, pelo `srcset` do componente.
  */
-const LADO_MAXIMO = 1200
+const LARGURAS = [400, 900]
 
 /* -------------------------------------------------------------------------- */
 /* A SELEÇÃO                                                                   */
@@ -210,9 +213,9 @@ async function montarFolhas() {
  * alternativa era a sequência inteira parecer quebrada — e porque cada foto
  * dessas ainda mostra o momento, só mais de perto.
  */
-async function paraTresQuartos(origem) {
-  const alvoA = LADO_MAXIMO
-  const alvoL = Math.round((alvoA * 3) / 4)
+async function paraTresQuartos(origem, largura) {
+  const alvoL = largura
+  const alvoA = Math.round((largura * 4) / 3)
 
   return sharp(origem)
     .rotate()
@@ -243,13 +246,20 @@ async function processarSelecao() {
         continue
       }
 
-      const nome = `${slug}-${String(i + 1).padStart(2, '0')}.webp`
-      const buffer = await paraTresQuartos(path.join(dir, arquivos[indice]))
-      await writeFile(path.join(DESTINO, nome), buffer)
+      const base = `${slug}-${String(i + 1).padStart(2, '0')}`
 
-      caminhos.push(`/casamentos/${nome}`)
+      for (const largura of LARGURAS) {
+        /* A maior fica com o nome limpo: é ela que vai no `src`, o que o
+           navegador antigo sem `srcset` baixa. */
+        const nome =
+          largura === Math.max(...LARGURAS) ? `${base}.webp` : `${base}-${largura}.webp`
+        const buffer = await paraTresQuartos(path.join(dir, arquivos[indice]), largura)
+        await writeFile(path.join(DESTINO, nome), buffer)
+        bytes += buffer.length
+      }
+
+      caminhos.push(`/casamentos/${base}.webp`)
       total += 1
-      bytes += buffer.length
     }
 
     console.log(`✓ ${slug}: ${caminhos.length} fotos`)
@@ -258,9 +268,7 @@ async function processarSelecao() {
   }
 
   console.log(
-    `\n${total} fotos · ${(bytes / 1024 / 1024).toFixed(1)} MB · média ${Math.round(
-      bytes / total / 1024,
-    )} KB`,
+    `\n${total} fotos em ${LARGURAS.length} larguras · ${(bytes / 1024 / 1024).toFixed(1)} MB`,
   )
 }
 

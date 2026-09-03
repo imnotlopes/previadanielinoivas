@@ -14,6 +14,15 @@
 
 export interface VideoEditorial {
   src: string
+  /**
+   * Arquivo menor, para telas estreitas.
+   *
+   * No carrossel do celular o vídeo aparece com ~255px de largura, e servir
+   * ali o arquivo de 720px é mandar o dobro dos pixels que cabem — num bloco
+   * que responde por quase todo o peso da página. Ausente quando o vídeo já
+   * nasceu pequeno.
+   */
+  srcCelular?: string
   poster: string
   /** O que se vê, para quem não vê. */
   alt: string
@@ -60,16 +69,19 @@ export const videoAtelier: VideoEditorial = {
 export const videosEditoriais: VideoEditorial[] = [
   {
     src: '/videos/editorial-1.mp4',
+    srcCelular: '/videos/editorial-1-540.mp4',
     poster: '/videos/editorial-1.webp',
     alt: 'Noivas em um salão de janelas altas, em vestidos bordados de manga longa, e o detalhe das costas em renda transparente.',
   },
   {
     src: '/videos/editorial-2.mp4',
+    srcCelular: '/videos/editorial-2-540.mp4',
     poster: '/videos/editorial-2.webp',
     alt: 'Noivas descendo uma escadaria e caminhando por um salão, em vestidos de renda com manga longa.',
   },
   {
     src: '/videos/editorial-3.mp4',
+    srcCelular: '/videos/editorial-3-540.mp4',
     poster: '/videos/editorial-3.webp',
     alt: 'Noivas em um salão de parede de tijolo, com a cauda do vestido estendida sobre a escada.',
   },

@@ -107,7 +107,7 @@ export default function BarraSelecao({ base, publico }: BarraSelecaoProps) {
             <ul className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5">
               {escolhidos.map((peca) => (
                 <li key={peca.slug}>
-                  <span className="inline-flex items-center gap-1.5 border border-branco/25 py-1 pl-2.5 pr-1 text-sm text-branco/85">
+                  <span className="inline-flex items-center gap-1 border border-branco/25 py-0.5 pl-3 pr-0.5 text-sm text-branco/85">
                     <Link
                       to={`${base}/${peca.slug}`}
                       className="underline-offset-4 hover:underline"
@@ -118,7 +118,10 @@ export default function BarraSelecao({ base, publico }: BarraSelecaoProps) {
                       type="button"
                       onClick={() => remover(peca.slug)}
                       aria-label={`Tirar ${peca.nome} da lista`}
-                      className="inline-flex size-5 items-center justify-center text-branco/60 transition-colors duration-300 ease-suave hover:text-branco"
+                      /* 36px de alvo: o X mora dentro de uma etiqueta pequena e
+                       não dá para chegar a 44 sem inchar a barra, mas 20px era
+                       erro de toque garantido. */
+                    className="inline-flex size-9 items-center justify-center text-branco/60 transition-colors duration-300 ease-suave hover:text-branco"
                     >
                       <X size={13} strokeWidth={2} aria-hidden />
                     </button>

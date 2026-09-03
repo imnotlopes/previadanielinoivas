@@ -607,7 +607,7 @@ export default function GradeAcervo({
                 <button
                   type="button"
                   onClick={() => atualizar({ mostrar: String(filtradas.length) })}
-                  className="text-sm text-cinza underline-offset-4 transition-colors duration-300 ease-suave hover:text-preto hover:underline"
+                  className="px-3 py-2.5 text-sm text-cinza underline-offset-4 transition-colors duration-300 ease-suave hover:text-preto hover:underline"
                 >
                   Mostrar todos os {filtradas.length} de uma vez
                 </button>

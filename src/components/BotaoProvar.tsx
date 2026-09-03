@@ -69,7 +69,10 @@ export default function BotaoProvar({
       }
       title={travado ? 'A lista de prova já está cheia' : undefined}
       className={cn(
-        'inline-flex size-9 items-center justify-center border transition-all',
+        /* 44px no celular: abaixo disso o polegar erra e o toque cai no card,
+           que navega para a ficha em vez de marcar o vestido. No computador,
+           onde o ponteiro é preciso, ele encolhe para não brigar com a foto. */
+        'inline-flex size-11 items-center justify-center border transition-all sm:size-9',
         'duration-300 ease-suave disabled:cursor-not-allowed disabled:opacity-40',
         marcado
           ? 'border-preto bg-preto text-branco'

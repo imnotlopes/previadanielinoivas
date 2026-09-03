@@ -7,6 +7,8 @@ import { cn } from '../lib/utils'
 interface VideoVerticalProps {
   /** Caminho do .mp4 a partir de /public. */
   src: string
+  /** Versão menor, usada em tela estreita. Sem ela, vale `src` em todo lugar. */
+  srcCelular?: string
   /** Pôster .webp, gerado por scripts/videos.mjs. */
   poster: string
   /**
@@ -22,6 +24,12 @@ interface VideoVerticalProps {
 
 /**
  * Vídeo vertical (9:16) que toca sozinho, mudo, em laço.
+ *
+ * DUAS VERSÕES DO MESMO VÍDEO
+ * ---------------------------
+ * A de 540px vai para telas estreitas, a de 720px para o resto. É metade dos
+ * bytes num bloco que responde por quase todo o peso da apresentação — e a
+ * maioria das noivas abre isto no celular, no 4G.
  *
  * NADA BAIXA ANTES DE ENTRAR NA TELA
  * ----------------------------------
@@ -49,9 +57,31 @@ interface VideoVerticalProps {
  * quem navega por teclado. E com `prefers-reduced-motion` o vídeo nem é
  * montado: fica o pôster, que é um quadro do próprio vídeo.
  */
-export default function VideoVertical({ src, poster, alt, className }: VideoVerticalProps) {
+export default function VideoVertical({
+  src,
+  srcCelular,
+  poster,
+  alt,
+  className,
+}: VideoVerticalProps) {
   const moldura = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
+
+  /*
+    QUAL ARQUIVO, DECIDIDO UMA VEZ NA MONTAGEM.
+
+    `<source media=...>` seria o caminho declarado, mas navegador nenhum o
+    respeita de verdade há anos — a escolha por media query só funciona para
+    imagem. Como o `src` deste componente já é preenchido por JavaScript
+    quando o bloco entra na tela, decidir aqui não custa nada.
+
+    Uma vez só, e não a cada redimensionamento: trocar o arquivo no meio
+    reinicia o vídeo e baixa tudo de novo.
+  */
+  const [arquivo] = useState(() => {
+    if (!srcCelular || typeof window === 'undefined' || !window.matchMedia) return src
+    return window.matchMedia('(max-width: 639px)').matches ? srcCelular : src
+  })
 
   const [carregar, setCarregar] = useState(false)
   const [naTela, setNaTela] = useState(false)
@@ -68,9 +98,13 @@ export default function VideoVertical({ src, poster, alt, className }: VideoVert
 
     const observador = new IntersectionObserver(
       ([entrada]) => setNaTela(entrada.isIntersecting),
-      /* 25%: só conta como "na tela" quando um quarto do bloco aparece. Com
-         0, o vídeo começaria com uma tira de dois pixels visível. */
-      { threshold: 0.25 },
+      /*
+        40%, e o número tem uma razão precisa: no carrossel do celular o vídeo
+        seguinte fica com 22% de largura à mostra, para dizer que dá para
+        arrastar. Com um limiar de 25% aquele pedaço às vezes bastava para
+        disparar o download — 1,2 MB de um vídeo que ninguém pediu.
+      */
+      { threshold: 0.4 },
     )
 
     observador.observe(alvo)
@@ -132,7 +166,7 @@ export default function VideoVertical({ src, poster, alt, className }: VideoVert
           <video
             ref={video}
             /* Vazio até entrar na tela — é isto que segura o download. */
-            src={carregar ? src : undefined}
+            src={carregar ? arquivo : undefined}
             poster={poster}
             muted
             loop
@@ -146,10 +180,20 @@ export default function VideoVertical({ src, poster, alt, className }: VideoVert
             type="button"
             onClick={alternar}
             aria-label={tocando ? `Pausar o vídeo: ${alt}` : `Tocar o vídeo: ${alt}`}
-            className="absolute bottom-3 right-3 inline-flex size-10 items-center justify-center
-                       bg-preto/60 text-branco opacity-0 transition-opacity duration-300
-                       ease-suave hover:bg-preto/85 focus-visible:opacity-100
-                       group-hover:opacity-100"
+            /*
+              VISÍVEL NO CELULAR, ESCONDIDO NO COMPUTADOR.
+
+              `opacity-0 group-hover` sozinho fazia o botão simplesmente não
+              existir no toque — não há hover num dedo. E ele não é enfeite:
+              é a única forma de parar um vídeo que começa sozinho, que é
+              exigência de acessibilidade (WCAG 2.2.2).
+
+              44px porque é o mínimo em que um polegar acerta.
+            */
+            className="absolute bottom-2 right-2 inline-flex size-11 items-center justify-center
+                       bg-preto/60 text-branco transition-opacity duration-300 ease-suave
+                       hover:bg-preto/85 sm:bottom-3 sm:right-3 sm:size-10 sm:opacity-0
+                       sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
           >
             {tocando ? (
               <Pause size={16} strokeWidth={1.75} aria-hidden />

@@ -43,6 +43,22 @@ const ENTRADA = 'videos-originais'
 const SAIDA = 'public/videos'
 
 /**
+ * UMA VERSÃO SÓ PARA CELULAR, E ELA É A QUE MAIS IMPORTA.
+ *
+ * No carrossel do celular o vídeo aparece com cerca de 255px de largura — 510
+ * numa tela retina. Servir ali o arquivo de 720px é mandar o dobro dos pixels
+ * que cabem, e vídeo é 90% do peso desta página.
+ *
+ * 540 cobre retina com folga e derruba quase metade dos bytes. O CRF sobe
+ * junto (33 contra 31): num quadro pequeno, a compressão a mais não aparece.
+ *
+ * O arquivo grande continua existindo para o computador, onde a coluna do
+ * tríptico tem 390px e pede os 720.
+ */
+const LARGURA_CELULAR = 540
+const CRF_CELULAR = 33
+
+/**
  * O plano de cada vídeo.
  *
  * `posterEm` é o segundo de onde sai o pôster. Escolhido à mão: o primeiro
@@ -50,10 +66,11 @@ const SAIDA = 'public/videos'
  * pôster borrado é pior que nenhum.
  */
 const PLANO = [
-  { arquivo: 'atelier.mp4', crf: 28, posterEm: 2 },
-  { arquivo: 'editorial-1.mp4', crf: 31, posterEm: 8 },
-  { arquivo: 'editorial-2.mp4', crf: 31, posterEm: 6 },
-  { arquivo: 'editorial-3.mp4', crf: 31, posterEm: 6 },
+  /* Já nasceu em 480x864: no celular ele é o próprio arquivo pequeno. */
+  { arquivo: 'atelier.mp4', crf: 28, posterEm: 2, celular: null },
+  { arquivo: 'editorial-1.mp4', crf: 31, posterEm: 8, celular: LARGURA_CELULAR },
+  { arquivo: 'editorial-2.mp4', crf: 31, posterEm: 6, celular: LARGURA_CELULAR },
+  { arquivo: 'editorial-3.mp4', crf: 31, posterEm: 6, celular: LARGURA_CELULAR },
 ]
 
 function ffmpeg(args) {
@@ -70,7 +87,7 @@ const disponiveis = new Set(readdirSync(ENTRADA))
 let antes = 0
 let depois = 0
 
-for (const { arquivo, crf, posterEm } of PLANO) {
+for (const { arquivo, crf, posterEm, celular } of PLANO) {
   if (!disponiveis.has(arquivo)) {
     console.log(`· ${arquivo} não está em ${ENTRADA}/, pulando`)
     continue
@@ -104,11 +121,30 @@ for (const { arquivo, crf, posterEm } of PLANO) {
   await sharp(temporario).webp({ quality: 78 }).toFile(poster)
   execFileSync('node', ['-e', `require('fs').unlinkSync(${JSON.stringify(temporario)})`])
 
+  let noCelular = ''
+  if (celular) {
+    const destinoCelular = join(SAIDA, arquivo.replace(/\.mp4$/, `-${celular}.mp4`))
+    ffmpeg([
+      '-i', origem,
+      '-an',
+      '-vf', `scale=${celular}:-2`,
+      '-c:v', 'libx264',
+      '-crf', String(CRF_CELULAR),
+      '-preset', 'slow',
+      '-profile:v', 'high',
+      '-pix_fmt', 'yuv420p',
+      '-movflags', '+faststart',
+      destinoCelular,
+    ])
+    depois += statSync(destinoCelular).size
+    noCelular = `  · celular ${mb(destinoCelular)} MB`
+  }
+
   antes += statSync(origem).size
   depois += statSync(destino).size + statSync(poster).size
 
   console.log(
-    `✓ ${arquivo}  ${mb(origem)} MB → ${mb(destino)} MB  (+ pôster ${mb(poster)} MB)`,
+    `✓ ${arquivo}  ${mb(origem)} MB → ${mb(destino)} MB${noCelular}  (+ pôster ${mb(poster)} MB)`,
   )
 }
 

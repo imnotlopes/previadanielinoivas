@@ -26,8 +26,20 @@ import VideoVertical from './VideoVertical'
  * quadro nenhum. Um vídeo vertical sozinho numa tela larga é uma coluna magra
  * cercada de vazio; três viram uma página dupla de revista.
  *
- * No celular eles empilham, e é o certo: um 9:16 numa tela 9:16 já preenche o
- * campo de visão sozinho.
+ * NO CELULAR É CARROSSEL, E O MOTIVO É PESO
+ * -----------------------------------------
+ * Empilhados, os três entravam na tela um depois do outro conforme ela rolava
+ * — e os três baixavam. São 6,7 MB numa peça que é aberta no 4G, no meio de
+ * uma conversa de WhatsApp. Também eram três telas cheias de vídeo para passar
+ * antes de chegar ao resto da apresentação.
+ *
+ * Lado a lado com rolagem horizontal, só o primeiro entra na tela: os outros
+ * dois não baixam enquanto ela não arrastar. Quem quer ver vê; quem não quer
+ * não paga.
+ *
+ * Os quadros ocupam 78% da largura de propósito — o pedaço do vizinho
+ * aparecendo na borda é o que diz que dá para arrastar. Em 100% pareceria um
+ * vídeo só.
  */
 export default function SecaoVestidosEmMovimento() {
   if (videosEditoriais.length === 0) return null
@@ -51,7 +63,17 @@ export default function SecaoVestidosEmMovimento() {
           </div>
         </Revelar>
 
-        <ul className="mt-14 grid gap-4 sm:grid-cols-3 sm:gap-5">
+        {/*
+          `-mx-6 px-6` sangra a rolagem até a borda da tela: sem isso o
+          carrossel para na margem do container e o vídeo do lado fica cortado
+          no meio do nada. As larguras são PORCENTAGEM do container, e não
+          `vw` — dentro de um container que rola de lado, `vw` ignora a barra
+          de rolagem e devolve a rolagem lateral da página inteira.
+        */}
+        <ul
+          className="mt-14 -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2
+                     sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0"
+        >
           {videosEditoriais.map((video, indice) => (
             <Revelar
               key={video.src}
@@ -60,11 +82,22 @@ export default function SecaoVestidosEmMovimento() {
               /* Escalonado por coluna: os três chegam em cascata da esquerda
                  para a direita, que é a ordem em que serão vistos. */
               atraso={indice * 120}
+              className="w-[78%] shrink-0 snap-center sm:w-auto sm:shrink"
             >
-              <VideoVertical src={video.src} poster={video.poster} alt={video.alt} />
+              <VideoVertical
+                src={video.src}
+                srcCelular={video.srcCelular}
+                poster={video.poster}
+                alt={video.alt}
+              />
             </Revelar>
           ))}
         </ul>
+
+        {/* Só no celular: sem isto, alguém pode não perceber que há mais dois. */}
+        <p className="mt-4 text-center text-sm text-branco/45 sm:hidden">
+          Arraste para ver os outros
+        </p>
       </div>
     </section>
   )

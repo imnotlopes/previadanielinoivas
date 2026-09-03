@@ -6,20 +6,94 @@ import { movimentoReduzido } from '../lib/movimento'
 import { cn } from '../lib/utils'
 
 /**
- * Quantos quadros ficam na parede.
+ * O MOSAICO — quadros de três tamanhos.
  *
- * Oito fecha as duas grades sem sobra: quatro linhas de dois no celular, duas
- * linhas de quatro no computador. Com seis, a última fileira do computador
- * ficaria com dois quadros e um buraco.
+ * Uma grade de quadros iguais é uma planilha de fotos. O que dá ritmo é a
+ * diferença de tamanho: uma foto grande puxa o olho, as pequenas ao redor
+ * fazem o contorno. É como uma página de revista se organiza, e era o que a
+ * versão original desta seção fazia antes de virar grade uniforme.
+ *
+ * OS TRÊS TAMANHOS SÃO TODOS 3:4
+ * ------------------------------
+ * Não é coincidência: as alturas de linha foram escolhidas para que
+ * `1 coluna × 2 linhas`, `2 × 4` e `3 × 6` caiam todas na mesma proporção das
+ * fotos. Sem isso, o quadro pequeno seria uma tira horizontal e mostraria uma
+ * faixa do meio da noiva — sem cabeça e sem saia.
+ *
+ * O TERCEIRO TAMANHO SÓ EXISTE EM TELA LARGA
+ * ------------------------------------------
+ * Abaixo de 1280px a média vira pequena e sobram dois tamanhos. Não é
+ * simplificação por preguiça: num celular de duas colunas, um quadro médio
+ * seria idêntico ao grande, e a seção passaria de três telas de altura sem
+ * ganhar nenhuma variedade.
  */
-const QUADROS = 8
+/*
+  O DESENHO DO MOSAICO, PEÇA POR PEÇA.
+
+  Até 1279px vale o encaixe automático: só existem dois tamanhos, ambos com
+  uma ou duas colunas, e eles se acomodam sozinhos sem deixar vão.
+
+  A partir de 1280px a posição é DITADA. Com peças de três larguras num grid
+  de seis colunas, o encaixe automático — mesmo com `dense` — deixava duas
+  linhas de buraco: ele acomoda cada peça no primeiro lugar em que ela cabe,
+  e "cabe" não é o mesmo que "fecha o desenho". Escrito à mão, o mosaico
+  fecha exatamente em doze linhas.
+
+  São dois blocos de seis linhas, espelhados: no primeiro a peça grande fica à
+  esquerda, no segundo à direita. Espelhar é o que impede a página de ter um
+  lado pesado e outro leve.
+*/
+const GRANDE = 'col-span-2 row-span-4'
+const MEDIA = 'col-span-1 row-span-2'
+const PEQUENA = 'col-span-1 row-span-2'
+
+/*
+  `sizes` DIZ AO NAVEGADOR DE QUE TAMANHO O QUADRO VAI SER — antes de a folha
+  de estilo existir, que e quando ele decide qual arquivo buscar.
+
+  Sem isto, ele assume a largura da janela inteira e baixa a foto de 900px
+  para um quadro de 160px. Com isto, o quadro pequeno no celular pega a de
+  400px: um terco dos bytes, sem diferenca visivel.
+
+  Os numeros sao a largura real medida em cada faixa. Se as colunas do mosaico
+  mudarem, estes valores mudam junto - senao o navegador volta a chutar.
+*/
+const PEQUENA_SIZES = '(min-width: 1280px) 190px, (min-width: 768px) 170px, 160px'
+const MEDIA_SIZES = '(min-width: 1280px) 392px, (min-width: 768px) 170px, 160px'
+const GRANDE_SIZES = '(min-width: 1280px) 594px, (min-width: 768px) 345px, 330px'
+
+interface Formato {
+  classe: string
+  sizes: string
+}
+
+const FORMATOS: Formato[] = [
+  /* Bloco 1 — a grande à esquerda. */
+  { classe: `${GRANDE} xl:col-start-1 xl:col-span-3 xl:row-start-1 xl:row-span-6`, sizes: GRANDE_SIZES },
+  { classe: `${MEDIA} xl:col-start-4 xl:col-span-2 xl:row-start-1 xl:row-span-4`, sizes: MEDIA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-6 xl:col-span-1 xl:row-start-1 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-6 xl:col-span-1 xl:row-start-3 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-4 xl:col-span-1 xl:row-start-5 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-5 xl:col-span-1 xl:row-start-5 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-6 xl:col-span-1 xl:row-start-5 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  /* Bloco 2 — a grande à direita. */
+  { classe: `${MEDIA} xl:col-start-1 xl:col-span-2 xl:row-start-7 xl:row-span-4`, sizes: MEDIA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-3 xl:col-span-1 xl:row-start-7 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-3 xl:col-span-1 xl:row-start-9 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  { classe: `${GRANDE} xl:col-start-4 xl:col-span-3 xl:row-start-7 xl:row-span-6`, sizes: GRANDE_SIZES },
+  { classe: `${PEQUENA} xl:col-start-1 xl:col-span-1 xl:row-start-11 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-2 xl:col-span-1 xl:row-start-11 xl:row-span-2`, sizes: PEQUENA_SIZES },
+  { classe: `${PEQUENA} xl:col-start-3 xl:col-span-1 xl:row-start-11 xl:row-span-2`, sizes: PEQUENA_SIZES },
+]
+
+const QUADROS = FORMATOS.length
 
 /**
  * De quanto em quanto tempo UM quadro troca.
  *
- * Não é o tempo que cada foto fica — é o intervalo entre trocas na parede
- * inteira. Com oito quadros e 900 ms, cada um fica cerca de sete segundos, e
- * a cada instante só um está mudando.
+ * Não é o tempo que cada foto fica — é o intervalo entre trocas no mosaico
+ * inteiro. Com catorze quadros e 900 ms, cada um fica cerca de treze segundos,
+ * e a cada instante só um está mudando.
  */
 const PASSO = 900
 
@@ -40,13 +114,16 @@ interface MuralCasamentosProps {
  *     de progresso. Virou player de vídeo, e isto não é vídeo.
  *  3. Duas sequências lado a lado, sem moldura. Melhor, mas com duas fotos na
  *     tela inteira a parede quase não se move — parece uma imagem só.
+ *  4. Oito quadros iguais em grade. Movimento resolvido, ritmo não: grade
+ *     uniforme é planilha de fotos.
  *
- * Agora são oito quadros trocando, e o que se vê é o acervo inteiro passando.
+ * Agora são catorze quadros de três tamanhos, trocando em rodízio — o mosaico
+ * de antes, só que vivo.
  *
  * UM DE CADA VEZ, EM RODÍZIO
  * --------------------------
  * Um relógio só, que a cada 900 ms troca UM quadro e passa a vez adiante. Se
- * os oito tivessem cronômetro próprio, mais cedo ou mais tarde eles cairiam em
+ * os catorze tivessem cronômetro próprio, mais cedo ou mais tarde eles cairiam em
  * sincronia e a parede piscaria inteira — que é o efeito de máquina que este
  * bloco não pode ter. Em rodízio, o movimento nunca para e nunca chama a
  * atenção para si.
@@ -65,7 +142,7 @@ export default function MuralCasamentos({ casamentos }: MuralCasamentosProps) {
   const [rodando, setRodando] = useState(!movimentoReduzido())
 
   /*
-    A parede é dividida em oito pilhas de fotos. Cada quadro percorre a sua e
+    O mosaico é dividido em catorze pilhas de fotos. Cada quadro percorre a sua e
     só a sua — assim uma foto nunca aparece em dois lugares ao mesmo tempo,
     que é o defeito mais visível que um mural destes pode ter.
   */
@@ -109,14 +186,34 @@ export default function MuralCasamentos({ casamentos }: MuralCasamentosProps) {
 
   return (
     <div>
-      <ul ref={parede} className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+      {/*
+        `grid-flow-dense` é o que fecha os buracos: com quadros de três
+        tamanhos, a colocação normal deixa vãos toda vez que o próximo quadro
+        não cabe no espaço que sobrou. O preço é a ordem visual não seguir
+        exatamente a do DOM — irrelevante aqui, onde as fotos são decorativas.
+
+        A ALTURA DA LINHA MUDA JUNTO COM O NÚMERO DE COLUNAS, e é isso que
+        mantém os quadros em pé. A proporção de um quadro é largura da coluna
+        contra duas linhas: aumentar a tela sem aumentar a linha engorda a
+        coluna e o quadro vira faixa horizontal — que numa foto de noiva
+        mostra o meio do vestido, sem cabeça e sem saia. Por isso a contagem
+        de colunas sobe (2 → 4 → 6) e a linha acompanha.
+      */}
+      <ul
+        ref={parede}
+        className="grid grid-flow-dense grid-cols-2 gap-2 [grid-auto-rows:6.25rem]
+                   sm:gap-3 md:grid-cols-4
+                   lg:[grid-auto-rows:8.5rem]
+                   xl:grid-cols-6 xl:[grid-auto-rows:8rem]"
+      >
         {pilhas.map((pilha, quadro) => (
-          <li key={quadro}>
+          <li key={quadro} className={FORMATOS[quadro].classe}>
             <Quadro
               fotos={pilha}
               atual={indices[quadro] ?? 0}
+              sizes={FORMATOS[quadro].sizes}
               /* Só os dois primeiros quadros descrevem; os outros são
-                 decorativos. Oito descrições de variações da mesma cena não
+                 decorativos. Catorze descrições de variações da mesma cena não
                  ajudam quem usa leitor de tela, atrapalham. */
               descricao={quadro < casamentos.length ? casamentos[quadro].descricao : ''}
             />
@@ -134,8 +231,11 @@ export default function MuralCasamentos({ casamentos }: MuralCasamentosProps) {
           <button
             type="button"
             onClick={() => setRodando((v) => !v)}
-            className="inline-flex items-center gap-2 text-sm text-cinza underline-offset-4
-                       transition-colors duration-300 ease-suave hover:text-preto hover:underline"
+            /* `px-4 py-2.5` é alvo de toque: o texto tem 20px de altura e no
+               celular isso é erro de dedo. */
+            className="inline-flex items-center gap-2 px-4 py-2.5 text-sm text-cinza
+                       underline-offset-4 transition-colors duration-300 ease-suave
+                       hover:text-preto hover:underline"
           >
             {rodando ? (
               <Pause size={14} strokeWidth={1.75} aria-hidden />
@@ -153,10 +253,12 @@ export default function MuralCasamentos({ casamentos }: MuralCasamentosProps) {
 function Quadro({
   fotos,
   atual,
+  sizes,
   descricao,
 }: {
   fotos: string[]
   atual: number
+  sizes: string
   descricao: string
 }) {
   /*
@@ -174,13 +276,18 @@ function Quadro({
     })
   }, [atual, proxima])
 
+  /* `size-full`, e não `aspect-[3/4]`: quem manda na forma é a célula da
+     grade, e ela já vem em 3:4 pela combinação de coluna e altura de linha. */
   return (
-    <div className="relative aspect-[3/4] w-full overflow-hidden bg-bege">
+    <div className="relative size-full overflow-hidden bg-bege">
       {fotos.map((foto, indice) =>
         montadas.has(indice) ? (
           <img
             key={foto}
             src={foto}
+            /* A de 400px e a de 900px. O `sizes` acima é quem decide. */
+            srcSet={`${foto.replace(/\.webp$/, '-400.webp')} 400w, ${foto} 900w`}
+            sizes={sizes}
             alt={indice === 0 ? descricao : ''}
             loading="lazy"
             decoding="async"
