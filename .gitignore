@@ -56,3 +56,9 @@ Lennys atelie - Exemplo/
 # — mesma regra que já vale para a pasta instagram/.
 Fotográfos/
 Fotografos/
+
+# Vídeos como saíram da câmera/edição: 35 MB que nunca são servidos.
+# O que vai para o site é a versão comprimida em public/videos/, gerada por
+# scripts/videos.mjs. Guardar o original aqui (e fora do Git) é o que permite
+# reencodar com outro alvo de qualidade sem pedir os arquivos de novo.
+videos-originais/

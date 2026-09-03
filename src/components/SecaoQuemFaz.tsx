@@ -1,6 +1,8 @@
 import { marcos, mostrarEspacoReservado, retrato, retratoAlt } from '../data/atelier'
+import { videoAtelier } from '../data/videos'
 import { brand } from '../lib/brand'
 import Revelar from './Revelar'
+import VideoVertical from './VideoVertical'
 
 interface SecaoQuemFazProps {
   /**
@@ -35,6 +37,16 @@ export default function SecaoQuemFaz({ vestidosNoAcervo }: SecaoQuemFazProps) {
     <section className="bg-branco">
       <div className="container-luxo folha">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-20">
+          {/*
+            A COLUNA MOSTRA A LOJA, E NÃO QUEM ATENDE — POR ORA.
+
+            O vídeo é uma panorâmica pelos manequins: prova que existe acervo
+            pendurado num lugar de verdade, que é metade do trabalho deste
+            bloco. A outra metade continua faltando, porque a Danielli não
+            aparece nele. Quando o retrato dela chegar (`retrato` em
+            data/atelier.ts), ele assume esta coluna e o vídeo desce para o
+            bloco do provador.
+          */}
           <Revelar distancia="nenhuma" como="figure">
             {retrato !== null ? (
               <div className="overflow-hidden bg-bege">
@@ -47,15 +59,11 @@ export default function SecaoQuemFaz({ vestidosNoAcervo }: SecaoQuemFazProps) {
                 />
               </div>
             ) : (
-              <div className="flex aspect-[3/4] flex-col items-center justify-center gap-3 border border-dashed border-borda bg-off-white p-8 text-center">
-                <span className="font-display text-h5 uppercase tracking-luxo text-cinza">
-                  Foto da Danielli
-                </span>
-                <span className="max-w-[16rem] text-sm leading-relaxed text-preto/55">
-                  Ela na loja, entre as araras ou atendendo. Não é foto de
-                  vestido — o assunto deste bloco é quem atende.
-                </span>
-              </div>
+              <VideoVertical
+                src={videoAtelier.src}
+                poster={videoAtelier.poster}
+                alt={videoAtelier.alt}
+              />
             )}
           </Revelar>
 

@@ -7,6 +7,7 @@ import SecaoDepoimentos from '../components/SecaoDepoimentos'
 import SecaoAvaliacoes, { SecaoMapa } from '../components/SecaoGoogle'
 import SecaoQuemFaz from '../components/SecaoQuemFaz'
 import SecaoTitulo from '../components/SecaoTitulo'
+import SecaoVestidosEmMovimento from '../components/SecaoVestidosEmMovimento'
 import Selos from '../components/Selos'
 import Seo from '../components/Seo'
 import { CAMINHOS } from '../entradas/comum'
@@ -351,7 +352,18 @@ export default function ApresentacaoNoiva() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* 7 · Uma amostra do acervo                                           */}
+      {/* 7 · Os vestidos em movimento                                        */}
+      {/* ------------------------------------------------------------------ */}
+      {/*
+        Vem ANTES da amostra, e isso é ordem de argumento: primeiro o desejo
+        (o bordado pegando luz, a cauda andando), depois os vestidos concretos
+        com nome, e só então o botão para o catálogo. Invertido, a noiva veria
+        três cards, clicaria no botão e nunca chegaria aos vídeos.
+      */}
+      <SecaoVestidosEmMovimento />
+
+      {/* ------------------------------------------------------------------ */}
+      {/* 8 · Uma amostra do acervo                                           */}
       {/* ------------------------------------------------------------------ */}
       {amostra.length > 0 && (
         <section className="bg-off-white">
@@ -387,7 +399,7 @@ export default function ApresentacaoNoiva() {
       )}
 
       {/* ------------------------------------------------------------------ */}
-      {/* 8 · Prova social                                                    */}
+      {/* 9 · Prova social                                                    */}
       {/* ------------------------------------------------------------------ */}
       {/*
         As três seções abaixo saíram do Layout, onde ficavam grudadas no fim de
@@ -411,7 +423,7 @@ export default function ApresentacaoNoiva() {
       <Faq />
 
       {/* ------------------------------------------------------------------ */}
-      {/* 9 · O próximo passo                                                 */}
+      {/* 10 · O próximo passo                                                 */}
       {/* ------------------------------------------------------------------ */}
       <section className="bg-preto text-branco">
         <div className="container-luxo folha-curta items-center text-center">
@@ -448,7 +460,7 @@ export default function ApresentacaoNoiva() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* 10 · Onde fica                                                      */}
+      {/* 11 · Onde fica                                                      */}
       {/* ------------------------------------------------------------------ */}
       {/* Some sozinha enquanto não houver endereço nem telefone cadastrados. */}
       <SecaoMapa />

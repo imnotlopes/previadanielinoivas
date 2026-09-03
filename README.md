@@ -261,6 +261,37 @@ catálogo — que hoje fica escondida.
 
 ---
 
+## Vídeos
+
+Quatro verticais (9:16), mudos e em laço. Os originais somavam **33 MB**; o
+que é servido soma **7,4 MB**, incluindo os pôsteres.
+
+```bash
+node scripts/videos.mjs   # lê videos-originais/ → escreve public/videos/
+```
+
+Os originais ficam em `videos-originais/`, **fora do Git** — 33 MB que nunca
+são servidos, guardados só para permitir reencodar com outro alvo sem pedir os
+arquivos de novo.
+
+O script tira a faixa de áudio (autoplay só existe mudo, então ela era peso
+puro), comprime em CRF 31 — calibrado quadro a quadro contra o original, a
+pedraria e a renda sobrevivem — e gera um pôster `.webp` de cada um.
+
+**Onde cada um está:**
+
+| arquivo | onde | por quê |
+| --- | --- | --- |
+| `atelier.mp4` | folha "Quem atende" | panorâmica pelos manequins: prova que existe loja e acervo de verdade. **A Danielli não aparece nele** — o retrato dela continua faltando |
+| `editorial-1/2/3.mp4` | folha "De perto, e em movimento" | tríptico sobre preto, entre "O que está incluído" e a amostra do acervo |
+
+**Vertical não vai para a abertura.** 9:16 numa tela larga é cortar dois terços
+do quadro ou deixar tarja. Por isso os vídeos moram nos blocos de duas colunas
+e no tríptico, onde a coluna já é retrato.
+
+Nada baixa antes de entrar na tela, e o vídeo pausa ao sair. Com
+`prefers-reduced-motion` o vídeo nem é montado: fica o pôster.
+
 ## Ingestão das fotos
 
 Dois caminhos, os dois com tabela versionada no Git:
