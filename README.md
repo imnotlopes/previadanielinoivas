@@ -1,188 +1,83 @@
-# Danielli Noivas: quatro peças de WhatsApp
+# Danielli Noivas: três apresentações de WhatsApp
 
-Não é um site. São **links que a Danielli cola na conversa do WhatsApp**, no
-meio do atendimento. Sem carrinho, sem checkout, sem estoque: o vestido é
-exibido e a conversa continua com ela.
+O produto **não é um site**. São três apresentações de venda que a Danielli
+cola numa conversa de WhatsApp já em andamento, depois que a cliente já a
+procurou. Ninguém chega por busca: o link chega pronto pela mão dela.
 
-```
-/            Apresentação Noiva     o que ela manda quando a noiva chama
-/catalogo    Catálogo Noiva         o que ela manda depois do interesse
-/festa       Festa e formatura      apresentação curta + acervo, num link só
-/admin       Painel                 a loja, operada do celular dela
-```
+| Rota | Público |
+| --- | --- |
+| `/noivas` | Noivas |
+| `/madrinhas` | Madrinhas, formandas e mães |
+| `/noivos` | Noivos e padrinhos (esqueleto, sem material) |
+| `/admin` | Painel, demonstração em `localStorage` |
 
-React + Vite + TypeScript + Tailwind. Sem backend.
+`/` redireciona para `/noivas`: a home institucional é fase 2 e ainda não
+existe. `/catalogo` e `/festa` redirecionam para as apresentações
+equivalentes, porque aqueles links circularam em conversas e link colado não
+se apaga.
 
----
+## O que a apresentação faz, e o que ela não faz
 
-## ⚠️ Antes de mandar qualquer link para uma cliente
+Três trabalhos, nesta ordem: **criar desejo, provar autoridade, e devolver a
+pessoa para a conversa com a escolha feita**. Não explica o que é um ateliê,
+porque quem abriu já sabe.
 
-O material vai direto para o WhatsApp de uma pessoa real. Isso muda o que é
-aceitável: o que passava numa prévia interna vira problema aqui.
+Oito blocos, meta de dois minutos no polegar. Sem navegação: não há menu, não
+há link entre apresentações, e a marca no topo nem é clicável. Cada saída
+oferecida é uma chance de sair antes do fim.
+
+**O motor** é a seleção: a cliente marca as peças, e o botão monta uma
+mensagem única de WhatsApp com os códigos, a data e o manequim. A primeira
+linha carrega a origem ("Vi a apresentação de madrinhas e formandas"), e é
+assim que a Danielli sabe de qual link veio cada contato, sem instalar
+ferramenta nenhuma.
+
+**Link personalizado:** `/noivas?nome=Camila` troca a saudação. Nome com
+qualquer caractere fora de letra, espaço, hífen e apóstrofo é recusado inteiro
+e cai na saudação neutra, porque nome estropiado é pior que nome nenhum.
+
+## Regras que o produto não quebra
+
+| Regra | Onde ela vive |
+| --- | --- |
+| Nenhum valor, nem "sob consulta" | `Peca.preco` existe e é sempre `null`; `Config.mostrarPrecos` é a chave da fase seguinte |
+| Nenhuma contagem de peças | não há contador, "carregar mais" nem "40 vestidos" em lugar nenhum |
+| A palavra "catálogo" não aparece | nem no texto nem nas URLs |
+| Nada de exaustividade | a grade mostra até `PECAS_POR_APRESENTACAO` peças e diz que é amostra |
+| `noindex, nofollow` nas três | material de conversa, não conteúdo de busca |
+| Nenhuma foto sem autorização | ver o bloqueador abaixo |
+
+## ⚠️ Antes de mandar qualquer link
 
 **Bloqueadores.** Não pode ir ao ar:
 
 | onde | o que falta |
 | --- | --- |
-| `src/data/casamentos.ts` | **autorização por escrito de cada casal.** São fotos de pessoas identificáveis no dia do casamento delas. Sem o "pode usar", esvazie a lista |
-| `src/lib/brand.ts` | `whatsapp`: sem número, **todo botão do site cai no Instagram**, e a lista de prova do catálogo se perde junto (a mensagem montada é descartada) |
+| `src/lib/brand.ts` | `whatsapp`. Sem número, todo botão cai no Instagram e a seleção não vira mensagem |
+| `src/data/casamentos.ts` | autorização por escrito do casal das fotos, das imagens **e** do nome, que são coisas separadas |
 
-**Pendências.** O site funciona, mas sai mais fraco:
+**Pendências.** O produto funciona, e sai mais fraco:
 
 | onde | o que falta |
 | --- | --- |
-| `src/data/pecas.ts` | `numeracao` de cada vestido (a Danielli tem): é a segunda pergunta de toda cliente |
-| `src/data/pecas.ts` | **ficha técnica**: `silhueta`, `decote`, `manga`, `cauda`. Vazios em todo o acervo. Cada um vira filtro no catálogo assim que dois vestidos estiverem classificados, ver abaixo |
-| `src/data/atelier.ts` | **retrato da Danielli e os marcos** (anos de atelier, noivas vestidas). É o bloco de autoridade da apresentação |
-| `src/data/pecas.ts` | `precoAluguel`: está tudo `null`, ou seja, "valor sob consulta" |
-| `src/data/pecas.ts` | nomes e descrições foram escritos aqui, a partir das fotos. Confirmar como a loja chama cada modelo |
-| `src/data/google.ts` | avaliações, nota, endereço e horários. **Vazios de propósito**, ver abaixo |
-| `src/data/depoimentos.ts` | depoimentos reais: **foto da noiva + a fala dela** (ver abaixo) |
-| `src/data/faq.ts` | prazos e regra de devolução |
+| `src/data/pecas.ts` | `cores` e `tamanhos` de cada peça. Estão vazios em todas: entraram no lugar do preço, e sem eles o card mostra só foto e descrição |
+| `src/data/pecas.ts` | `nome` das peças. Os da prévia eram inventados e saíram; até a confirmação, a peça é o código |
+| `src/data/depoimentos.ts` | depoimentos reais, com autorização de fala e de imagem separadas |
+| `src/data/apresentacoes.ts` | capa própria de `/madrinhas` (hoje é uma foto de peça) e de `/noivos` (hoje é o cartão da marca) |
+| `src/lib/brand.ts` | `cidade`, e `endereco` no painel |
 | `src/data/selos.ts` | as quatro promessas. Selo é promessa |
-| `src/lib/brand.ts` | `cidade` e `assinatura` |
-| os quatro `.html` da raiz | URLs absolutas, se o domínio mudar |
+| os HTML da raiz | URLs absolutas, se o domínio mudar |
 
-### A capa do catálogo é a filha da casa
+## O que saiu, e por quê
 
-Pedido da Danielli: a Natália, filha dela, é a capa. E a **Aurora** é o
-vestido que a Natália usou no próprio casamento. É o argumento de autoridade
-mais forte que a loja tem, e ele se conta numa frase.
+O catálogo tinha busca, filtro por cor, silhueta, decote e manga, ordenação,
+paginação, alternância de densidade, contador e 46 rotas de peça. Tudo isso
+serve a quem **procura** num acervo grande.
 
-A capa não é decorativa: leva para a ficha da Aurora, que é a única do acervo
-com **hero** (duas fotos, uma para tela em pé e outra para tela deitada,
-servidas por `<picture media>`) e com **`historia`**: a linha que diz de onde
-o vestido veio.
-
-Só ganha hero quem tem história. Um acervo em que todo vestido abre com foto
-de tela cheia não destaca ninguém.
-
-⚠️ Confirmar com a Danielli a frase da história, e com a Natália a autorização
-de aparecer nomeada.
-
-### O card mostra o que ela precisa para vender
-
-- **Ficha técnica em linha** (silhueta · decote · manga): some enquanto
-  ninguém classificou nada, que é o estado de hoje
-- **Quantas fotos o vestido tem**, a partir de três. É informação de quem
-  VENDE: com a noiva do lado, saber que um vestido tem seis fotos e outro tem
-  uma decide qual ela abre primeiro
-- Numeração em destaque quando existe
-
-### A ficha técnica é o vocabulário da arara
-
-`silhueta`, `decote`, `manga` e `cauda` não são adjetivos de catálogo: são
-como a escolha acontece de pé na loja. A noiva chega dizendo "nada tomara que
-caia" e isso corta metade do acervo antes de ela olhar foto.
-
-Por isso são campo, e não texto na descrição. Campo vira filtro. Estão todos
-vazios, e a Danielli preenche pelo painel, em **Vestidos → Ficha técnica**.
-
-Duas regras que valem a pena saber antes de preencher:
-
-- **um grupo de filtro só aparece com dois ou mais valores diferentes.** Um
-  filtro de uma opção só não corta nada, e prometer um corte que não existe é
-  pior que não ter o filtro;
-- **"não informar" é diferente de "sem cauda".** Um vestido sem cauda marcado
-  como "não informar" some do filtro de quem quer justamente vestido sem cauda.
-
-### Achar o vestido, que é o que ela faz o dia inteiro
-
-O catálogo é a ferramenta de venda: a Danielli abre no balcão e vira a tela
-para a noiva. Cinco coisas existem por causa disso.
-
-- **A barra de busca e filtro gruda no topo.** Achar um vestido no meio da
-  lista e ter que rolar até em cima para filtrar acontece a cada atendimento.
-- **A folha de contato** (botão de ampliar, ou `?vista=denso`): seis vestidos
-  por linha no computador, dois no celular, só foto e nome, 30 por vez. É o
-  modo de a noiva apontar.
-- **A busca ignora acento** ("alicia" acha "Alícia") e enxerga cor,
-  silhueta, decote, ocasião e numeração, não só o nome. Várias palavras somam:
-  "renda manga longa" acha o que tem as três.
-- **Ordenar por nome (A–Z)** existe sempre. Antes o seletor só aparecia com
-  preço cadastrado, e como está tudo "sob consulta" ninguém conseguia ordenar.
-- **A ordem padrão é a curadoria dela:** vestido marcado como `destaque` no
-  painel vai para o topo do catálogo. Quem abre o link vê primeiro o que a
-  loja quer mostrar, não o que foi cadastrado primeiro.
-- **Voltar volta para onde estava.** Rolar até o vigésimo oitavo vestido,
-  abrir a ficha e voltar não joga mais a pessoa no primeiro.
-
-Tudo isso mora na URL, então qualquer estado é um link que dá para colar no
-WhatsApp: `/catalogo?vista=denso&cor=marfim&ordem=nome`.
-
-### O catálogo é de noiva, e só
-
-Não é uma loja com uma seção de noiva. A diferença aparece em decisões que uma
-vitrine genérica não tomaria:
-
-- a data que se pergunta é a do **casamento**, não "do evento";
-- o próximo passo é a **prova**, nunca a compra;
-- **não existe caminho daqui para festa ou 15 anos**, nem no rodapé. Quem
-  está escolhendo vestido de casamento não quer ser oferecida outra coisa;
-- os selos falam em "o dia do seu casamento". A peça de festa tem a frase dela
-  (`detalheFesta` em `src/data/selos.ts`);
-- o fim da grade não é o fim do assunto: quem rolou 40 vestidos e não marcou
-  nenhum recebe um "não achou o seu? conta como você imagina", e quem marcou
-  recebe o empurrão para mandar.
-
-### A lista de prova ("quero provar esses")
-
-O catálogo tem um marcador em cada vestido. A noiva marca enquanto folheia e a
-barra do rodapé transforma isso em **uma** mensagem de WhatsApp com os nomes,
-a data do casamento, o manequim e um link `?provar=…&data=…` que **reabre a
-mesma seleção** do lado da Danielli, os vestidos já ficam separados antes de
-a noiva chegar.
-
-**A data é o que muda a resposta.** Sem ela, a primeira mensagem da loja é
-obrigatoriamente uma pergunta: disponibilidade de vestido de aluguel só existe
-em relação a um dia. Com ela, já dá para responder "esses três estão livres,
-vem quinta?".
-
-Data e manequim ficam **junto da lista, não em cada vestido**: ela tem um
-casamento só. Preencher na ficha preenche na barra, e vice-versa. Nenhum dos
-dois é obrigatório.
-
-Não é carrinho: não reserva, não cobra e não promete disponibilidade. Só a
-agenda da loja pode fazer isso.
-
-Fica no `localStorage` do navegador da noiva, teto de 12 vestidos. Ver
-`src/lib/selecao.ts`.
-
-### Prova social: foto + fala
-
-O depoimento aqui não é texto solto: é a **foto da noiva ao lado da fala
-dela**. Uma frase elogiosa sem rosto é indistinguível de texto inventado, e
-este projeto já teve depoimento inventado uma vez.
-
-Enquanto a lista está vazia, a seção mostra um **espaço reservado** de moldura
-tracejada, para dar para ver o formato. Vire `mostrarEspacoReservado` para
-`false` em `src/data/depoimentos.ts` antes de mandar qualquer link para uma
-noiva; com a lista preenchida ele é ignorado de qualquer forma.
-
-Precisa de autorização **das duas coisas**: uma pessoa pode topar que a fala
-apareça e não querer o rosto.
-
-### O que foi esvaziado, e por quê
-
-`google.ts` e `depoimentos.ts` **tinham conteúdo inventado**: 12 avaliações,
-uma nota que o Google nunca deu e 4 depoimentos, escritos para o site poder ser
-visto de pé enquanto era prévia interna. Os nomes dos casais em
-`casamentos.ts` também eram inventados.
-
-Foram esvaziados. Publicar avaliação inventada como real é propaganda enganosa,
-e nome falso sobre a foto de um casamento real atribui a pessoas identificáveis
-uma identidade que não é delas.
-
-**As seções somem sozinhas quando os dados estão vazios**: é assim que o site
-fica honesto sem ficar quebrado. Preencher com o real liga tudo de volta.
-
-### Aviso que não é do site
-
-As pastas `Lennys atelie*` (projeto de referência) trazem um `.env.local` e um
-`database password.txt`. Estão no `.gitignore`, mas **troque essa senha**: ela
-já esteve em disco dentro de um projeto versionado.
-
----
+Aqui a pessoa não procura: ela já está conversando com a Danielli e vai rolar
+o polegar por dois minutos. A peça abre em **overlay**, e não em página
+própria, porque mandá-la para outra rota no meio da apresentação é o jeito
+mais rápido de perdê-la, e a seleção que ela estava montando parece sumir.
 
 ## Rodar localmente
 

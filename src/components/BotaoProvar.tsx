@@ -4,7 +4,7 @@ import { useSelecao } from '../lib/selecao'
 import { cn } from '../lib/utils'
 
 interface BotaoProvarProps {
-  slug: string
+  codigo: string
   /** Nome do vestido, só para o rótulo acessível. */
   nome: string
   /**
@@ -29,13 +29,13 @@ interface BotaoProvarProps {
  * "Marcar para provar" repetido 40 vezes não navega.
  */
 export default function BotaoProvar({
-  slug,
+  codigo,
   nome,
   variante = 'discreto',
   className,
 }: BotaoProvarProps) {
   const { tem, alternar, cheia } = useSelecao()
-  const marcado = tem(slug)
+  const marcado = tem(codigo)
 
   /* Lista cheia trava só o que ainda não entrou: desmarcar precisa continuar
      funcionando, senão a pessoa fica presa com a lista que montou. */
@@ -47,7 +47,7 @@ export default function BotaoProvar({
     return (
       <button
         type="button"
-        onClick={() => alternar(slug)}
+        onClick={() => alternar(codigo)}
         aria-pressed={marcado}
         disabled={travado}
         className={cn(marcado ? 'btn-primario' : 'btn-contorno', 'w-full', className)}
@@ -61,7 +61,7 @@ export default function BotaoProvar({
   return (
     <button
       type="button"
-      onClick={() => alternar(slug)}
+      onClick={() => alternar(codigo)}
       aria-pressed={marcado}
       disabled={travado}
       aria-label={

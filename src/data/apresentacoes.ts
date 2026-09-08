@@ -1,0 +1,181 @@
+import type { Publico } from './pecas'
+
+/**
+ * AS TRÊS APRESENTAÇÕES.
+ * ======================
+ *
+ * Cada uma é um link que a Danielli cola numa conversa de WhatsApp já em
+ * andamento. Ninguém chega aqui pelo Google: a pessoa já a procurou, e agora
+ * está esperando ver alguma coisa.
+ *
+ * Isso muda tudo em relação a um site. A peça não precisa explicar o que é um
+ * ateliê nem se apresentar ao mundo. Ela tem três trabalhos: criar desejo,
+ * provar autoridade, e devolver a pessoa para a conversa com a escolha feita.
+ *
+ * O QUE MORA AQUI, E POR QUÊ
+ * --------------------------
+ * Tudo que muda entre as três, e nada além disso. A mecânica (grade, overlay,
+ * seleção, mensagem) é a mesma nas três e vive nos componentes. Se um dia
+ * nascer a quarta apresentação, ela é uma entrada nesta lista.
+ *
+ * A frase de origem é o item menos vistoso e o mais importante: é ela que faz
+ * a Danielli saber de qual link veio cada contato, sem instalar ferramenta
+ * nenhuma de análise.
+ */
+export interface Apresentacao {
+  publico: Publico
+  /** Rota e nome do HTML: `/noivas` sai de `noivas.html`. */
+  rota: string
+
+  /**
+   * Título da aba e `og:title`, SEM o nome da marca.
+   *
+   * Quem acrescenta " | Danielli Noivas" é o componente de SEO. Repetir aqui
+   * dava "Vestidos de noiva | Danielli Noivas | Danielli Noivas" no cartão do
+   * WhatsApp, que é onde o título mais aparece.
+   */
+  titulo: string
+  /** `og:description`. Uma linha, lida antes de a página abrir. */
+  descricao: string
+
+  /**
+   * Capa. As três precisam ser DIFERENTES: o cartão do WhatsApp é a primeira
+   * impressão, e três links com a mesma foto de noiva denunciam que é o mesmo
+   * material reetiquetado.
+   *
+   * `largo` é a imagem de compartilhamento e a capa em tela deitada; `alto` é
+   * a capa em tela em pé. A mesma foto não serve nas duas, ver `<picture>` em
+   * components/CapaApresentacao.
+   */
+  capa: { largo: string; alto: string; alt: string } | null
+  /** Imagem do cartão de WhatsApp. Absoluta na hora de montar a tag. */
+  ogImagem: string
+
+  /** Abertura sem `?nome=` na URL. */
+  saudacao: string
+  /** Com `?nome=Camila`, vira "Camila," antes desta linha. */
+  posicionamento: string
+
+  /**
+   * Como a mensagem de WhatsApp se apresenta.
+   *
+   * "Vi a apresentação de noivas" contra "de madrinhas e formandas": é o
+   * carimbo de origem, e o único jeito de a Danielli separar os contatos.
+   */
+  origem: string
+
+  /** Quando não há peça visível ainda. Some quando houver. */
+  semPecas?: string
+}
+
+/**
+ * QUANTAS PEÇAS CADA APRESENTAÇÃO MOSTRA.
+ *
+ * O acervo tem 40 vestidos de noiva. Mostrar os 40 transformaria a
+ * apresentação de volta em catálogo, que é justamente o que ela deixou de
+ * ser: quarenta cards sem filtro e sem busca não é amostra, é lista.
+ *
+ * Doze é o teto do brief e o limite prático de uma leitura de dois minutos no
+ * polegar. Quem escolhe QUAIS doze é a Danielli, pelo `destaque` no painel:
+ * destacadas primeiro, o resto na ordem do acervo.
+ */
+export const PECAS_POR_APRESENTACAO = 12
+
+export const apresentacoes: Apresentacao[] = [
+  {
+    publico: 'noivas',
+    rota: '/noivas',
+    titulo: 'Vestidos de noiva',
+    descricao:
+      'Alguns dos modelos do ateliê, com prova com hora marcada, ajuste incluso e a data do seu casamento reservada.',
+    capa: {
+      largo: '/casamentos/aurora-hero.webp',
+      alto: '/casamentos/aurora-hero-alto.webp',
+      alt: 'Noiva sentada, de vestido de renda com gola alta e manga longa, no dia do casamento.',
+    },
+    ogImagem: '/og-noiva.jpg',
+    saudacao: 'Que bom que você chegou até aqui',
+    posicionamento:
+      'Separei alguns modelos para você ver. O ateliê tem muito mais, e o melhor é provar.',
+    origem: 'a apresentação de noivas',
+  },
+  {
+    publico: 'madrinhas',
+    rota: '/madrinhas',
+    titulo: 'Vestidos de madrinha e formanda',
+    descricao:
+      'Alguns dos modelos do ateliê para madrinha, formanda e mãe, com prova com hora marcada e ajuste incluso.',
+    capa: {
+      /* A peça de festa mais forte do acervo serve de capa até chegar foto
+         feita para isso. NUNCA a mesma da apresentação de noivas. */
+      largo: '/pecas/esmeralda-paete-verde.webp',
+      alto: '/pecas/esmeralda-paete-verde.webp',
+      alt: 'Vestido de festa verde bordado em paetê.',
+    },
+    ogImagem: '/og-festa.jpg',
+    saudacao: 'Que bom que você chegou até aqui',
+    posicionamento:
+      'Separei alguns modelos para você ver. O ateliê tem muito mais, e o melhor é provar.',
+    origem: 'a apresentação de madrinhas e formandas',
+  },
+  {
+    publico: 'noivos',
+    rota: '/noivos',
+    titulo: 'Trajes de noivo e padrinho',
+    descricao:
+      'Trajes para noivo e padrinho, com prova com hora marcada e ajuste incluso.',
+    /*
+      SEM CAPA, PORQUE NÃO EXISTE UMA ÚNICA FOTO DE TRAJE MASCULINO.
+
+      A alternativa seria pôr foto de noiva na apresentação de noivo, que é
+      pior que não ter capa: o noivo abre, vê vestido, e fecha.
+    */
+    capa: null,
+    /* Cartão neutro da marca, e não a foto de noiva: as três apresentações
+       precisam de imagens diferentes, e um noivo que recebe o link vendo
+       vestido no preview fecha antes de abrir. */
+    ogImagem: '/og-marca.jpg',
+    saudacao: 'Que bom que você chegou até aqui',
+    posicionamento:
+      'O ateliê veste noivo e padrinho também. Me chama que eu te mostro o que temos.',
+    origem: 'a apresentação de noivos e padrinhos',
+    semPecas:
+      'As fotos dos trajes estão sendo preparadas. Me chama no WhatsApp que eu te mostro o que temos hoje.',
+  },
+]
+
+export function apresentacaoDe(publico: Publico): Apresentacao {
+  const achada = apresentacoes.find((a) => a.publico === publico)
+  if (!achada) throw new Error(`apresentação não configurada: ${publico}`)
+  return achada
+}
+
+/**
+ * Lê o `?nome=` da URL, ou devolve vazio.
+ *
+ * O valor vem de um link que a Danielli monta na mão e cola no WhatsApp, então
+ * chega como ela digitou. Vai direto para dentro do HTML, e por isso passa por
+ * aqui.
+ *
+ * RECUSA, EM VEZ DE LIMPAR
+ * ------------------------
+ * A primeira versão apagava o que não era letra e usava o resto. Com uma
+ * tentativa de injeção na URL, a saudação virava "img srcx onerroralert An,
+ * que bom que você chegou": inofensivo, e horrível.
+ *
+ * Ou o parâmetro é um nome, ou não é. Qualquer coisa fora de letra, espaço,
+ * hífen e apóstrofo derruba tudo e a abertura mostra a versão neutra, que
+ * está sempre correta. Um link que a Danielli escreve nunca tem outra coisa.
+ *
+ * O corte em 24 caracteres é de layout, não de segurança: nome maior que isso
+ * quebra a linha da saudação em corpo de display no celular.
+ */
+export function nomeSanitizado(bruto: string | null): string {
+  if (!bruto) return ''
+
+  const limpo = bruto.replace(/\s+/g, ' ').trim()
+  if (!limpo || limpo.length > 24) return ''
+  if (!/^[\p{L}][\p{L}\s'-]*$/u.test(limpo)) return ''
+
+  return limpo
+}

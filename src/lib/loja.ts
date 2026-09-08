@@ -41,6 +41,17 @@ export interface ConfigLoja {
   whatsappExibicao: string
   cidade: string
   instagram: string
+  /** "Rua, número, bairro". Vazio esconde o bloco de endereço. */
+  endereco: string
+  /**
+   * A CHAVE DA FASE SEGUINTE.
+   *
+   * A apresentação não mostra valor nenhum, e nem "sob consulta", que lê como
+   * informação faltando. A Danielli já disse que quer catálogo com preço
+   * depois; quando esse dia chegar, é este interruptor que acende, e não uma
+   * refatoração.
+   */
+  mostrarPrecos: false
 }
 
 export interface EstadoPersistido {
@@ -63,6 +74,8 @@ export function configDaSemente(): ConfigLoja {
     whatsappExibicao: brand.whatsappExibicao,
     cidade: brand.cidade,
     instagram: brand.instagram,
+    endereco: '',
+    mostrarPrecos: false,
   }
 }
 
@@ -120,20 +133,20 @@ export function carregar(): EstadoPersistido {
  * que ela nunca tocou continua vindo do código.
  */
 function mesclarPecas(daSemente: Peca[], salvas: Peca[], removidos: string[]): Peca[] {
-  const porSlug = new Map(salvas.map((peca) => [peca.slug, peca]))
+  const porCodigo = new Map(salvas.map((peca) => [peca.codigo, peca]))
   const apagados = new Set(removidos)
 
   const resultado = daSemente
-    .filter((peca) => !apagados.has(peca.slug))
+    .filter((peca) => !apagados.has(peca.codigo))
     .map((peca) => {
-      const editada = porSlug.get(peca.slug)
+      const editada = porCodigo.get(peca.codigo)
       return editada ? { ...peca, ...editada } : peca
     })
 
   /* As que ela criou do zero no painel não estão na semente: entram na
      frente, que é onde ela acabou de colocá-las. */
-  const slugsDaSemente = new Set(daSemente.map((peca) => peca.slug))
-  const criadas = salvas.filter((peca) => !slugsDaSemente.has(peca.slug))
+  const daCasa = new Set(daSemente.map((peca) => peca.codigo))
+  const criadas = salvas.filter((peca) => !daCasa.has(peca.codigo))
 
   return [...criadas, ...resultado]
 }
@@ -145,7 +158,7 @@ export interface Loja extends EstadoPersistido {
   editado: boolean
 
   salvarPeca: (peca: Peca) => void
-  removerPeca: (slug: string) => void
+  removerPeca: (codigo: string) => void
   salvarCupom: (cupom: Cupom) => void
   removerCupom: (id: string) => void
   salvarConfig: (config: ConfigLoja) => void

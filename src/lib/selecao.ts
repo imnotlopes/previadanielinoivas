@@ -51,14 +51,14 @@ const CHAVE = 'danielli:provar'
 const LIMITE = 12
 
 interface Guardado {
-  slugs: string[]
-  /** Data do casamento, em ISO (`2026-10-12`). Vazia enquanto não informada. */
+  codigos: string[]
+  /** Data do evento, em ISO (`2026-10-12`). Vazia enquanto não informada. */
   data: string
   /** Como ela se veste hoje: "38", "42", "M". Texto livre de propósito. */
   manequim: string
 }
 
-const INICIAL: Guardado = { slugs: [], data: '', manequim: '' }
+const INICIAL: Guardado = { codigos: [], data: '', manequim: '' }
 
 let estado: Guardado = INICIAL
 const ouvintes = new Set<() => void>()
@@ -73,20 +73,20 @@ function lerDoDisco(): Guardado {
     if (!bruto) return INICIAL
     const dados: unknown = JSON.parse(bruto)
 
-    /* Formato antigo: só o array de slugs. Ler em vez de descartar mantém a
+    /* Formato antigo: só o array de codigos. Ler em vez de descartar mantém a
        lista de quem já tinha marcado vestido antes destes campos existirem. */
     if (Array.isArray(dados)) {
       return {
         ...INICIAL,
-        slugs: dados.filter((v): v is string => typeof v === 'string').slice(0, LIMITE),
+        codigos: dados.filter((v): v is string => typeof v === 'string').slice(0, LIMITE),
       }
     }
 
     if (!dados || typeof dados !== 'object') return INICIAL
     const objeto = dados as Record<string, unknown>
     return {
-      slugs: Array.isArray(objeto.slugs)
-        ? objeto.slugs.filter((v): v is string => typeof v === 'string').slice(0, LIMITE)
+      codigos: Array.isArray(objeto.codigos)
+        ? objeto.codigos.filter((v): v is string => typeof v === 'string').slice(0, LIMITE)
         : [],
       data: texto(objeto.data),
       manequim: texto(objeto.manequim),
@@ -121,7 +121,7 @@ function definir(proximo: Guardado) {
 /**
  * Primeira leitura, e o resgate da seleção vinda por link.
  *
- * `?provar=slug-a,slug-b` na URL vence o que estiver guardado. É o caso da
+ * `?provar=N-01,N-07` na URL vence o que estiver guardado. É o caso da
  * Danielli abrindo, do computador da loja, o link que a noiva mandou: o que
  * ela precisa ver é a seleção DA NOIVA, não a que ela mesma montou testando
  * o catálogo ontem.
@@ -139,7 +139,7 @@ function iniciar() {
   if (doLink) {
     estado = {
       ...INICIAL,
-      slugs: doLink
+      codigos: doLink
         .split(',')
         .map((s) => s.trim())
         .filter(Boolean)
@@ -191,15 +191,15 @@ function instantaneoServidor(): Guardado {
 }
 
 export interface Selecao {
-  slugs: string[]
+  codigos: string[]
   quantidade: number
   cheia: boolean
   /** Data do casamento em ISO, ou string vazia. */
   data: string
   manequim: string
-  tem: (slug: string) => boolean
-  alternar: (slug: string) => void
-  remover: (slug: string) => void
+  tem: (codigo: string) => boolean
+  alternar: (codigo: string) => void
+  remover: (codigo: string) => void
   limpar: () => void
   definirData: (data: string) => void
   definirManequim: (manequim: string) => void
@@ -210,12 +210,12 @@ export function useSelecao(): Selecao {
   const atual = useSyncExternalStore(assinar, instantaneo, instantaneoServidor)
 
   return {
-    slugs: atual.slugs,
-    quantidade: atual.slugs.length,
-    cheia: atual.slugs.length >= LIMITE,
+    codigos: atual.codigos,
+    quantidade: atual.codigos.length,
+    cheia: atual.codigos.length >= LIMITE,
     data: atual.data,
     manequim: atual.manequim,
-    tem: (slug) => atual.slugs.includes(slug),
+    tem: (codigo) => atual.codigos.includes(codigo),
     alternar,
     remover,
     limpar,
@@ -232,18 +232,18 @@ export function useSelecao(): Selecao {
  * mensagem que não ajuda a separar nada. Uma prova rende de seis a dez
  * vestidos; 12 já é folga.
  */
-export function alternar(slug: string) {
-  if (estado.slugs.includes(slug)) {
-    definir({ ...estado, slugs: estado.slugs.filter((s) => s !== slug) })
+export function alternar(codigo: string) {
+  if (estado.codigos.includes(codigo)) {
+    definir({ ...estado, codigos: estado.codigos.filter((s) => s !== codigo) })
     return
   }
-  if (estado.slugs.length >= LIMITE) return
-  definir({ ...estado, slugs: [...estado.slugs, slug] })
+  if (estado.codigos.length >= LIMITE) return
+  definir({ ...estado, codigos: [...estado.codigos, codigo] })
 }
 
-export function remover(slug: string) {
-  if (!estado.slugs.includes(slug)) return
-  definir({ ...estado, slugs: estado.slugs.filter((s) => s !== slug) })
+export function remover(codigo: string) {
+  if (!estado.codigos.includes(codigo)) return
+  definir({ ...estado, codigos: estado.codigos.filter((s) => s !== codigo) })
 }
 
 /**
@@ -254,8 +254,8 @@ export function remover(slug: string) {
  * de ideia sobre os vestidos.
  */
 export function limpar() {
-  if (estado.slugs.length === 0) return
-  definir({ ...estado, slugs: [] })
+  if (estado.codigos.length === 0) return
+  definir({ ...estado, codigos: [] })
 }
 
 export function definirData(data: string) {

@@ -1,796 +1,516 @@
-// A extensão .js é exigência do moduleResolution node16 do tsconfig.node,
-// que alcança este arquivo através de scripts/seo.ts; o arquivo em disco é
-// .ts, e tanto o TypeScript quanto o Vite fazem essa correspondência sozinhos.
-import { brand } from '../lib/brand.js'
+/**
+ * AS PEÇAS DO ATELIÊ, fonte única das três apresentações.
+ * ======================================================
+ *
+ * Este arquivo substituiu o modelo de catálogo (`slug`, `categoria`, `cor`,
+ * `numeracao`, `precoAluguel`, `publicado`). O produto deixou de ser catálogo
+ * e virou apresentação de venda, e o modelo acompanhou.
+ *
+ * O QUE MUDOU DE VERDADE, E NÃO SÓ DE NOME
+ * ----------------------------------------
+ *  - `codigo` no lugar de `slug`: os nomes da prévia são todos inventados, e
+ *    até a Danielli confirmar os de verdade a peça é identificada por código.
+ *    Código também é o que ela já usa na arara.
+ *  - `cores` e `tamanhos` no plural: uma peça existe em mais de uma cor e em
+ *    várias numerações. O singular obrigava a escolher uma e mentir no resto.
+ *  - `publico` no lugar de `categoria`: quem recebe o link, e não o que a peça
+ *    é. É o que decide em qual das três apresentações ela aparece.
+ *  - `preco` existe e está desligado. A Danielli já sinalizou que quer preço
+ *    numa fase seguinte, e essa fase precisa ser uma chave, não uma
+ *    refatoração.
+ *
+ * O QUE ESTÁ VAZIO, E POR QUE NÃO FOI CHUTADO
+ * -------------------------------------------
+ * `nome`, `cores` e `tamanhos` estão vazios em TODAS as peças. Os nomes e as
+ * cores da prévia eram invenção minha para o site poder ser visto de pé, e o
+ * brief mandou que nenhum vá para produção sem confirmação. Cor dá para ver na
+ * foto, mas "branco" e "marfim" se confundem em tela e essa é exatamente a
+ * pergunta que a noiva faz.
+ *
+ * Cada campo vazio some sozinho da tela. Nada aqui inventa para preencher.
+ */
 
-export type CategoriaPeca = 'noiva' | 'festa' | 'debutante'
+/** Quem recebe o link. Decide em qual apresentação a peça aparece. */
+export type Publico = 'noivas' | 'madrinhas' | 'noivos'
 
 export interface Peca {
-  slug: string
-  /** Nome do vestido. Ver a nota sobre nomes no bloco do catálogo. */
-  nome: string
-  categoria: CategoriaPeca
   /**
-   * O vestido em uma linha curta: silhueta e o detalhe que o identifica.
-   * Sem nome de tecido quando não há certeza, chutar "renda francesa" numa
-   * peça de aluguel é pior do que dizer só "renda".
-   */
-  descricao: string
-  /**
-   * Caminhos servidos a partir de /public, por isso começam com "/".
-   * Strings em /src/assets NÃO funcionam: o Vite só versiona esses arquivos
-   * quando são importados como módulo. Para trocar as fotos, edite a tabela
-   * em scripts/importar-instagram.mjs e rode o script de novo.
-   */
-  imagens: string[]
-  /** Aparece na vitrine da home. */
-  destaque?: boolean
-
-  /**
-   * Valor do aluguel, em reais. `null` significa "sob consulta", e é o
-   * estado atual de todo o acervo: ninguém informou a tabela da loja, e
-   * inventar preço de aluguel é o tipo de erro que a cliente só descobre
-   * dentro da loja. A interface inteira já funciona com preço, basta
-   * preencher aqui que o valor aparece no card, na página e no cálculo do
-   * cupom.
-   */
-  precoAluguel: number | null
-  /** Valor cheio, quando a peça está em promoção. Exibido riscado. */
-  precoDe?: number | null
-
-  /**
-   * Cor dominante, usada no filtro do catálogo. Uma só por vestido: é o que
-   * a cliente procura ("o verde", "o rosa"), e listar três tons de branco
-   * transformaria o filtro num segundo catálogo.
-   */
-  cor: CorPeca
-
-  /**
-   * Numeração disponível daquele vestido: `['38', '40', '42']`.
+   * Identificação interna, obrigatória e estável.
    *
-   * É a SEGUNDA PERGUNTA de toda cliente, depois do preço, e por isso é campo
-   * de primeira classe e não observação solta na descrição. Lista vazia quer
-   * dizer "ainda não informada", e nesse caso a tela some com a linha em vez
-   * de mostrar um rótulo vazio.
-   *
-   * TODO: a Danielli confirmou ter a numeração de todas as fotos. Preencher.
+   * É a chave da peça em tudo: seleção, overlay, mensagem de WhatsApp. Foi
+   * atribuído na ordem em que as peças entraram no acervo, e não deve ser
+   * renumerado, porque ele já viajou em links e mensagens.
    */
-  numeracao: string[]
+  codigo: string
 
-  /**
-   * Ocasião, só dentro de festa. A cliente de festa não é uma só: formanda de
-   * alto padrão, formatura, madrinha e mãe procuram coisas diferentes e é
-   * assim que a loja separa a arara. Em vestido de noiva não se aplica.
-   */
-  ocasiao?: OcasiaoFesta
+  /** Só depois que a Danielli confirmar. Vazio, a tela mostra o código. */
+  nome?: string
 
-  /**
-   * Vídeo do vestido em movimento. Link do Instagram/YouTube ou caminho de
-   * arquivo em /public. Vestido parado na foto e vestido andando são coisas
-   * diferentes, e é o vídeo que fecha a dúvida sobre caimento.
-   */
+  publico: Publico
+
+  /** Caminhos a partir de /public. A primeira é a capa do card. */
+  fotos: string[]
+
+  /** Link ou arquivo. Peça parada e peça andando são coisas diferentes. */
   video?: string
 
-  /**
-   * FICHA TÉCNICA, o vocabulário da arara.
-   * ---------------------------------------
-   * Estes quatro campos são a linguagem que a Danielli usa de pé na loja, ao
-   * lado da noiva: "esse é sereia", "esse tem manga longa", "esse é tomara
-   * que caia". Não são adjetivos de catálogo, são a forma como a escolha
-   * acontece de verdade, a noiva chega dizendo "não quero nada tomara que
-   * caia" e isso, sozinho, corta metade da arara.
-   *
-   * Por isso são campo, e não texto solto na descrição: campo vira filtro, e
-   * o filtro é o que transforma um catálogo de 40 vestidos numa conversa de
-   * três.
-   *
-   * TODOS OPCIONAIS, E TODOS VAZIOS HOJE. A ficha esconde a linha que não tem
-   * valor, e o filtro só aparece quando existe vestido classificado. Preencher
-   * exige a Danielli olhando peça por peça: deduzir silhueta de foto é o tipo
-   * de erro que a noiva descobre vestindo.
-   */
-  silhueta?: Silhueta
-  decote?: Decote
-  manga?: Manga
-  /** Comprimento da cauda, quando existe. */
-  cauda?: Cauda
+  /** Ex.: ['Branco', 'Marfim']. Vazio esconde a linha. */
+  cores: string[]
+
+  /** Ex.: ['38', '40', '42']. Vazio esconde a linha. */
+  tamanhos: string[]
+
+  /** Uma linha: a silhueta e o detalhe que identifica a peça. */
+  descricao: string
+
+  /** Vai para o começo da grade da apresentação. */
+  destaque: boolean
+
+  /** A curadoria da Danielli: o acervo do ateliê é maior que a apresentação. */
+  visivel: boolean
 
   /**
-   * HERO DA FICHA, duas fotos, uma por formato de tela.
+   * Construído e desligado.
    *
-   * Só os vestidos que têm história ganham hero. Um acervo em que todo mundo
-   * abre com foto de tela cheia não destaca ninguém.
-   *
-   * São DUAS fotos, e não uma redimensionada: uma hero de tela cheia é
-   * retângulo em pé no celular e faixa deitada no computador, e a mesma foto
-   * não serve nos dois. A horizontal cortada em retrato perde 60% da largura;
-   * a vertical esticada em faixa mostra o umbigo da noiva. Servidas por
-   * `<picture media>`, que, ao contrário do `<source media>` de vídeo,
-   * funciona.
+   * A apresentação não mostra valor nenhum, nem "sob consulta", que lê como
+   * informação faltando. Quando a fase de catálogo com preço chegar, é aqui
+   * que o número entra e em `Config.mostrarPrecos` que ele acende.
    */
-  hero?: { largo: string; alto: string }
-
-  /**
-   * Uma linha sobre o vestido que não é descrição de produto.
-   *
-   * É onde entra o que torna a peça diferente das outras trinta e nove: quem
-   * já casou com ela, de onde ela veio. Vazio na esmagadora maioria, história
-   * inventada para dar corpo ao catálogo é o tipo de frase que a noiva
-   * descobre sendo falsa na loja.
-   */
-  historia?: string
-
-  /**
-   * A CURADORIA.
-   *
-   * Nem todo vestido do acervo entra no catálogo que a cliente recebe, a
-   * regra da Danielli é que só entra o que tem foto profissional. Este campo
-   * é o interruptor disso, e ela liga e desliga do celular no painel.
-   *
-   * O acervo interno pode (e deve) ser maior que o catálogo publicado.
-   */
-  publicado: boolean
+  preco: null
 }
 
-/**
- * Ocasiões dentro de festa.
- *
- * Existem porque a loja atende quatro clientes diferentes sob o mesmo rótulo,
- * com necessidade e orçamento distintos. Noiva não entra aqui: ela tem peça
- * própria.
- */
-export type OcasiaoFesta = 'formanda' | 'formatura' | 'madrinha' | 'mae'
 
-export const rotulosOcasiao: Record<OcasiaoFesta, string> = {
-  formanda: 'Formanda',
-  formatura: 'Formatura',
-  madrinha: 'Madrinha',
-  mae: 'Mãe',
-}
-
-/**
- * SILHUETA, o formato do vestido no corpo.
- *
- * A lista é curta por decisão, não por preguiça. Uma taxonomia de estilista
- * (trompete, semi-sereia, evasê, império…) é precisa e inútil aqui: a noiva
- * não filtra pelo que não sabe nomear. Estes cinco cobrem o que se ouve na
- * loja, e o que não couber neles fica sem silhueta em vez de ser forçado.
- */
-export type Silhueta = 'sereia' | 'princesa' | 'reto' | 'rodado' | 'justo'
-
-export const rotulosSilhueta: Record<Silhueta, string> = {
-  sereia: 'Sereia',
-  princesa: 'Princesa',
-  reto: 'Reto',
-  rodado: 'Rodado',
-  justo: 'Justo',
-}
-
-/** DECOTE, depois da silhueta, é a segunda coisa que a noiva descarta. */
-export type Decote = 'tomara-que-caia' | 'v' | 'ilusao' | 'gola-alta' | 'ombro-a-ombro' | 'coracao'
-
-export const rotulosDecote: Record<Decote, string> = {
-  'tomara-que-caia': 'Tomara que caia',
-  v: 'Decote V',
-  ilusao: 'Decote ilusão',
-  'gola-alta': 'Gola alta',
-  'ombro-a-ombro': 'Ombro a ombro',
-  coracao: 'Coração',
-}
-
-/** MANGA, o filtro de quem casa de dia, na igreja ou no calor. */
-export type Manga = 'sem-manga' | 'alca-fina' | 'alca-larga' | 'curta' | 'tres-quartos' | 'longa'
-
-export const rotulosManga: Record<Manga, string> = {
-  'sem-manga': 'Sem manga',
-  'alca-fina': 'Alça fina',
-  'alca-larga': 'Alça larga',
-  curta: 'Manga curta',
-  'tres-quartos': 'Três quartos',
-  longa: 'Manga longa',
-}
-
-/** CAUDA, muda o preço do buquê, do carro e da igreja. Não é detalhe. */
-export type Cauda = 'sem-cauda' | 'curta' | 'media' | 'longa'
-
-export const rotulosCauda: Record<Cauda, string> = {
-  'sem-cauda': 'Sem cauda',
-  curta: 'Cauda curta',
-  media: 'Cauda média',
-  longa: 'Cauda longa',
-}
-
-/**
- * Cores do filtro.
- *
- * A lista é curta de propósito. Cada nome precisa ser algo que a cliente
- * diria em voz alta; "off-white", "champagne" e "pérola" viram todos
- * `marfim` aqui, porque na arara ninguém filtra por três tons de branco.
- */
-export type CorPeca =
-  | 'branco'
-  | 'marfim'
-  | 'dourado'
-  | 'prata'
-  | 'rosa'
-  | 'lilas'
-  | 'azul'
-  | 'verde'
-  | 'preto'
-
-export const rotulosCor: Record<CorPeca, string> = {
-  branco: 'Branco',
-  marfim: 'Marfim',
-  dourado: 'Dourado',
-  prata: 'Prata',
-  rosa: 'Rosa',
-  lilas: 'Lilás',
-  azul: 'Azul',
-  verde: 'Verde',
-  preto: 'Preto',
-}
-
-/** Amostra exibida no filtro. Só decoração: o rótulo em texto vai junto. */
-export const amostraCor: Record<CorPeca, string> = {
-  branco: '#FFFFFF',
-  marfim: '#F2EADC',
-  dourado: '#C9B56B',
-  prata: '#C9CCD1',
-  rosa: '#C2185B',
-  lilas: '#B892D4',
-  azul: '#8FA9C9',
-  verde: '#1F4B3F',
-  preto: '#242321',
-}
-
-/** Rótulos legíveis para filtros e breadcrumbs. */
-export const rotulosCategoria: Record<CategoriaPeca, string> = {
-  noiva: 'Noiva',
-  festa: 'Festa',
-  debutante: 'Debutante',
-}
-
-/**
- * Títulos e descrições de SEO por categoria.
- *
- * São FUNÇÕES da cidade, e não tabelas prontas, por duas razões. A primeira é
- * que a busca desta loja é local: quem procura digita "aluguel de vestido de
- * noiva em <cidade>", e a cidade precisa entrar na frase, não ficar de fora.
- * A segunda é que a cidade é editável, vem de `brand.cidade` no site
- * publicado, e do painel na prévia, então calcular na hora é o que mantém
- * as duas fontes de acordo.
- *
- * Com a cidade vazia as frases saem sem ela: continuam corretas, só perdem o
- * termo que mais traz cliente.
- */
-function local(cidade: string): string {
-  return cidade ? ` em ${cidade}` : ''
-}
-
-/**
- * Título de cada página de categoria, usado na tag <title>.
- *
- * O rótulo do filtro ("Noiva") não serve aqui: quem busca digita "aluguel de
- * vestido de noiva", não "noiva". A frase fica na frente porque o título
- * completo passa do que o Google exibe e ele corta o fim, não o começo.
- */
-export function tituloCategoria(
-  categoria: CategoriaPeca,
-  cidade: string = brand.cidade,
-): string {
-  const onde = local(cidade)
-  const frases: Record<CategoriaPeca, string> = {
-    noiva: `Aluguel de vestidos de noiva${onde}`,
-    festa: `Aluguel de vestidos de festa e madrinha${onde}`,
-    debutante: `Aluguel de vestidos de 15 anos${onde}`,
-  }
-  return frases[categoria]
-}
-
-/**
- * Meta description de cada categoria.
- *
- * Uma por categoria, e não um texto montado por template, porque o buscador
- * trata cada uma como página de entrada própria: quem procura "vestido de
- * noiva para alugar" cai em /catalogo?categoria=noiva, não na home. Descrição
- * repetida entre páginas é desperdício, então cada uma diz algo diferente.
- *
- * Entre 120 e 160 caracteres, que é a faixa que o Google costuma exibir
- * inteira.
- */
-export function descricaoCategoria(
-  categoria: CategoriaPeca,
-  cidade: string = brand.cidade,
-): string {
-  const onde = local(cidade)
-  const frases: Record<CategoriaPeca, string> = {
-    noiva: `Vestidos de noiva para alugar${onde}. Prova com hora marcada no showroom, ajuste incluso no aluguel e reserva da data com antecedência.`,
-    festa: `Vestidos de festa e de madrinha para alugar${onde}. Do longo fluido ao paetê, com prova sem compromisso e ajuste feito na cliente.`,
-    debutante: `Vestidos de 15 anos para alugar${onde}. Do princesa ao sereia, com prova acompanhada, ajuste incluso e reserva garantida para a data da festa.`,
-  }
-  return frases[categoria]
-}
-
-/**
- * Catálogo, o acervo de aluguel.
- *
- * NOMES DE VESTIDO, NÃO DE CLIENTE
- * --------------------------------
- * Cada modelo é batizado com um nome próprio, e é por ele que a cliente pede
- * na conversa do WhatsApp ("quero provar o Aurora"). Isso resolve dois
- * problemas de uma vez: o acervo é de aluguel, então o mesmo vestido veste
- * várias noivas ao longo do tempo e não pertence a nenhuma delas; e nenhuma
- * cliente aparece identificada pelo nome sem ter autorizado.
- *
- * ATENÇÃO: CONTEÚDO DE PRÉVIA
- * ----------------------------
- * Os nomes e as descrições abaixo foram escritos aqui, a partir das fotos do
- * Instagram, para o site poder ser visto de pé. Eles NÃO vieram da Danielli.
- * Antes de publicar, confira modelo a modelo: o nome que a loja usa de
- * verdade, se a peça ainda está no acervo e se a descrição bate com o vestido.
- */
 export const pecas: Peca[] = [
-  /* ---------------------------------------------------------------- noiva */
+  /* ------------------------------------------------------- noivas */
   {
-    slug: 'noiva-aurora',
-    nome: 'Aurora',
-    categoria: 'noiva',
+    codigo: 'N-01',
+    publico: 'noivas',
     descricao: 'Renda com gola alta e manga longa',
-    precoAluguel: null,
-    /* Branco, e não marfim: a cor da prévia estava errada, como o nome. */
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: true,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/aurora-renda-gola-alta.webp',
       '/pecas/aurora-renda-gola-alta-2.webp',
       '/pecas/aurora-renda-gola-alta-3.webp',
-      /* Da cobertura do casamento da Natália: as costas de perfil, a igreja
-         com o véu aberto, e o vestido em movimento na festa. */
       '/pecas/aurora-casamento.webp',
       '/pecas/aurora-casamento-2.webp',
       '/pecas/aurora-casamento-3.webp',
     ],
-    destaque: true,
-
-    /*
-      A FOTO DE CAPA, SEM HISTÓRIA.
-
-      Havia aqui uma frase dizendo que este foi o vestido que a Natália, filha
-      da Danielli, escolheu para o próprio casamento. ERA FALSA em três
-      pontos: a Natália é noiva cliente e não filha da Danielli, o vestido não
-      é o da filha, e "Aurora" é nome inventado na prévia.
-
-      A frase saiu. A foto fica: a cliente autorizou o uso da imagem da
-      Natália. Enquanto não houver uma história CONFIRMADA para esta peça, o
-      campo `historia` continua vazio, porque frase de autoridade inventada é
-      exatamente o que derruba a autoridade quando a noiva descobre.
-    */
-    hero: {
-      largo: '/casamentos/aurora-hero.webp',
-      alto: '/casamentos/aurora-hero-alto.webp',
-    },
   },
   {
-    slug: 'noiva-isadora',
-    nome: 'Isadora',
-    categoria: 'noiva',
+    codigo: 'N-02',
+    publico: 'noivas',
     descricao: 'Decote V em renda, com véu longo',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: true,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/isadora-decote-v-com-veu.webp',
       '/pecas/isadora-decote-v-com-veu-2.webp',
       '/pecas/isadora-decote-v-com-veu-3.webp',
     ],
-    destaque: true,
   },
   {
-    slug: 'noiva-lorena',
-    nome: 'Lorena',
-    categoria: 'noiva',
+    codigo: 'N-03',
+    publico: 'noivas',
     descricao: 'Manga longa em renda e costas com botões',
-    precoAluguel: null,
-    cor: 'marfim',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/lorena-manga-longa-em-renda.webp',
       '/pecas/lorena-manga-longa-em-renda-2.webp',
     ],
   },
   {
-    slug: 'noiva-valentina',
-    nome: 'Valentina',
-    categoria: 'noiva',
+    codigo: 'N-04',
+    publico: 'noivas',
     descricao: 'Decote V com manga fluida em tule',
-    precoAluguel: null,
-    cor: 'marfim',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: true,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/valentina-decote-v-manga-fluida.webp',
       '/pecas/valentina-decote-v-manga-fluida-2.webp',
     ],
-    destaque: true,
   },
   {
-    slug: 'noiva-beatriz',
-    nome: 'Beatriz',
-    categoria: 'noiva',
+    codigo: 'N-05',
+    publico: 'noivas',
     descricao: 'Tule marfim com decote V',
-    precoAluguel: null,
-    cor: 'marfim',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/beatriz-tule-marfim.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/beatriz-tule-marfim.webp',
+    ],
   },
   {
-    slug: 'noiva-helena',
-    nome: 'Helena',
-    categoria: 'noiva',
+    codigo: 'N-06',
+    publico: 'noivas',
     descricao: 'Ombros bordados e saia em tule',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/helena-ombros-bordados.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/helena-ombros-bordados.webp',
+    ],
   },
   {
-    slug: 'noiva-marina',
-    nome: 'Marina',
-    categoria: 'noiva',
+    codigo: 'N-07',
+    publico: 'noivas',
     descricao: 'Ombro a ombro em renda',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/marina-ombro-a-ombro.webp',
       '/pecas/marina-ombro-a-ombro-2.webp',
     ],
   },
   {
-    slug: 'noiva-rafaela',
-    nome: 'Rafaela',
-    categoria: 'noiva',
+    codigo: 'N-08',
+    publico: 'noivas',
     descricao: 'Decote profundo com bordado',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/rafaela-decote-profundo-bordado.webp',
       '/pecas/rafaela-decote-profundo-bordado-2.webp',
     ],
   },
   {
-    slug: 'noiva-clarice',
-    nome: 'Clarice',
-    categoria: 'noiva',
+    codigo: 'N-09',
+    publico: 'noivas',
     descricao: 'Costas em ilusão e saia em tule',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/clarice-costas-em-ilusao.webp',
       '/pecas/clarice-costas-em-ilusao-2.webp',
     ],
   },
   {
-    slug: 'noiva-antonia',
-    nome: 'Antônia',
-    categoria: 'noiva',
+    codigo: 'N-10',
+    publico: 'noivas',
     descricao: 'Princesa ombro a ombro, com laço nas costas',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/antonia-princesa-ombro-a-ombro.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/antonia-princesa-ombro-a-ombro.webp',
+    ],
   },
   {
-    slug: 'noiva-eloa',
-    nome: 'Eloá',
-    categoria: 'noiva',
+    codigo: 'N-11',
+    publico: 'noivas',
     descricao: 'Renda com gola alta e saia ampla',
-    precoAluguel: null,
-    cor: 'marfim',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/eloa-renda-gola-alta.webp',
       '/pecas/eloa-renda-gola-alta-2.webp',
     ],
   },
   {
-    slug: 'noiva-julia',
-    nome: 'Júlia',
-    categoria: 'noiva',
+    codigo: 'N-12',
+    publico: 'noivas',
     descricao: 'Manga longa fluida, sem brilho',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/julia-manga-longa-minimalista.webp',
       '/pecas/julia-manga-longa-minimalista-2.webp',
     ],
   },
   {
-    slug: 'noiva-thais',
-    nome: 'Thaís',
-    categoria: 'noiva',
+    codigo: 'N-13',
+    publico: 'noivas',
     descricao: 'Um ombro só, com babado estruturado',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/thais-um-ombro-so-com-babado.webp',
       '/pecas/thais-um-ombro-so-com-babado-2.webp',
     ],
   },
   {
-    slug: 'noiva-sofia',
-    nome: 'Sofia',
-    categoria: 'noiva',
+    codigo: 'N-14',
+    publico: 'noivas',
     descricao: 'Cauda longa e véu catedral',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/sofia-cauda-longa.webp',
       '/pecas/sofia-cauda-longa-2.webp',
     ],
   },
   {
-    slug: 'noiva-luiza',
-    nome: 'Luíza',
-    categoria: 'noiva',
+    codigo: 'N-15',
+    publico: 'noivas',
     descricao: 'Princesa com cauda em tule',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/luiza-princesa-com-cauda.webp',
       '/pecas/luiza-princesa-com-cauda-2.webp',
     ],
   },
   {
-    slug: 'noiva-celeste',
-    nome: 'Celeste',
-    categoria: 'noiva',
+    codigo: 'N-16',
+    publico: 'noivas',
     descricao: 'Renda bordada com pérolas',
-    precoAluguel: null,
-    cor: 'marfim',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/celeste-renda-e-perolas.webp',
       '/pecas/celeste-renda-e-perolas-2.webp',
     ],
   },
-
-  /* ------------------------------------------------------------------------
-     Vestidos vindos do material dos fotógrafos.
-
-     Agrupados por peça a partir das folhas de contato (ver
-     scripts/importar-fotografos.mjs). NOMES INVENTADOS, como os de cima,
-     são um ponto de partida para a Danielli corrigir, junto com a numeração
-     e a cor de cada um.
-
-     Onde a certeza de ser o mesmo vestido era menor, a peça entrou sozinha em
-     vez de ser juntada a outra: juntar depois é uma linha; separar um vestido
-     que virou dois na cabeça da cliente é conversa ruim no balcão.
-     ---------------------------------------------------------------------- */
   {
-    slug: 'noiva-alicia',
-    nome: 'Alícia',
-    categoria: 'noiva',
+    codigo: 'N-17',
+    publico: 'noivas',
     descricao: 'Renda com manga longa e decote ilusão',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/alicia-renda-manga-longa.webp',
       '/pecas/alicia-renda-manga-longa-2.webp',
       '/pecas/alicia-renda-manga-longa-3.webp',
     ],
   },
   {
-    slug: 'noiva-amanda',
-    nome: 'Amanda',
-    categoria: 'noiva',
+    codigo: 'N-18',
+    publico: 'noivas',
     descricao: 'Renda com decote ilusão e saia em tule',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/amanda-renda-decote-ilusao.webp',
     ],
   },
   {
-    slug: 'noiva-bruna',
-    nome: 'Bruna',
-    categoria: 'noiva',
+    codigo: 'N-19',
+    publico: 'noivas',
     descricao: 'Renda com manga longa e saia ampla',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/bruna-renda-manga-longa-saia-ampla.webp',
       '/pecas/bruna-renda-manga-longa-saia-ampla-2.webp',
     ],
   },
   {
-    slug: 'noiva-catarina',
-    nome: 'Catarina',
-    categoria: 'noiva',
+    codigo: 'N-20',
+    publico: 'noivas',
     descricao: 'Costas em renda com cauda longa',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/catarina-costas-em-renda-cauda-longa.webp',
     ],
   },
   {
-    slug: 'noiva-cecilia',
-    nome: 'Cecília',
-    categoria: 'noiva',
+    codigo: 'N-21',
+    publico: 'noivas',
     descricao: 'Alça larga com decote coração e saia em tule',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/cecilia-alca-larga-saia-em-tule.webp',
     ],
   },
   {
-    slug: 'noiva-daniela',
-    nome: 'Daniela',
-    categoria: 'noiva',
+    codigo: 'N-22',
+    publico: 'noivas',
     descricao: 'Renda com manga longa e decote V',
-    precoAluguel: null,
-    cor: 'marfim',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/daniela-renda-manga-longa-decote-v.webp',
     ],
   },
   {
-    slug: 'noiva-elisa',
-    nome: 'Elisa',
-    categoria: 'noiva',
+    codigo: 'N-23',
+    publico: 'noivas',
     descricao: 'Manga curta em renda com cinto bordado',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/elisa-manga-curta-cinto-bordado.webp',
     ],
   },
   {
-    slug: 'noiva-emanuelle',
-    nome: 'Emanuelle',
-    categoria: 'noiva',
+    codigo: 'N-24',
+    publico: 'noivas',
     descricao: 'Ombro a ombro em renda',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/emanuelle-ombro-a-ombro-em-renda.webp',
       '/pecas/emanuelle-ombro-a-ombro-em-renda-2.webp',
       '/pecas/emanuelle-ombro-a-ombro-em-renda-3.webp',
     ],
   },
   {
-    slug: 'noiva-fernanda',
-    nome: 'Fernanda',
-    categoria: 'noiva',
+    codigo: 'N-25',
+    publico: 'noivas',
     descricao: 'Decote V sem manga, saia em tule',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/fernanda-decote-v-sem-manga.webp',
       '/pecas/fernanda-decote-v-sem-manga-2.webp',
     ],
   },
   {
-    slug: 'noiva-gabriela',
-    nome: 'Gabriela',
-    categoria: 'noiva',
+    codigo: 'N-26',
+    publico: 'noivas',
     descricao: 'Renda com manga longa e véu',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/gabriela-renda-manga-longa-com-veu.webp',
       '/pecas/gabriela-renda-manga-longa-com-veu-2.webp',
     ],
   },
   {
-    slug: 'noiva-heloisa',
-    nome: 'Heloísa',
-    categoria: 'noiva',
+    codigo: 'N-27',
+    publico: 'noivas',
     descricao: 'Renda com decote ilusão e manga longa',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/heloisa-renda-decote-ilusao.webp',
     ],
   },
   {
-    slug: 'noiva-ingrid',
-    nome: 'Ingrid',
-    categoria: 'noiva',
+    codigo: 'N-28',
+    publico: 'noivas',
     descricao: 'Renda com saia ampla e costas em ilusão',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/ingrid-renda-saia-ampla.webp',
       '/pecas/ingrid-renda-saia-ampla-2.webp',
       '/pecas/ingrid-renda-saia-ampla-3.webp',
     ],
   },
   {
-    slug: 'noiva-joana',
-    nome: 'Joana',
-    categoria: 'noiva',
+    codigo: 'N-29',
+    publico: 'noivas',
     descricao: 'Decote V com cinto e saia em tule',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/joana-decote-v-com-cinto.webp',
       '/pecas/joana-decote-v-com-cinto-2.webp',
     ],
   },
   {
-    slug: 'noiva-larissa',
-    nome: 'Larissa',
-    categoria: 'noiva',
+    codigo: 'N-30',
+    publico: 'noivas',
     descricao: 'Costas em ilusão com botões',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/larissa-costas-em-ilusao-com-botoes.webp',
       '/pecas/larissa-costas-em-ilusao-com-botoes-2.webp',
     ],
   },
   {
-    slug: 'noiva-leticia',
-    nome: 'Letícia',
-    categoria: 'noiva',
+    codigo: 'N-31',
+    publico: 'noivas',
     descricao: 'Ombro a ombro em tule',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/leticia-ombro-a-ombro-em-tule.webp',
       '/pecas/leticia-ombro-a-ombro-em-tule-2.webp',
       '/pecas/leticia-ombro-a-ombro-em-tule-3.webp',
@@ -798,382 +518,337 @@ export const pecas: Peca[] = [
     ],
   },
   {
-    slug: 'noiva-malu',
-    nome: 'Malu',
-    categoria: 'noiva',
+    codigo: 'N-32',
+    publico: 'noivas',
     descricao: 'Renda com manga longa e véu catedral',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: true,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/malu-renda-manga-longa-veu-catedral.webp',
       '/pecas/malu-renda-manga-longa-veu-catedral-2.webp',
       '/pecas/malu-renda-manga-longa-veu-catedral-3.webp',
     ],
-    destaque: true,
   },
   {
-    slug: 'noiva-mariana',
-    nome: 'Mariana',
-    categoria: 'noiva',
+    codigo: 'N-33',
+    publico: 'noivas',
     descricao: 'Bordado brilhante com manga longa',
-    precoAluguel: null,
-    cor: 'marfim',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: true,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/mariana-bordado-manga-longa.webp',
       '/pecas/mariana-bordado-manga-longa-2.webp',
       '/pecas/mariana-bordado-manga-longa-3.webp',
       '/pecas/mariana-bordado-manga-longa-4.webp',
     ],
-    destaque: true,
   },
   {
-    slug: 'noiva-nina',
-    nome: 'Nina',
-    categoria: 'noiva',
+    codigo: 'N-34',
+    publico: 'noivas',
     descricao: 'Sereia em renda',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/nina-sereia-em-renda.webp',
     ],
   },
   {
-    slug: 'noiva-paula',
-    nome: 'Paula',
-    categoria: 'noiva',
+    codigo: 'N-35',
+    publico: 'noivas',
     descricao: 'Renda com manga longa e decote redondo',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/paula-renda-manga-longa-decote-redondo.webp',
       '/pecas/paula-renda-manga-longa-decote-redondo-2.webp',
     ],
   },
   {
-    slug: 'noiva-pietra',
-    nome: 'Pietra',
-    categoria: 'noiva',
+    codigo: 'N-36',
+    publico: 'noivas',
     descricao: 'Manga curta com véu longo',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/pietra-manga-curta-veu-longo.webp',
       '/pecas/pietra-manga-curta-veu-longo-2.webp',
     ],
   },
   {
-    slug: 'noiva-renata',
-    nome: 'Renata',
-    categoria: 'noiva',
+    codigo: 'N-37',
+    publico: 'noivas',
     descricao: 'Corpo bordado ombro a ombro',
-    precoAluguel: null,
-    cor: 'marfim',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/renata-corpo-bordado-ombro-a-ombro.webp',
     ],
   },
   {
-    slug: 'noiva-sarah',
-    nome: 'Sarah',
-    categoria: 'noiva',
+    codigo: 'N-38',
+    publico: 'noivas',
     descricao: 'Decote V em renda com saia ampla',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/sarah-decote-v-em-renda.webp',
     ],
   },
   {
-    slug: 'noiva-talita',
-    nome: 'Talita',
-    categoria: 'noiva',
+    codigo: 'N-39',
+    publico: 'noivas',
     descricao: 'Costas em V bordado',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/talita-costas-em-v-bordado.webp',
       '/pecas/talita-costas-em-v-bordado-2.webp',
     ],
   },
   {
-    slug: 'noiva-yasmin',
-    nome: 'Yasmin',
-    categoria: 'noiva',
+    codigo: 'N-40',
+    publico: 'noivas',
     descricao: 'Manga longa em ilusão',
-    precoAluguel: null,
-    cor: 'branco',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
       '/pecas/yasmin-manga-longa-em-ilusao.webp',
       '/pecas/yasmin-manga-longa-em-ilusao-2.webp',
       '/pecas/yasmin-manga-longa-em-ilusao-3.webp',
     ],
   },
 
-  /* ---------------------------------------------------------------- festa */
+  /* ---------------------------------------------------- madrinhas */
+  /* As seis peças de festa que o brief manda reaproveitar. */
   {
-    slug: 'festa-manuela',
-    nome: 'Manuela',
-    categoria: 'festa',
+    codigo: 'M-01',
+    publico: 'madrinhas',
     descricao: 'Tule pink com rosas no decote',
-    precoAluguel: null,
-    cor: 'rosa',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/manuela-tule-com-rosas.webp'],
+    cores: [],
+    tamanhos: [],
     destaque: true,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/manuela-tule-com-rosas.webp',
+    ],
   },
   {
-    slug: 'festa-olivia',
-    nome: 'Olívia',
-    categoria: 'festa',
+    codigo: 'M-02',
+    publico: 'madrinhas',
     descricao: 'Cetim lilás, um ombro só',
-    precoAluguel: null,
-    cor: 'lilas',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/olivia-cetim-um-ombro-so.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/olivia-cetim-um-ombro-so.webp',
+    ],
   },
   {
-    slug: 'festa-carolina',
-    nome: 'Carolina',
-    categoria: 'festa',
+    codigo: 'M-03',
+    publico: 'madrinhas',
     descricao: 'Glitter prata com babados na saia',
-    precoAluguel: null,
-    cor: 'prata',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/carolina-glitter-com-babados.webp'],
+    cores: [],
+    tamanhos: [],
     destaque: true,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/carolina-glitter-com-babados.webp',
+    ],
   },
   {
-    slug: 'festa-esmeralda',
-    nome: 'Esmeralda',
-    categoria: 'festa',
+    codigo: 'M-04',
+    publico: 'madrinhas',
     descricao: 'Paetê verde com gola alta e manga longa',
-    precoAluguel: null,
-    cor: 'verde',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/esmeralda-paete-verde.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/esmeralda-paete-verde.webp',
+    ],
   },
   {
-    slug: 'festa-nicole',
-    nome: 'Nicole',
-    categoria: 'festa',
+    codigo: 'M-05',
+    publico: 'madrinhas',
     descricao: 'Paetê marinho, tomara que caia',
-    precoAluguel: null,
-    cor: 'azul',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/nicole-paete-marinho.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/nicole-paete-marinho.webp',
+    ],
   },
   {
-    slug: 'festa-bianca',
-    nome: 'Bianca',
-    categoria: 'festa',
+    codigo: 'M-06',
+    publico: 'madrinhas',
     descricao: 'Azul sereno, para madrinhas',
-    precoAluguel: null,
-    cor: 'azul',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/bianca-azul-sereno.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: true,
+    preco: null,
+    fotos: [
+      '/pecas/bianca-azul-sereno.webp',
+    ],
   },
 
-  /* ------------------------------------------------------------ debutante */
+  /*
+    QUINZE ANOS: SEM APRESENTAÇÃO PARA CHAMAR DE SUA.
+
+    Estas cinco são vestidos de debutante. Os três públicos do brief são
+    noivas, madrinhas e noivos, e nenhum deles é uma menina de quinze anos:
+    "madrinhas" cobre madrinha, formanda e mãe.
+
+    Ficam aqui com `visivel: false` para não sumir do acervo, e marcadas como
+    madrinhas só porque o tipo exige um dos três. PERGUNTA PARA A DANIELLI:
+    debutante entra na apresentação de madrinhas ou merece a quarta?
+  */
   {
-    slug: 'debutante-giovana',
-    nome: 'Giovana',
-    categoria: 'debutante',
+    codigo: 'M-07',
+    publico: 'madrinhas',
     descricao: 'Dourado bordado com decote V',
-    precoAluguel: null,
-    cor: 'dourado',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/giovana-dourado-bordado.webp'],
+    cores: [],
+    tamanhos: [],
     destaque: true,
+    visivel: false,
+    preco: null,
+    fotos: [
+      '/pecas/giovana-dourado-bordado.webp',
+    ],
   },
   {
-    slug: 'debutante-alice',
-    nome: 'Alice',
-    categoria: 'debutante',
+    codigo: 'M-08',
+    publico: 'madrinhas',
     descricao: 'Dourado sereia, todo em brilho',
-    precoAluguel: null,
-    cor: 'dourado',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/alice-dourado-sereia.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: false,
+    preco: null,
+    fotos: [
+      '/pecas/alice-dourado-sereia.webp',
+    ],
   },
   {
-    slug: 'debutante-vitoria',
-    nome: 'Vitória',
-    categoria: 'debutante',
+    codigo: 'M-09',
+    publico: 'madrinhas',
     descricao: 'Princesa marinho com saia ampla',
-    precoAluguel: null,
-    cor: 'azul',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/vitoria-princesa-marinho.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: false,
+    preco: null,
+    fotos: [
+      '/pecas/vitoria-princesa-marinho.webp',
+    ],
   },
   {
-    slug: 'debutante-laura',
-    nome: 'Laura',
-    categoria: 'debutante',
+    codigo: 'M-10',
+    publico: 'madrinhas',
     descricao: 'Princesa prata em tule',
-    precoAluguel: null,
-    cor: 'prata',
-    numeracao: [],
-    publicado: true,
-    imagens: [
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: false,
+    preco: null,
+    fotos: [
       '/pecas/laura-princesa-prata.webp',
       '/pecas/laura-princesa-prata-2.webp',
     ],
   },
   {
-    slug: 'debutante-rebeca',
-    nome: 'Rebeca',
-    categoria: 'debutante',
+    codigo: 'M-11',
+    publico: 'madrinhas',
     descricao: 'Sereia preto, todo bordado',
-    precoAluguel: null,
-    cor: 'preto',
-    numeracao: [],
-    publicado: true,
-    imagens: ['/pecas/rebeca-sereia-preto.webp'],
+    cores: [],
+    tamanhos: [],
+    destaque: false,
+    visivel: false,
+    preco: null,
+    fotos: [
+      '/pecas/rebeca-sereia-preto.webp',
+    ],
   },
 ]
 
-/**
- * TODOS OS AUXILIARES ABAIXO RECEBEM A LISTA, NÃO A IMPORTAM.
- *
- * Antes eles eram constantes derivadas direto do array `pecas`. Deixaram de
- * ser quando o painel administrativo entrou: com as edições guardadas no
- * navegador, a lista que a tela exibe não é mais a que está escrita neste
- * arquivo, é a semente daqui mesclada com o que foi editado. Ver lib/loja.ts.
- * Quem chama passa a lista viva, via `useLoja()`.
- *
- * A semente continua exportada porque o build precisa dela: scripts/seo.ts
- * monta o sitemap sem navegador, e ali só existe o que está no código.
- */
+
+/* -------------------------------------------------------------------------- */
+/* Consultas                                                                   */
+/* -------------------------------------------------------------------------- */
 
 /**
- * O FILTRO DA CURADORIA, passa em todo lugar que a cliente enxerga.
+ * A CURADORIA.
  *
- * O acervo interno é maior que o catálogo publicado: entra no catálogo só o
- * que tem foto profissional, e quem decide isso é a Danielli, no painel.
- *
- * A regra prática: TELA DE CLIENTE chama `publicadas()` antes de qualquer
- * outra coisa; TELA DE PAINEL usa a lista crua, porque lá o ponto é
- * justamente ver e mexer no que está oculto.
+ * Toda tela que a cliente vê chama isto ANTES de qualquer outra coisa. O
+ * acervo do ateliê é maior que o que vai na apresentação, e o que fica de
+ * fora fica de fora em todo lugar: grade, overlay, seleção e a mensagem de
+ * WhatsApp.
  */
-export function publicadas(lista: Peca[]): Peca[] {
-  return lista.filter((peca) => peca.publicado)
+export function visiveis(lista: Peca[]): Peca[] {
+  return lista.filter((peca) => peca.visivel)
 }
 
-export function pecasDestaque(lista: Peca[]): Peca[] {
-  return lista.filter((peca) => peca.destaque)
+export function doPublico(lista: Peca[], publico: Publico): Peca[] {
+  return lista.filter((peca) => peca.publico === publico)
 }
 
-export function buscarPeca(lista: Peca[], slug: string): Peca | undefined {
-  return lista.find((peca) => peca.slug === slug)
+export function buscarPorCodigo(lista: Peca[], codigo: string): Peca | undefined {
+  return lista.find((peca) => peca.codigo === codigo)
 }
 
-/** Categorias que de fato têm vestido cadastrado, evitando filtro vazio. */
-export function categoriasDisponiveis(lista: Peca[]): CategoriaPeca[] {
-  return (Object.keys(rotulosCategoria) as CategoriaPeca[]).filter((categoria) =>
-    lista.some((peca) => peca.categoria === categoria),
-  )
-}
-
-export function pecasPorCategoria(lista: Peca[], categoria: CategoriaPeca): Peca[] {
-  return lista.filter((peca) => peca.categoria === categoria)
-}
-
-/** Cores que de fato têm vestido, pela mesma razão das categorias. */
-export function coresDisponiveis(lista: Peca[]): CorPeca[] {
-  return (Object.keys(rotulosCor) as CorPeca[]).filter((cor) =>
-    lista.some((peca) => peca.cor === cor),
-  )
-}
-
-/** Numerações que de fato existem na lista, já ordenadas. */
-export function numeracoesDisponiveis(lista: Peca[]): string[] {
-  const todas = new Set<string>()
-  for (const peca of lista) for (const n of peca.numeracao) todas.add(n)
-  return [...todas].sort((a, b) => Number(a) - Number(b) || a.localeCompare(b, 'pt-BR'))
-}
-
-/** Ocasiões que de fato existem na lista. */
-export function ocasioesDisponiveis(lista: Peca[]): OcasiaoFesta[] {
-  return (Object.keys(rotulosOcasiao) as OcasiaoFesta[]).filter((ocasiao) =>
-    lista.some((peca) => peca.ocasiao === ocasiao),
+/**
+ * Destaque primeiro, resto na ordem do acervo.
+ *
+ * `sort` é estável, então dentro de cada grupo a ordem se mantém: o destaque
+ * promove, não embaralha. É o controle que a Danielli tem sobre o que a noiva
+ * vê primeiro.
+ */
+export function ordenadas(lista: Peca[]): Peca[] {
+  return [...lista].sort(
+    (a, b) => Number(Boolean(b.destaque)) - Number(Boolean(a.destaque)),
   )
 }
 
 /**
- * Silhuetas que de fato existem na lista, na ordem dos rótulos.
+ * Como a peça se chama na tela e na mensagem.
  *
- * Como todo grupo de filtro deste catálogo, devolve lista vazia enquanto
- * ninguém classificou nada, e um grupo vazio não é desenhado. Filtro que não
- * filtra nada é pior que filtro nenhum: ele promete um corte que não existe.
+ * Enquanto a Danielli não confirmar os nomes, é o código. Ela precisa
+ * conseguir achar a peça na arara com o que a noiva mandou.
  */
-export function silhuetasDisponiveis(lista: Peca[]): Silhueta[] {
-  return (Object.keys(rotulosSilhueta) as Silhueta[]).filter((silhueta) =>
-    lista.some((peca) => peca.silhueta === silhueta),
-  )
-}
-
-/** Decotes que de fato existem na lista. */
-export function decotesDisponiveis(lista: Peca[]): Decote[] {
-  return (Object.keys(rotulosDecote) as Decote[]).filter((decote) =>
-    lista.some((peca) => peca.decote === decote),
-  )
-}
-
-/** Mangas que de fato existem na lista. */
-export function mangasDisponiveis(lista: Peca[]): Manga[] {
-  return (Object.keys(rotulosManga) as Manga[]).filter((manga) =>
-    lista.some((peca) => peca.manga === manga),
-  )
-}
-
-/** Categorias para a vitrine, já com capa e contagem. */
-export function categoriasVitrine(lista: Peca[]) {
-  return categoriasDisponiveis(lista).map((categoria) => {
-    const doGrupo = pecasPorCategoria(lista, categoria)
-    return {
-      categoria,
-      rotulo: rotulosCategoria[categoria],
-      capa: doGrupo[0].imagens[0],
-      quantidade: doGrupo.length,
-    }
-  })
-}
-
-/**
- * Existe pelo menos um vestido com preço?
- *
- * Enquanto a resposta for não, a ordenação por preço não aparece no catálogo.
- * Filtro que não filtra nada é pior que filtro ausente: a cliente mexe, não
- * acontece nada, e ela conclui que o site está quebrado. A mesma lógica vale
- * para `numeracoesDisponiveis` e `ocasioesDisponiveis` acima.
- */
-export function temPreco(lista: Peca[]): boolean {
-  return lista.some((peca) => peca.precoAluguel !== null)
+export function identificacao(peca: Peca): string {
+  return peca.nome ? `${peca.nome} (${peca.codigo})` : peca.codigo
 }

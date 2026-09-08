@@ -1,5 +1,4 @@
 import { casamentos } from '../data/casamentos'
-import { CAMINHOS } from '../entradas/comum'
 import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
 import MuralCasamentos from './MuralCasamentos'
@@ -46,20 +45,17 @@ export default function SecaoCasamentos() {
           </div>
         </Revelar>
 
+        {/*
+          O botão que havia aqui levava ao catálogo, e o catálogo não existe
+          mais. Não foi substituído por outro: este bloco agora vive DENTRO da
+          apresentação de noivas, e mandar a pessoa para outro lugar no meio
+          dela é o oposto do que a peça existe para fazer. A frase fica, o
+          desvio sai.
+        */}
         <Revelar atraso={160}>
-          <div className="mt-16 flex flex-col items-center gap-5 text-center">
-            <p className="text-preto/70">
-              Noivas vestidas por nós. O próximo altar pode ser o seu.
-            </p>
-            {/*
-              `<a href>`, não `<Link>`: o catálogo é outra aplicação, com HTML
-              próprio, e um `<Link>` daqui renderia a rota "não encontrada"
-              DESTA peça, em silêncio. Ver o bloco CAMINHOS em entradas/comum.
-            */}
-            <a href={CAMINHOS.catalogoNoiva} className="btn-primario">
-              Ver vestidos de noiva
-            </a>
-          </div>
+          <p className="mt-14 text-center text-preto/70">
+            Noivas vestidas por nós. O próximo altar pode ser o seu.
+          </p>
         </Revelar>
       </div>
     </section>

@@ -52,7 +52,15 @@ export default function Seo({
       <title>{tituloFinal}</title>
       <meta name="description" content={descricao} />
       <link rel="canonical" href={urlCanonica} />
-      {naoIndexar && <meta name="robots" content="noindex, follow" />}
+      {/*
+        `nofollow` junto, e não só `noindex`.
+
+        As apresentações são material de conversa comercial: chegam prontas
+        pela Danielli, e o link personalizado com `?nome=` menos ainda deve
+        ser rastreado. `follow` fazia sentido num catálogo que queria passar
+        autoridade adiante; aqui não há adiante.
+      */}
+      {naoIndexar && <meta name="robots" content="noindex, nofollow" />}
 
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="pt_BR" />

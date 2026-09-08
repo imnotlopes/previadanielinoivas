@@ -121,7 +121,7 @@ function Entrada({ aoEntrar }: { aoEntrar: () => void }) {
 
 const MENU = [
   { para: '/admin', rotulo: 'Início', icone: LayoutDashboard, exato: true },
-  { para: '/admin/vestidos', rotulo: 'Vestidos', icone: Shirt, exato: false },
+  { para: '/admin/vestidos', rotulo: 'Peças', icone: Shirt, exato: false },
   { para: '/admin/cupons', rotulo: 'Cupons', icone: Tag, exato: false },
   { para: '/admin/configuracoes', rotulo: 'Configurações', icone: Settings, exato: false },
 ]
@@ -266,9 +266,11 @@ function Inicio() {
   const { pecas, cupons, config } = useLoja()
 
   const cartoes = [
-    { rotulo: 'Vestidos no acervo', valor: pecas.length, para: '/admin/vestidos' },
+    { rotulo: 'Peças no acervo', valor: pecas.length, para: '/admin/vestidos' },
     {
-      rotulo: 'Em destaque na home',
+      /* "Home" não existe mais: o destaque agora decide quem entra nas doze
+         peças de cada apresentação. */
+      rotulo: 'Em destaque',
       valor: pecas.filter((p) => p.destaque).length,
       para: '/admin/vestidos',
     },
@@ -278,8 +280,10 @@ function Inicio() {
       para: '/admin/cupons',
     },
     {
-      rotulo: 'Vestidos com preço',
-      valor: pecas.filter((p) => p.precoAluguel !== null).length,
+      /* Cores e tamanhos entraram no lugar do preço: são o que a apresentação
+         mostra hoje, e o que está faltando em quase todas as peças. */
+      rotulo: 'Peças com cor e tamanho',
+      valor: pecas.filter((p) => p.cores.length > 0 && p.tamanhos.length > 0).length,
       para: '/admin/vestidos',
     },
   ]
@@ -287,8 +291,16 @@ function Inicio() {
   const pendencias = [
     !config.whatsapp && 'Número de WhatsApp não preenchido: os botões do site caem no Instagram.',
     !config.cidade && 'Cidade não preenchida: os títulos de busca saem sem ela.',
-    pecas.every((p) => p.precoAluguel === null) &&
-      'Nenhum vestido tem preço: todos aparecem como "valor sob consulta".',
+    /*
+      O alerta de preço saiu: a apresentação não mostra valor nenhum nesta
+      fase, e "nenhum vestido tem preço" virou aviso de um problema que deixou
+      de existir.
+
+      No lugar, o que de fato falta: sem cor e sem tamanho, a peça aparece só
+      com a foto e a descrição, e a cliente tem de perguntar o resto.
+    */
+    pecas.some((p) => p.cores.length === 0 || p.tamanhos.length === 0) &&
+      'Há peças sem cor ou sem tamanho: elas aparecem na apresentação só com a foto.',
   ].filter(Boolean) as string[]
 
   return (

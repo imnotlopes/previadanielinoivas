@@ -6,16 +6,15 @@ import { LojaProvider } from '../components/LojaProvider'
 import '../index.css'
 
 /**
- * QUATRO PEÇAS, QUATRO APLICAÇÕES
- * ===============================
+ * TRÊS APRESENTAÇÕES, UM PAINEL, QUATRO APLICAÇÕES
+ * ================================================
  *
- * O projeto deixou de ser um site com várias rotas e virou quatro peças
- * independentes, cada uma com o seu HTML de verdade:
+ * Cada peça tem o seu HTML de verdade:
  *
- *   index.html     Apresentação Noiva     o que ela manda quando a noiva chama
- *   catalogo.html  Catálogo Noiva         o que ela manda depois do interesse
- *   festa.html     Festa e Formatura      apresentação curta + acervo, num link
- *   admin.html     Painel                 a loja, do celular dela
+ *   noivas.html     Apresentação de noivas
+ *   madrinhas.html  Apresentação de madrinhas, formandas e mães
+ *   noivos.html     Apresentação de noivos e padrinhos
+ *   admin.html      Painel, a loja do celular dela
  *
  * ISSO NÃO É ORGANIZAÇÃO DE PASTA, É REQUISITO DE PRODUTO.
  *
@@ -24,30 +23,29 @@ import '../index.css'
  * título, e esse cartão é a primeira impressão, antes de qualquer clique.
  *
  * O robô que monta esse cartão NÃO EXECUTA JAVASCRIPT. Numa aplicação de
- * página única, os três links devolveriam o mesmo `index.html` e portanto o
- * mesmo cartão: a noiva e a formanda receberiam previews idênticos. Um HTML
- * por peça, cada um com as suas próprias tags Open Graph escritas no arquivo,
- * é o que resolve, e mantém tudo estático e barato na Vercel.
+ * página única, os três links devolveriam o mesmo cartão: a madrinha receberia
+ * o preview de noiva. Um HTML por apresentação, cada um com as suas próprias
+ * tags Open Graph escritas no arquivo, é o que resolve, e mantém tudo estático
+ * e barato na Vercel.
  *
  * O preço disso é a regra abaixo.
  */
 
 /**
- * NAVEGAR ENTRE PEÇAS É NAVEGAÇÃO DE VERDADE, NÃO <Link>.
+ * NAVEGAR ENTRE APRESENTAÇÕES É NAVEGAÇÃO DE VERDADE, NÃO <Link>.
  *
- * Cada peça é uma aplicação separada: o React Router de uma não conhece as
- * rotas da outra. Um `<Link to="/catalogo">` dentro da apresentação renderiza
- * a rota "não encontrada" dela, porque `/catalogo` não existe naquele
- * roteador, e o erro é silencioso, sem nada no console.
+ * Cada uma é uma aplicação separada: o React Router de uma não conhece as
+ * rotas da outra. Um `<Link to="/madrinhas">` dentro da apresentação de noivas
+ * renderiza a rota curinga dela, e o erro é silencioso.
  *
- * Para ir de uma peça a outra use `<a href>`, que faz o navegador buscar o
- * HTML novo. `<Link>` continua certo DENTRO da mesma peça (catálogo → ficha
- * do vestido, por exemplo).
+ * Na prática isto quase não é usado: as apresentações não têm navegação entre
+ * si de propósito, porque cada uma existe para devolver a pessoa ao WhatsApp,
+ * e não para levá-la a outra página.
  */
 export const CAMINHOS = {
-  apresentacaoNoiva: '/',
-  catalogoNoiva: '/catalogo',
-  festa: '/festa',
+  noivas: '/noivas',
+  madrinhas: '/madrinhas',
+  noivos: '/noivos',
   painel: '/admin',
 } as const
 

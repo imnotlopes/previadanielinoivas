@@ -7,7 +7,6 @@ import type { Plugin } from 'vite'
 // tsconfig; o arquivo em disco é .ts, e tanto o TypeScript quanto o Vite
 // fazem essa correspondência sozinhos.
 import { googleNegocio } from '../src/data/google.js'
-import { pecas, pecasPorCategoria, publicadas } from '../src/data/pecas.js'
 import { SITE_URL, brand, linkInstagram } from '../src/lib/brand.js'
 
 /**
@@ -32,22 +31,19 @@ function escaparXml(texto: string): string {
 
 function montarSitemap(): string {
   /*
-    As três peças de cliente, e as fichas dentro de cada catálogo.
-    O painel fica de fora, ele está no `Disallow` do robots e manda `noindex`.
+    O SITEMAP FICOU QUASE VAZIO, E ISSO É O CERTO.
 
-    Só vestido PUBLICADO entra: o que a Danielli ocultou no painel não deve ser
-    oferecido ao buscador, senão o Google indexa um endereço que responde
-    "saiu do acervo".
+    Ele listava as três peças de cliente e as 46 fichas de vestido. Nada disso
+    existe mais, e o que existe no lugar não deve ser indexado: as três
+    apresentações são material de conversa comercial, mandado pronto pela
+    Danielli, e vão com `noindex, nofollow`. Oferecer ao Google um endereço
+    que manda não indexar é dar trabalho a ele para não fazer nada.
+
+    Sobra a raiz, e a raiz hoje redireciona para `/noivas`. Fica listada
+    porque é o endereço do domínio e é para lá que a home institucional vem na
+    fase 2. Quando ela existir, o sitemap volta a crescer por aqui.
   */
-  const noCatalogo = publicadas(pecas)
-
-  const caminhos = [
-    '/',
-    '/catalogo',
-    ...pecasPorCategoria(noCatalogo, 'noiva').map((peca) => `/catalogo/${peca.slug}`),
-    '/festa',
-    ...pecasPorCategoria(noCatalogo, 'festa').map((peca) => `/festa/${peca.slug}`),
-  ]
+  const caminhos = ['/']
 
   /*
    * Sem <lastmod>, <changefreq> e <priority> de propósito.

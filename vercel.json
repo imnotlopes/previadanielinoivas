@@ -1,12 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/", "destination": "/noivas", "permanent": false },
+    { "source": "/catalogo", "destination": "/noivas", "permanent": false },
+    { "source": "/catalogo/:caminho*", "destination": "/noivas", "permanent": false },
+    { "source": "/festa", "destination": "/madrinhas", "permanent": false },
+    { "source": "/festa/:caminho*", "destination": "/madrinhas", "permanent": false }
+  ],
   "rewrites": [
-    { "source": "/catalogo", "destination": "/catalogo.html" },
-    { "source": "/catalogo/:caminho*", "destination": "/catalogo.html" },
-    { "source": "/festa", "destination": "/festa.html" },
-    { "source": "/festa/:caminho*", "destination": "/festa.html" },
+    { "source": "/noivas", "destination": "/noivas.html" },
+    { "source": "/noivas/:caminho*", "destination": "/noivas.html" },
+    { "source": "/madrinhas", "destination": "/madrinhas.html" },
+    { "source": "/madrinhas/:caminho*", "destination": "/madrinhas.html" },
+    { "source": "/noivos", "destination": "/noivos.html" },
+    { "source": "/noivos/:caminho*", "destination": "/noivos.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/admin/:caminho*", "destination": "/admin.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/noivas.html" }
   ]
 }

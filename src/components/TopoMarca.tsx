@@ -1,32 +1,25 @@
-import { ArrowLeft } from 'lucide-react'
-
 import { brand } from '../lib/brand'
 import { useContato } from '../lib/loja'
-import { CAMINHOS } from '../entradas/comum'
 import { IconeInstagram } from './icones'
 
-interface TopoMarcaProps {
-  /**
-   * Quando a peça tem uma anterior, o topo mostra o caminho de volta.
-   * `null` (o padrão) deixa o topo só com a assinatura.
-   */
-  voltarPara?: 'apresentacao' | null
-}
-
 /**
- * Topo das peças de cliente.
+ * Topo das apresentações.
  *
- * SEM MENU DE NAVEGAÇÃO, e isso é a mudança mais visível da reestruturação.
- * Antes havia quatro itens (Início, Catálogo, Como funciona, Sobre) porque o
- * projeto era um site e não se controlava por onde a visita entrava. Agora
- * cada link tem destino conhecido, a Danielli manda o link certo para a
- * pessoa certa, e um menu só ofereceria saídas de uma peça que a cliente
- * acabou de abrir.
+ * SEM NAVEGAÇÃO NENHUMA, e isso é decisão de produto.
  *
- * O link do Instagram fica porque é o único que leva para MAIS da marca, não
- * para menos da peça.
+ * Já teve menu de quatro itens, quando o projeto era site. Depois teve um
+ * "voltar para a apresentação", quando eram catálogo e apresentação separados.
+ * Agora não tem nada: a pessoa abriu um link que a Danielli mandou, vai rolar
+ * dois minutos e voltar para a conversa. Cada saída oferecida é uma chance de
+ * ela sair antes do fim.
+ *
+ * A marca também não é link, pelo mesmo motivo. Ela fica porque é o que diz de
+ * quem é aquilo antes de a foto de capa carregar.
+ *
+ * O Instagram fica porque é o único endereço que leva a MAIS da marca, e não
+ * a menos da apresentação.
  */
-export default function TopoMarca({ voltarPara = null }: TopoMarcaProps) {
+export default function TopoMarca() {
   const { instagram, linkInstagram } = useContato()
 
   return (
@@ -45,11 +38,15 @@ export default function TopoMarca({ voltarPara = null }: TopoMarcaProps) {
           aparelho bem estreito (Galaxy Fold, 280px) um lockup que não encolhe
           empurra o resto para fora e a página passa a rolar de lado.
         */}
-        <a
-          href={CAMINHOS.apresentacaoNoiva}
-          className="group flex min-w-0 items-center gap-3 leading-none sm:gap-4"
-          aria-label={`${brand.nome}, ${brand.subtitulo}, início`}
-        >
+        {/*
+          A MARCA NÃO É LINK.
+
+          Ela levava à home. A home institucional é fase 2 e não existe, e as
+          apresentações não têm para onde ir de propósito: cada uma existe
+          para devolver a pessoa ao WhatsApp, não para levá-la a outra página.
+          Um logotipo clicável que recarrega a mesma tela é uma promessa falsa.
+        */}
+        <div className="flex min-w-0 items-center gap-3 leading-none sm:gap-4">
           <img
             src="/logo-simbolo.webp"
             alt=""
@@ -65,23 +62,9 @@ export default function TopoMarca({ voltarPara = null }: TopoMarcaProps) {
               {brand.subtitulo}
             </span>
           </span>
-        </a>
+        </div>
 
         <div className="flex shrink-0 items-center gap-5 sm:gap-7">
-          {voltarPara === 'apresentacao' && (
-            /*
-              `<a>` e não `<Link>`: a apresentação é outra aplicação, com HTML
-              próprio. Um `<Link>` renderizaria a rota de fallback DESTA peça e
-              o erro seria silencioso. Ver o bloco CAMINHOS em entradas/comum.
-            */
-            <a
-              href={CAMINHOS.apresentacaoNoiva}
-              className="link-menu hidden items-center gap-2 sm:inline-flex"
-            >
-              <ArrowLeft size={15} strokeWidth={1.5} aria-hidden />
-              Apresentação
-            </a>
-          )}
 
           <a
             href={linkInstagram}

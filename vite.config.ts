@@ -16,9 +16,26 @@ import { pluginSeo } from './scripts/seo.js'
  * `prefixo` é o começo da URL que aquela peça atende. `arquivo` é o HTML.
  */
 const PECAS = [
-  { nome: 'catalogo', prefixo: '/catalogo', arquivo: 'catalogo.html' },
-  { nome: 'festa', prefixo: '/festa', arquivo: 'festa.html' },
+  { nome: 'noivas', prefixo: '/noivas', arquivo: 'noivas.html' },
+  { nome: 'madrinhas', prefixo: '/madrinhas', arquivo: 'madrinhas.html' },
+  { nome: 'noivos', prefixo: '/noivos', arquivo: 'noivos.html' },
   { nome: 'admin', prefixo: '/admin', arquivo: 'admin.html' },
+] as const
+
+/**
+ * As rotas do produto antigo, e para onde elas vão agora.
+ *
+ * `/catalogo` e `/festa` circularam em conversas de WhatsApp, e link colado
+ * numa conversa não se apaga: quem abrir o antigo precisa cair na apresentação
+ * equivalente, e não num 404 no meio de um atendimento.
+ *
+ * A raiz entra aqui porque a home institucional é fase 2 e ainda não existe.
+ * Enquanto isso, quem abre o domínio cai na apresentação de noivas.
+ */
+const APOSENTADAS = [
+  { de: '/', para: '/noivas' },
+  { de: '/catalogo', para: '/noivas' },
+  { de: '/festa', para: '/madrinhas' },
 ] as const
 
 /**
@@ -43,6 +60,18 @@ function roteamentoDePecas(): Plugin {
         // Deixa passar o que já é arquivo (assets, /src/..., HTML direto).
         if (caminho.includes('.')) return proximo()
 
+        /* Rota aposentada: redireciona de verdade, como a Vercel faz, para o
+           desenvolvimento não divergir da produção. */
+        const velha = APOSENTADAS.find(
+          (r) => caminho === r.de || (r.de !== '/' && caminho.startsWith(`${r.de}/`)),
+        )
+        if (velha) {
+          _res.statusCode = 307
+          _res.setHeader('Location', velha.para)
+          _res.end()
+          return
+        }
+
         const peca = PECAS.find(
           (p) => caminho === p.prefixo || caminho.startsWith(`${p.prefixo}/`),
         )
@@ -60,13 +89,15 @@ export default defineConfig({
 
   build: {
     rollupOptions: {
-      input: {
-        // A apresentação de noiva é a raiz, e por isso continua em index.html.
-        principal: resolve(import.meta.dirname, 'index.html'),
-        ...Object.fromEntries(
-          PECAS.map((p) => [p.nome, resolve(import.meta.dirname, p.arquivo)]),
-        ),
-      },
+      /*
+        Não há mais `index.html`. A raiz redireciona para `/noivas` (ver
+        APOSENTADAS acima e o vercel.json): a home institucional é fase 2 e
+        ainda não existe, e uma raiz servindo a apresentação de noiva com
+        outra URL só criaria duas páginas iguais.
+      */
+      input: Object.fromEntries(
+        PECAS.map((p) => [p.nome, resolve(import.meta.dirname, p.arquivo)]),
+      ),
     },
   },
 

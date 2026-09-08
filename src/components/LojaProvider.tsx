@@ -84,9 +84,9 @@ export function LojaProvider({ children }: { children: ReactNode }) {
   const salvarPeca = useCallback(
     (peca: Peca) => {
       setEstado((atual) => {
-        const existe = atual.pecas.some((p) => p.slug === peca.slug)
+        const existe = atual.pecas.some((p) => p.codigo === peca.codigo)
         const pecas = existe
-          ? atual.pecas.map((p) => (p.slug === peca.slug ? peca : p))
+          ? atual.pecas.map((p) => (p.codigo === peca.codigo ? peca : p))
           : [peca, ...atual.pecas]
         const proximo = { ...atual, pecas }
         try {
@@ -100,17 +100,17 @@ export function LojaProvider({ children }: { children: ReactNode }) {
     [],
   )
 
-  const removerPeca = useCallback((slug: string) => {
+  const removerPeca = useCallback((codigo: string) => {
     setEstado((atual) => {
-      /* O slug entra na lista de apagados: sem isso a mesclagem em
+      /* O código entra na lista de apagados: sem isso a mesclagem em
          `carregar()` traria o vestido de volta da semente no próximo
          carregamento, e ela apagaria o mesmo vestido para sempre. */
       const proximo = {
         ...atual,
-        pecas: atual.pecas.filter((p) => p.slug !== slug),
-        removidos: atual.removidos.includes(slug)
+        pecas: atual.pecas.filter((p) => p.codigo !== codigo),
+        removidos: atual.removidos.includes(codigo)
           ? atual.removidos
-          : [...atual.removidos, slug],
+          : [...atual.removidos, codigo],
       }
       try {
         localStorage.setItem(CHAVE_PAINEL, JSON.stringify(proximo))
