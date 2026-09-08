@@ -62,4 +62,4 @@ export const depoimentos: Depoimento[] = []
  * **Vire para `false` antes de mandar qualquer link para uma noiva.** Com a
  * lista preenchida ele é ignorado de qualquer forma.
  */
-export const mostrarEspacoReservado = true
+export const mostrarEspacoReservado = false

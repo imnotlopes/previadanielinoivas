@@ -46,6 +46,18 @@ export interface Casamento {
   fotos: string[]
 }
 
+/*
+  UM CASAMENTO SÓ, POR ENQUANTO.
+
+  Havia dois aqui. O segundo (`thamiris-rodrigo`) saiu inteiro, arquivos
+  inclusive: a cliente autorizou a imagem da Natália, e não a da segunda
+  noiva. Foto de pessoa identificável no dia do casamento dela num link que
+  circula por WhatsApp não espera autorização, sai primeiro e volta depois.
+
+  Para trazer de volta: a seleção continua em `scripts/casamentos.mjs`,
+  comentada, e basta rodar o script de novo quando a autorização escrita
+  chegar.
+*/
 export const casamentos: Casamento[] = [
   {
     id: 'joao-natalia',
@@ -86,44 +98,6 @@ export const casamentos: Casamento[] = [
       '/casamentos/joao-natalia-30.webp',
       '/casamentos/joao-natalia-31.webp',
       '/casamentos/joao-natalia-32.webp',
-    ],
-  },
-  {
-    id: 'thamiris-rodrigo',
-    /* TODO: confirmar os nomes e a autorização antes de preencher. */
-    casal: '',
-    descricao:
-      'Sequência do dia do casamento: os detalhes da manhã, o vestido de renda com decote V pendurado, a noiva se arrumando, o véu sendo preso, os retratos no campo e a cerimônia.',
-    fotos: [
-      '/casamentos/thamiris-rodrigo-01.webp',
-      '/casamentos/thamiris-rodrigo-02.webp',
-      '/casamentos/thamiris-rodrigo-03.webp',
-      '/casamentos/thamiris-rodrigo-04.webp',
-      '/casamentos/thamiris-rodrigo-05.webp',
-      '/casamentos/thamiris-rodrigo-06.webp',
-      '/casamentos/thamiris-rodrigo-07.webp',
-      '/casamentos/thamiris-rodrigo-08.webp',
-      '/casamentos/thamiris-rodrigo-09.webp',
-      '/casamentos/thamiris-rodrigo-10.webp',
-      '/casamentos/thamiris-rodrigo-11.webp',
-      '/casamentos/thamiris-rodrigo-12.webp',
-      '/casamentos/thamiris-rodrigo-13.webp',
-      '/casamentos/thamiris-rodrigo-14.webp',
-      '/casamentos/thamiris-rodrigo-15.webp',
-      '/casamentos/thamiris-rodrigo-16.webp',
-      '/casamentos/thamiris-rodrigo-17.webp',
-      '/casamentos/thamiris-rodrigo-18.webp',
-      '/casamentos/thamiris-rodrigo-19.webp',
-      '/casamentos/thamiris-rodrigo-20.webp',
-      '/casamentos/thamiris-rodrigo-21.webp',
-      '/casamentos/thamiris-rodrigo-22.webp',
-      '/casamentos/thamiris-rodrigo-23.webp',
-      '/casamentos/thamiris-rodrigo-24.webp',
-      '/casamentos/thamiris-rodrigo-25.webp',
-      '/casamentos/thamiris-rodrigo-26.webp',
-      '/casamentos/thamiris-rodrigo-27.webp',
-      '/casamentos/thamiris-rodrigo-28.webp',
-      '/casamentos/thamiris-rodrigo-29.webp',
     ],
   },
 ]

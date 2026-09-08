@@ -43,7 +43,7 @@ export default function CatalogoNoiva() {
     direto na grade. É o comportamento certo: capa apontando para uma ficha
     que responde "este vestido saiu do acervo" seria pior que capa nenhuma.
   */
-  const capa = acervo.find((peca) => peca.hero && peca.historia)
+  const capa = acervo.find((peca) => peca.hero)
 
   return (
     <>

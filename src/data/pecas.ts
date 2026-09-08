@@ -337,7 +337,8 @@ export const pecas: Peca[] = [
     categoria: 'noiva',
     descricao: 'Renda com gola alta e manga longa',
     precoAluguel: null,
-    cor: 'marfim',
+    /* Branco, e não marfim: a cor da prévia estava errada, como o nome. */
+    cor: 'branco',
     numeracao: [],
     publicado: true,
     imagens: [
@@ -353,22 +354,22 @@ export const pecas: Peca[] = [
     destaque: true,
 
     /*
-      O VESTIDO DA CAPA.
+      A FOTO DE CAPA, SEM HISTÓRIA.
 
-      A Danielli pediu a filha, Natália, como capa do catálogo, e a Aurora é
-      o vestido que ela usou. É o argumento de autoridade mais forte que a
-      loja tem, e não custa nada dizer: quando a filha da dona casou, casou
-      com uma peça do acervo da casa.
+      Havia aqui uma frase dizendo que este foi o vestido que a Natália, filha
+      da Danielli, escolheu para o próprio casamento. ERA FALSA em três
+      pontos: a Natália é noiva cliente e não filha da Danielli, o vestido não
+      é o da filha, e "Aurora" é nome inventado na prévia.
 
-      TODO: confirmar a frase com a Danielli antes de publicar, e confirmar
-      com a Natália a autorização de aparecer com o nome.
+      A frase saiu. A foto fica: a cliente autorizou o uso da imagem da
+      Natália. Enquanto não houver uma história CONFIRMADA para esta peça, o
+      campo `historia` continua vazio, porque frase de autoridade inventada é
+      exatamente o que derruba a autoridade quando a noiva descobre.
     */
     hero: {
       largo: '/casamentos/aurora-hero.webp',
       alto: '/casamentos/aurora-hero-alto.webp',
     },
-    historia:
-      'Foi o vestido que a Natália, filha da Danielli, escolheu para o próprio casamento.',
   },
   {
     slug: 'noiva-isadora',

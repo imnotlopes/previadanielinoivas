@@ -54,4 +54,4 @@ export const retratoAlt = ''
  *
  * **Vire para `false` antes de mandar qualquer link para uma noiva.**
  */
-export const mostrarEspacoReservado = true
+export const mostrarEspacoReservado = false

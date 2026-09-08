@@ -95,18 +95,26 @@ const SELECAO = [
       118, 123, 124, 133,
     ],
   },
-  {
-    slug: 'thamiris-rodrigo',
-    conjunto: 'Fornecedores - Thamiris e Rodrigo',
-    numeros: [
-      22, 24, 68,
-      12, 13, 40, 42, 45,
-      62, 65, 71, 73, 76, 78, 79,
-      81, 84, 85, 86, 89, 91, 94, 96,
-      115,
-      177, 179, 180, 183, 185,
-    ],
-  },
+  /*
+    SEM AUTORIZAÇÃO, ENTÃO FORA DO PRODUTO.
+
+    A cliente autorizou a imagem da Natália. A segunda noiva destas fotos não
+    autorizou, e por isso os arquivos foram apagados de public/casamentos/ e a
+    seleção ficou aqui, comentada: quando a autorização escrita chegar, basta
+    descomentar e rodar o script.
+  */
+  // {
+  //   slug: 'thamiris-rodrigo',
+  //   conjunto: 'Fornecedores - Thamiris e Rodrigo',
+  //   numeros: [
+  //     22, 24, 68,
+  //     12, 13, 40, 42, 45,
+  //     62, 65, 71, 73, 76, 78, 79,
+  //     81, 84, 85, 86, 89, 91, 94, 96,
+  //     115,
+  //     177, 179, 180, 183, 185,
+  //   ],
+  // },
 ]
 
 /**
