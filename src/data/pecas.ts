@@ -31,7 +31,22 @@
  */
 
 /** Quem recebe o link. Decide em qual apresentação a peça aparece. */
-export type Publico = 'noivas' | 'madrinhas' | 'noivos'
+/**
+ * O PÚBLICO DO ACERVO.
+ *
+ * Tinha três valores: `noivas`, `madrinhas` e `noivos`. Hoje tem um.
+ *
+ * A apresentação de madrinhas e a de noivos saíram do produto: a de madrinhas
+ * nunca teve capa própria (usava um vestido de festa como provisório) e a de
+ * noivos nunca teve uma única foto. Enquanto isso for verdade, elas não são
+ * material de venda, são rascunho com URL.
+ *
+ * O tipo continua existindo, e com um valor só de propósito: no dia em que
+ * uma delas voltar, basta acrescentar o valor aqui e o TypeScript aponta cada
+ * lugar que precisa de atenção. As peças e as telas estão no histórico do
+ * git, no commit "Converte o site em três apresentações de venda".
+ */
+export type Publico = 'noivas'
 
 export interface Peca {
   /**
@@ -642,165 +657,6 @@ export const pecas: Peca[] = [
       '/pecas/yasmin-manga-longa-em-ilusao.webp',
       '/pecas/yasmin-manga-longa-em-ilusao-2.webp',
       '/pecas/yasmin-manga-longa-em-ilusao-3.webp',
-    ],
-  },
-
-  /* ---------------------------------------------------- madrinhas */
-  /* As seis peças de festa que o brief manda reaproveitar. */
-  {
-    codigo: 'M-01',
-    publico: 'madrinhas',
-    descricao: 'Tule pink com rosas no decote',
-    cores: [],
-    tamanhos: [],
-    destaque: true,
-    visivel: true,
-    preco: null,
-    fotos: [
-      '/pecas/manuela-tule-com-rosas.webp',
-    ],
-  },
-  {
-    codigo: 'M-02',
-    publico: 'madrinhas',
-    descricao: 'Cetim lilás, um ombro só',
-    cores: [],
-    tamanhos: [],
-    destaque: false,
-    visivel: true,
-    preco: null,
-    fotos: [
-      '/pecas/olivia-cetim-um-ombro-so.webp',
-    ],
-  },
-  {
-    codigo: 'M-03',
-    publico: 'madrinhas',
-    descricao: 'Glitter prata com babados na saia',
-    cores: [],
-    tamanhos: [],
-    destaque: true,
-    visivel: true,
-    preco: null,
-    fotos: [
-      '/pecas/carolina-glitter-com-babados.webp',
-    ],
-  },
-  {
-    codigo: 'M-04',
-    publico: 'madrinhas',
-    descricao: 'Paetê verde com gola alta e manga longa',
-    cores: [],
-    tamanhos: [],
-    destaque: false,
-    visivel: true,
-    preco: null,
-    fotos: [
-      '/pecas/esmeralda-paete-verde.webp',
-    ],
-  },
-  {
-    codigo: 'M-05',
-    publico: 'madrinhas',
-    descricao: 'Paetê marinho, tomara que caia',
-    cores: [],
-    tamanhos: [],
-    destaque: false,
-    visivel: true,
-    preco: null,
-    fotos: [
-      '/pecas/nicole-paete-marinho.webp',
-    ],
-  },
-  {
-    codigo: 'M-06',
-    publico: 'madrinhas',
-    descricao: 'Azul sereno, para madrinhas',
-    cores: [],
-    tamanhos: [],
-    destaque: false,
-    visivel: true,
-    preco: null,
-    fotos: [
-      '/pecas/bianca-azul-sereno.webp',
-    ],
-  },
-
-  /*
-    QUINZE ANOS: SEM APRESENTAÇÃO PARA CHAMAR DE SUA.
-
-    Estas cinco são vestidos de debutante. Os três públicos do brief são
-    noivas, madrinhas e noivos, e nenhum deles é uma menina de quinze anos:
-    "madrinhas" cobre madrinha, formanda e mãe.
-
-    Ficam aqui com `visivel: false` para não sumir do acervo, e marcadas como
-    madrinhas só porque o tipo exige um dos três. PERGUNTA PARA A DANIELLI:
-    debutante entra na apresentação de madrinhas ou merece a quarta?
-  */
-  {
-    codigo: 'M-07',
-    publico: 'madrinhas',
-    descricao: 'Dourado bordado com decote V',
-    cores: [],
-    tamanhos: [],
-    destaque: true,
-    visivel: false,
-    preco: null,
-    fotos: [
-      '/pecas/giovana-dourado-bordado.webp',
-    ],
-  },
-  {
-    codigo: 'M-08',
-    publico: 'madrinhas',
-    descricao: 'Dourado sereia, todo em brilho',
-    cores: [],
-    tamanhos: [],
-    destaque: false,
-    visivel: false,
-    preco: null,
-    fotos: [
-      '/pecas/alice-dourado-sereia.webp',
-    ],
-  },
-  {
-    codigo: 'M-09',
-    publico: 'madrinhas',
-    descricao: 'Princesa marinho com saia ampla',
-    cores: [],
-    tamanhos: [],
-    destaque: false,
-    visivel: false,
-    preco: null,
-    fotos: [
-      '/pecas/vitoria-princesa-marinho.webp',
-    ],
-  },
-  {
-    codigo: 'M-10',
-    publico: 'madrinhas',
-    descricao: 'Princesa prata em tule',
-    cores: [],
-    tamanhos: [],
-    destaque: false,
-    visivel: false,
-    preco: null,
-    fotos: [
-      '/pecas/laura-princesa-prata.webp',
-      '/pecas/laura-princesa-prata-2.webp',
-    ],
-  },
-  {
-    codigo: 'M-11',
-    publico: 'madrinhas',
-    descricao: 'Sereia preto, todo bordado',
-    cores: [],
-    tamanhos: [],
-    destaque: false,
-    visivel: false,
-    preco: null,
-    fotos: [
-      '/pecas/rebeca-sereia-preto.webp',
     ],
   },
 ]

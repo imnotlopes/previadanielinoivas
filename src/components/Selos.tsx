@@ -1,4 +1,5 @@
 import { selos } from '../data/selos'
+import { cn } from '../lib/utils'
 
 interface SelosProps {
   /**
@@ -7,6 +8,14 @@ interface SelosProps {
    * festa. Ver `detalheFesta` em data/selos.ts.
    */
   publico?: 'noiva' | 'festa'
+  /**
+   * Para uso sobre fundo escuro, como no painel de abertura do deslize.
+   *
+   * Inverte texto e ícone, e nada mais: a estrutura, o espaçamento e a borda
+   * de cima são os mesmos. Um bloco de garantia que muda de forma conforme o
+   * fundo vira dois blocos para manter.
+   */
+  claro?: boolean
 }
 
 /**
@@ -19,11 +28,16 @@ interface SelosProps {
  * O texto de cada um mora em data/selos.ts, com o aviso de que selo é
  * promessa e precisa ser confirmado antes de publicar.
  */
-export default function Selos({ publico = 'noiva' }: SelosProps) {
+export default function Selos({ publico = 'noiva', claro = false }: SelosProps) {
   if (selos.length === 0) return null
 
   return (
-    <ul className="mt-10 grid gap-x-6 gap-y-5 border-t border-borda pt-7 sm:grid-cols-2">
+    <ul
+      className={cn(
+        'mt-10 grid gap-x-6 gap-y-5 border-t pt-7 sm:grid-cols-2',
+        claro ? 'border-branco/25' : 'border-borda',
+      )}
+    >
       {selos.map((selo) => {
         const Icone = selo.icone
         return (
@@ -38,13 +52,23 @@ export default function Selos({ publico = 'noiva' }: SelosProps) {
               size={19}
               strokeWidth={1.5}
               aria-hidden
-              className="mt-0.5 shrink-0 text-preto/70"
+              className={cn('mt-0.5 shrink-0', claro ? 'text-branco rebaixado' : 'text-preto/70')}
             />
             <div>
-              <p className="font-display text-h6 uppercase tracking-luxo text-preto">
+              <p
+                className={cn(
+                  'font-display text-h6 uppercase tracking-luxo',
+                  claro ? 'text-branco' : 'text-preto',
+                )}
+              >
                 {selo.titulo}
               </p>
-              <p className="mt-1 text-sm leading-relaxed text-preto/70">
+              <p
+                className={cn(
+                  'mt-1 text-sm leading-relaxed',
+                  claro ? 'text-branco rebaixado' : 'text-preto/70',
+                )}
+              >
                 {publico === 'festa' && selo.detalheFesta
                   ? selo.detalheFesta
                   : selo.detalhe}

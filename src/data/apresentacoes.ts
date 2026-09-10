@@ -1,8 +1,8 @@
 import type { Publico } from './pecas'
 
 /**
- * AS TRÊS APRESENTAÇÕES.
- * ======================
+ * A APRESENTAÇÃO.
+ * ===============
  *
  * Cada uma é um link que a Danielli cola numa conversa de WhatsApp já em
  * andamento. Ninguém chega aqui pelo Google: a pessoa já a procurou, e agora
@@ -12,11 +12,21 @@ import type { Publico } from './pecas'
  * ateliê nem se apresentar ao mundo. Ela tem três trabalhos: criar desejo,
  * provar autoridade, e devolver a pessoa para a conversa com a escolha feita.
  *
+ * ERAM TRÊS, E HOJE É UMA
+ * -----------------------
+ * A de madrinhas e a de noivos saíram do produto. A de madrinhas nunca teve
+ * capa própria, usava um vestido de festa do acervo como provisório; a de
+ * noivos nunca teve uma única foto de traje masculino. Nesse estado elas não
+ * eram material de venda, eram rascunho com URL, e URL vaza.
+ *
+ * A estrutura de LISTA fica, e é o ponto: o dia em que uma delas voltar, ela
+ * é uma entrada aqui, e nada mais precisa mudar. As duas que saíram estão no
+ * histórico do git.
+ *
  * O QUE MORA AQUI, E POR QUÊ
  * --------------------------
- * Tudo que muda entre as três, e nada além disso. A mecânica (grade, overlay,
- * seleção, mensagem) é a mesma nas três e vive nos componentes. Se um dia
- * nascer a quarta apresentação, ela é uma entrada nesta lista.
+ * Só o que seria diferente entre uma apresentação e outra. A mecânica (grade,
+ * overlay, seleção, mensagem) vive nos componentes.
  *
  * A frase de origem é o item menos vistoso e o mais importante: é ela que faz
  * a Danielli saber de qual link veio cada contato, sem instalar ferramenta
@@ -39,9 +49,9 @@ export interface Apresentacao {
   descricao: string
 
   /**
-   * Capa. As três precisam ser DIFERENTES: o cartão do WhatsApp é a primeira
-   * impressão, e três links com a mesma foto de noiva denunciam que é o mesmo
-   * material reetiquetado.
+   * Capa. Se um dia houver mais de uma apresentação, elas precisam ser
+   * DIFERENTES: o cartão do WhatsApp é a primeira impressão, e dois links com
+   * a mesma foto denunciam que é o mesmo material reetiquetado.
    *
    * `largo` é a imagem de compartilhamento e a capa em tela deitada; `alto` é
    * a capa em tela em pé. A mesma foto não serve nas duas, ver `<picture>` em
@@ -51,6 +61,20 @@ export interface Apresentacao {
   /** Imagem do cartão de WhatsApp. Absoluta na hora de montar a tag. */
   ogImagem: string
 
+  /**
+   * A PALAVRA GRANDE DA CAPA.
+   *
+   * Uma só, em corpo colossal, encostada no rodapé da abertura. Ela não
+   * explica nada e não precisa: diz de quem é aquela apresentação antes de
+   * qualquer frase ser lida, e é o que transforma a capa em folha de rosto de
+   * revista em vez de topo de página.
+   *
+   * Curta obrigatoriamente. A classe `.texto-colosso` divide a largura da
+   * linha pelo número de letras, então palavra comprida não estoura, ela
+   * ENCOLHE, e a partir de umas doze letras o efeito se perde inteiro.
+   */
+  palavra: string
+
   /** Abertura sem `?nome=` na URL. */
   saudacao: string
   /** Com `?nome=Camila`, vira "Camila," antes desta linha. */
@@ -59,8 +83,10 @@ export interface Apresentacao {
   /**
    * Como a mensagem de WhatsApp se apresenta.
    *
-   * "Vi a apresentação de noivas" contra "de madrinhas e formandas": é o
-   * carimbo de origem, e o único jeito de a Danielli separar os contatos.
+   * "Vi a apresentação de noivas" é o carimbo de origem na mensagem que chega
+   * para a Danielli. Com uma apresentação só ele não separa nada ainda, e é
+   * exatamente por isso que continua aqui: no dia da segunda, os contatos já
+   * chegam separados desde a primeira mensagem, sem migração nenhuma.
    */
   origem: string
 
@@ -94,53 +120,11 @@ export const apresentacoes: Apresentacao[] = [
       alt: 'Noiva sentada, de vestido de renda com gola alta e manga longa, no dia do casamento.',
     },
     ogImagem: '/og-noiva.jpg',
+    palavra: 'Noivas',
     saudacao: 'Que bom que você chegou até aqui',
     posicionamento:
       'Separei alguns modelos para você ver. O ateliê tem muito mais, e o melhor é provar.',
     origem: 'a apresentação de noivas',
-  },
-  {
-    publico: 'madrinhas',
-    rota: '/madrinhas',
-    titulo: 'Vestidos de madrinha e formanda',
-    descricao:
-      'Alguns dos modelos do ateliê para madrinha, formanda e mãe, com prova com hora marcada e ajuste incluso.',
-    capa: {
-      /* A peça de festa mais forte do acervo serve de capa até chegar foto
-         feita para isso. NUNCA a mesma da apresentação de noivas. */
-      largo: '/pecas/esmeralda-paete-verde.webp',
-      alto: '/pecas/esmeralda-paete-verde.webp',
-      alt: 'Vestido de festa verde bordado em paetê.',
-    },
-    ogImagem: '/og-festa.jpg',
-    saudacao: 'Que bom que você chegou até aqui',
-    posicionamento:
-      'Separei alguns modelos para você ver. O ateliê tem muito mais, e o melhor é provar.',
-    origem: 'a apresentação de madrinhas e formandas',
-  },
-  {
-    publico: 'noivos',
-    rota: '/noivos',
-    titulo: 'Trajes de noivo e padrinho',
-    descricao:
-      'Trajes para noivo e padrinho, com prova com hora marcada e ajuste incluso.',
-    /*
-      SEM CAPA, PORQUE NÃO EXISTE UMA ÚNICA FOTO DE TRAJE MASCULINO.
-
-      A alternativa seria pôr foto de noiva na apresentação de noivo, que é
-      pior que não ter capa: o noivo abre, vê vestido, e fecha.
-    */
-    capa: null,
-    /* Cartão neutro da marca, e não a foto de noiva: as três apresentações
-       precisam de imagens diferentes, e um noivo que recebe o link vendo
-       vestido no preview fecha antes de abrir. */
-    ogImagem: '/og-marca.jpg',
-    saudacao: 'Que bom que você chegou até aqui',
-    posicionamento:
-      'O ateliê veste noivo e padrinho também. Me chama que eu te mostro o que temos.',
-    origem: 'a apresentação de noivos e padrinhos',
-    semPecas:
-      'As fotos dos trajes estão sendo preparadas. Me chama no WhatsApp que eu te mostro o que temos hoje.',
   },
 ]
 

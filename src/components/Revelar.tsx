@@ -18,6 +18,18 @@ interface RevelarProps {
    * imagem grande: foto que sobe empurra o layout na percepção.
    */
   distancia?: 'curta' | 'padrao' | 'nenhuma'
+  /**
+   * Para o que já está na PRIMEIRA TELA.
+   *
+   * O gatilho normal dispara 10% antes da borda de baixo, o que faz o
+   * conteúdo chegar no ritmo de quem rola. Para um elemento encostado no
+   * rodapé da abertura isso vira defeito: ele nasce logo abaixo da linha de
+   * disparo e fica invisível até a pessoa rolar, mesmo estando na tela.
+   *
+   * Foi o que aconteceu com a palavra colossal da capa, que é justamente a
+   * âncora da folha. Com isto ligado, basta o elemento tocar a tela.
+   */
+  naPrimeiraTela?: boolean
   /** Elemento renderizado. `div` por padrão; use `li`, `figure`, `section`. */
   como?: ElementType
   className?: string
@@ -43,10 +55,13 @@ export default function Revelar({
   children,
   atraso = 0,
   distancia = 'padrao',
+  naPrimeiraTela = false,
   como: Como = 'div',
   className,
 }: RevelarProps) {
-  const { alvo, visivel } = useRevelar<HTMLElement>()
+  const { alvo, visivel } = useRevelar<HTMLElement>(
+    naPrimeiraTela ? { margem: '0px' } : undefined,
+  )
 
   return (
     <Como

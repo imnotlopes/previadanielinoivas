@@ -1,5 +1,6 @@
-import { ATENDE, IMPORTADOS, MARCAS, anosDeCasa } from '../data/autoridade'
+import { ATENDE, IMPORTADOS, anosDeCasa } from '../data/autoridade'
 import { videoAtelier } from '../data/videos'
+import FaixaMarcas from './FaixaMarcas'
 import Revelar from './Revelar'
 import VideoVertical from './VideoVertical'
 
@@ -16,7 +17,8 @@ import VideoVertical from './VideoVertical'
  * Anos de casa qualquer loja tem. Marca representada é o que separa ateliê
  * sério de loja que compra vestido pronto de fornecedor, e é o argumento que
  * a noiva não sabe que deveria procurar. Por isso as marcas ganham o peso
- * visual maior, e não os anos.
+ * visual maior, e não os anos: elas fecham a seção numa faixa que atravessa
+ * a largura toda, com os logotipos em movimento. Ver FaixaMarcas.
  *
  * O VÍDEO PROVA QUE O LUGAR EXISTE
  * --------------------------------
@@ -57,35 +59,35 @@ export default function SecaoAutoridade() {
             </Revelar>
 
             <Revelar atraso={230}>
-              {/*
-                As marcas em lista de definição, e não num parágrafo: elas são
-                o argumento mais forte do bloco, e num parágrafo corrido
-                passariam como enfeite.
-              */}
-              <dl className="mt-10 border-t border-borda pt-8">
-                <dt className="font-display text-h6 uppercase tracking-luxo text-cinza">
-                  Marcas representadas
-                </dt>
-                <dd className="mt-4">
-                  <ul className="flex flex-wrap gap-x-3 gap-y-2">
-                    {MARCAS.map((marca) => (
-                      <li
-                        key={marca}
-                        className="border border-borda px-4 py-2 font-display text-h6 uppercase tracking-luxo text-preto"
-                      >
-                        {marca}
-                      </li>
-                    ))}
-                  </ul>
-                </dd>
-
-                <dd className="mt-5 text-sm text-preto/70">
-                  Além de peças importadas da {IMPORTADOS}.
-                </dd>
-              </dl>
+              <p className="mt-8 text-sm text-preto rebaixado">
+                Além de peças importadas da {IMPORTADOS}.
+              </p>
             </Revelar>
           </div>
         </div>
+
+        {/*
+          AS MARCAS SAEM DA COLUNA E ATRAVESSAM A SEÇÃO.
+
+          Elas moravam numa lista de caixinhas dentro da coluna de texto, ao
+          lado do vídeo. Ali eram um detalhe do parágrafo. Numa faixa que
+          atravessa a largura inteira, viram um bloco com peso próprio, que é o
+          que elas merecem: representar marca é o argumento mais forte deste
+          trecho, e o menos óbvio para quem lê.
+        */}
+        {/*
+          Nada de banda, nada de borda: a seção é branca de ponta a ponta.
+
+          Cheguei a pôr a faixa numa banda de off-white para destacá-la, e era
+          a resposta errada para o problema certo. Quem destaca a faixa é o
+          TAMANHO dos logotipos, não uma mudança de fundo atrás deles: fundo
+          diferente quebra a seção em duas e faz a faixa parecer um encaixe de
+          outra página. Ver a escala em `.faixa-marcas_logo`.
+        */}
+        <Revelar distancia="curta" className="mt-24 md:mt-32">
+          <p className="eyebrow mb-12 text-center">Marcas representadas</p>
+          <FaixaMarcas />
+        </Revelar>
       </div>
     </section>
   )

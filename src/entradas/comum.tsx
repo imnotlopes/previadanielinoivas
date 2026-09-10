@@ -12,8 +12,6 @@ import '../index.css'
  * Cada peça tem o seu HTML de verdade:
  *
  *   noivas.html     Apresentação de noivas
- *   madrinhas.html  Apresentação de madrinhas, formandas e mães
- *   noivos.html     Apresentação de noivos e padrinhos
  *   admin.html      Painel, a loja do celular dela
  *
  * ISSO NÃO É ORGANIZAÇÃO DE PASTA, É REQUISITO DE PRODUTO.
@@ -35,17 +33,15 @@ import '../index.css'
  * NAVEGAR ENTRE APRESENTAÇÕES É NAVEGAÇÃO DE VERDADE, NÃO <Link>.
  *
  * Cada uma é uma aplicação separada: o React Router de uma não conhece as
- * rotas da outra. Um `<Link to="/madrinhas">` dentro da apresentação de noivas
- * renderiza a rota curinga dela, e o erro é silencioso.
+ * rotas da outra. Um `<Link>` para fora da própria peça renderiza a rota
+ * curinga dela, e o erro é silencioso.
  *
- * Na prática isto quase não é usado: as apresentações não têm navegação entre
- * si de propósito, porque cada uma existe para devolver a pessoa ao WhatsApp,
- * e não para levá-la a outra página.
+ * Com uma apresentação e o painel, isto hoje só vale para a ida ao /admin. A
+ * regra fica escrita porque o erro que ela evita é mudo, e volta a valer no
+ * dia em que existir uma segunda apresentação.
  */
 export const CAMINHOS = {
   noivas: '/noivas',
-  madrinhas: '/madrinhas',
-  noivos: '/noivos',
   painel: '/admin',
 } as const
 

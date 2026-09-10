@@ -62,3 +62,10 @@ Fotografos/
 # scripts/videos.mjs. Guardar o original aqui (e fora do Git) é o que permite
 # reencodar com outro alvo de qualidade sem pedir os arquivos de novo.
 videos-originais/
+
+# Logotipos das marcas como vieram do fornecedor: PNG de fundo branco, SVG e um
+# JPEG de origem duvidosa, em tamanhos e proporções que não batem entre si.
+# O que o site publica são os WebP recortados em public/marcas/, gerados por
+# scripts/marcas.mjs a partir daqui, mais a prova de contato que o script
+# escreve nesta mesma pasta para conferir o alinhamento a olho.
+marcas-originais/

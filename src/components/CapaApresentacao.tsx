@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 import type { Apresentacao } from '../data/apresentacoes'
 import { brand } from '../lib/brand'
 import { cn } from '../lib/utils'
@@ -11,59 +13,69 @@ interface CapaApresentacaoProps {
 }
 
 /**
- * Bloco 1, a abertura. E o único lugar onde a marca aparece no alto.
- *
- * NÃO EXISTE MAIS CABEÇALHO
- * -------------------------
- * Havia uma barra fixa aqui: logo à esquerda, ícone à direita, borda embaixo,
- * grudada no topo em toda rolagem. Isso é chrome de site, e este material não
- * é site. Apresentação nenhuma repete o logotipo em cima de cada página: a
- * marca aparece UMA vez, na folha de rosto, e depois sai da frente.
- *
- * O que a barra custava era pior que o que ela dava. Oitenta pixels de tela
- * de celular, permanentes, para repetir um nome que a pessoa acabou de ler no
- * WhatsApp da própria Danielli antes de tocar no link. E ela competia com a
- * foto de capa justamente no instante em que a foto tem de ganhar.
- *
- * O Instagram, que morava lá, já estava no rodapé. Nada se perdeu.
+ * Bloco 1, a abertura. E o único lugar onde a marca aparece.
  *
  * A COMPOSIÇÃO É DE FOLHA DE ROSTO
+ * ================================
+ * Três faixas, e cada uma tem um trabalho:
+ *
+ *   1. ALTO      a marca, do tamanho de assinatura. Diz de quem é.
+ *   2. MEIO      a frase em itálico, numa coluna estreita. Diz o que é.
+ *   3. RODAPÉ    a palavra colossal. Diz para quem é.
+ *
+ * Entre elas, a foto. É o inverso de "cabeçalho, conteúdo, rodapé", e é como
+ * uma capa de revista se organiza: a imagem manda, o texto se encosta nas
+ * bordas, e nada disputa o centro.
+ *
+ * NÃO EXISTE CABEÇALHO
+ * --------------------
+ * Havia uma barra fixa aqui, com logo à esquerda e ícone à direita. Barra fixa
+ * é chrome de site, e este material não é site: apresentação nenhuma repete o
+ * logotipo em cima de cada página. Ver a casca, em CascaApresentacaoVenda.
+ *
+ * A PALAVRA É O H1, A SAUDAÇÃO NÃO
  * --------------------------------
- * Marca no alto, mensagem embaixo, foto entre as duas. É como uma capa de
- * lookbook se organiza, e é o oposto de "cabeçalho, conteúdo, rodapé".
+ * Trocado de propósito. "Que bom que você chegou até aqui" é gentileza, não
+ * assunto; "NOIVAS" é o assunto. Quem lê com leitor de tela ouve primeiro do
+ * que a página trata, e quem lê com os olhos vê a mesma hierarquia desenhada.
  */
 export default function CapaApresentacao({ apresentacao, nome }: CapaApresentacaoProps) {
-  const { capa, saudacao, posicionamento, origem } = apresentacao
+  const { capa, palavra, saudacao, posicionamento, origem } = apresentacao
   const mensagem = `Oi Danielli! Vi ${origem} e queria conversar.`
+  const abertura = nome ? `${nome}, ${saudacao.toLowerCase()}` : saudacao
 
   /*
     SEM FOTO, A ABERTURA É TIPOGRÁFICA.
 
-    Estado previsto, não erro: a apresentação de noivos não tem uma única foto
-    de traje masculino, e pôr foto de noiva ali seria pior que abrir sem foto.
+    Estado previsto, não erro. Nasceu para a apresentação de noivos, que não
+    tinha uma única foto de traje masculino e onde pôr foto de noiva seria
+    pior que abrir sem foto. Aquela apresentação saiu do produto e este ramo
+    fica: é o que segura uma apresentação nova no dia em que ela existir antes
+    das fotos dela. A estrutura é a mesma, só que em preto sobre claro.
   */
   if (!capa) {
     return (
-      <section className="border-b border-borda-sutil bg-branco">
-        <div className="container-luxo folha-curta">
-          <Revelar>
+      <section className="flex min-h-svh flex-col justify-between border-b border-borda-sutil bg-branco">
+        <div className="container-luxo pt-7 md:pt-9">
+          <Revelar distancia="curta">
             <Marca />
           </Revelar>
-
-          <Revelar atraso={90}>
-            <h1 className="mt-12 texto-display-sm uppercase tracking-luxo">
-              {nome ? `${nome}, ${saudacao.toLowerCase()}` : saudacao}
-            </h1>
-            <span className="filete mt-7" />
-            <p className="mt-7 max-w-md text-preto/75">{posicionamento}</p>
-          </Revelar>
-
-          <Revelar atraso={160}>
-            <div className="mt-9">
-              <BotaoWhatsapp mensagem={mensagem}>Falar no WhatsApp</BotaoWhatsapp>
-            </div>
-          </Revelar>
         </div>
+
+        <div className="container-luxo u-grid py-16">
+          <div className="col-6">
+            <Revelar atraso={90}>
+              <p className="t-italico-g">{abertura}</p>
+              <span className="filete mt-7" />
+              <p className="mt-7 max-w-md text-preto rebaixado">{posicionamento}</p>
+              <div className="mt-9">
+                <BotaoWhatsapp mensagem={mensagem}>Falar no WhatsApp</BotaoWhatsapp>
+              </div>
+            </Revelar>
+          </div>
+        </div>
+
+        <PalavraColossal palavra={palavra} />
       </section>
     )
   }
@@ -91,43 +103,83 @@ export default function CapaApresentacao({ apresentacao, nome }: CapaApresentaca
         />
       </picture>
 
+      {/* Véu calibrado por faixa. A tabela do porquê está em `.veu-capa`. */}
+      <div aria-hidden className="veu-capa" />
+
       {/*
-        Véu nas DUAS pontas, e não só embaixo.
+        FAIXA DE CIMA: quem assina e quem fala.
 
-        A marca agora fica no alto, em branco, e uma foto de noiva é clara
-        justamente ali. Sem escurecer o topo, o logotipo some no vestido.
-        No meio o véu abre, para a foto respirar.
+        A saudação em itálico mora aqui, e não no meio da foto, porque aqui o
+        véu está em 70% e ali estaria em 14%. Não é composição, é contraste.
       */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-preto/55 via-preto/10 to-preto/85"
-      />
-
       <div className="container-luxo relative pt-7 md:pt-9">
         <Revelar distancia="curta">
           <Marca claro />
         </Revelar>
+
+        {/*
+          Coluna estreita, e é o gesto editorial da capa. Cinco colunas de
+          doze: texto que atravessa a largura inteira sobre uma foto lê como
+          legenda; texto numa coluna curta lê como diagramação.
+        */}
+        <div className="u-grid mt-10 md:mt-14">
+          <div className="col-5">
+            <Revelar distancia="curta" atraso={120}>
+              <p className="t-italico-g text-branco">{abertura}</p>
+              <span className="filete-claro mt-6" />
+            </Revelar>
+          </div>
+        </div>
       </div>
 
-      <div className="container-luxo relative pb-12 pt-20 md:pb-16">
-        <Revelar distancia="curta" atraso={120}>
-          <h1 className="texto-display text-branco">
-            {nome ? `${nome}, ${saudacao.toLowerCase()}` : saudacao}
-          </h1>
-          <span className="filete-claro mt-6" />
-        </Revelar>
+      {/*
+        FAIXA DE BAIXO: o que fazer, e para quem é.
 
-        <Revelar atraso={220}>
-          <p className="mt-7 max-w-lg text-branco/85">{posicionamento}</p>
+        O parágrafo e o botão descem para cá pelo mesmo motivo do texto de
+        cima: o véu chega a 92% no rodapé. E a palavra fica por último, colada
+        na borda, porque é ela que ancora a folha.
+      */}
+      <div className="relative">
+        <div className="container-luxo u-grid">
+          <div className="col-5">
+            <Revelar atraso={220}>
+              <p className="text-branco rebaixado">{posicionamento}</p>
 
-          <div className="mt-9">
-            <BotaoWhatsapp variante="claro" mensagem={mensagem}>
-              Falar no WhatsApp
-            </BotaoWhatsapp>
+              <div className="mt-7">
+                <BotaoWhatsapp variante="claro" mensagem={mensagem}>
+                  Falar no WhatsApp
+                </BotaoWhatsapp>
+              </div>
+            </Revelar>
           </div>
-        </Revelar>
+        </div>
+
+        <PalavraColossal palavra={palavra} clara />
       </div>
     </section>
+  )
+}
+
+/**
+ * A palavra que encosta no rodapé da capa.
+ *
+ * `--letras` é o número de caracteres, e é ele que a folha de estilo usa para
+ * dividir a largura da linha. Sem isso a palavra teria de ter um tamanho
+ * escolhido a dedo por apresentação, e "Madrinhas" estouraria onde "Noivas"
+ * sobrava. Ver `.texto-colosso` em index.css.
+ */
+function PalavraColossal({ palavra, clara = false }: { palavra: string; clara?: boolean }) {
+  return (
+    <div className="container-luxo caixa-colosso relative mt-12 pb-5 md:mt-16 md:pb-7">
+      <Revelar distancia="curta" atraso={320} naPrimeiraTela>
+        <h1
+          className={cn('texto-colosso', clara ? 'text-branco' : 'text-preto')}
+          style={{ '--letras': palavra.length } as CSSProperties}
+        >
+          {palavra}
+        </h1>
+      </Revelar>
+    </div>
   )
 }
 
@@ -136,7 +188,7 @@ export default function CapaApresentacao({ apresentacao, nome }: CapaApresentaca
  *
  * Pequeno de propósito. Numa folha de rosto quem manda é a foto; a marca só
  * precisa dizer de quem é aquilo, e some do caminho depois. Grande, ela vira
- * o cabeçalho que acabou de sair daqui.
+ * o cabeçalho que já saiu daqui.
  *
  * Não é link: as apresentações não têm para onde ir, e um logotipo clicável
  * que recarrega a mesma tela é promessa falsa.
@@ -163,7 +215,7 @@ function Marca({ claro = false }: { claro?: boolean }) {
         <span
           className={cn(
             'mt-1 block font-display text-[0.625rem] uppercase tracking-luxo-lg',
-            claro ? 'text-branco/70' : 'text-cinza',
+            claro ? 'text-branco rebaixado' : 'text-cinza',
           )}
         >
           {brand.subtitulo}

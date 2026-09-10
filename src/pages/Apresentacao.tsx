@@ -3,14 +3,12 @@ import { useSearchParams } from 'react-router-dom'
 import BarraSelecao from '../components/BarraSelecao'
 import BotaoWhatsapp from '../components/BotaoWhatsapp'
 import CapaApresentacao from '../components/CapaApresentacao'
-import GradePecas from '../components/GradePecas'
 import Revelar from '../components/Revelar'
 import SecaoAutoridade from '../components/SecaoAutoridade'
 import SecaoCasamentos from '../components/SecaoCasamentos'
 import SecaoDepoimentos from '../components/SecaoDepoimentos'
-import SecaoTitulo from '../components/SecaoTitulo'
+import SecaoModelos from '../components/SecaoModelos'
 import SecaoVestidosEmMovimento from '../components/SecaoVestidosEmMovimento'
-import Selos from '../components/Selos'
 import Seo from '../components/Seo'
 import { apresentacaoDe, nomeSanitizado } from '../data/apresentacoes'
 import { doPublico, visiveis, type Publico } from '../data/pecas'
@@ -98,73 +96,33 @@ export default function Apresentacao({ publico }: ApresentacaoProps) {
       {/* 2 · Autoridade */}
       <SecaoAutoridade />
 
-      {/* 3 · O que o ateliê oferece */}
-      <section className="border-t border-borda-sutil bg-off-white">
-        <div className="container-luxo secao max-w-3xl">
-          <Revelar>
-            <SecaoTitulo
-              eyebrow="Sem surpresa depois"
-              titulo="O que está incluído"
-              centralizado
-            />
-          </Revelar>
-          <Revelar atraso={120}>
-            <div className="text-left">
-              <Selos publico={publico === 'noivas' ? 'noiva' : 'festa'} />
-            </div>
-          </Revelar>
-        </div>
-      </section>
+      {/*
+        3 e 4 · As garantias E os modelos, numa seção só.
 
-      {/* 4 · Os modelos */}
-      <section className="border-t border-borda-sutil bg-branco">
-        <div className="container-luxo secao">
-          {/*
-            SEM PEÇA, SEM PROMESSA.
+        Eram dois blocos: "O que está incluído" e depois "Os modelos". A ordem
+        parecia certa (tranquilizar, depois mostrar) e na leitura era o
+        contrário: a pessoa chegava embalada pela autoridade e batia numa
+        lista de garantias antes de ver um vestido.
 
-            O título e a frase de amostra só fazem sentido quando há grade
-            embaixo. Na apresentação de noivos, que ainda não tem uma única
-            foto, eles anunciavam modelos e entregavam um aviso de que não há
-            modelos, que é pior do que só dar o aviso.
-          */}
-          {daCasa.length > 0 && (
-            <Revelar>
-              <SecaoTitulo
-                eyebrow="Os modelos"
-                titulo="Alguns do que temos hoje"
-                /*
-                  A frase é obrigatória, e é o contrário de uma ressalva: ela
-                  diz que o que está na tela é uma amostra e que o acervo mora
-                  no ateliê. Sem ela, a apresentação vira promessa de
-                  exaustividade que a arara não cumpre.
-                */
-                descricao="Uma amostra do acervo. No ateliê tem muito mais, e é lá que dá para provar."
-                centralizado
-              />
-            </Revelar>
-          )}
-
-          <div className={daCasa.length > 0 ? 'mt-12' : ''}>
-            <GradePecas pecas={daCasa} vazio={apresentacao.semPecas} />
-          </div>
-        </div>
-      </section>
+        Agora eles convivem, e a montagem muda com a tela. Ver SecaoModelos.
+      */}
+      <SecaoModelos pecas={daCasa} vazio={apresentacao.semPecas} />
 
       {/*
         Ainda o bloco 4: as peças em movimento.
 
-        Só na apresentação de noivas, porque os três vídeos editoriais são de
-        vestido de noiva. É o mesmo assunto da grade, dito do jeito que a foto
+        Os três vídeos editoriais são de vestido de noiva. É o mesmo assunto
+        da grade, dito do jeito que a foto
         não diz: como o bordado pega a luz, como o tule pesa, como a cauda
         anda. "Criar desejo" é o primeiro trabalho desta peça, e vídeo faz
         isso melhor que qualquer card.
       */}
-      {publico === 'noivas' && <SecaoVestidosEmMovimento />}
+      <SecaoVestidosEmMovimento />
 
       {/* 5 · Prova social */}
       {/* Some sozinha enquanto não houver depoimento com autorização. */}
       <SecaoDepoimentos />
-      {publico === 'noivas' && <SecaoCasamentos />}
+      <SecaoCasamentos />
 
       {/* 6 · Como funciona */}
       <section className="border-t border-borda-sutil bg-preto text-branco">

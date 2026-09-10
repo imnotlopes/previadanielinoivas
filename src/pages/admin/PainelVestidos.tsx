@@ -3,16 +3,9 @@ import { useState, type FormEvent } from 'react'
 import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 
 import { PECAS_POR_APRESENTACAO } from '../../data/apresentacoes'
-import { identificacao, type Peca, type Publico } from '../../data/pecas'
+import { identificacao, type Peca } from '../../data/pecas'
 import { useLoja } from '../../lib/loja'
 import { cn } from '../../lib/utils'
-
-/** Como cada público se chama na tela do painel. */
-const ROTULOS_PUBLICO: Record<Publico, string> = {
-  noivas: 'Noivas',
-  madrinhas: 'Madrinhas, formandas e mães',
-  noivos: 'Noivos e padrinhos',
-}
 
 export default function PainelVestidos() {
   return (
@@ -131,9 +124,6 @@ function Listagem() {
               <span className="min-w-0">
                 <span className="block truncate font-display text-h6 uppercase tracking-luxo">
                   {identificacao(peca)}
-                </span>
-                <span className="mt-0.5 block truncate text-sm text-preto/60">
-                  {ROTULOS_PUBLICO[peca.publico]}
                 </span>
                 {/*
                   Cor e tamanho entraram no lugar do preço, e a falta deles é
@@ -305,6 +295,16 @@ function Formulario() {
           </span>
         </label>
 
+        {/*
+          O seletor "Para quem" saiu daqui junto com as apresentações de
+          madrinhas e de noivos. Ele dizia "decide em qual das três
+          apresentações a peça aparece", e com uma só isso deixou de ser
+          verdade: um campo de escolha única que muda nada é pior que campo
+          nenhum, porque parece que faz alguma coisa.
+
+          A grade continua de duas colunas para o código ficar com largura de
+          código, e não de linha inteira.
+        */}
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
             <label className="label" htmlFor="codigo">
@@ -325,26 +325,6 @@ function Formulario() {
             </p>
           </div>
 
-          <div>
-            <label className="label" htmlFor="publico">
-              Para quem
-            </label>
-            <select
-              id="publico"
-              className="input"
-              value={form.publico}
-              onChange={(e) => setForm({ ...form, publico: e.target.value as Publico })}
-            >
-              {(Object.keys(ROTULOS_PUBLICO) as Publico[]).map((p) => (
-                <option key={p} value={p}>
-                  {ROTULOS_PUBLICO[p]}
-                </option>
-              ))}
-            </select>
-            <p className="mt-2 text-sm text-preto/60">
-              Decide em qual das três apresentações a peça aparece.
-            </p>
-          </div>
         </div>
 
         <div>

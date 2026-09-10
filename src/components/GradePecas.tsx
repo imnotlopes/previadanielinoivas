@@ -9,7 +9,7 @@ import Revelar from './Revelar'
 
 interface GradePecasProps {
   pecas: Peca[]
-  /** Some quando não há peça. Ex.: a apresentação de noivos, ainda sem foto. */
+  /** Some quando não há peça. Ex.: a Danielli ocultou o acervo inteiro. */
   vazio?: string
 }
 

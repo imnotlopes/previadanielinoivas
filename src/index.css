@@ -66,13 +66,26 @@
   /* Montserrat: geométrica e limpa, faz contraste com a serifada dos títulos. */
   --font-corpo: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Escala fluida: min → preferido → max */
-  --fs-h1: clamp(1.75rem, 1.35rem + 1.8vw, 2.375rem);
-  --fs-h2: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
-  --fs-h3: clamp(1.25rem, 1.05rem + 0.9vw, 1.625rem);
-  --fs-h4: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
-  --fs-h5: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
-  --fs-h6: clamp(0.8125rem, 0.78rem + 0.2vw, 0.9375rem);
+  /*
+    ESCALA FIXA, PORQUE A FLUIDEZ MORA NA RAIZ
+    ------------------------------------------
+    Estes valores eram seis `clamp()` independentes. Agora são múltiplos fixos
+    de `rem`, e quem os faz crescer é o mostrador lá embaixo, no `:root`.
+
+    A diferença não é de estilo, é de controle. Com seis clamps, cada degrau
+    da escala tinha a PRÓPRIA curva: o h1 chegava ao teto numa largura, o h3
+    em outra, e a proporção entre eles mudava no meio do caminho. Com um
+    mostrador só, a escala inteira cresce junta e a proporção nunca muda.
+
+    Os degraus abaixo são o topo da escala antiga; o piso dela virou o bloco
+    de celular, mais adiante neste arquivo.
+  */
+  --fs-h1: 2.375rem;
+  --fs-h2: 2rem;
+  --fs-h3: 1.625rem;
+  --fs-h4: 1.375rem;
+  --fs-h5: 1.125rem;
+  --fs-h6: 0.9375rem;
 
   --tracking-luxo: 0.18em;
 
@@ -86,8 +99,24 @@
     Uso restrito: abertura de folha e a frase da marca. Aplicado num
     parágrafo comum vira grito.
   */
-  --fs-display: clamp(2.5rem, 1.5rem + 4.6vw, 5.25rem);
-  --fs-display-sm: clamp(1.875rem, 1.35rem + 2.4vw, 3.25rem);
+  --fs-display: 5.25rem;
+  --fs-display-sm: 3.25rem;
+
+  /*
+    O COLOSSO
+    ---------
+    Um degrau acima do display, e existe para UMA palavra por apresentação.
+    Dezoito vezes o corpo do texto: nesse tamanho a palavra deixa de ser
+    título e vira imagem, que é o efeito procurado. Aplicado em frase, vira
+    cartaz de liquidação.
+
+    Este número é só o TETO, e na maior parte das larguras nem chega a valer.
+    Quem manda é o `min()` da classe `.texto-colosso`, que divide a linha pelo
+    número de letras: a palavra ocupa a largura toda, seja ela de seis letras
+    ou de nove, e o teto só entra para impedir que "Noivas" vire cartaz num
+    monitor de 27 polegadas.
+  */
+  --fs-colosso: 18rem;
 
   /* Mesma curva do `ease-suave` do Tailwind, disponível no CSS puro. */
   --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
@@ -98,9 +127,105 @@
 
   /* --- Layout ----------------------------------------------------------- */
   --largura-conteudo: 82rem;
-  --espaco-secao: clamp(3.5rem, 2rem + 6vw, 7rem);
+
+  /*
+    ESPAÇO DE SEÇÃO, AGORA EM ESCALA
+    --------------------------------
+    Era um clamp só. Virou três degraus fixos, pela mesma razão da tipografia:
+    o mostrador da raiz já dá a fluidez, e o que faltava era poder dizer "esta
+    seção respira o dobro da outra" sem inventar um valor novo a cada uso.
+
+    O degrau grande é generoso de propósito. Ar em volta do bloco é o que
+    separa página de catálogo de página de revista, e não custa um byte.
+  */
+  --secao-p: 3.5rem;
+  --secao-m: 6rem;
+  --secao-g: 10rem;
+
+  /*
+    O degrau padrão é o GRANDE, e essa é a mudança de mão.
+
+    Era um clamp que chegava a 7rem no topo. Dez é quase o dobro, e é o que
+    separa "seções empilhadas" de "blocos que respiram". A referência usa 20em
+    (uns 347px); isto aqui é metade disso, porque a apresentação tem meta de
+    dois minutos e ar demais vira rolagem demais.
+  */
+  --espaco-secao: var(--secao-g);
+
+  /* Grade editorial de 12 colunas. */
+  --colunas: 12;
+  --goteira-x: 0.75rem;
+  --goteira-y: 1.5rem;
+
+  /*
+    Escurecimento padrão de foto. Cada imagem pode sobrescrever com `--veu`,
+    porque foto clara e foto escura não pedem o mesmo véu, e antes disso o
+    valor vivia escrito à mão dentro de cada gradiente.
+  */
+  --veu: 0;
 
   color-scheme: light;
+}
+
+/* ==========================================================================
+   O MOSTRADOR
+   --------------------------------------------------------------------------
+   Uma linha que reescala o design inteiro.
+
+   Tudo neste projeto, inclusive a escala do Tailwind, é medido em `rem`, e
+   `rem` é relativo ao corpo da RAIZ. Mexer aqui, portanto, move tipografia,
+   espaçamento, filete, botão e altura de card ao mesmo tempo e na mesma
+   proporção. É o contrário de ter um clamp por propriedade.
+
+   POR QUE `rem` E NÃO `em`
+   ------------------------
+   A referência que inspirou isto usa `em` e põe o mostrador no `body`. Em
+   `em` a medida é relativa ao PAI, então um `margin-top` de 1,5 dentro de um
+   título de 2,6 vira 3,9, e o espaçamento passa a depender de onde o
+   elemento caiu na árvore. Em `rem` isso não existe: 1,5 é 1,5 em qualquer
+   lugar. Mesmo ganho, sem a armadilha.
+
+   AS TRÊS FAIXAS
+   --------------
+   Abaixo de 1440px o valor trava em 16px, e é por isso que celular e tablet
+   continuam exatamente como estavam. Acima disso ele sobe com a largura, até
+   parar em 17,33px. O teto existe porque texto que cresce sem limite em
+   monitor grande vira pôster, não leitura.
+   ========================================================================== */
+:root {
+  font-size: clamp(1rem, 1.1111vw, 1.0833rem);
+}
+
+/*
+   O PISO DO CELULAR
+   -----------------
+   Com o mostrador travado em 16px, os degraus de cima ficariam grandes demais
+   na tela de 360px: um h1 de 2,375rem daria 38px onde cabem 28. Aqui a escala
+   volta ao piso que a versão em clamp já entregava, e a maior parte da
+   apresentação é lida exatamente nesta faixa.
+*/
+@media (max-width: 767px) {
+  :root {
+    --fs-h1: 1.75rem;
+    --fs-h2: 1.5rem;
+    --fs-h3: 1.25rem;
+    --fs-h4: 1.125rem;
+    --fs-h5: 1rem;
+    --fs-h6: 0.8125rem;
+
+    --fs-display: 2.5rem;
+    --fs-display-sm: 1.875rem;
+    --fs-colosso: 8rem;
+
+    /*
+      No celular o ar custa rolagem, e rolagem é o orçamento mais apertado da
+      apresentação. O degrau grande aqui é 4rem, e não 10: cresce em relação
+      aos 3,5rem de antes, mas sem transformar oito blocos em vinte telas.
+    */
+    --secao-p: 2rem;
+    --secao-m: 3rem;
+    --secao-g: 4rem;
+  }
 }
 
 /* ==========================================================================
@@ -297,6 +422,647 @@
   /* --- Superfícies ------------------------------------------------------ */
   .card {
     @apply rounded-none border border-borda-sutil bg-branco shadow-sm;
+  }
+}
+
+/* ==========================================================================
+   GRADE EDITORIAL
+   --------------------------------------------------------------------------
+   Doze colunas, e nada além disso. Não é substituta do flex do Tailwind: é
+   para o punhado de lugares onde a intenção é editorial de verdade, ou seja,
+   onde o texto começa na coluna cinco e termina na nove porque foi assim que
+   alguém DECIDIU, e não porque coube.
+
+   O deslocamento é o que faz a diferença. Bloco que começa fora da margem
+   esquerda é o gesto mais barato que existe para uma página parecer diagramada
+   em vez de empilhada.
+   ========================================================================== */
+@layer components {
+  .u-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--colunas), minmax(0, 1fr));
+    column-gap: var(--goteira-x);
+    row-gap: var(--goteira-y);
+    width: 100%;
+  }
+
+  .u-grid.sem-goteira {
+    column-gap: 0;
+  }
+
+  .col-1 { grid-column-end: span 1; }
+  .col-2 { grid-column-end: span 2; }
+  .col-3 { grid-column-end: span 3; }
+  .col-4 { grid-column-end: span 4; }
+  .col-5 { grid-column-end: span 5; }
+  .col-6 { grid-column-end: span 6; }
+  .col-7 { grid-column-end: span 7; }
+  .col-8 { grid-column-end: span 8; }
+  .col-9 { grid-column-end: span 9; }
+  .col-10 { grid-column-end: span 10; }
+  .col-11 { grid-column-end: span 11; }
+  .col-12 { grid-column-end: span 12; }
+
+  .deslocar-1 { grid-column-start: 2; }
+  .deslocar-2 { grid-column-start: 3; }
+  .deslocar-3 { grid-column-start: 4; }
+  .deslocar-4 { grid-column-start: 5; }
+  .deslocar-5 { grid-column-start: 6; }
+  .deslocar-6 { grid-column-start: 7; }
+  .deslocar-7 { grid-column-start: 8; }
+  .deslocar-8 { grid-column-start: 9; }
+
+  /*
+    NO CELULAR A GRADE SE DESFAZ, E ISSO É A REGRA
+    ----------------------------------------------
+    Doze colunas em 360px não são doze colunas, são doze fatias de 30px. Todo
+    bloco vira largura cheia e todo deslocamento é anulado, senão um trecho
+    que começa na coluna nove sai da tela.
+  */
+  @media (max-width: 767px) {
+    .u-grid > .col-1,
+    .u-grid > .col-2,
+    .u-grid > .col-3,
+    .u-grid > .col-4,
+    .u-grid > .col-5,
+    .u-grid > .col-6,
+    .u-grid > .col-7,
+    .u-grid > .col-8,
+    .u-grid > .col-9,
+    .u-grid > .col-10,
+    .u-grid > .col-11,
+    .u-grid > .col-12 {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+/* ==========================================================================
+   ESPAÇO DE SEÇÃO
+   ========================================================================== */
+@layer components {
+  .secao-p { padding-block: var(--secao-p); }
+  .secao-m { padding-block: var(--secao-m); }
+  .secao-g { padding-block: var(--secao-g); }
+
+  /* Para a seção que encosta na de cima ou na de baixo sem respiro. */
+  .secao-topo-g { padding-top: var(--secao-g); }
+  .secao-base-m { padding-bottom: var(--secao-m); }
+}
+
+/* ==========================================================================
+   O DESLIZE DOS MODELOS
+   --------------------------------------------------------------------------
+   A seção prende na tela e os vestidos andam de lado enquanto a pessoa rola
+   normalmente. A conta está em lib/movimento.ts; aqui mora a forma.
+
+   SÓ EXISTE EM TELA LARGA
+   -----------------------
+   Abaixo de 1024px o componente nem monta esta versão, monta a grade de duas
+   colunas de sempre. Não é preguiça: doze painéis de tela cheia percorridos
+   por rolagem presa são doze telas de rolagem no polegar, numa peça com meta
+   de dois minutos. A referência mantém a rolagem horizontal no celular, e é
+   justamente onde ela cobra caro.
+   ========================================================================== */
+@layer components {
+  .deslize {
+    position: relative;
+
+    /*
+      A ALTURA É INVENTADA AQUI, E É O TRUQUE INTEIRO.
+
+      `100svh` é o que fica preso na tela. O `--percurso` é o excedente, e é
+      exatamente o quanto a pessoa rola enquanto a tela não muda de lugar:
+      essa rolagem "gasta" vira deslocamento horizontal. Sem o percurso, a
+      seção teria altura de uma tela e nada teria por onde andar.
+
+      O valor chega do JavaScript porque depende de quantos vestidos existem.
+      Escrito à mão, quebraria no dia em que a Danielli acrescentasse um.
+    */
+    height: calc(100svh + var(--percurso, 0px));
+    background-color: var(--preto);
+    color: var(--branco);
+  }
+
+  .deslize_janela {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .deslize_trilho {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    height: 100svh;
+    transform: translate3d(var(--deslocamento, 0px), 0, 0);
+    will-change: transform;
+  }
+
+  .deslize_painel {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100svh;
+  }
+
+  /*
+    O painel de abertura e o de fecho ocupam a tela inteira, como na
+    referência: eles são momento, não item de lista.
+
+    `--tela`, e não `100vw`: `vw` conta a barra de rolagem junto, e o painel
+    nascia 15px mais largo que a tela em desktop com barra clássica. A medida
+    chega do JavaScript, ver `useDeslizeHorizontal`. O `100vw` de reserva só
+    vale no primeiro quadro, antes de a medição chegar.
+  */
+  .deslize_painel--cheio {
+    width: var(--tela, 100vw);
+  }
+
+  /*
+    O painel de vestido é a largura do cartão mais o vão.
+
+    O vão fica como padding DO PAINEL, e não como `gap` do trilho, pelo mesmo
+    motivo da faixa de marcas: medida que mora entre os itens é medida que não
+    pertence a ninguém, e some da conta quando o JavaScript mede o trilho.
+  */
+  .deslize_painel--peca {
+    padding-right: 2.5rem;
+  }
+
+  /*
+    O CARTÃO.
+
+    Retrato, e não paisagem como na referência: lá o assunto é um acampamento
+    numa paisagem deitada, aqui é um vestido em pé. Manter 4:3 obrigaria a
+    cortar a saia ou a cabeça, e é a saia que vende.
+
+    A altura em `svh` e a proporção fixa fazem a largura sair sozinha: em
+    qualquer tela, o cartão ocupa dois terços da altura e nunca mais que isso.
+  */
+  .deslize_cartao {
+    position: relative;
+    height: 66svh;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: rgb(var(--branco-rgb) / 0.06);
+  }
+
+  .deslize_cartao img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 700ms var(--ease-suave);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .deslize_cartao:hover img {
+      transform: scale(1.04);
+    }
+  }
+
+  /*
+    Véu do cartão, pesado nas pontas e aberto no meio.
+
+    Mesma lógica da capa: o texto mora onde o véu é forte, e a faixa central
+    fica limpa porque é ali que o vestido aparece. Sem isso, o nome do modelo
+    em branco sobre renda branca some.
+  */
+  .deslize_cartao::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--preto-rgb) / 0.75) 0%,
+      rgb(var(--preto-rgb) / 0.1) 38%,
+      rgb(var(--preto-rgb) / 0.1) 62%,
+      rgb(var(--preto-rgb) / 0.8) 100%
+    );
+    pointer-events: none;
+  }
+
+  .deslize_conteudo {
+    position: relative;
+    z-index: 2;
+
+    /* O texto não intercepta o toque: quem recebe o clique é o botão que
+       cobre o cartão inteiro, embaixo. Sem isto, tocar no nome do modelo não
+       abriria a ficha, e é justo no nome que a pessoa toca. */
+    pointer-events: none;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.75rem;
+    text-align: center;
+  }
+
+  /*
+    O TEXTO DE CIMA NÃO ENCOSTA NO BOTÃO DE PROVAR.
+
+    O botão fica no canto superior direito, e a descrição é centralizada: sem
+    esta largura máxima, uma descrição de linha cheia passava POR BAIXO dele e
+    a última palavra ficava ilegível. Apareceu no celular, com "Decote V com
+    manga fluida em tule".
+
+    Máximo com margem automática, e não `padding-right`: o padding sozinho
+    empurraria o texto para a esquerda e ele deixaria de estar centralizado no
+    cartão. Assim ele encolhe dos dois lados e continua no eixo.
+  */
+  .deslize_topo {
+    max-width: calc(100% - 4rem);
+    margin-inline: auto;
+  }
+
+  /*
+    O código no rodapé do cartão, entre colchetes.
+
+    É o eco direto das coordenadas da referência, e aqui a analogia é honesta:
+    lá o número diz onde o acampamento fica, aqui diz qual peça pedir na
+    prova. Nos dois casos é o dado seco que a pessoa copia.
+  */
+  .deslize_codigo {
+    font-family: var(--font-corpo);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-luxo);
+    text-transform: uppercase;
+  }
+
+  /* Painel de abertura: título colossal e a coluna do que está incluído. */
+  .deslize_abertura {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* ------------------------------------------------------------------------
+     NO CELULAR, UM VESTIDO POR TELA
+     ------------------------------------------------------------------------
+     O deslize agora existe no telefone também, e ali ele muda de forma.
+
+     A medida do cartão inverte: no desktop manda a ALTURA (66svh, e a largura
+     sai da proporção); aqui manda a LARGURA, porque a tela é estreita e é ela
+     que aperta. Mantivesse 3:4 a partir da altura, o cartão sairia mais largo
+     que o telefone.
+
+     E a proporção afrouxa de 3:4 para 0,62. Não é capricho: com 3:4 num
+     aparelho de 375 por 812, o cartão daria 335 por 447 e sobrariam trezentos
+     e tantos pixels de fundo preto em volta, o que faz a peça parecer pequena
+     justamente quando ela deveria ocupar a tela.
+     ------------------------------------------------------------------------ */
+  @media (max-width: 1023px) {
+    .deslize_painel--peca {
+      padding-right: 0;
+    }
+
+    .deslize_cartao {
+      height: auto;
+      width: calc(var(--tela, 100vw) - 2.5rem);
+      margin-inline: 1.25rem;
+      aspect-ratio: 0.62;
+    }
+
+    .deslize_conteudo {
+      padding: 1.25rem;
+    }
+  }
+}
+
+/* ==========================================================================
+   A FAIXA DE MARCAS
+   --------------------------------------------------------------------------
+   Logotipos passando devagar, esmaecendo nas duas pontas. A mecânica está em
+   components/FaixaMarcas; aqui mora a aparência e o laço.
+   ========================================================================== */
+@layer components {
+  .faixa-marcas {
+    position: relative;
+    overflow: hidden;
+
+    /*
+      O tom sai daqui e desce pelo `currentColor` de cada logotipo.
+
+      Estava em cinza, com o argumento de que a faixa é prova e não manchete.
+      O argumento era bom e a conclusão estava errada: representar cinco marcas
+      é o item de autoridade mais forte deste trecho, e rebaixado ele passava
+      como rodapé de patrocinador. Em preto, ele é lido.
+    */
+    color: var(--preto);
+
+    /*
+      O esmaecimento das pontas é MÁSCARA, e não dois degradês por cima.
+
+      Degradê chapado só funciona sobre fundo de cor conhecida: bastaria a
+      faixa mudar de seção, ou nascer sobre uma foto, e apareceriam duas
+      manchas claras nas bordas. A máscara apaga o pixel de verdade, então
+      funciona sobre qualquer fundo.
+
+      12% de cada lado: o suficiente para o logotipo sumir gradualmente em vez
+      de ser cortado ao meio pela borda, que é o que denuncia carrossel.
+    */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  .faixa-marcas_trilho {
+    display: flex;
+    width: max-content;
+
+    /*
+      17s para uma volta, e a calibragem levou quatro tentativas.
+
+      34s parecia parada. 18s ainda passava despercebida. 11s ficou rápido
+      demais, mas o que mudou entre esses dois foi mais o TAMANHO que o tempo:
+      com os logotipos em 1,75, a mesma duração passou a mover objetos quase
+      duas vezes maiores, e o mesmo relógio virou o dobro da velocidade
+      aparente.
+
+      Nos 17s daqui a faixa anda uns 88 pixels por segundo, e um logotipo leva
+      pouco mais de dois segundos para atravessar a própria largura. É deriva,
+      não desfile.
+    */
+    animation: faixa-marcas 17s linear infinite;
+    will-change: transform;
+  }
+
+  .faixa-marcas_trilho.esta-parada {
+    animation-play-state: paused;
+  }
+
+  /*
+    Para no hover do mouse também.
+
+    Não substitui o botão, que é o que serve a quem usa toque ou teclado: é
+    cortesia para quem quer ler um nome sem perseguir a palavra com o olho.
+  */
+  @media (hover: hover) and (pointer: fine) {
+    .faixa-marcas:hover .faixa-marcas_trilho {
+      animation-play-state: paused;
+    }
+  }
+
+  .faixa-marcas_fileira {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /*
+    O RESPIRO É PADDING, E NÃO GAP.
+
+    Com `gap`, metade do trilho não é uma cópia inteira da lista: é uma cópia
+    menos meio vão. O laço fecha meio espaço adiantado e a faixa dá um tranco
+    a cada volta, pequeno o bastante para parecer defeito de desempenho e não
+    de cálculo. Com o respiro dentro do item, metade do trilho é exatamente
+    uma cópia.
+  */
+  .faixa-marcas_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 1.75rem;
+    flex-shrink: 0;
+  }
+
+  /*
+    O logotipo é um retângulo de cor recortado por uma máscara.
+
+    O arquivo não tem cor, só alfa. Ver scripts/marcas.mjs para o porquê: os
+    originais vieram com fundo branco, fundo bege e um deles em laranja, e
+    como imagem eles nunca conviveriam numa fileira só.
+  */
+  .faixa-marcas_logo {
+    display: block;
+
+    /*
+      A ESCALA É O QUE DESTACA A FAIXA.
+
+      Multiplica as larguras calibradas uma a uma, e por isso não estraga o
+      equilíbrio entre elas: todas crescem na mesma proporção, e o número por
+      marca continua sendo o do dado, ver MARCAS em autoridade.ts.
+
+      1,75 põe a altura de caixa alta dos logotipos por volta de 35px, que é
+      corpo de título e não de rótulo. Foi por aqui que a faixa ganhou peso,
+      depois de eu ter tentado o caminho errado: escurecer o fundo atrás dela.
+      Fundo diferente destaca o RETÂNGULO; tamanho destaca as marcas.
+    */
+    width: calc(var(--largura) * var(--escala-marca, 1.75));
+    aspect-ratio: var(--proporcao);
+    background-color: currentColor;
+
+    -webkit-mask-image: var(--mascara);
+    mask-image: var(--mascara);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  /*
+    No celular, três quartos do tamanho.
+
+    As larguras foram calibradas para a tela larga. A My Vintage Dress tem
+    205px, mais da metade de um telefone de 360: nesse tamanho ela deixa de
+    ser um logotipo numa fileira e vira um título.
+  */
+  @media (max-width: 767px) {
+    .faixa-marcas_item {
+      padding-inline: 1.5rem;
+    }
+
+    .faixa-marcas_logo {
+      /* A My Vintage Dress é a mais larga das cinco e, em 1,75 num aparelho de
+         375px, ela sozinha ocupava a tela inteira e a faixa deixava de ser
+         faixa. 1,25 mantém o ganho e ainda deixa duas marcas convivendo. */
+      --escala-marca: 1.25;
+    }
+  }
+
+  @keyframes faixa-marcas {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    /*
+      Metade do trilho, que é exatamente uma cópia da lista. Nesse instante a
+      segunda cópia está no lugar onde a primeira começou, e voltar a zero não
+      aparece.
+    */
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+}
+
+/*
+  Sem movimento, sem faixa.
+
+  O componente já devolve a versão parada quando o sistema pede menos
+  movimento, e esta regra é a segunda barreira, independente do JavaScript: se
+  a animação chegasse a existir, ela para aqui.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .faixa-marcas_trilho {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   TIPOGRAFIA DE PAPÉIS
+   --------------------------------------------------------------------------
+   Três papéis, duas famílias. A referência usa três fontes (serifada de
+   display, condensada de rótulo e sem serifa de corpo); aqui a condensada não
+   entra, porque a marca da Danielli tem duas famílias e uma terceira custaria
+   peso de fonte para dizer o que a Montserrat em caixa alta com entreletra
+   larga já diz.
+
+   1. DISPLAY, Cormorant em caixa alta. Título e abertura.
+   2. ITÁLICO, Cormorant em itálico e caixa baixa. A voz da casa.
+   3. RÓTULO, Montserrat em caixa alta com entreletra. Dado, código, medida.
+   4. CORPO, Montserrat. Tudo o que se lê de verdade.
+   ========================================================================== */
+@layer components {
+  /*
+    O itálico é o achado da referência, e é o que mais rende aqui.
+
+    Uma serifada em itálico e caixa baixa, no meio de uma página inteira em
+    caixa alta, soa como alguém falando. É onde a apresentação para de
+    apresentar e a Danielli diz uma frase. Por isso é raro: uma por bloco, no
+    máximo.
+  */
+  .t-italico {
+    @apply font-display font-light italic text-preto;
+    font-size: var(--fs-h3);
+    line-height: 1.25;
+    letter-spacing: 0;
+    text-transform: none;
+    text-wrap: balance;
+  }
+
+  .t-italico-g {
+    @apply t-italico;
+    font-size: var(--fs-display-sm);
+    line-height: 1.15;
+  }
+
+  /*
+    A PALAVRA GRANDE
+    ----------------
+    O `min()` é o que impede o estouro. A variável `--letras` chega do
+    componente com o número de caracteres, e o segundo termo divide a largura
+    disponível por esse número: a palavra ocupa a linha inteira e nunca passa
+    dela, seja "NOIVAS" com seis letras ou "MADRINHAS" com nove.
+
+    A medida é `cqw`, e não `vw`, de propósito. `vw` inclui a barra de rolagem
+    e mede a JANELA, não o container: qualquer margem lateral viraria estouro
+    horizontal. `cqw` mede o pai, que é exatamente o espaço que existe.
+
+    O 0.69 é a largura de uma maiúscula da Cormorant, medida no navegador e
+    com folga por cima. A média muda de palavra para palavra, e as três da
+    apresentação provam: "NOIVAS" deu 0,618em por letra, "NOIVOS" 0,639 (dois
+    O, e o O é largo) e "MADRINHAS" 0,674 (o M é o mais largo do alfabeto).
+    Cada valor que testei estourou a coluna na palavra seguinte.
+
+    O número é o TETO da família, não a média dela, e o preço é que palavra de
+    letra estreita deixa uns 10% de linha sobrando. Estourar seria pior.
+
+    Trocar a fonte de display obriga a medir de novo.
+  */
+  .texto-colosso {
+    @apply font-display font-light uppercase;
+    font-size: min(var(--fs-colosso), calc(100cqw / (var(--letras, 8) * 0.69)));
+    line-height: 0.85;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .caixa-colosso {
+    container-type: inline-size;
+  }
+
+  /*
+    O VÉU DA CAPA
+    -------------
+    Quatro paradas, e cada uma existe por um motivo medido, não escolhido no
+    olho:
+
+      0%    70%  o alto carrega a marca e a saudação em branco, e foto de
+                 noiva é CLARA justamente ali. Sem isto o texto some no
+                 vestido, que foi o que aconteceu na primeira tentativa.
+      34%   14%  o véu abre. É a única faixa em que a foto aparece como foto,
+                 e é o que a capa existe para mostrar.
+      52%   18%
+      100%  92%  o rodapé carrega a palavra colossal, o parágrafo e o botão.
+                 Uma palavra desse tamanho só funciona chapada: qualquer
+                 detalhe do vestido atravessando a letra estraga o efeito.
+
+    Texto em branco sobre 70% de preto rende cerca de 8:1 mesmo sobre a parte
+    mais clara do vestido. Sobre os 14% do meio renderia 1,8:1, e é por isso
+    que nenhum texto mora lá.
+  */
+  .veu-capa {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--preto-rgb) / 0.7) 0%,
+      rgb(var(--preto-rgb) / 0.14) 34%,
+      rgb(var(--preto-rgb) / 0.18) 52%,
+      rgb(var(--preto-rgb) / 0.92) 100%
+    );
+  }
+
+  /*
+    TEXTO REBAIXADO
+    ---------------
+    Substitui os vários `text-preto/70`, `/75` e `/65` que estavam espalhados,
+    cada um escolhido no olho. Um valor só, e ele funciona tanto sobre claro
+    quanto sobre escuro porque mexe em opacidade, não em cor.
+  */
+  .rebaixado {
+    opacity: 0.62;
+  }
+
+  .rebaixado-2 {
+    opacity: 0.3;
+  }
+}
+
+/* ==========================================================================
+   FOTO COM VÉU
+   --------------------------------------------------------------------------
+   O escurecimento deixa de ser gradiente escrito à mão em cada componente e
+   passa a ser um número por foto. Serve para o caso real: a mesma moldura
+   recebe hoje uma noiva de vestido branco em luz de meio-dia e amanhã um
+   vestido verde em fundo de folhagem, e os dois não pedem o mesmo véu.
+   ========================================================================== */
+@layer components {
+  .foto-veu {
+    position: relative;
+  }
+
+  .foto-veu::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgb(var(--preto-rgb) / var(--veu, 0));
+    pointer-events: none;
   }
 }
 

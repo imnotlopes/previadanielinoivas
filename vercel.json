@@ -1,21 +1,72 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
-    { "source": "/", "destination": "/noivas", "permanent": false },
-    { "source": "/catalogo", "destination": "/noivas", "permanent": false },
-    { "source": "/catalogo/:caminho*", "destination": "/noivas", "permanent": false },
-    { "source": "/festa", "destination": "/madrinhas", "permanent": false },
-    { "source": "/festa/:caminho*", "destination": "/madrinhas", "permanent": false }
+    {
+      "source": "/",
+      "destination": "/noivas",
+      "permanent": false
+    },
+    {
+      "source": "/catalogo",
+      "destination": "/noivas",
+      "permanent": false
+    },
+    {
+      "source": "/catalogo/:caminho*",
+      "destination": "/noivas",
+      "permanent": false
+    },
+    {
+      "source": "/festa",
+      "destination": "/noivas",
+      "permanent": false
+    },
+    {
+      "source": "/festa/:caminho*",
+      "destination": "/noivas",
+      "permanent": false
+    },
+    {
+      "source": "/madrinhas",
+      "destination": "/noivas",
+      "permanent": false
+    },
+    {
+      "source": "/madrinhas/:caminho*",
+      "destination": "/noivas",
+      "permanent": false
+    },
+    {
+      "source": "/noivos",
+      "destination": "/noivas",
+      "permanent": false
+    },
+    {
+      "source": "/noivos/:caminho*",
+      "destination": "/noivas",
+      "permanent": false
+    }
   ],
   "rewrites": [
-    { "source": "/noivas", "destination": "/noivas.html" },
-    { "source": "/noivas/:caminho*", "destination": "/noivas.html" },
-    { "source": "/madrinhas", "destination": "/madrinhas.html" },
-    { "source": "/madrinhas/:caminho*", "destination": "/madrinhas.html" },
-    { "source": "/noivos", "destination": "/noivos.html" },
-    { "source": "/noivos/:caminho*", "destination": "/noivos.html" },
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/admin/:caminho*", "destination": "/admin.html" },
-    { "source": "/(.*)", "destination": "/noivas.html" }
+    {
+      "source": "/noivas",
+      "destination": "/noivas.html"
+    },
+    {
+      "source": "/noivas/:caminho*",
+      "destination": "/noivas.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/admin/:caminho*",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/noivas.html"
+    }
   ]
 }

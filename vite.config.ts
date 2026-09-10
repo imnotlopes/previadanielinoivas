@@ -8,7 +8,7 @@ import { pluginSeo } from './scripts/seo.js'
 /**
  * As quatro peças, e os endereços por onde cada uma responde.
  *
- * Cada peça é um HTML de verdade, com as próprias tags Open Graph — é isso que
+ * Cada peça é um HTML de verdade, com as próprias tags Open Graph, e é isso que
  * dá a cada link um cartão diferente quando a Danielli cola no WhatsApp. O
  * robô que monta o cartão não executa JavaScript, então uma aplicação de
  * página única devolveria o mesmo preview para os três links.
@@ -17,8 +17,6 @@ import { pluginSeo } from './scripts/seo.js'
  */
 const PECAS = [
   { nome: 'noivas', prefixo: '/noivas', arquivo: 'noivas.html' },
-  { nome: 'madrinhas', prefixo: '/madrinhas', arquivo: 'madrinhas.html' },
-  { nome: 'noivos', prefixo: '/noivos', arquivo: 'noivos.html' },
   { nome: 'admin', prefixo: '/admin', arquivo: 'admin.html' },
 ] as const
 
@@ -35,7 +33,17 @@ const PECAS = [
 const APOSENTADAS = [
   { de: '/', para: '/noivas' },
   { de: '/catalogo', para: '/noivas' },
-  { de: '/festa', para: '/madrinhas' },
+  { de: '/festa', para: '/noivas' },
+
+  /*
+    As duas que saíram do produto.
+
+    Redirecionar, e não deixar dar 404: elas existiram no repositório e podem
+    ter sido abertas em pré-visualização. Custa duas linhas e evita que alguém
+    caia num erro no meio de um atendimento.
+  */
+  { de: '/madrinhas', para: '/noivas' },
+  { de: '/noivos', para: '/noivas' },
 ] as const
 
 /**
@@ -44,7 +52,7 @@ const APOSENTADAS = [
  * Em produção quem resolve `/catalogo` → `/catalogo.html` é o `vercel.json`.
  * O servidor do Vite não lê aquele arquivo: sem este plugin, abrir
  * `/catalogo` em desenvolvimento cai no `index.html` e a pessoa vê a
- * apresentação de noiva no lugar do catálogo — sem erro nenhum no console,
+ * apresentação de noiva no lugar do catálogo, sem erro nenhum no console,
  * que é o tipo de divergência entre dev e produção que custa uma tarde.
  *
  * As duas tabelas precisam andar juntas: mexeu em PECAS, mexa no vercel.json.

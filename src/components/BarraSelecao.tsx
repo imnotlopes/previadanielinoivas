@@ -19,9 +19,11 @@ interface BarraSelecaoProps {
  *
  * A MENSAGEM CARREGA A ORIGEM
  * ---------------------------
- * "Vi a apresentação de noivas" contra "de madrinhas e formandas". É o item
- * menos vistoso do produto e o mais útil: sem instalar ferramenta nenhuma de
- * análise, a Danielli lê a primeira linha e sabe de qual link veio o contato.
+ * "Vi a apresentação de noivas" abre a mensagem. É o item menos vistoso do
+ * produto: hoje, com uma apresentação só, ele não separa nada. É também o que
+ * eu não tiraria, porque no dia da segunda a Danielli passa a saber de qual
+ * link veio cada contato sem instalar ferramenta nenhuma de análise, e sem
+ * nenhuma migração.
  *
  * E ela é escrita na primeira pessoa da cliente, porque é a cliente que
  * aperta enviar. Texto em terceira pessoa entrega que foi um sistema que
@@ -57,11 +59,15 @@ export default function BarraSelecao({ apresentacao }: BarraSelecaoProps) {
     marcar não pode voltar na mensagem: criaria conversa sobre algo que não
     existe mais.
 
-    Desta apresentação, porque a seleção mora no navegador e atravessa as
-    três. Sem o filtro, quem passou pela apresentação de noivas e abriu a de
-    madrinhas via a barra com códigos de vestido de noiva, e mandava para a
-    Danielli uma mensagem dizendo "vi a apresentação de madrinhas" com peças
-    de noiva na lista.
+    Desta apresentação, e o filtro fica mesmo havendo uma só. A seleção mora
+    no navegador e não sabe em qual página foi feita: quando existiam três, a
+    barra da apresentação de madrinhas mostrava códigos de vestido de noiva
+    marcados na outra, e mandava para a Danielli uma mensagem dizendo "vi a
+    apresentação de madrinhas" com peça de noiva na lista.
+
+    Hoje o filtro não recorta nada. Tirá-lo devolveria o defeito de graça na
+    primeira vez que uma segunda apresentação nascer, e esse defeito não dá
+    erro nenhum: ele só manda a mensagem errada.
   */
   const noAr = doPublico(visiveis(pecas), apresentacao.publico)
   const escolhidas = codigos

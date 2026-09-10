@@ -13,8 +13,20 @@ interface SecaoTituloProps {
 }
 
 /**
- * Título de seção padronizado: uppercase, tracking 0.18em e um fino
- * filete preto abaixo. Único lugar onde esse ritmo é definido.
+ * Título de seção padronizado: caixa alta, entreletra larga e um filete
+ * dourado abaixo. Único lugar onde esse ritmo é definido.
+ *
+ * A DESCRIÇÃO É EM ITÁLICO, E NÃO EM CORPO
+ * ----------------------------------------
+ * Era um parágrafo comum em Montserrat rebaixado. Virou serifada em itálico
+ * e caixa baixa, que é o papel tipográfico que faltava na apresentação.
+ *
+ * O efeito é o de alguém falando no meio de uma página inteira em caixa alta.
+ * A linha sob o título de seção é justamente onde a Danielli explica em uma
+ * frase o que aquele bloco é, então é ali que a voz dela deve aparecer.
+ *
+ * Como passa por AQUI, a mudança vale para todas as seções de uma vez, e
+ * nenhuma delas precisou ser tocada.
  */
 export default function SecaoTitulo({
   eyebrow,
@@ -37,7 +49,7 @@ export default function SecaoTitulo({
       <span className="filete mt-5" />
 
       {descricao && (
-        <p className={cn('mt-5 max-w-prose text-preto/70', centralizado && 'mx-auto')}>
+        <p className={cn('t-italico mt-6 max-w-[38ch]', centralizado && 'mx-auto')}>
           {descricao}
         </p>
       )}
