@@ -5,6 +5,7 @@ import { identificacao, type Peca } from '../data/pecas'
 import { selosConfirmados } from '../data/selos'
 import { brand } from '../lib/brand'
 import { montarFluxo } from '../lib/fluxo'
+import { mostrarReservados } from '../lib/previa'
 import { useDeslizeHorizontal } from '../lib/movimento'
 import Selos from './Selos'
 
@@ -88,11 +89,12 @@ export default function DeslizeModelos({
   )
 
   /*
-    `import.meta.env.DEV` literal, e não numa constante: é o que deixa o Vite
-    descartar o painel reservado inteiro do build de produção. Ver o mesmo
-    raciocínio em lib/fluxo.ts.
+    Os espaços reservados dos depoimentos aparecem em desenvolvimento e no
+    link de prévia (`?previa`), nunca no link que vai para as noivas. Ver
+    lib/previa.ts.
   */
-  const itens = montarFluxo(pecas, destaques, depoimentos, import.meta.env.DEV)
+  const reservar = mostrarReservados()
+  const itens = montarFluxo(pecas, destaques, depoimentos, reservar)
   if (itens.length === 0) return null
 
   let fotos = 0
@@ -121,7 +123,7 @@ export default function DeslizeModelos({
             if (item.tipo === 'depoimento') {
               return <PainelDepoimento key={item.chave} depoimento={item.depoimento} />
             }
-            return import.meta.env.DEV ? <PainelReservado key={item.chave} /> : null
+            return reservar ? <PainelReservado key={item.chave} /> : null
           })}
 
           <Fecho />
@@ -350,7 +352,11 @@ function PainelDetalhe({ imagem }: { imagem: ImagemDoDepoimento }) {
 }
 
 /**
- * O lugar de um depoimento que ainda não chegou. Só existe em `npm run dev`.
+ * O lugar de um depoimento que ainda não chegou.
+ *
+ * Aparece em desenvolvimento e no link de prévia, para a Danielli ver o
+ * ritmo da página. Por isso o texto fala com ela, e não com quem programa:
+ * diz o que entra aqui e o que ela precisa mandar.
  *
  * Tracejado e dizendo o que é, para ninguém confundir com conteúdo. Some
  * sozinho a cada depoimento cadastrado em data/depoimentos.ts.
@@ -361,15 +367,15 @@ function PainelReservado() {
       <figure className="deslize_depoimento border border-dashed border-branco/40 p-8">
         <span className="filete-claro" />
         <p className="t-italico mt-7 text-branco rebaixado">
-          “Aqui entra a fala de uma noiva, do jeito que ela escreveu.”
+          “Aqui entra o depoimento de uma noiva, do jeito que ela escreveu.”
         </p>
         <p className="mt-7 font-display text-h6 uppercase tracking-luxo text-branco rebaixado">
-          Depoimento
+          Espaço para depoimento
         </p>
         <p className="mt-5 text-sm leading-relaxed text-branco rebaixado">
-          Espaço reservado, só aparece em desenvolvimento. Preencha em
-          src/data/depoimentos.ts: a fala, o nome, e se quiser o print da
-          conversa ou um recorte de detalhe do vestido dela.
+          Pode ser o print da conversa no WhatsApp ou a fala dela escrita. Se
+          souber qual vestido ela usou, a foto dele entra logo antes. Este quadro
+          só aparece no link de prévia: as noivas não veem.
         </p>
       </figure>
     </div>

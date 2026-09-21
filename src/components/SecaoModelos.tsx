@@ -3,6 +3,7 @@ import { depoimentos } from '../data/depoimentos'
 import { identificacao, type Peca } from '../data/pecas'
 import { selosConfirmados } from '../data/selos'
 import { montarFluxo, type ItemDoFluxo } from '../lib/fluxo'
+import { mostrarReservados } from '../lib/previa'
 import { movimentoReduzido, useTelaLarga } from '../lib/movimento'
 import DeslizeModelos from './DeslizeModelos'
 import Revelar from './Revelar'
@@ -82,7 +83,7 @@ export default function SecaoModelos({ pecas, destaques, vazio }: SecaoModelosPr
     )
   }
 
-  const itens = montarFluxo(pecas, destaques, depoimentos, import.meta.env.DEV)
+  const itens = montarFluxo(pecas, destaques, depoimentos, mostrarReservados())
 
   return (
     <section className="border-t border-borda-sutil bg-branco">
@@ -179,14 +180,22 @@ function FluxoEmpilhado({ itens }: { itens: ItemDoFluxo[] }) {
           )
         }
 
-        return import.meta.env.DEV ? (
+        // Só chega aqui um item reservado quando `mostrarReservados()` deixou.
+        return (
           <div
             key={item.chave}
-            className="border border-dashed border-borda p-8 text-center text-sm text-cinza"
+            className="border border-dashed border-borda p-8 text-center text-sm leading-relaxed text-cinza"
           >
-            Depoimento: espaço reservado, só em desenvolvimento.
+            <p className="t-italico text-preto">
+              Aqui entra o depoimento de uma noiva, do jeito que ela escreveu.
+            </p>
+            <p className="mt-4">
+              Pode ser o print da conversa no WhatsApp ou a fala dela escrita. Se
+              souber qual vestido ela usou, a foto dele entra logo antes. Este quadro
+              só aparece no link de prévia: as noivas não veem.
+            </p>
           </div>
-        ) : null
+        )
       })}
     </div>
   )
