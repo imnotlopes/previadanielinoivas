@@ -1,4 +1,4 @@
-import { selos } from '../data/selos'
+import { selosConfirmados } from '../data/selos'
 import { cn } from '../lib/utils'
 
 interface SelosProps {
@@ -29,7 +29,7 @@ interface SelosProps {
  * promessa e precisa ser confirmado antes de publicar.
  */
 export default function Selos({ publico = 'noiva', claro = false }: SelosProps) {
-  if (selos.length === 0) return null
+  if (selosConfirmados.length === 0) return null
 
   return (
     <ul
@@ -38,7 +38,7 @@ export default function Selos({ publico = 'noiva', claro = false }: SelosProps) 
         claro ? 'border-branco/25' : 'border-borda',
       )}
     >
-      {selos.map((selo) => {
+      {selosConfirmados.map((selo) => {
         const Icone = selo.icone
         return (
           <li key={selo.titulo} className="flex gap-3">

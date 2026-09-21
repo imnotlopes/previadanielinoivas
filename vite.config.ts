@@ -17,7 +17,6 @@ import { pluginSeo } from './scripts/seo.js'
  */
 const PECAS = [
   { nome: 'noivas', prefixo: '/noivas', arquivo: 'noivas.html' },
-  { nome: 'admin', prefixo: '/admin', arquivo: 'admin.html' },
 ] as const
 
 /**

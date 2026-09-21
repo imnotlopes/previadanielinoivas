@@ -1,4 +1,4 @@
-import { ATENDE, IMPORTADOS, anosDeCasa } from '../data/autoridade'
+import { IMPORTADOS, PARA_A_NOIVA, PARA_O_CASAMENTO, anosDeCasa } from '../data/autoridade'
 import { videoAtelier } from '../data/videos'
 import FaixaMarcas from './FaixaMarcas'
 import Revelar from './Revelar'
@@ -46,21 +46,33 @@ export default function SecaoAutoridade() {
             <Revelar atraso={80}>
               <span className="eyebrow block">O ateliê</span>
               <h2 className="mt-4 texto-display-sm uppercase tracking-luxo">
-                No mercado desde 2004
+                Vestindo noivas desde 2004
               </h2>
               <span className="filete mt-7" />
             </Revelar>
 
+            {/*
+              Três frases que contam, no lugar de uma que listava. A primeira
+              diz há quanto tempo e para quem; a segunda, o que a noiva ganha
+              além do vestido; a terceira, que o casamento inteiro dela cabe
+              aqui. O argumento é da Danielli, ver PARA_A_NOIVA.
+            */}
             <Revelar atraso={160}>
-              <p className="mt-8 max-w-lg text-preto/75">
-                São {anos} anos vestindo {listar(ATENDE)}, incluindo formatura
-                de alto padrão.
-              </p>
+              <div className="mt-8 max-w-lg space-y-5 text-preto/75">
+                <p>São {anos} anos atendendo noivas daqui e da região.</p>
+                <p>
+                  E não é só o vestido. {maiuscula(listar(PARA_A_NOIVA))}: tudo o
+                  que você vai precisar no dia está aqui dentro.
+                </p>
+                <p>
+                  Dá para vestir o casamento inteiro com a gente: {listar(PARA_O_CASAMENTO)}.
+                </p>
+              </div>
             </Revelar>
 
             <Revelar atraso={230}>
               <p className="mt-8 text-sm text-preto rebaixado">
-                Além de peças importadas da {IMPORTADOS}.
+                E algumas peças chegam direto da {IMPORTADOS}.
               </p>
             </Revelar>
           </div>
@@ -97,4 +109,8 @@ export default function SecaoAutoridade() {
 function listar(itens: readonly string[]): string {
   if (itens.length < 2) return itens[0] ?? ''
   return `${itens.slice(0, -1).join(', ')} e ${itens[itens.length - 1]}`
+}
+
+function maiuscula(texto: string): string {
+  return texto.charAt(0).toUpperCase() + texto.slice(1)
 }

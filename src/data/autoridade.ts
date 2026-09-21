@@ -118,15 +118,26 @@ export const SEM_LOGOTIPO = ['MD Noivas'] as const
 export const IMPORTADOS = 'Turquia'
 
 /**
- * Quem o ateliê veste.
+ * TUDO PARA O CASAMENTO DELA.
  *
- * Inclui formatura de alto padrão de propósito: é o público que a Danielli
- * atende e que ninguém supõe que ela atenda.
+ * Da Danielli, no áudio de setembro de 2026: "tudo que a noiva vai precisar
+ * pro casamento, o porta-aliança, a tiara, o véu, o acessório do cabelo, tudo
+ * ela vai ter aqui dentro". E, na mesma fala, os ternos do pai, do noivo e dos
+ * padrinhos, as madrinhas, as damas.
+ *
+ * Substituiu a lista de públicos ("noivas, madrinhas, padrinhos, mães e
+ * formandas"). Aquela era informação: dizia à noiva que a loja atende muita
+ * gente. Esta é história contada do ponto de vista dela: o casamento inteiro
+ * dela pode sair daqui. Formatura de alto padrão, que a lista antiga fazia
+ * questão de citar, volta na apresentação de trajes femininos, que é onde a
+ * formanda vai estar.
  */
-export const ATENDE = [
-  'noivas',
-  'madrinhas',
-  'padrinhos',
-  'mães',
-  'formandas',
+export const PARA_A_NOIVA = ['o véu', 'a tiara', 'o enfeite do cabelo', 'o sapato', 'o porta-aliança'] as const
+
+export const PARA_O_CASAMENTO = [
+  'o noivo',
+  'o seu pai',
+  'os padrinhos',
+  'as madrinhas',
+  'as damas',
 ] as const

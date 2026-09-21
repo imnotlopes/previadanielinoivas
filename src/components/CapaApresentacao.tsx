@@ -3,7 +3,6 @@ import type { CSSProperties } from 'react'
 import type { Apresentacao } from '../data/apresentacoes'
 import { brand } from '../lib/brand'
 import { cn } from '../lib/utils'
-import BotaoWhatsapp from './BotaoWhatsapp'
 import Revelar from './Revelar'
 
 interface CapaApresentacaoProps {
@@ -40,8 +39,7 @@ interface CapaApresentacaoProps {
  * que a página trata, e quem lê com os olhos vê a mesma hierarquia desenhada.
  */
 export default function CapaApresentacao({ apresentacao, nome }: CapaApresentacaoProps) {
-  const { capa, palavra, saudacao, posicionamento, origem } = apresentacao
-  const mensagem = `Oi Danielli! Vi ${origem} e queria conversar.`
+  const { capa, palavra, saudacao, posicionamento } = apresentacao
   const abertura = nome ? `${nome}, ${saudacao.toLowerCase()}` : saudacao
 
   /*
@@ -68,9 +66,6 @@ export default function CapaApresentacao({ apresentacao, nome }: CapaApresentaca
               <p className="t-italico-g">{abertura}</p>
               <span className="filete mt-7" />
               <p className="mt-7 max-w-md text-preto rebaixado">{posicionamento}</p>
-              <div className="mt-9">
-                <BotaoWhatsapp mensagem={mensagem}>Falar no WhatsApp</BotaoWhatsapp>
-              </div>
             </Revelar>
           </div>
         </div>
@@ -133,10 +128,9 @@ export default function CapaApresentacao({ apresentacao, nome }: CapaApresentaca
       </div>
 
       {/*
-        FAIXA DE BAIXO: o que fazer, e para quem é.
+        FAIXA DE BAIXO: para quem é.
 
-        O parágrafo e o botão descem para cá pelo mesmo motivo do texto de
-        cima: o véu chega a 92% no rodapé. E a palavra fica por último, colada
+        O parágrafo desce para cá pelo mesmo motivo do texto de cima: o véu chega a 92% no rodapé. E a palavra fica por último, colada
         na borda, porque é ela que ancora a folha.
       */}
       <div className="relative">
@@ -144,12 +138,6 @@ export default function CapaApresentacao({ apresentacao, nome }: CapaApresentaca
           <div className="col-5">
             <Revelar atraso={220}>
               <p className="text-branco rebaixado">{posicionamento}</p>
-
-              <div className="mt-7">
-                <BotaoWhatsapp variante="claro" mensagem={mensagem}>
-                  Falar no WhatsApp
-                </BotaoWhatsapp>
-              </div>
             </Revelar>
           </div>
         </div>

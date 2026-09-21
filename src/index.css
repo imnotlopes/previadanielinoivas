@@ -593,6 +593,39 @@
   }
 
   /*
+    O PAINEL DO DEPOIMENTO.
+
+    Mais estreito que a tela e mais largo que o cartão: é texto, e texto em
+    itálico grande pede uma medida de leitura, algo entre 20 e 30 caracteres
+    por linha. Largo demais, a fala vira faixa; estreito demais, vira coluna de
+    jornal e a pessoa lê uma palavra por linha.
+
+    O vão à direita é o mesmo do cartão, para o ritmo entre os painéis não
+    mudar quando a sequência alterna de foto para fala.
+  */
+  .deslize_painel--depoimento {
+    width: min(34rem, 60vw);
+    padding-right: 2.5rem;
+  }
+
+  .deslize_depoimento {
+    display: flex;
+    max-height: 86svh;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+  }
+
+  /* O print pequeno e inteiro, acima da fala. Ver ImagemPrint. */
+  .deslize_print {
+    width: auto;
+    max-width: 13rem;
+    max-height: 38svh;
+    margin-bottom: 2rem;
+    object-fit: contain;
+  }
+
+  /*
     O CARTÃO.
 
     Retrato, e não paisagem como na referência: lá o assunto é um acampamento
@@ -663,23 +696,6 @@
   }
 
   /*
-    O TEXTO DE CIMA NÃO ENCOSTA NO BOTÃO DE PROVAR.
-
-    O botão fica no canto superior direito, e a descrição é centralizada: sem
-    esta largura máxima, uma descrição de linha cheia passava POR BAIXO dele e
-    a última palavra ficava ilegível. Apareceu no celular, com "Decote V com
-    manga fluida em tule".
-
-    Máximo com margem automática, e não `padding-right`: o padding sozinho
-    empurraria o texto para a esquerda e ele deixaria de estar centralizado no
-    cartão. Assim ele encolhe dos dois lados e continua no eixo.
-  */
-  .deslize_topo {
-    max-width: calc(100% - 4rem);
-    margin-inline: auto;
-  }
-
-  /*
     O código no rodapé do cartão, entre colchetes.
 
     É o eco direto das coordenadas da referência, e aqui a analogia é honesta:
@@ -721,6 +737,12 @@
   @media (max-width: 1023px) {
     .deslize_painel--peca {
       padding-right: 0;
+    }
+
+    /* No celular a fala ocupa a tela, como o cartão, com respiro dos lados. */
+    .deslize_painel--depoimento {
+      width: var(--tela, 100vw);
+      padding-inline: 1.75rem;
     }
 
     .deslize_cartao {

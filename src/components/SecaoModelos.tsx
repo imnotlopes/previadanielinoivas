@@ -1,19 +1,23 @@
-import type { Peca } from '../data/pecas'
+import { depoimentos } from '../data/depoimentos'
+import { identificacao, type Peca } from '../data/pecas'
+import { selosConfirmados } from '../data/selos'
+import { montarFluxo, type ItemDoFluxo } from '../lib/fluxo'
 import { movimentoReduzido, useTelaLarga } from '../lib/movimento'
 import DeslizeModelos from './DeslizeModelos'
-import GradePecas from './GradePecas'
 import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
 import Selos from './Selos'
 
 interface SecaoModelosProps {
   pecas: Peca[]
+  /** As cinco fotos escolhidas, ver `destaques` em data/apresentacoes.ts. */
+  destaques: readonly string[]
   /** Some quando não há peça. Ex.: a Danielli ocultou o acervo inteiro. */
   vazio?: string
 }
 
 /** A frase de amostra. Uma só, porque as duas montagens dizem o mesmo. */
-const AMOSTRA = 'Uma amostra do acervo. No ateliê tem muito mais, e é lá que dá para provar.'
+const AMOSTRA = 'Só um pouquinho do acervo. O resto você vê de perto, no provador.'
 
 /**
  * OS MODELOS E AS GARANTIAS, EM DUAS MONTAGENS.
@@ -51,12 +55,21 @@ const AMOSTRA = 'Uma amostra do acervo. No ateliê tem muito mais, e é lá que 
  * A troca é em JavaScript e não em media query porque as duas montagens
  * ficariam no HTML e o navegador baixaria as fotos das duas.
  */
-export default function SecaoModelos({ pecas, vazio }: SecaoModelosProps) {
+export default function SecaoModelos({ pecas, destaques, vazio }: SecaoModelosProps) {
   const telaLarga = useTelaLarga()
 
   if (!movimentoReduzido() && pecas.length > 0) {
-    return <DeslizeModelos pecas={pecas} amostra={AMOSTRA} estreita={!telaLarga} />
+    return (
+      <DeslizeModelos
+        pecas={pecas}
+        destaques={destaques}
+        amostra={AMOSTRA}
+        estreita={!telaLarga}
+      />
+    )
   }
+
+  const itens = montarFluxo(pecas, destaques, depoimentos, import.meta.env.DEV)
 
   return (
     <section className="border-t border-borda-sutil bg-branco">
@@ -65,8 +78,8 @@ export default function SecaoModelos({ pecas, vazio }: SecaoModelosProps) {
           <>
             <Revelar>
               <SecaoTitulo
-                eyebrow="Os modelos"
-                titulo="Alguns do que temos hoje"
+                eyebrow="Os vestidos"
+                titulo="Um pouco do que te espera"
                 descricao={AMOSTRA}
                 centralizado
               />
@@ -81,18 +94,87 @@ export default function SecaoModelos({ pecas, vazio }: SecaoModelosProps) {
               na grade, elas respondem as quatro dúvidas no instante em que a
               pessoa começa a olhar vestido, que é quando as dúvidas nascem.
             */}
-            <Revelar atraso={120}>
-              <div className="mx-auto mt-12 max-w-3xl">
-                <Selos publico="noiva" />
-              </div>
-            </Revelar>
+            {selosConfirmados.length > 0 && (
+              <Revelar atraso={120}>
+                <div className="mx-auto mt-12 max-w-3xl">
+                  <Selos publico="noiva" />
+                </div>
+              </Revelar>
+            )}
           </>
         )}
 
         <div className={pecas.length > 0 ? 'mt-16' : ''}>
-          <GradePecas pecas={pecas} vazio={vazio} />
+          {itens.length > 0 ? (
+            <FluxoEmpilhado itens={itens} />
+          ) : (
+            vazio && <p className="mx-auto max-w-md text-center text-preto/60">{vazio}</p>
+          )}
         </div>
       </div>
     </section>
+  )
+}
+
+/**
+ * A mesma sequência do deslize, uma coisa embaixo da outra.
+ *
+ * É a montagem de quem pediu menos movimento no sistema. Já foi uma grade de
+ * doze cartões; virou o mesmo fluxo de foto e depoimento, porque a regra da
+ * Danielli (menos foto, mais história) não depende de como a página se move.
+ */
+function FluxoEmpilhado({ itens }: { itens: ItemDoFluxo[] }) {
+  return (
+    <div className="mx-auto flex max-w-2xl flex-col gap-14">
+      {itens.map((item) => {
+        if (item.tipo === 'peca' || item.tipo === 'detalhe') {
+          const src = item.tipo === 'peca' ? item.peca.fotos[0] : item.imagem.src
+          const alt = item.tipo === 'peca' ? identificacao(item.peca) : item.imagem.alt
+          return (
+            <Revelar key={item.chave} distancia="curta">
+              <img
+                src={src}
+                alt={alt}
+                loading="lazy"
+                decoding="async"
+                className="mx-auto aspect-[3/4] w-full max-w-sm object-cover"
+              />
+            </Revelar>
+          )
+        }
+
+        if (item.tipo === 'depoimento') {
+          const { depoimento } = item
+          const print = depoimento.imagem?.tipo === 'print' ? depoimento.imagem : null
+          return (
+            <Revelar key={item.chave} como="blockquote" className="text-center">
+              {print && (
+                <img
+                  src={print.src}
+                  alt={print.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="mx-auto mb-8 max-h-96 w-auto max-w-[13rem] object-contain"
+                />
+              )}
+              <span className="filete mx-auto" />
+              <p className="t-italico mt-7 text-preto">“{depoimento.fala}”</p>
+              <p className="mt-6 font-display text-h6 uppercase tracking-luxo text-preto">
+                {depoimento.autora}
+              </p>
+            </Revelar>
+          )
+        }
+
+        return import.meta.env.DEV ? (
+          <div
+            key={item.chave}
+            className="border border-dashed border-borda p-8 text-center text-sm text-cinza"
+          >
+            Depoimento: espaço reservado, só em desenvolvimento.
+          </div>
+        ) : null
+      })}
+    </div>
   )
 }

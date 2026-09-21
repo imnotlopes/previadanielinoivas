@@ -2,17 +2,23 @@ import { StrictMode, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
-import { LojaProvider } from '../components/LojaProvider'
 import '../index.css'
 
 /**
- * TRÊS APRESENTAÇÕES, UM PAINEL, QUATRO APLICAÇÕES
- * ================================================
+ * UMA APRESENTAÇÃO HOJE, QUATRO DEPOIS
+ * ====================================
  *
  * Cada peça tem o seu HTML de verdade:
  *
  *   noivas.html     Apresentação de noivas
- *   admin.html      Painel, a loja do celular dela
+ *
+ * A Danielli pediu quatro (noiva, trajes femininos, debutante e trajes
+ * masculinos) e a de noiva vem primeiro. As outras entram como HTMLs irmãos
+ * deste, pelo mesmo motivo explicado abaixo.
+ *
+ * O painel /admin saiu em setembro de 2026. Ele gravava as edições só no
+ * `localStorage` de quem editava, então nunca controlou o que a noiva via:
+ * mudar o acervo sempre foi, e continua sendo, editar src/data/ e publicar.
  *
  * ISSO NÃO É ORGANIZAÇÃO DE PASTA, É REQUISITO DE PRODUTO.
  *
@@ -30,20 +36,14 @@ import '../index.css'
  */
 
 /**
- * NAVEGAR ENTRE APRESENTAÇÕES É NAVEGAÇÃO DE VERDADE, NÃO <Link>.
+ * QUANDO VOLTAR A EXISTIR UMA SEGUNDA PEÇA: NAVEGAR ENTRE ELAS É NAVEGAÇÃO DE
+ * VERDADE, NÃO <Link>.
  *
  * Cada uma é uma aplicação separada: o React Router de uma não conhece as
  * rotas da outra. Um `<Link>` para fora da própria peça renderiza a rota
- * curinga dela, e o erro é silencioso.
- *
- * Com uma apresentação e o painel, isto hoje só vale para a ida ao /admin. A
- * regra fica escrita porque o erro que ela evita é mudo, e volta a valer no
- * dia em que existir uma segunda apresentação.
+ * curinga dela, e o erro é silencioso. Hoje não há para onde navegar; a regra
+ * fica escrita porque o erro que ela evita é mudo.
  */
-export const CAMINHOS = {
-  noivas: '/noivas',
-  painel: '/admin',
-} as const
 
 /**
  * Sobe uma peça na `<div id="root">`.
@@ -60,7 +60,7 @@ export function montar(app: ReactNode) {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <BrowserRouter>
-        <LojaProvider>{app}</LojaProvider>
+        {app}
       </BrowserRouter>
     </StrictMode>,
   )

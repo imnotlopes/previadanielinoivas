@@ -57,14 +57,6 @@
       "destination": "/noivas.html"
     },
     {
-      "source": "/admin",
-      "destination": "/admin.html"
-    },
-    {
-      "source": "/admin/:caminho*",
-      "destination": "/admin.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/noivas.html"
     }

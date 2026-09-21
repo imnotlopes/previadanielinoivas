@@ -7,13 +7,11 @@ import Rodape from './Rodape'
  *
  * SEM NAVEGAÇÃO, DE PROPÓSITO
  * ---------------------------
- * Não há menu, não há link para outra apresentação, não há botão flutuante de
- * WhatsApp. Quem abre isto veio de uma conversa e volta para ela: cada saída a
- * mais é uma chance de sair antes do fim.
- *
- * O botão de WhatsApp flutuante saiu por outro motivo também. Ele disputava o
- * mesmo canto com a barra da lista de prova, e a barra é melhor: ela leva os
- * códigos das peças junto, e o botão flutuante manda uma mensagem em branco.
+ * Não há menu, não há link para outra apresentação, não há botão de
+ * WhatsApp, fixo ou solto. Quem abre isto veio de uma conversa e volta para
+ * ela sozinha: botão de "falar no WhatsApp" dentro de um link aberto a partir
+ * do WhatsApp manda a pessoa para onde ela já está, e cada saída a mais é uma
+ * chance de sair antes do fim.
  *
  * E NÃO HÁ MAIS CABEÇALHO
  * -----------------------

@@ -38,14 +38,3 @@ export function IconeYoutube(props: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
-
-export function IconeWhatsapp(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...base} {...props}>
-      {/* Balão de conversa com a cauda à esquerda. */}
-      <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
-      {/* Fone, simplificado para não empastar em tamanho pequeno. */}
-      <path d="M9.4 8.9c-.5.5-.6 1.3-.3 1.9a8 8 0 0 0 4.1 4.1c.6.3 1.4.2 1.9-.3l.6-.6-2-1.6-1 .6a6 6 0 0 1-2.2-2.2l.6-1-1.6-2z" />
-    </svg>
-  )
-}

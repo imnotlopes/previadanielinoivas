@@ -22,10 +22,12 @@ export const brand = {
   instagram: '@atelierdaniellinoivas',
 
   /**
-   * TODO: PREENCHER ANTES DE PUBLICAR.
    * Formato internacional, apenas dígitos: 55 + DDD + número.
-   * Enquanto estiver vazio, todos os botões de WhatsApp do site caem no
-   * Instagram, ver `linkWhatsApp` no fim deste arquivo.
+   *
+   * Nada na apresentação usa este campo hoje. Os botões de WhatsApp saíram em
+   * setembro de 2026, porque quem abre o link já está conversando com a
+   * Danielli no WhatsApp. Enquanto existiram, e com este campo vazio, todos
+   * eles levavam para o Instagram sem ninguém perceber.
    */
   whatsapp: '',
   /** Mesmo número, formatado para leitura. */
@@ -66,20 +68,3 @@ export const SITE_URL = 'https://previadanielinoivas.vercel.app'
 
 /** URL do perfil no Instagram, derivada do @. */
 export const linkInstagram = `https://instagram.com/${brand.instagram.replace(/^@/, '')}`
-
-/**
- * Monta o link de conversa no WhatsApp com mensagem pré-preenchida.
- *
- * Enquanto `brand.whatsapp` estiver vazio, devolve o Instagram: é melhor o
- * botão levar a um canal que existe do que a um `wa.me/` sem número, que abre
- * uma tela de erro do WhatsApp. Assim que o número for preenchido, todos os
- * botões passam a apontar para ele sozinhos.
- *
- * @example
- * linkWhatsApp('Olá! Tenho interesse no vestido Aurora.')
- * // → https://wa.me/5500000000000?text=Ol%C3%A1!%20Tenho%20interesse...
- */
-export function linkWhatsApp(mensagem: string): string {
-  if (!brand.whatsapp) return linkInstagram
-  return `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(mensagem)}`
-}

@@ -16,6 +16,11 @@ export interface Selo {
    * Só preencha nos selos que realmente mudam. Sem isto, vale `detalhe`.
    */
   detalheFesta?: string
+  /**
+   * `true` só depois de a Danielli confirmar que é verdade. Ver o aviso
+   * abaixo; enquanto for `false`, o selo não aparece em lugar nenhum.
+   */
+  confirmado: boolean
 }
 
 /**
@@ -27,30 +32,49 @@ export interface Selo {
  * Melhor três selos verdadeiros que quatro bonitos: apague o que não for
  * verdade em vez de suavizar o texto.
  *
- * Os quatro abaixo são consistentes com o "Como funciona" da home e da página
- * Sobre, mas nasceram da mesma redação de prévia, nenhum foi confirmado com
- * a Danielli.
+ * Os quatro abaixo nasceram de redação de prévia, e nenhum foi confirmado com
+ * a Danielli. Mesmo assim ficaram no ar, indo para noivas de verdade, até
+ * setembro de 2026.
+ *
+ * DESLIGADOS ATÉ A CONFIRMAÇÃO
+ * ----------------------------
+ * Agora cada selo tem `confirmado`, e todos começam em `false`. A pergunta já
+ * foi feita a ela; quando a resposta chegar:
+ *
+ *   - é verdade: vire `confirmado` para `true`, e o selo aparece sozinho;
+ *   - é verdade com outra redação: corrija o texto e vire para `true`;
+ *   - não é verdade: apague o selo.
+ *
+ * Com nenhum confirmado, o bloco "O que está incluído" inteiro some, e no
+ * celular o painel dele sai da sequência.
  */
 export const selos: Selo[] = [
   {
     icone: CalendarCheck,
     titulo: 'Prova com hora marcada',
     detalhe: 'Atendimento individual, sem fila e sem pressa.',
+    confirmado: false,
   },
   {
     icone: Scissors,
     titulo: 'Ajuste no seu corpo',
     detalhe: 'Incluído no aluguel, feito antes de você levar.',
+    confirmado: false,
   },
   {
     icone: CalendarHeart,
     titulo: 'Data reservada',
     detalhe: 'O vestido fica bloqueado para o dia do seu casamento.',
     detalheFesta: 'O vestido fica bloqueado para o dia da sua festa.',
+    confirmado: false,
   },
   {
     icone: Sparkles,
     titulo: 'Devolução sem lavar',
     detalhe: 'Traga como está. Da higienização cuidamos nós.',
+    confirmado: false,
   },
 ]
+
+/** Só o que a Danielli já confirmou. É esta lista que a página usa. */
+export const selosConfirmados = selos.filter((selo) => selo.confirmado)

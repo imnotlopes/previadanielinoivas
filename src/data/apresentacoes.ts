@@ -25,12 +25,14 @@ import type { Publico } from './pecas'
  *
  * O QUE MORA AQUI, E POR QUÊ
  * --------------------------
- * Só o que seria diferente entre uma apresentação e outra. A mecânica (grade,
- * overlay, seleção, mensagem) vive nos componentes.
+ * Só o que seria diferente entre uma apresentação e outra. A mecânica vive
+ * nos componentes.
  *
- * A frase de origem é o item menos vistoso e o mais importante: é ela que faz
- * a Danielli saber de qual link veio cada contato, sem instalar ferramenta
- * nenhuma de análise.
+ * Havia aqui uma frase de origem ("Vi a apresentação de noivas") que ia
+ * dentro da mensagem de WhatsApp pré-escrita, para a Danielli saber de qual
+ * link veio o contato. Saiu com os botões: a noiva já está na conversa quando
+ * abre o link, então a Danielli sabe de onde ela veio porque foi ela quem
+ * mandou.
  */
 export interface Apresentacao {
   publico: Publico
@@ -81,50 +83,60 @@ export interface Apresentacao {
   posicionamento: string
 
   /**
-   * Como a mensagem de WhatsApp se apresenta.
+   * As cinco fotos da sequência de modelos, na ordem em que aparecem.
    *
-   * "Vi a apresentação de noivas" é o carimbo de origem na mensagem que chega
-   * para a Danielli. Com uma apresentação só ele não separa nada ainda, e é
-   * exatamente por isso que continua aqui: no dia da segunda, os contatos já
-   * chegam separados desde a primeira mensagem, sem migração nenhuma.
+   * Escolhidas a dedo, e não as cinco primeiras da ordem do acervo, porque o
+   * critério aqui é outro: a Danielli pediu detalhe e curiosidade, e não
+   * vestido inteiro de frente. Cidade pequena, ela atende a região, e a noiva
+   * que já viu o vestido todo chega dizendo "esse eu já vi".
+   *
+   * Um código que sumir do acervo é completado pela ordem normal, ver
+   * `montarFluxo` em lib/fluxo.ts.
    */
-  origem: string
+  destaques: readonly string[]
 
   /** Quando não há peça visível ainda. Some quando houver. */
   semPecas?: string
 }
-
-/**
- * QUANTAS PEÇAS CADA APRESENTAÇÃO MOSTRA.
- *
- * O acervo tem 40 vestidos de noiva. Mostrar os 40 transformaria a
- * apresentação de volta em catálogo, que é justamente o que ela deixou de
- * ser: quarenta cards sem filtro e sem busca não é amostra, é lista.
- *
- * Doze é o teto do brief e o limite prático de uma leitura de dois minutos no
- * polegar. Quem escolhe QUAIS doze é a Danielli, pelo `destaque` no painel:
- * destacadas primeiro, o resto na ordem do acervo.
- */
-export const PECAS_POR_APRESENTACAO = 12
 
 export const apresentacoes: Apresentacao[] = [
   {
     publico: 'noivas',
     rota: '/noivas',
     titulo: 'Vestidos de noiva',
-    descricao:
-      'Alguns dos modelos do ateliê, com prova com hora marcada, ajuste incluso e a data do seu casamento reservada.',
+    /*
+      É o texto do cartão que o WhatsApp monta quando a Danielli cola o link,
+      a primeira coisa que a noiva lê. Antes era uma lista de garantias, e
+      nenhuma delas foi confirmada com a Danielli. Agora é um convite, e está
+      repetido à mão nas tags de noivas.html, porque o robô do WhatsApp não
+      executa JavaScript.
+    */
+    descricao: 'Um pouquinho do nosso ateliê para você conhecer antes de vir provar.',
     capa: {
       largo: '/casamentos/aurora-hero.webp',
       alto: '/casamentos/aurora-hero-alto.webp',
       alt: 'Noiva sentada, de vestido de renda com gola alta e manga longa, no dia do casamento.',
     },
     ogImagem: '/og-noiva.jpg',
+    /*
+      Setembro de 2026, escolhidas olhando as doze lado a lado:
+
+        N-33 Mariana   bordado de perto, olhar baixo: o detalhe mais íntimo
+        N-03 Lorena    renda da manga com o buquê, sorriso aberto
+        N-08 Rafaela   sendo vestida, de coroa: a única que conta o antes
+        N-06 Helena    rosto e o bordado do ombro
+        N-10 Antonia   de costas, saindo pela porta azul: fecha a sequência
+                       logo antes da frase da Danielli
+
+      De fora: a Aurora, porque a capa já é ela (mesma noiva, outra foto); a
+      Malu, vestido inteiro de frente, que é o que a Danielli pediu para
+      evitar; e a Valentina, com cara de foto de catálogo de fornecedor.
+    */
+    destaques: ['N-33', 'N-03', 'N-08', 'N-06', 'N-10'],
     palavra: 'Noivas',
     saudacao: 'Que bom que você chegou até aqui',
     posicionamento:
-      'Separei alguns modelos para você ver. O ateliê tem muito mais, e o melhor é provar.',
-    origem: 'a apresentação de noivas',
+      'Separei um pouquinho do nosso ateliê para você conhecer. O resto é pessoalmente, com calma, do jeito que um vestido de noiva merece.',
   },
 ]
 
