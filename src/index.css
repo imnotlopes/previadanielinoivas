@@ -652,63 +652,6 @@
     transition: transform 700ms var(--ease-suave);
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    .deslize_cartao:hover img {
-      transform: scale(1.04);
-    }
-  }
-
-  /*
-    Véu do cartão, pesado nas pontas e aberto no meio.
-
-    Mesma lógica da capa: o texto mora onde o véu é forte, e a faixa central
-    fica limpa porque é ali que o vestido aparece. Sem isso, o nome do modelo
-    em branco sobre renda branca some.
-  */
-  .deslize_cartao::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgb(var(--preto-rgb) / 0.75) 0%,
-      rgb(var(--preto-rgb) / 0.1) 38%,
-      rgb(var(--preto-rgb) / 0.1) 62%,
-      rgb(var(--preto-rgb) / 0.8) 100%
-    );
-    pointer-events: none;
-  }
-
-  .deslize_conteudo {
-    position: relative;
-    z-index: 2;
-
-    /* O texto não intercepta o toque: quem recebe o clique é o botão que
-       cobre o cartão inteiro, embaixo. Sem isto, tocar no nome do modelo não
-       abriria a ficha, e é justo no nome que a pessoa toca. */
-    pointer-events: none;
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.75rem;
-    text-align: center;
-  }
-
-  /*
-    O código no rodapé do cartão, entre colchetes.
-
-    É o eco direto das coordenadas da referência, e aqui a analogia é honesta:
-    lá o número diz onde o acampamento fica, aqui diz qual peça pedir na
-    prova. Nos dois casos é o dado seco que a pessoa copia.
-  */
-  .deslize_codigo {
-    font-family: var(--font-corpo);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: var(--tracking-luxo);
-    text-transform: uppercase;
-  }
 
   /* Painel de abertura: título colossal e a coluna do que está incluído. */
   .deslize_abertura {
@@ -750,10 +693,6 @@
       width: calc(var(--tela, 100vw) - 2.5rem);
       margin-inline: 1.25rem;
       aspect-ratio: 0.62;
-    }
-
-    .deslize_conteudo {
-      padding: 1.25rem;
     }
   }
 }
@@ -913,6 +852,91 @@
          375px, ela sozinha ocupava a tela inteira e a faixa deixava de ser
          faixa. 1,25 mantém o ganho e ainda deixa duas marcas convivendo. */
       --escala-marca: 1.25;
+    }
+  }
+
+  /* ==========================================================================
+     A COMPOSIÇÃO EDITORIAL DE "TUDO PARA O SEU CASAMENTO"
+     ==========================================================================
+     O desenho e o porquê estão em SecaoOferece.tsx, na função Composicao.
+     Aqui mora só a geometria.
+
+     A descida do retrato é em porcentagem da LARGURA do container, e isso é
+     de propósito: margem vertical em % é calculada sobre a largura no CSS, e
+     é justamente o que faz a composição encolher inteira, proporcional, em
+     vez de desmontar no celular.
+     ========================================================================== */
+  .oferece_editorial {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .oferece_espelho {
+    grid-column: 1 / 9;
+    grid-row: 1;
+  }
+
+  .oferece_retrato {
+    position: relative;
+    z-index: 1;
+    grid-column: 7 / 13;
+    grid-row: 1;
+    margin-top: 30%;
+  }
+
+  .oferece_faixa {
+    grid-column: 1 / 10;
+    grid-row: 2;
+    margin-top: 1.5rem;
+  }
+
+  .oferece_legenda {
+    grid-column: 10 / 13;
+    grid-row: 2;
+    align-self: end;
+    padding-left: 1rem;
+  }
+
+  /* No celular a legenda não cabe em três colunas de doze: desce para baixo
+     da faixa, ocupando a largura toda. */
+  @media (max-width: 639px) {
+    .oferece_faixa {
+      grid-column: 1 / 12;
+    }
+
+    .oferece_legenda {
+      grid-column: 1 / 13;
+      grid-row: 3;
+      margin-top: 1rem;
+      padding-left: 0;
+    }
+  }
+
+  /* ==========================================================================
+     A ENTRADA DA ESTEIRA
+     ==========================================================================
+     Quando um lugar da esteira troca de item, o novo entra da direita e
+     aparece. Ver components/Esteira.tsx. Trazido do projeto da Lennys.
+     ========================================================================== */
+  .esteira-entrando {
+    animation: esteira-entra 0.7s var(--ease-suave) both;
+  }
+
+  @keyframes esteira-entra {
+    from {
+      opacity: 0;
+      transform: translateX(1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .esteira-entrando {
+      animation: none;
     }
   }
 

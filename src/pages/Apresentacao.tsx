@@ -4,6 +4,8 @@ import CapaApresentacao from '../components/CapaApresentacao'
 import Revelar from '../components/Revelar'
 import SecaoAutoridade from '../components/SecaoAutoridade'
 import SecaoCasamentos from '../components/SecaoCasamentos'
+import SecaoAvaliacoes from '../components/SecaoGoogle'
+import SecaoOferece from '../components/SecaoOferece'
 import SecaoModelos from '../components/SecaoModelos'
 import SecaoVestidosEmMovimento from '../components/SecaoVestidosEmMovimento'
 import Seo from '../components/Seo'
@@ -130,7 +132,14 @@ export default function Apresentacao({ publico }: ApresentacaoProps) {
         Os depoimentos moravam aqui, numa seção própria. Foram para dentro da
         sequência de modelos, intercalados com as fotos, ver lib/fluxo.ts. Fica
         o mural dos casamentos, que a Danielli aprovou do jeito que está.
+
+        Antes da prova social, o que o ateliê oferece além do vestido: é a
+        parte do áudio dela que a peça ainda não contava. E, entre a oferta e o
+        mural, as avaliações do Google, que são a única voz de fora que a
+        página tem enquanto os depoimentos não chegam.
       */}
+      <SecaoOferece />
+      <SecaoAvaliacoes />
       <SecaoCasamentos />
 
       {/* 6 · Como funciona. Some enquanto nenhum passo estiver confirmado. */}

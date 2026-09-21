@@ -1,3 +1,4 @@
+import type { Destaque } from '../data/apresentacoes'
 import { FRASE_DA_MARCA } from '../data/autoridade'
 import { depoimentos, type Depoimento, type ImagemDoDepoimento } from '../data/depoimentos'
 import { identificacao, type Peca } from '../data/pecas'
@@ -10,7 +11,7 @@ import Selos from './Selos'
 interface DeslizeModelosProps {
   pecas: Peca[]
   /** As cinco fotos escolhidas, ver `destaques` em data/apresentacoes.ts. */
-  destaques: readonly string[]
+  destaques: readonly Destaque[]
   /** Frase de amostra. Obrigatória: ver o comentário no painel de abertura. */
   amostra: string
   /** Tela estreita. Muda a abertura, a medida do cartão e o ritmo. */
@@ -109,7 +110,7 @@ export default function DeslizeModelos({
                 <div key={item.chave} className="deslize_painel deslize_painel--peca">
                   {/* As duas primeiras já estão na tela quando a seção prende;
                       o resto só existe depois de a pessoa rolar. */}
-                  <Cartao peca={item.peca} adiantada={fotos <= 2} />
+                  <Cartao peca={item.peca} recorte={item.recorte} adiantada={fotos <= 2} />
                 </div>
               )
             }
@@ -240,45 +241,37 @@ function Fecho() {
 }
 
 /**
- * Um vestido.
+ * Um vestido, em detalhe.
  *
- * A composição é a do cartão da referência: a foto preenche tudo, o texto fica
- * por cima em duas pontas, e o dado seco desce para o rodapé. Lá o dado é a
- * coordenada do acampamento; aqui é o código da peça, e a analogia é honesta,
- * nos dois casos é o que a pessoa copia para pedir.
+ * SÓ A FOTO. Até setembro de 2026 o cartão tinha o nome, a descrição e o
+ * código da peça por cima ("Bordado brilhante com manga longa", "[ N-33 ]").
+ * Saíram os três: descrição é informação, e informação completa na cabeça da
+ * noiva o que o recorte escondeu. Sem legenda, o detalhe fica em aberto, e o
+ * resto do vestido vira motivo para ir ao ateliê.
  *
- * NÃO ABRE NADA. Até setembro de 2026 o cartão inteiro era um botão que abria
- * a ficha da peça com todas as fotos, e tinha um "+" para marcar e mandar a
- * lista pelo WhatsApp. As duas coisas saíram: é apresentação, não catálogo, e
- * a ficha fazia exatamente o que a Danielli pediu para não fazer, mostrar o
- * vestido por todos os ângulos para quem ainda não foi ao ateliê.
+ * Antes disso ele também abria a ficha da peça e tinha o "+" de marcar para
+ * provar; saíram junto com a ideia de catálogo.
+ *
+ * O `alt` continua dizendo qual é a peça: quem usa leitor de tela não vê o
+ * recorte, e para essa pessoa a descrição é a única forma de a foto existir.
  */
-function Cartao({ peca, adiantada }: { peca: Peca; adiantada: boolean }) {
+function Cartao({
+  peca,
+  recorte,
+  adiantada,
+}: {
+  peca: Peca
+  recorte?: string
+  adiantada: boolean
+}) {
   return (
     <div className="deslize_cartao">
       <img
-        src={peca.fotos[0]}
+        src={recorte ?? peca.fotos[0]}
         alt={identificacao(peca)}
         loading={adiantada ? 'eager' : 'lazy'}
         decoding="async"
       />
-
-      <div className="deslize_conteudo">
-        <div>
-          {peca.nome ? (
-            <p className="font-display text-h4 uppercase tracking-luxo text-branco">
-              {peca.nome}
-            </p>
-          ) : null}
-          <p
-            className={peca.nome ? 'mt-3 text-sm text-branco rebaixado' : 'text-sm text-branco'}
-          >
-            {peca.descricao}
-          </p>
-        </div>
-
-        <p className="deslize_codigo text-branco">[ {peca.codigo} ]</p>
-      </div>
     </div>
   )
 }

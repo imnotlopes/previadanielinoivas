@@ -1,3 +1,4 @@
+import type { Destaque } from '../data/apresentacoes'
 import { depoimentos } from '../data/depoimentos'
 import { identificacao, type Peca } from '../data/pecas'
 import { selosConfirmados } from '../data/selos'
@@ -11,13 +12,25 @@ import Selos from './Selos'
 interface SecaoModelosProps {
   pecas: Peca[]
   /** As cinco fotos escolhidas, ver `destaques` em data/apresentacoes.ts. */
-  destaques: readonly string[]
+  destaques: readonly Destaque[]
   /** Some quando não há peça. Ex.: a Danielli ocultou o acervo inteiro. */
   vazio?: string
 }
 
 /** A frase de amostra. Uma só, porque as duas montagens dizem o mesmo. */
-const AMOSTRA = 'Só um pouquinho do acervo. O resto você vê de perto, no provador.'
+/*
+  A RESTRIÇÃO VIRANDO PROMESSA.
+
+  A página mostra pouco de propósito: é o pedido da Danielli, por causa da
+  cidade pequena. Mas mostrar pouco sem dizer por quê pode parecer que o
+  ateliê tem pouco. O motivo dela, dito do lado da noiva, vira cuidado com a
+  noiva e explica por que o resto só existe no provador.
+
+  VALIDAR COM A DANIELLI: fala em nome dela. Mostrado ao Edson em setembro
+  de 2026 para levar até ela.
+*/
+const AMOSTRA =
+  'Aqui você vê só os detalhes. O vestido inteiro, só no provador: o do seu casamento não deveria ser visto por ninguém antes do seu dia.'
 
 /**
  * OS MODELOS E AS GARANTIAS, EM DUAS MONTAGENS.
@@ -128,7 +141,7 @@ function FluxoEmpilhado({ itens }: { itens: ItemDoFluxo[] }) {
     <div className="mx-auto flex max-w-2xl flex-col gap-14">
       {itens.map((item) => {
         if (item.tipo === 'peca' || item.tipo === 'detalhe') {
-          const src = item.tipo === 'peca' ? item.peca.fotos[0] : item.imagem.src
+          const src = item.tipo === 'peca' ? (item.recorte ?? item.peca.fotos[0]) : item.imagem.src
           const alt = item.tipo === 'peca' ? identificacao(item.peca) : item.imagem.alt
           return (
             <Revelar key={item.chave} distancia="curta">

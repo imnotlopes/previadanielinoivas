@@ -34,6 +34,17 @@ import type { Publico } from './pecas'
  * abre o link, então a Danielli sabe de onde ela veio porque foi ela quem
  * mandou.
  */
+/**
+ * Uma foto da sequência de modelos: a peça e o recorte que a representa.
+ *
+ * O recorte mostra um detalhe (o bordado, a renda, o laço) e não o vestido
+ * inteiro, pela regra da Danielli. Sai de scripts/recortes.mjs.
+ */
+export interface Destaque {
+  codigo: string
+  recorte: string
+}
+
 export interface Apresentacao {
   publico: Publico
   /** Rota e nome do HTML: `/noivas` sai de `noivas.html`. */
@@ -93,7 +104,7 @@ export interface Apresentacao {
    * Um código que sumir do acervo é completado pela ordem normal, ver
    * `montarFluxo` em lib/fluxo.ts.
    */
-  destaques: readonly string[]
+  destaques: readonly Destaque[]
 
   /** Quando não há peça visível ainda. Some quando houver. */
   semPecas?: string
@@ -112,10 +123,16 @@ export const apresentacoes: Apresentacao[] = [
       executa JavaScript.
     */
     descricao: 'Um pouquinho do nosso ateliê para você conhecer antes de vir provar.',
+    /*
+      Era a Aurora sentada com o vestido inteiro aberto, do colo à barra, e
+      era a primeira e maior imagem da página: exatamente o que a Danielli
+      pediu para não fazer. Agora é o close dela de costas, a gola de renda e
+      o buquê. Ver scripts/recortes.mjs.
+    */
     capa: {
-      largo: '/casamentos/aurora-hero.webp',
-      alto: '/casamentos/aurora-hero-alto.webp',
-      alt: 'Noiva sentada, de vestido de renda com gola alta e manga longa, no dia do casamento.',
+      largo: '/capa/aurora-largo.webp',
+      alto: '/capa/aurora-alto.webp',
+      alt: 'Noiva de costas olhando por cima do ombro, com gola alta de renda, véu e buquê.',
     },
     ogImagem: '/og-noiva.jpg',
     /*
@@ -132,7 +149,13 @@ export const apresentacoes: Apresentacao[] = [
       Malu, vestido inteiro de frente, que é o que a Danielli pediu para
       evitar; e a Valentina, com cara de foto de catálogo de fornecedor.
     */
-    destaques: ['N-33', 'N-03', 'N-08', 'N-06', 'N-10'],
+    destaques: [
+      { codigo: 'N-33', recorte: '/recortes/mariana-bordado.webp' },
+      { codigo: 'N-03', recorte: '/recortes/lorena-renda-da-manga.webp' },
+      { codigo: 'N-08', recorte: '/recortes/rafaela-coroa-e-decote.webp' },
+      { codigo: 'N-06', recorte: '/recortes/helena-ombro-bordado.webp' },
+      { codigo: 'N-10', recorte: '/recortes/antonia-laco-nas-costas.webp' },
+    ],
     palavra: 'Noivas',
     saudacao: 'Que bom que você chegou até aqui',
     posicionamento:

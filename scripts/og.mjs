@@ -37,16 +37,18 @@ const PECAS = [
   {
     arquivo: 'og-noiva.jpg',
     /*
-      Dois painéis, e não um retrato só.
+      Dois painéis, e os dois de detalhe.
 
-      Uma foto 3:4 cortada em 1200x630 vira uma faixa horizontal estreita: com
-      `position: 'top'` sobra o rosto e o vestido some, justamente o que a
-      peça vende. Com dois painéis cabe o rosto E o vestido inteiro, que é a
-      dupla que faz a noiva abrir o link.
+      O segundo era a Sofia de costas subindo a escada da igreja, com o
+      vestido inteiro, escolhido justamente para "caber o vestido inteiro".
+      Era o contrário do que a Danielli pediu: numa cidade pequena, a noiva
+      que vê o vestido inteiro no cartão já decidiu que viu. Agora são o close
+      da Aurora e o bordado da Mariana, e o cartão faz o que a página faz:
+      mostra o bastante para dar vontade de ver o resto.
     */
     mosaico: [
       'pecas/aurora-renda-gola-alta.webp',
-      'pecas/sofia-cauda-longa.webp',
+      'recortes/mariana-bordado.webp',
     ],
   },
   {

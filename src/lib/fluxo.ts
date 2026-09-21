@@ -1,3 +1,4 @@
+import type { Destaque } from '../data/apresentacoes'
 import type { Depoimento, ImagemDoDepoimento } from '../data/depoimentos'
 import { ordenadas, type Peca } from '../data/pecas'
 
@@ -17,8 +18,12 @@ import { ordenadas, type Peca } from '../data/pecas'
 export const FOTOS_NO_FLUXO = 5
 
 export type ItemDoFluxo =
-  /** Um vestido do acervo, com o cartão de sempre. */
-  | { tipo: 'peca'; chave: string; peca: Peca }
+  /**
+   * Um vestido do acervo. `recorte` é o detalhe escolhido para ele; sem
+   * recorte (um vestido que veio pelo depoimento e não é destaque), vale a
+   * primeira foto da peça.
+   */
+  | { tipo: 'peca'; chave: string; peca: Peca; recorte?: string }
   /** A foto que veio com o depoimento: um recorte de detalhe, sem legenda. */
   | { tipo: 'detalhe'; chave: string; imagem: ImagemDoDepoimento }
   | { tipo: 'depoimento'; chave: string; depoimento: Depoimento }
@@ -47,15 +52,18 @@ export type ItemDoFluxo =
  */
 export function montarFluxo(
   pecas: Peca[],
-  destaques: readonly string[],
+  destaques: readonly Destaque[],
   depoimentos: readonly Depoimento[],
   reservar: boolean,
 ): ItemDoFluxo[] {
   const porCodigo = new Map(pecas.map((peca) => [peca.codigo, peca]))
 
+  const codigos = destaques.map((d) => d.codigo)
+  const recortePorCodigo = new Map(destaques.map((d) => [d.codigo, d.recorte]))
+
   const fila = [
-    ...destaques.map((codigo) => porCodigo.get(codigo)).filter((p): p is Peca => !!p),
-    ...ordenadas(pecas).filter((peca) => !destaques.includes(peca.codigo)),
+    ...codigos.map((codigo) => porCodigo.get(codigo)).filter((p): p is Peca => !!p),
+    ...ordenadas(pecas).filter((peca) => !codigos.includes(peca.codigo)),
   ]
   const usadas = new Set<string>()
 
@@ -77,7 +85,7 @@ export function montarFluxo(
       const peca = usada && !usadas.has(usada.codigo) ? usada : proximaDaFila()
       if (!peca) break
       usadas.add(peca.codigo)
-      itens.push({ tipo: 'peca', chave: peca.codigo, peca })
+      itens.push({ tipo: 'peca', chave: peca.codigo, peca, recorte: recortePorCodigo.get(peca.codigo) })
     }
 
     if (depoimento) {

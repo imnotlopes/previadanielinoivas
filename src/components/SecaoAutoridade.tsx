@@ -1,4 +1,4 @@
-import { IMPORTADOS, PARA_A_NOIVA, PARA_O_CASAMENTO, anosDeCasa } from '../data/autoridade'
+import { IMPORTADOS, anosDeCasa } from '../data/autoridade'
 import { videoAtelier } from '../data/videos'
 import FaixaMarcas from './FaixaMarcas'
 import Revelar from './Revelar'
@@ -52,22 +52,14 @@ export default function SecaoAutoridade() {
             </Revelar>
 
             {/*
-              Três frases que contam, no lugar de uma que listava. A primeira
-              diz há quanto tempo e para quem; a segunda, o que a noiva ganha
-              além do vestido; a terceira, que o casamento inteiro dela cabe
-              aqui. O argumento é da Danielli, ver PARA_A_NOIVA.
+              Uma frase só. O "tudo para o casamento" chegou a morar aqui, em
+              mais dois parágrafos, e saiu para uma seção própria com fotos,
+              ver SecaoOferece. Aqui fica quem é o ateliê; lá, o que ele tem.
             */}
             <Revelar atraso={160}>
-              <div className="mt-8 max-w-lg space-y-5 text-preto/75">
-                <p>São {anos} anos atendendo noivas daqui e da região.</p>
-                <p>
-                  E não é só o vestido. {maiuscula(listar(PARA_A_NOIVA))}: tudo o
-                  que você vai precisar no dia está aqui dentro.
-                </p>
-                <p>
-                  Dá para vestir o casamento inteiro com a gente: {listar(PARA_O_CASAMENTO)}.
-                </p>
-              </div>
+              <p className="mt-8 max-w-lg text-preto/75">
+                São {anos} anos atendendo noivas daqui e da região.
+              </p>
             </Revelar>
 
             <Revelar atraso={230}>
@@ -103,14 +95,4 @@ export default function SecaoAutoridade() {
       </div>
     </section>
   )
-}
-
-/** ['a', 'b', 'c'] vira "a, b e c". */
-function listar(itens: readonly string[]): string {
-  if (itens.length < 2) return itens[0] ?? ''
-  return `${itens.slice(0, -1).join(', ')} e ${itens[itens.length - 1]}`
-}
-
-function maiuscula(texto: string): string {
-  return texto.charAt(0).toUpperCase() + texto.slice(1)
 }
