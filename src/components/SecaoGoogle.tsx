@@ -1,9 +1,10 @@
-import { MapPin, Phone } from 'lucide-react'
+import { MapPin, Pause, Phone, Play } from 'lucide-react'
+import { useState } from 'react'
 
 import { avaliacoesGoogle, googleNegocio, inicialDe, type AvaliacaoGoogle } from '../data/google'
 import { brand } from '../lib/brand'
+import { movimentoReduzido } from '../lib/movimento'
 import { cn } from '../lib/utils'
-import Esteira from './Esteira'
 import { Estrelas } from './IconeEstrela'
 import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
@@ -11,14 +12,6 @@ import SecaoTitulo from './SecaoTitulo'
 /* -------------------------------------------------------------------------- */
 /* Avaliações                                                                  */
 /* -------------------------------------------------------------------------- */
-
-/**
- * Quanto tempo cada avaliação fica na tela antes de dar a vez.
- *
- * Seis segundos, o mesmo da Lennys: logotipo se reconhece num relance, relato
- * se lê, e em menos que isso ninguém termina o mais longo daqui.
- */
-const MS_POR_AVALIACAO = 6000
 
 /**
  * As avaliações do Google, no formato da seção da Lennys Ateliê.
@@ -29,9 +22,14 @@ const MS_POR_AVALIACAO = 6000
  *               O número é o que carrega a seção: 4,8 com 172 avaliações é
  *               a única coisa aqui que a noiva confere sozinha em dez
  *               segundos. Os relatos vêm depois, como prova do número.
- *   ESTEIRA     um, dois ou três cartões conforme a tela, trocando um a cada
- *               seis segundos. Ver components/Esteira.tsx.
  *   CARTÃO      no formato do próprio Google. Ver `Cartao`, abaixo.
+ *
+ * O MOVIMENTO NÃO É O DA LENNYS
+ * -----------------------------
+ * Lá os cartões ficam numa esteira que troca um a cada seis segundos. Aqui
+ * eles deslizam sem parar, como a faixa de marcas representadas, a pedido do
+ * Edson: as duas faixas da apresentação passam a se mover do mesmo jeito.
+ * Ver FaixaAvaliacoes.
  *
  * O QUE FICOU DIFERENTE DA LENNYS
  * -------------------------------
@@ -71,19 +69,101 @@ export default function SecaoAvaliacoes() {
         </div>
 
         <Revelar distancia="curta" atraso={180}>
-          <Esteira
-            itens={avaliacoesGoogle.map((avaliacao) => ({
-              chave: avaliacao.id,
-              rotulo: `Ver a avaliação de ${avaliacao.autor}`,
-              conteudo: <Cartao avaliacao={avaliacao} />,
-            }))}
-            lugares={{ base: 1, sm: 2, lg: 3 }}
-            ms={MS_POR_AVALIACAO}
-            classeFileira="gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          />
+          {movimentoReduzido() ? <FileiraManual /> : <FaixaAvaliacoes />}
         </Revelar>
       </div>
     </section>
+  )
+}
+
+/**
+ * AS AVALIAÇÕES DESLIZANDO, COMO A FAIXA DE MARCAS.
+ *
+ * O mecanismo é o mesmo de FaixaMarcas: duas cópias da lista num trilho, o
+ * trilho anda metade da própria largura e volta a zero sem emenda, a mesma
+ * `@keyframes faixa-marcas`, as pontas esmaecendo por máscara e a segunda
+ * cópia com `aria-hidden`. Os porquês de cada peça estão escritos lá.
+ *
+ * A DIFERENÇA É A VELOCIDADE, E ONDE ELA PARA
+ * -------------------------------------------
+ * Logotipo se reconhece num relance; avaliação é um parágrafo. A faixa de
+ * marcas dá uma volta em 17s; esta leva 70s, uns 25 pixels por segundo, e um
+ * cartão fica mais de dez segundos inteiro na tela do celular. E ela para no
+ * mouse, no dedo segurando e no foco: no celular não existe passar por cima,
+ * e sem isso quem quisesse reler uma frase não teria como.
+ */
+function FaixaAvaliacoes() {
+  const [parado, setParado] = useState(false)
+
+  return (
+    <div>
+      <div className="faixa-avaliacoes">
+        <div className={cn('faixa-avaliacoes_trilho', parado && 'esta-parada')}>
+          <FileiraAnimada />
+          <FileiraAnimada aria-hidden />
+        </div>
+      </div>
+
+      {/*
+        O botão de pausa existe e só aparece para quem chega por teclado, no
+        mesmo padrão da faixa de marcas (WCAG 2.2.2). O raciocínio completo, e
+        o buraco que fica, estão no comentário de lá.
+      */}
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={() => setParado((estava) => !estava)}
+          aria-pressed={parado}
+          className="sr-only mt-5 focus:not-sr-only focus:inline-flex focus:min-h-11
+                     focus:items-center focus:gap-2 focus:px-3 focus:font-display
+                     focus:text-h6 focus:uppercase focus:tracking-luxo focus:text-preto"
+        >
+          {parado ? (
+            <Play size={13} strokeWidth={1.75} aria-hidden />
+          ) : (
+            <Pause size={13} strokeWidth={1.75} aria-hidden />
+          )}
+          {parado ? 'Retomar as avaliações' : 'Pausar as avaliações'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function FileiraAnimada(props: { 'aria-hidden'?: boolean }) {
+  return (
+    <ul className="faixa-avaliacoes_fileira" {...props}>
+      {avaliacoesGoogle.map((avaliacao) => (
+        <li key={avaliacao.id} className="faixa-avaliacoes_item">
+          <Cartao avaliacao={avaliacao} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/**
+ * Para quem pediu menos movimento: a fileira parada, rolando só com o dedo.
+ *
+ * O invólucro com `overflow-hidden` impede que a rolagem da fileira vire
+ * rolagem da página.
+ */
+function FileiraManual() {
+  return (
+    <div className="max-w-full overflow-hidden">
+      <ul
+        className="flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto pb-6"
+        tabIndex={0}
+        role="region"
+        aria-label="Avaliações do Google, rolagem horizontal"
+      >
+        {avaliacoesGoogle.map((avaliacao) => (
+          <li key={avaliacao.id} className="flex shrink-0 snap-start">
+            <Cartao avaliacao={avaliacao} />
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
@@ -101,17 +181,17 @@ export default function SecaoAvaliacoes() {
  * Por isso as cores do Google são literais e ficam presas neste arquivo, sem
  * virar token: nada mais na apresentação deve usá-las.
  *
- * ALTURA TRAVADA. Os relatos variam de duas a sete linhas, e numa fileira que
- * troca de conteúdo sozinha isso faria a seção mudar de altura a cada ciclo,
- * empurrando a página enquanto a noiva lê. O mínimo, 25rem, foi medido e
- * não chutado: o relato da Nathália num cartão de 288px de largura, o mais
- * estreito que a esteira produz (duas colunas, logo acima de 640px de tela),
- * dá 398px. O corte em dez linhas é rede de segurança para um relato maior
- * que todos estes, e hoje não corta nenhum.
+ * LARGURA FIXA, ALTURA MEDIDA. Na faixa não há grade dando largura ao cartão,
+ * então ela é fixa: 288px no celular, 336px daí para cima. A altura mínima,
+ * 25rem, foi medida e não chutada: o relato da Nathália, o mais longo, num
+ * cartão de 288px dá 398px. Na faixa todos os cartões esticam até o mais
+ * alto de qualquer jeito; o mínimo existe para a versão parada, de quem pede
+ * menos movimento. O corte em dez linhas é rede de segurança para um relato
+ * maior que todos estes, e hoje não corta nenhum.
  */
 function Cartao({ avaliacao }: { avaliacao: AvaliacaoGoogle }) {
   return (
-    <div className="relative h-full pt-11">
+    <div className="relative h-full w-72 pt-11 sm:w-[21rem]">
       <figure className="flex h-full min-h-[25rem] flex-col items-center gap-3 rounded-[12px] border border-borda bg-branco px-6 pb-8 pt-14 text-center">
         <figcaption className="flex flex-col gap-1">
           <span className="text-sm font-bold text-preto">{avaliacao.autor}</span>

@@ -64,7 +64,21 @@ export const casamentos: Casamento[] = [
     /* TODO: confirmar os nomes e a autorização antes de preencher. */
     casal: '',
     descricao:
-      'Sequência do dia do casamento: a noiva se arrumando, o vestido de renda com gola alta sendo fechado pela mãe, o pai na porta do quarto, o véu, a cerimônia na igreja e o brinde na festa.',
+      'Momentos do dia do casamento: a noiva se arrumando, as mãos da mãe fechando o vestido, o beijo do pai, o véu, o noivo e o brinde na festa.',
+    /*
+      23 das 32, na ordem do dia.
+
+      A regra da Danielli vale aqui também: "se eu mostrar muita coisa do
+      vestido, tem noiva que vai falar: mas eu já vi aquele vestido". Numa
+      cidade pequena isso vale em dobro para foto de casamento de verdade.
+
+      Então ficaram os momentos, e saiu o vestido inteiro. As de
+      /casamentos/recortes/ são recortes do gesto (as mãos da mãe, o beijo do
+      pai, o abraço), ver scripts/recortes.mjs. Saíram as nove que não se
+      salvam com recorte: 08, 19, 21 a 25, 28 e 32, o altar visto de longe,
+      o casal de corpo inteiro e a saída de costas com a cauda aberta. Os
+      arquivos continuam em public/casamentos/, fora da lista.
+    */
     fotos: [
       '/casamentos/joao-natalia-01.webp',
       '/casamentos/joao-natalia-02.webp',
@@ -72,32 +86,23 @@ export const casamentos: Casamento[] = [
       '/casamentos/joao-natalia-04.webp',
       '/casamentos/joao-natalia-05.webp',
       '/casamentos/joao-natalia-06.webp',
-      '/casamentos/joao-natalia-07.webp',
-      '/casamentos/joao-natalia-08.webp',
+      '/casamentos/recortes/joao-natalia-07.webp',
       '/casamentos/joao-natalia-09.webp',
       '/casamentos/joao-natalia-10.webp',
       '/casamentos/joao-natalia-11.webp',
-      '/casamentos/joao-natalia-12.webp',
-      '/casamentos/joao-natalia-13.webp',
-      '/casamentos/joao-natalia-14.webp',
+      '/casamentos/recortes/joao-natalia-12.webp',
+      '/casamentos/recortes/joao-natalia-13.webp',
+      '/casamentos/recortes/joao-natalia-14.webp',
       '/casamentos/joao-natalia-15.webp',
       '/casamentos/joao-natalia-16.webp',
       '/casamentos/joao-natalia-17.webp',
       '/casamentos/joao-natalia-18.webp',
-      '/casamentos/joao-natalia-19.webp',
-      '/casamentos/joao-natalia-20.webp',
-      '/casamentos/joao-natalia-21.webp',
-      '/casamentos/joao-natalia-22.webp',
-      '/casamentos/joao-natalia-23.webp',
-      '/casamentos/joao-natalia-24.webp',
-      '/casamentos/joao-natalia-25.webp',
+      '/casamentos/recortes/joao-natalia-20.webp',
       '/casamentos/joao-natalia-26.webp',
-      '/casamentos/joao-natalia-27.webp',
-      '/casamentos/joao-natalia-28.webp',
+      '/casamentos/recortes/joao-natalia-27.webp',
       '/casamentos/joao-natalia-29.webp',
       '/casamentos/joao-natalia-30.webp',
-      '/casamentos/joao-natalia-31.webp',
-      '/casamentos/joao-natalia-32.webp',
+      '/casamentos/recortes/joao-natalia-31.webp',
     ],
   },
 ]

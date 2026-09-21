@@ -914,30 +914,55 @@
   }
 
   /* ==========================================================================
-     A ENTRADA DA ESTEIRA
+     A FAIXA DAS AVALIAÇÕES
      ==========================================================================
-     Quando um lugar da esteira troca de item, o novo entra da direita e
-     aparece. Ver components/Esteira.tsx. Trazido do projeto da Lennys.
+     O mesmo motor da faixa de marcas, mais lento e com mais jeitos de parar,
+     porque aqui se lê em vez de reconhecer. O porquê está em SecaoGoogle.tsx,
+     FaixaAvaliacoes.
      ========================================================================== */
-  .esteira-entrando {
-    animation: esteira-entra 0.7s var(--ease-suave) both;
+  .faixa-avaliacoes {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
   }
 
-  @keyframes esteira-entra {
-    from {
-      opacity: 0;
-      transform: translateX(1.5rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
+  .faixa-avaliacoes_trilho {
+    display: flex;
+    width: max-content;
+    animation: faixa-marcas 70s linear infinite;
+    will-change: transform;
+  }
+
+  .faixa-avaliacoes_trilho.esta-parada {
+    animation-play-state: paused;
+  }
+
+  /* Para no dedo segurando e no foco, em qualquer aparelho. */
+  .faixa-avaliacoes:active .faixa-avaliacoes_trilho,
+  .faixa-avaliacoes:focus-within .faixa-avaliacoes_trilho {
+    animation-play-state: paused;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .faixa-avaliacoes:hover .faixa-avaliacoes_trilho {
+      animation-play-state: paused;
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .esteira-entrando {
-      animation: none;
-    }
+  /* Cartões da mesma altura: todos esticam até o mais alto da fileira. */
+  .faixa-avaliacoes_fileira {
+    display: flex;
+    align-items: stretch;
+    flex-shrink: 0;
+  }
+
+  /* Respiro como padding, e não gap, pelo mesmo motivo da faixa de marcas:
+     com gap, meia volta não é uma cópia inteira e o laço dá um tranco. */
+  .faixa-avaliacoes_item {
+    display: flex;
+    flex-shrink: 0;
+    padding-inline: 0.625rem;
   }
 
   @keyframes faixa-marcas {

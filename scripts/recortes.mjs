@@ -85,9 +85,78 @@ const RECORTES = [
     destino: 'recortes/antonia-laco-nas-costas.webp',
     caixa: [0.25, 0.32, 0.6, 0.45],
   },
+
+  /*
+    O MURAL "NO DIA DELAS", o casamento da Natália.
+
+    Das 32 fotos, 16 já eram momento ou detalhe e ficam como estão; 9 eram
+    de corpo inteiro sem salvação (o altar visto de longe, o casal inteiro ao
+    ar livre, a saída de costas com a cauda aberta) e saíram da lista em
+    data/casamentos.ts. Estas 7 mostravam o vestido inteiro em volta de um
+    gesto bom, e o recorte fica com o gesto.
+
+    `pequena: 400` gera também a versão de 400px ao lado (`-400.webp`). O
+    mural monta o `srcset` de toda foto com essa versão, e o celular carrega
+    ela; sem o arquivo, o quadro fica vazio. Foi o que aconteceu na primeira
+    rodada destes recortes: sete quadros em branco no mural.
+
+    O mural declara a versão grande como "900w", e estes recortes têm 540 ou
+    585. Não faz diferença aqui: são só duas opções no `srcset`, e o mural
+    desenha a foto preenchendo o quadro, então o número declarado não muda
+    qual arquivo o navegador escolhe nem como ele aparece.
+  */
+  {
+    // As mãos da mãe na manga, fechando o vestido.
+    origem: 'casamentos/joao-natalia-07.webp',
+    destino: 'casamentos/recortes/joao-natalia-07.webp',
+    caixa: [0.4, 0.3, 0.6, 0.6],
+    pequena: 400,
+  },
+  {
+    // O beijo do pai na testa.
+    origem: 'casamentos/joao-natalia-12.webp',
+    destino: 'casamentos/recortes/joao-natalia-12.webp',
+    caixa: [0.25, 0.03, 0.6, 0.6],
+    pequena: 400,
+  },
+  {
+    // Sentada, do rosto à cintura.
+    origem: 'casamentos/joao-natalia-13.webp',
+    destino: 'casamentos/recortes/joao-natalia-13.webp',
+    caixa: [0.2, 0.05, 0.6, 0.6],
+    pequena: 400,
+  },
+  {
+    // Olhando para o colo, as mãos juntas.
+    origem: 'casamentos/joao-natalia-14.webp',
+    destino: 'casamentos/recortes/joao-natalia-14.webp',
+    caixa: [0.05, 0.1, 0.65, 0.65],
+    pequena: 400,
+  },
+  {
+    // O olhar para trás, por cima do ombro.
+    origem: 'casamentos/joao-natalia-20.webp',
+    destino: 'casamentos/recortes/joao-natalia-20.webp',
+    caixa: [0.35, 0, 0.65, 0.65],
+    pequena: 400,
+  },
+  {
+    // O casal, dos rostos ao buquê.
+    origem: 'casamentos/joao-natalia-27.webp',
+    destino: 'casamentos/recortes/joao-natalia-27.webp',
+    caixa: [0.15, 0, 0.6, 0.6],
+    pequena: 400,
+  },
+  {
+    // O abraço, ela rindo.
+    origem: 'casamentos/joao-natalia-31.webp',
+    destino: 'casamentos/recortes/joao-natalia-31.webp',
+    caixa: [0.2, 0.1, 0.6, 0.6],
+    pequena: 400,
+  },
 ]
 
-for (const { origem, destino, caixa } of RECORTES) {
+for (const { origem, destino, caixa, pequena } of RECORTES) {
   const entrada = sharp(path.join(PUBLICO, origem))
   const { width, height } = await entrada.metadata()
   const [e, t, l, a] = caixa
@@ -107,4 +176,13 @@ for (const { origem, destino, caixa } of RECORTES) {
     .toFile(saida)
 
   console.log(`${destino}  ${info.width}x${info.height}  ${(info.size / 1024).toFixed(0)} KB`)
+
+  if (pequena) {
+    const destinoPequena = saida.replace(/\.webp$/, `-${pequena}.webp`)
+    const infoPequena = await sharp(saida)
+      .resize({ width: pequena, withoutEnlargement: true })
+      .webp({ quality: 82 })
+      .toFile(destinoPequena)
+    console.log(`  + -${pequena}  ${infoPequena.width}x${infoPequena.height}`)
+  }
 }

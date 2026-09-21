@@ -222,20 +222,27 @@ export default function MuralCasamentos({ casamentos }: MuralCasamentosProps) {
       </ul>
 
       {/*
-        O único controle, e ele é obrigação: conteúdo que se move sozinho por
-        mais de cinco segundos precisa de um jeito de parar (WCAG 2.2.2).
-        Discreto de propósito, o assunto da seção são as fotos, não o botão.
+        O CONTROLE EXISTE E NÃO APARECE.
+
+        Havia aqui um "Pausar as fotos" visível embaixo do mural, e ele saiu a
+        pedido do Edson, como já tinha saído o da faixa de marcas: numa
+        apresentação, um controle escrito puxa atenção das fotos.
+
+        O mecanismo fica, porque conteúdo que se move sozinho por mais de cinco
+        segundos precisa ter como parar (WCAG 2.2.2). Quem pediu menos
+        movimento no sistema nunca vê o mural trocar; quem navega por teclado
+        chega aqui com Tab e aí o botão aparece. O buraco que fica é o mesmo
+        registrado em FaixaMarcas: quem usa toque, é sensível a movimento e não
+        ligou a preferência do sistema.
       */}
       {!semMovimento && (
-        <div className="mt-6 flex justify-center">
+        <div className="flex justify-center">
           <button
             type="button"
             onClick={() => setRodando((v) => !v)}
-            /* `px-4 py-2.5` é alvo de toque: o texto tem 20px de altura e no
-               celular isso é erro de dedo. */
-            className="inline-flex items-center gap-2 px-4 py-2.5 text-sm text-cinza
-                       underline-offset-4 transition-colors duration-300 ease-suave
-                       hover:text-preto hover:underline"
+            aria-pressed={!rodando}
+            className="sr-only mt-6 focus:not-sr-only focus:inline-flex focus:min-h-11
+                       focus:items-center focus:gap-2 focus:px-4 focus:text-sm focus:text-preto"
           >
             {rodando ? (
               <Pause size={14} strokeWidth={1.75} aria-hidden />
