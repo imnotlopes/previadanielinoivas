@@ -14,39 +14,51 @@
      Logo abaixo, cada uma ganha sua versão pronta para uso em CSS puro.
      ---------------------------------------------------------------------- */
   /*
-    A PROPORÇÃO É PARTE DA PALETA
-    -----------------------------
-    Aproximadamente 70% off-white, 20% preto suave, 8% champagne e 2% dourado.
-    O dourado NÃO é cor estrutural: ele não pinta fundo, não pinta botão
-    principal e não carrega bloco de texto. Ele aparece em filete, ícone e
-    detalhe, o Instagram da marca já é saturado de dourado, e o site existe
-    para elevar isso, não para repetir.
+    A PALETA SAIU DA LOGO NOVA
+    --------------------------
+    Setembro de 2026: a Danielli mandou a logo nova (o vestido desenhado num
+    arco, o nome manuscrito, a frase em versalete, tudo em rosé sobre um papel
+    rosado) e dois PDFs de fornecedores como referência do jeito editorial que
+    ela quer. A paleta de antes era off-white, preto e dourado, e o dourado era
+    o da logo antiga. Com a logo trocada, a paleta troca junto.
+
+    Não há mais fundo preto. As referências são páginas claras, de papel, com
+    foto e moldura branca; o preto chapado era a assinatura da versão anterior
+    e brigava com o rosé. O "preto" que sobrou é um marrom muito escuro, quente,
+    e só pinta texto.
+
+    A PROPORÇÃO: uns 70% papel (off-white e rosado), 20% texto, 8% branco de
+    moldura e 2% rosé. O rosé é a cor da marca, e por isso é raro: a palavra
+    manuscrita de cada folha, o filete e a logo. Rosé em bloco de texto vira
+    papelaria de chá de panela.
   */
-  --preto-rgb: 36 35 33; /* #242321, preto suave, levemente quente */
-  --branco-rgb: 255 255 255; /* #FFFFFF, cards e áreas de contraste */
-  --off-white-rgb: 250 249 246; /* #FAF9F6, fundo principal */
-  --bege-rgb: 216 208 194; /* #D8D0C2, champagne: divisores e superfícies */
-  --dourado-rgb: 201 181 107; /* #C9B56B, só detalhe */
+  --preto-rgb: 52 42 39; /* #342A27, marrom quase preto: só texto */
+  --branco-rgb: 255 255 255; /* #FFFFFF, moldura das fotos e cartões */
+  --off-white-rgb: 247 242 238; /* #F7F2EE, o papel: fundo principal */
+  --bege-rgb: 237 228 222; /* #EDE4DE, o rosado do papel da logo: folha alternada */
 
   /*
-    O cinza é o preto rebaixado, para rótulo e texto de apoio. Foi puxado para
-    o quente (#6B6560, e não o #696969 neutro de antes) para conversar com o
-    champagne; é o mais claro que ainda cumpre 4,5:1 sobre o off-white novo.
+    O ROSÉ DA LOGO, EM DOIS TONS
+    ----------------------------
+    #A27268 é a média dos pixels de traço cheio da logo, medida no arquivo que
+    ela mandou (ver scripts/logo.mjs). Rende 3,7:1 sobre o papel: serve para a
+    palavra manuscrita, que é sempre grande, e para filete e ícone, que não
+    carregam leitura. NÃO serve para texto pequeno.
+
+    Para texto pequeno em rosé (rótulo, legenda) existe o escuro, #80544A, com
+    5,8:1. Mesmo matiz, só mais fundo.
   */
-  --cinza-rgb: 107 101 96; /* #6B6560, 5,46:1 sobre off-white */
+  --rose-rgb: 162 114 104; /* #A27268 */
+  --rose-escuro-rgb: 128 84 74; /* #80544A, 5,8:1 sobre o papel */
 
   /*
-    ONDE O DOURADO NÃO PODE ENTRAR
-    ------------------------------
-    #C9B56B rende 1,94:1 sobre o off-white: é ilegível como texto em fundo
-    claro, e nenhum tamanho de fonte conserta isso. Sobre o preto suave ele
-    sobe para 7,71:1, e aí sim funciona como texto. É por isso que o dourado
-    do site aparece como filete em fundo claro e como palavra só em fundo
-    escuro.
+    O cinza é o texto rebaixado, puxado para o rosado para conversar com o
+    papel. 5:1 sobre o off-white.
   */
+  --cinza-rgb: 116 101 96; /* #746560 */
 
-  --borda-rgb: 216 208 194; /* champagne, para divisor visível */
-  --borda-sutil-rgb: 232 227 217; /* #E8E3D9, champagne rebaixado */
+  --borda-rgb: 222 206 198; /* #DECEC6, divisor visível */
+  --borda-sutil-rgb: 236 225 218; /* #ECE1DA, divisor que quase some */
   --sucesso-rgb: 48 122 7; /* #307A07 */
   --erro-rgb: 203 43 43; /* #CB2B2B */
 
@@ -54,7 +66,8 @@
   --branco: rgb(var(--branco-rgb));
   --off-white: rgb(var(--off-white-rgb));
   --bege: rgb(var(--bege-rgb));
-  --dourado: rgb(var(--dourado-rgb));
+  --rose: rgb(var(--rose-rgb));
+  --rose-escuro: rgb(var(--rose-escuro-rgb));
   --cinza: rgb(var(--cinza-rgb));
   --borda: rgb(var(--borda-rgb));
   --borda-sutil: rgb(var(--borda-sutil-rgb));
@@ -62,9 +75,31 @@
   --erro: rgb(var(--erro-rgb));
 
   /* --- Tipografia ------------------------------------------------------- */
+  /*
+    TRÊS FAMÍLIAS, CADA UMA COM UM PAPEL QUE A LOGO JÁ TINHA
+    --------------------------------------------------------
+    A logo nova é um nome manuscrito sobre uma frase em versalete serifado. As
+    três fontes repetem essa dupla e acrescentam o corpo:
+
+      MANUSCRITA   Pinyon Script. A palavra de cada folha ("O ateliê", "Os
+                   detalhes"), no lugar em que as referências põem "Sala da
+                   noiva" e "Pacote Gold". É da mesma família caligráfica do
+                   nome na logo, de pena inclinada, e por isso conversa com
+                   ela em vez de competir. Testada ao lado de Allura, Great
+                   Vibes, Mrs Saint Delafield e outras cinco: foi a que ficou
+                   legível em frase curta sem parecer convite de formatura.
+      SERIFADA     Cormorant Garamond, que já era a do site. Em versalete com
+                   entreletra larga ela é quase a frase da logo ("SONHOS
+                   EXISTEM PARA SEREM REALIZADOS"), e em itálico é a voz da
+                   Danielli.
+      CORPO        Josefin Sans, no lugar da Montserrat. É a fonte de corpo da
+                   referência do Studio Rodrigues: geométrica, leve, de
+                   desenho antigo. A Montserrat é pesada e larga para um
+                   material que agora é papel e moldura.
+  */
   --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
-  /* Montserrat: geométrica e limpa, faz contraste com a serifada dos títulos. */
-  --font-corpo: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-corpo: 'Josefin Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-script: 'Pinyon Script', 'Cormorant Garamond', cursive;
 
   /*
     ESCALA FIXA, PORQUE A FLUIDEZ MORA NA RAIZ
@@ -103,20 +138,19 @@
   --fs-display-sm: 3.25rem;
 
   /*
-    O COLOSSO
-    ---------
-    Um degrau acima do display, e existe para UMA palavra por apresentação.
-    Dezoito vezes o corpo do texto: nesse tamanho a palavra deixa de ser
-    título e vira imagem, que é o efeito procurado. Aplicado em frase, vira
-    cartaz de liquidação.
+    A MANUSCRITA
+    ------------
+    Dois degraus, e só dois. A Pinyon tem olho pequeno: o "a" dela ocupa um
+    terço do corpo, e por isso ela precisa de corpo grande para ser lida. Menor
+    que o degrau de baixo, vira enfeite.
 
-    Este número é só o TETO, e na maior parte das larguras nem chega a valer.
-    Quem manda é o `min()` da classe `.texto-colosso`, que divide a linha pelo
-    número de letras: a palavra ocupa a largura toda, seja ela de seis letras
-    ou de nove, e o teto só entra para impedir que "Noivas" vire cartaz num
-    monitor de 27 polegadas.
+      --fs-script     a palavra de cada folha.
+      --fs-script-g   a palavra da capa, "Noivas". Uma por apresentação: é o
+                      que as duas referências fazem na primeira página, e é o
+                      que substitui o "NOIVAS" em versal gigante de antes.
   */
-  --fs-colosso: 18rem;
+  --fs-script: 4.5rem;
+  --fs-script-g: 9.5rem;
 
   /* Mesma curva do `ease-suave` do Tailwind, disponível no CSS puro. */
   --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
@@ -215,7 +249,8 @@
 
     --fs-display: 2.5rem;
     --fs-display-sm: 1.875rem;
-    --fs-colosso: 8rem;
+    --fs-script: 3.25rem;
+    --fs-script-g: 6rem;
 
     /*
       No celular o ar custa rolagem, e rolagem é o orçamento mais apertado da
@@ -272,9 +307,15 @@
     }
   }
 
+  /*
+    Corpo em 17px e peso 300. A Josefin tem olho pequeno: em 16px ela lê
+    como uma Montserrat de 14, e o peso leve é o que dá a ela o ar de papel
+    das referências. Negrito não existe no corpo, quem destaca é o itálico.
+  */
   body {
     @apply bg-off-white font-sans text-preto antialiased;
-    font-size: 1rem;
+    font-size: 1.0625rem;
+    font-weight: 300;
     line-height: 1.65;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
@@ -317,7 +358,7 @@
   }
 
   ::selection {
-    background: var(--preto);
+    background: var(--rose);
     color: var(--branco);
   }
 }
@@ -336,9 +377,18 @@
   }
 
   /* --- Tipografia de apoio --------------------------------------------- */
-  /* Rótulo/eyebrow: o "carimbo" tipográfico da marca. */
+  /*
+    Rótulo/eyebrow: o "carimbo" tipográfico da marca.
+
+    Era Cormorant em versal cinza. Virou Josefin em caixa alta, pequena e bem
+    espaçada, no rosé escuro, que é o rótulo das referências ("PENTEADISTA /
+    PROPRIETÁRIA"). O rosé escuro, e não o claro, porque aqui a letra é
+    pequena: ver o contraste no `:root`.
+  */
   .eyebrow {
-    @apply font-display text-h6 uppercase tracking-luxo text-cinza;
+    @apply font-sans font-normal uppercase text-rose-escuro;
+    font-size: 0.75rem;
+    letter-spacing: 0.26em;
   }
 
   .titulo-secao {
@@ -353,18 +403,17 @@
   /*
     Filete usado como divisor sob títulos.
 
-    É AQUI que mora a maior parte dos 2% de dourado do site: uma linha de 1px
-    por bloco, decorativa, sem exigência de contraste porque não carrega
-    informação. É o acento que se repete e por isso não precisa aparecer em
-    mais lugar nenhum.
+    Uma linha de 1px em rosé, decorativa, sem exigência de contraste porque não
+    carrega informação. É o traço fino da logo (o arco em volta do vestido)
+    reduzido a um risco.
   */
   .filete {
-    @apply block h-px w-14 bg-dourado;
+    @apply block h-px w-14 bg-rose;
   }
 
-  /* Sobre fundo escuro o dourado ganha corpo, então o filete não inverte. */
+  /* Sobre foto escura, onde o rosé some. */
   .filete-claro {
-    @apply block h-px w-14 bg-dourado;
+    @apply block h-px w-14 bg-branco/80;
   }
 
   /* --- Botões ----------------------------------------------------------- */
@@ -380,9 +429,9 @@
     preto cheio (mais forte) → branco cheio → contorno.
     O hover inverte o preenchimento, em vez de mudar de cor.
 
-    O botão principal é PRETO SUAVE, nunca dourado. Botão dourado sobre fundo
-    claro não tem contraste para o texto de dentro, e é exatamente o clichê de
-    "dourado + noiva" que esta direção visual existe para evitar.
+    O botão principal é o marrom do texto, nunca rosé. Botão rosé sobre o papel
+    não tem contraste para o texto de dentro, e rosé em bloco é o clichê de
+    papelaria que a paleta evita (ver a proporção no `:root`).
   */
   .btn-primario {
     @apply btn border-preto bg-preto text-branco hover:bg-branco hover:text-preto;
@@ -540,8 +589,11 @@
       Escrito à mão, quebraria no dia em que a Danielli acrescentasse um.
     */
     height: calc(100svh + var(--percurso, 0px));
-    background-color: var(--preto);
-    color: var(--branco);
+
+    /* Papel, e não mais preto: ver "De faixa preta a folhas de papel" em
+       DeslizeModelos. */
+    background-color: var(--off-white);
+    color: var(--preto);
   }
 
   .deslize_janela {
@@ -588,8 +640,13 @@
     motivo da faixa de marcas: medida que mora entre os itens é medida que não
     pertence a ninguém, e some da conta quando o JavaScript mede o trilho.
   */
+  /*
+    O vão é largo, 6rem, desde que cada painel virou uma dupla de fotos. Com
+    os 2,5rem do tempo do cartão sozinho, a pequena de uma folha quase
+    encostava na grande da seguinte, e cinco folhas liam como uma colagem só.
+  */
   .deslize_painel--peca {
-    padding-right: 2.5rem;
+    padding-right: 6rem;
   }
 
   /*
@@ -604,8 +661,8 @@
     mudar quando a sequência alterna de foto para fala.
   */
   .deslize_painel--depoimento {
-    width: min(34rem, 60vw);
-    padding-right: 2.5rem;
+    width: min(37.5rem, 64vw);
+    padding-right: 6rem;
   }
 
   .deslize_depoimento {
@@ -640,7 +697,19 @@
     height: 66svh;
     aspect-ratio: 3 / 4;
     overflow: hidden;
-    background-color: rgb(var(--branco-rgb) / 0.06);
+    background-color: var(--bege);
+  }
+
+  /*
+    A FOLHA: a dupla de fotos das referências, dentro de um painel.
+
+    Medida pela largura, e a altura sai da dupla: a grande tem 3:4 em três
+    quartos da largura, e a pequena desce mais um quarto disso. A conta dá uma
+    folha com 1,2 vez a largura de altura, e 64svh de largura põe a folha
+    inteira em uns 77% da altura da tela, com ar em cima e embaixo.
+  */
+  .deslize_folha {
+    width: min(38rem, 64svh);
   }
 
   .deslize_cartao img {
@@ -694,6 +763,26 @@
       margin-inline: 1.25rem;
       aspect-ratio: 0.62;
     }
+
+    /*
+      No celular a folha é a tela, com margem menor que a do cartão, e a
+      grande cresce de nove para dez colunas. Com a medida do desktop a folha
+      ocupava metade da altura de um aparelho de 812px, e a outra metade era
+      papel vazio em volta de uma foto pequena.
+    */
+    .deslize_folha {
+      width: calc(var(--tela, 100vw) - 1.5rem);
+      margin-inline: 0.75rem;
+    }
+
+    .deslize_folha .dupla_grande {
+      grid-column: 3 / 13;
+    }
+
+    .deslize_folha .dupla--invertida .dupla_grande {
+      grid-column: 1 / 11;
+    }
+
   }
 }
 
@@ -996,16 +1085,15 @@
 /* ==========================================================================
    TIPOGRAFIA DE PAPÉIS
    --------------------------------------------------------------------------
-   Três papéis, duas famílias. A referência usa três fontes (serifada de
-   display, condensada de rótulo e sem serifa de corpo); aqui a condensada não
-   entra, porque a marca da Danielli tem duas famílias e uma terceira custaria
-   peso de fonte para dizer o que a Montserrat em caixa alta com entreletra
-   larga já diz.
+   Cinco papéis, três famílias. A lógica é a da logo nova: um nome manuscrito
+   sobre uma frase em versalete. Ver o bloco das fontes no `:root`.
 
-   1. DISPLAY, Cormorant em caixa alta. Título e abertura.
-   2. ITÁLICO, Cormorant em itálico e caixa baixa. A voz da casa.
-   3. RÓTULO, Montserrat em caixa alta com entreletra. Dado, código, medida.
-   4. CORPO, Montserrat. Tudo o que se lê de verdade.
+   1. MANUSCRITA, Pinyon em rosé. A palavra de cada folha, e a da capa.
+   2. VERSAL, Cormorant em caixa alta com entreletra larga. A linha que vem
+      debaixo da manuscrita, como a frase debaixo do nome na logo.
+   3. ITÁLICO, Cormorant em itálico e caixa baixa. A voz da casa.
+   4. RÓTULO, Josefin em caixa alta com entreletra. Dado, lugar, contexto.
+   5. CORPO, Josefin. Tudo o que se lê de verdade.
    ========================================================================== */
 @layer components {
   /*
@@ -1032,71 +1120,174 @@
   }
 
   /*
-    A PALAVRA GRANDE
-    ----------------
-    O `min()` é o que impede o estouro. A variável `--letras` chega do
-    componente com o número de caracteres, e o segundo termo divide a largura
-    disponível por esse número: a palavra ocupa a linha inteira e nunca passa
-    dela, seja "NOIVAS" com seis letras ou "MADRINHAS" com nove.
+    A PALAVRA MANUSCRITA
+    --------------------
+    É o gesto que as duas referências repetem em toda página: "Sala da noiva",
+    "Dia da noiva", "Pacote Premium" escritos à mão, encostados na foto. Aqui
+    ela abre cada folha, em rosé, e é o único lugar do texto em que o rosé
+    claro aparece: o corpo grande é o que garante a leitura (ver o rosé no
+    `:root`).
 
-    A medida é `cqw`, e não `vw`, de propósito. `vw` inclui a barra de rolagem
-    e mede a JANELA, não o container: qualquer margem lateral viraria estouro
-    horizontal. `cqw` mede o pai, que é exatamente o espaço que existe.
+    CURTA, DE DUAS A QUATRO PALAVRAS. A letra de pena só é bonita enquanto se
+    lê de relance; uma frase inteira em manuscrita vira convite de casamento
+    e ninguém lê até o fim.
 
-    O 0.69 é a largura de uma maiúscula da Cormorant, medida no navegador e
-    com folga por cima. A média muda de palavra para palavra, e as três da
-    apresentação provam: "NOIVAS" deu 0,618em por letra, "NOIVOS" 0,639 (dois
-    O, e o O é largo) e "MADRINHAS" 0,674 (o M é o mais largo do alfabeto).
-    Cada valor que testei estourou a coluna na palavra seguinte.
-
-    O número é o TETO da família, não a média dela, e o preço é que palavra de
-    letra estreita deixa uns 10% de linha sobrando. Estourar seria pior.
-
-    Trocar a fonte de display obriga a medir de novo.
+    O `line-height` abaixo de 1 é de propósito: a Pinyon tem hastes e laços
+    muito altos, e com entrelinha normal duas linhas dela ficam separadas por
+    um vão que parece parágrafo novo.
   */
-  .texto-colosso {
-    @apply font-display font-light uppercase;
-    font-size: min(var(--fs-colosso), calc(100cqw / (var(--letras, 8) * 0.69)));
-    line-height: 0.85;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-    text-align: center;
+  .t-script {
+    font-family: var(--font-script);
+    font-size: var(--fs-script);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--rose);
+    text-wrap: balance;
   }
 
-  .caixa-colosso {
-    container-type: inline-size;
+  .t-script-g {
+    @apply t-script;
+    font-size: var(--fs-script-g);
+    line-height: 0.9;
+  }
+
+  /*
+    O VERSAL
+    --------
+    Caixa alta serifada, pequena e muito espaçada: é a frase debaixo do nome
+    na logo ("SONHOS EXISTEM PARA SEREM REALIZADOS"), e é assim que ela
+    acompanha a palavra manuscrita. Antes era o título grande da seção; agora
+    quem manda é a manuscrita, e o versal assina embaixo.
+  */
+  .t-versal {
+    @apply font-display font-normal uppercase text-preto;
+    font-size: var(--fs-h5);
+    line-height: 1.4;
+    letter-spacing: 0.22em;
+    text-wrap: balance;
   }
 
   /*
     O VÉU DA CAPA
     -------------
-    Quatro paradas, e cada uma existe por um motivo medido, não escolhido no
-    olho:
+    Era um véu preto de quatro paradas, para texto branco. Virou o contrário:
+    a foto DESMANCHA no papel da página, de baixo para cima, e o texto de baixo
+    é escuro sobre claro, como nas capas das referências.
 
-      0%    70%  o alto carrega a marca e a saudação em branco, e foto de
-                 noiva é CLARA justamente ali. Sem isto o texto some no
-                 vestido, que foi o que aconteceu na primeira tentativa.
-      34%   14%  o véu abre. É a única faixa em que a foto aparece como foto,
-                 e é o que a capa existe para mostrar.
-      52%   18%
-      100%  92%  o rodapé carrega a palavra colossal, o parágrafo e o botão.
-                 Uma palavra desse tamanho só funciona chapada: qualquer
-                 detalhe do vestido atravessando a letra estraga o efeito.
-
-    Texto em branco sobre 70% de preto rende cerca de 8:1 mesmo sobre a parte
-    mais clara do vestido. Sobre os 14% do meio renderia 1,8:1, e é por isso
-    que nenhum texto mora lá.
+      0%    35%  preto, só no alto e só o bastante para a assinatura branca
+                 da marca não sumir num véu ou num fundo claro de estúdio.
+      22%    0%  a foto limpa, onde está o rosto.
+      46%    0%
+      64%   78%  papel. A palavra manuscrita nasce aqui, metade sobre a foto
+                 e metade sobre o papel, que é o que faz a capa parecer uma
+                 página diagramada, e não uma foto com legenda.
+      80%  100%  papel chapado, para a saudação e o parágrafo.
   */
   .veu-capa {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgb(var(--preto-rgb) / 0.7) 0%,
-      rgb(var(--preto-rgb) / 0.14) 34%,
-      rgb(var(--preto-rgb) / 0.18) 52%,
-      rgb(var(--preto-rgb) / 0.92) 100%
-    );
+    background:
+      linear-gradient(
+        to bottom,
+        rgb(var(--preto-rgb) / 0.35) 0%,
+        rgb(var(--preto-rgb) / 0) 22%
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(var(--off-white-rgb) / 0) 46%,
+        rgb(var(--off-white-rgb) / 0.78) 64%,
+        rgb(var(--off-white-rgb) / 1) 80%
+      );
+  }
+
+  /*
+    A MOLDURA
+    ---------
+    A borda branca em volta da foto pequena, quando ela se sobrepõe à grande.
+    É o recurso mais velho de revista para separar duas fotos que se tocam, e
+    é o que as duas referências fazem em quase toda página.
+
+    Só funciona sobre papel (off-white ou rosado). Sobre fundo branco a moldura
+    some, e a foto pequena parece colada na grande sem querer.
+  */
+  .moldura {
+    background-color: var(--branco);
+    padding: 0.375rem;
+  }
+
+  @media (min-width: 768px) {
+    .moldura {
+      padding: 0.5rem;
+    }
+  }
+
+  /*
+    A DUPLA
+    -------
+    A geometria de components/Dupla.tsx; o desenho e o porquê estão lá.
+
+    `--dupla-desce` é quanto a grande deixa de espaço embaixo para a pequena
+    cair. Em porcentagem da largura da coluna da grande, que é como margem em
+    porcentagem funciona dentro de uma grade: a montagem encolhe inteira.
+  */
+  .dupla {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .dupla_grande {
+    grid-column: 4 / 13;
+    grid-row: 1;
+    align-self: start;
+    margin-bottom: var(--dupla-desce, 24%);
+  }
+
+  .dupla_pequena {
+    position: relative;
+    z-index: 1;
+    grid-column: 1 / 7;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  /*
+    A MANUSCRITA MORA NO VÃO DEBAIXO DA GRANDE.
+
+    A descida da grande deixa um vão ao lado da pequena, embaixo da foto, e é
+    ali que a palavra entra, encostada na moldura. Nas referências ela fica
+    ao lado da grande, acima da pequena; aqui essa faixa tem só um quarto da
+    largura, e no celular "O bordado" não cabia nela: ou invadia a foto ou
+    saía da tela. No vão cabe em qualquer largura, numa linha só.
+
+    A altura do vão é a própria descida, então a palavra nunca encosta na
+    grande. O corpo é 70% da manuscrita de título, para ela ler como legenda
+    da foto e não como título de outra seção.
+  */
+  .dupla_rotulo {
+    grid-column: 7 / 13;
+    grid-row: 1;
+    align-self: end;
+    padding-left: 0.875rem;
+    padding-bottom: 0.25rem;
+    font-size: calc(var(--fs-script) * 0.7);
+    text-align: left;
+  }
+
+  .dupla--invertida .dupla_grande {
+    grid-column: 1 / 10;
+  }
+
+  .dupla--invertida .dupla_pequena {
+    grid-column: 7 / 13;
+  }
+
+  .dupla--invertida .dupla_rotulo {
+    grid-column: 1 / 7;
+    padding-right: 0.875rem;
+    padding-left: 0;
+    text-align: right;
   }
 
   /*

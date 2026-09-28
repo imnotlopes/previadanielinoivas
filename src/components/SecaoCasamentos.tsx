@@ -28,12 +28,12 @@ export default function SecaoCasamentos() {
   if (comFotos.length === 0) return null
 
   return (
-    <section className="border-t border-borda-sutil bg-branco">
+    <section className="bg-off-white">
       <div className="container-luxo secao">
         <Revelar>
           <SecaoTitulo
-            eyebrow="Casamentos"
-            titulo="No dia delas"
+            script="No dia delas"
+            titulo="Casamentos"
             descricao="Vestidos que saíram do nosso acervo e foram para o altar."
             centralizado
           />
@@ -53,7 +53,7 @@ export default function SecaoCasamentos() {
           desvio sai.
         */}
         <Revelar atraso={160}>
-          <p className="mt-14 text-center text-preto/70">
+          <p className="t-italico mt-14 text-center">
             Noivas vestidas por nós. O próximo altar pode ser o seu.
           </p>
         </Revelar>

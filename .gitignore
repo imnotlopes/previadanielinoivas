@@ -41,19 +41,19 @@ print-do-site.jpeg
 avaliacoes-originais/
 
 # Projeto de referência copiado para dentro desta pasta (Next.js + Supabase).
-# Serve de fonte de ideias, não faz parte deste site — e traz .env.local e um
+# Serve de fonte de ideias, não faz parte deste site, e traz .env.local e um
 # arquivo de senha junto. Fora do repositório.
 Lennys atelie/
 Lennys atelie - Exemplo/
 
 # Material bruto dos fotógrafos: noivas reais, identificáveis, no dia do
-# casamento delas. O repositório é PÚBLICO — jogar isto aqui dentro publica
+# casamento delas. O repositório é PÚBLICO: jogar isto aqui dentro publica
 # para qualquer pessoa na internet, com URL permanente e histórico do Git que
 # não se apaga só deletando o arquivo depois.
 #
 # Fica no disco, fora do repositório. O que o site publica são os WebP
-# derivados e aprovados, em public/, gerados por scripts/importar-fotografos.mjs
-# — mesma regra que já vale para a pasta instagram/.
+# derivados e aprovados, em public/, gerados por scripts/importar-fotografos.mjs.
+# Mesma regra que já vale para a pasta instagram/.
 Fotográfos/
 Fotografos/
 
@@ -69,3 +69,8 @@ videos-originais/
 # scripts/marcas.mjs a partir daqui, mais a prova de contato que o script
 # escreve nesta mesma pasta para conferir o alinhamento a olho.
 marcas-originais/
+
+# A logo nova como a Danielli mandou: o PDF e a imagem tirada de dentro dele,
+# sem reamostragem. O que o site publica são os WebP de public/logo/ e os
+# ícones, gerados por scripts/logo.mjs a partir daqui.
+logo-original/

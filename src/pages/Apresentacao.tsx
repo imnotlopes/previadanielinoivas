@@ -7,6 +7,7 @@ import SecaoCasamentos from '../components/SecaoCasamentos'
 import SecaoAvaliacoes from '../components/SecaoGoogle'
 import SecaoOferece from '../components/SecaoOferece'
 import SecaoModelos from '../components/SecaoModelos'
+import SecaoTitulo from '../components/SecaoTitulo'
 import SecaoVestidosEmMovimento from '../components/SecaoVestidosEmMovimento'
 import Seo from '../components/Seo'
 import { apresentacaoDe, nomeSanitizado } from '../data/apresentacoes'
@@ -144,18 +145,10 @@ export default function Apresentacao({ publico }: ApresentacaoProps) {
 
       {/* 6 · Como funciona. Some enquanto nenhum passo estiver confirmado. */}
       {passos.length > 0 && (
-        <section className="border-t border-borda-sutil bg-preto text-branco">
+        <section className="bg-off-white">
           <div className="container-luxo secao">
             <Revelar>
-              <div className="flex flex-col items-center text-center">
-                <span className="font-display text-h6 uppercase tracking-luxo text-dourado">
-                  Como funciona
-                </span>
-                <h2 className="mt-4 texto-display-sm uppercase tracking-luxo text-branco">
-                  Do provador ao altar
-                </h2>
-                <span className="filete-claro mt-7" />
-              </div>
+              <SecaoTitulo script="Como funciona" titulo="Do provador ao altar" centralizado />
             </Revelar>
 
             <ol className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -164,17 +157,13 @@ export default function Apresentacao({ publico }: ApresentacaoProps) {
                   key={passo.titulo}
                   como="li"
                   atraso={indice * 90}
-                  className="border-t border-branco/30 pt-5"
+                  className="border-t border-borda pt-5"
                 >
-                  <span className="font-display text-h4 leading-none text-dourado">
-                    {String(indice + 1).padStart(2, '0')}
+                  <span className="t-script text-[calc(var(--fs-script)*0.7)]">
+                    {indice + 1}
                   </span>
-                  <h3 className="mt-3 text-h5 uppercase tracking-luxo text-branco">
-                    {passo.titulo}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-branco/70">
-                    {passo.texto}
-                  </p>
+                  <h3 className="t-versal mt-3">{passo.titulo}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-cinza">{passo.texto}</p>
                 </Revelar>
               ))}
             </ol>
@@ -196,21 +185,22 @@ export default function Apresentacao({ publico }: ApresentacaoProps) {
         não pede "agende já", pede uma data, e responder com uma data é o
         passo mais curto entre curiosidade e visita.
       */}
-      <section className="border-t border-borda-sutil bg-off-white">
-        <div className="container-luxo secao flex flex-col items-center text-center">
+      {/*
+        Mesmo rosado do rodapé, e sem divisa entre os dois: o convite e a logo
+        inteira formam a última página, como a das referências, que termina
+        no "Obrigada!" e no contato.
+      */}
+      <section className="bg-bege">
+        <div className="container-luxo secao-topo-g flex flex-col items-center text-center">
           <Revelar>
-            <span className="eyebrow block">Próximo passo</span>
-            <h2 className="mt-4 texto-display-sm uppercase tracking-luxo">
-              Vem conhecer o ateliê
-            </h2>
-            <span className="filete mx-auto mt-7" />
+            <SecaoTitulo script="Te esperamos" titulo="Vem conhecer o ateliê" centralizado />
           </Revelar>
 
           <Revelar atraso={140}>
             <p className="t-italico-g mx-auto mt-9 max-w-[26ch] text-preto">
               <Convite nome={nome} />
             </p>
-            <p className="mx-auto mt-7 max-w-md text-preto/70">
+            <p className="mx-auto mt-7 max-w-md text-preto/80">
               É só responder na nossa conversa, e a gente combina o melhor
               horário para você vir provar com calma.
             </p>
@@ -257,12 +247,12 @@ function Endereco() {
     <Revelar atraso={200}>
       <address className="mt-12 not-italic">
         <span className="eyebrow block">Onde estamos</span>
-        <span className="mt-4 block text-sm leading-relaxed text-preto/70">
+        <span className="mt-4 block leading-relaxed text-preto/80">
           {endereco && <span className="block">{endereco}</span>}
           {local && <span className="block">{local}</span>}
         </span>
         {horarios.length > 0 && (
-          <span className="mt-4 block text-sm leading-relaxed text-preto/60">
+          <span className="mt-4 block text-sm leading-relaxed text-cinza">
             {horarios.map((h) => (
               <span key={h.dias} className="block">
                 {h.dias}: {h.horas}

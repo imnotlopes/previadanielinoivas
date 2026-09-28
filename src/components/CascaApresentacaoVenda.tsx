@@ -25,8 +25,9 @@ import Rodape from './Rodape'
  * da própria Danielli, disputando espaço com a foto de capa bem no instante em
  * que a foto tem de ganhar. O Instagram, que morava lá, já está no rodapé.
  *
- * O rodapé é o compacto. Quem chegou ao fim de uma apresentação rolando o
- * polegar não precisa de bloco institucional, precisa do contato.
+ * O rodapé é o compacto: a logo inteira e o Instagram. Quem chegou ao fim de
+ * uma apresentação rolando o polegar não precisa de bloco institucional,
+ * precisa saber de quem era aquilo e onde encontrar.
  */
 export default function CascaApresentacaoVenda({ children }: { children: ReactNode }) {
   return (

@@ -37,19 +37,23 @@ const PECAS = [
   {
     arquivo: 'og-noiva.jpg',
     /*
-      Dois painéis, e os dois de detalhe.
+      A LOGO NOVA E UMA DUPLA DE FOTOS, EM PAPEL.
 
-      O segundo era a Sofia de costas subindo a escada da igreja, com o
-      vestido inteiro, escolhido justamente para "caber o vestido inteiro".
-      Era o contrário do que a Danielli pediu: numa cidade pequena, a noiva
-      que vê o vestido inteiro no cartão já decidiu que viu. Agora são o close
-      da Aurora e o bordado da Mariana, e o cartão faz o que a página faz:
-      mostra o bastante para dar vontade de ver o resto.
+      Eram dois painéis de foto lado a lado, o close da Aurora e o bordado da
+      Mariana. Com a logo nova (setembro de 2026) o cartão passou a ser uma
+      página das referências que a Danielli mandou: a logo inteira à esquerda
+      e, à direita, a foto grande com a pequena de moldura branca por cima da
+      borda. Ver components/Dupla.
+
+      Continua sem vestido inteiro: a grande é o close da Aurora de costas, a
+      mesma da capa, e a pequena é o bordado da Mariana de perto. Numa cidade
+      pequena, a noiva que vê o vestido inteiro no cartão já decidiu que viu.
     */
-    mosaico: [
-      'pecas/aurora-renda-gola-alta.webp',
-      'recortes/mariana-bordado.webp',
-    ],
+    editorial: {
+      logo: 'logo/danielli-noivas.webp',
+      grande: 'capa/aurora-alto.webp',
+      pequena: 'recortes/mariana-bordado-perto.webp',
+    },
   },
   {
     arquivo: 'og-catalogo.jpg',
@@ -106,12 +110,49 @@ async function mosaico(fontes) {
     .toBuffer()
 }
 
+/** O papel da apresentação, `--off-white` em src/index.css. */
+const PAPEL = { r: 247, g: 242, b: 238 }
+
+/**
+ * A página das referências em 1200x630.
+ *
+ * As medidas são de olho, e a razão de cada uma: a logo ocupa a metade
+ * esquerda com ar em volta, porque é ela que diz de quem é o link; a grande
+ * encosta no alto da metade direita; a pequena cai sobre a borda de baixo e à
+ * esquerda da grande, com 10px de moldura branca, como nas páginas dos PDFs.
+ */
+async function editorial({ logo, grande, pequena }) {
+  const marca = await sharp(path.join(PUBLICO, logo)).resize({ height: 400 }).toBuffer()
+  const { width: larguraMarca } = await sharp(marca).metadata()
+
+  const fotoGrande = await sharp(path.join(PUBLICO, grande))
+    .resize(330, 440, { fit: 'cover', position: 'top' })
+    .toBuffer()
+
+  const MOLDURA = 10
+  const fotoPequena = await sharp(path.join(PUBLICO, pequena))
+    .resize(200, 250, { fit: 'cover' })
+    .extend({ top: MOLDURA, bottom: MOLDURA, left: MOLDURA, right: MOLDURA, background: '#ffffff' })
+    .toBuffer()
+
+  return sharp({ create: { width: LARGURA, height: ALTURA, channels: 3, background: PAPEL } })
+    .composite([
+      { input: marca, left: Math.round((560 - larguraMarca) / 2) + 20, top: 115 },
+      { input: fotoGrande, left: 790, top: 45 },
+      { input: fotoPequena, left: 660, top: 325 },
+    ])
+    .jpeg({ quality: 86 })
+    .toBuffer()
+}
+
 await mkdir(PUBLICO, { recursive: true })
 
 for (const peca of PECAS) {
-  const buffer = peca.mosaico
-    ? await mosaico(peca.mosaico)
-    : await simples(peca.fonte, peca.foco)
+  const buffer = peca.editorial
+    ? await editorial(peca.editorial)
+    : peca.mosaico
+      ? await mosaico(peca.mosaico)
+      : await simples(peca.fonte, peca.foco)
 
   await sharp(buffer).toFile(path.join(PUBLICO, peca.arquivo))
   console.log(`  ${peca.arquivo}`)

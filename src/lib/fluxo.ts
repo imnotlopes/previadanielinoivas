@@ -19,11 +19,18 @@ export const FOTOS_NO_FLUXO = 5
 
 export type ItemDoFluxo =
   /**
-   * Um vestido do acervo. `recorte` é o detalhe escolhido para ele; sem
-   * recorte (um vestido que veio pelo depoimento e não é destaque), vale a
-   * primeira foto da peça.
+   * Um vestido do acervo. `recorte` é o detalhe escolhido para ele, `perto` e
+   * `rotulo` completam a folha (ver `Destaque`); sem recorte (um vestido que
+   * veio pelo depoimento e não é destaque), vale a primeira foto da peça.
    */
-  | { tipo: 'peca'; chave: string; peca: Peca; recorte?: string }
+  | {
+      tipo: 'peca'
+      chave: string
+      peca: Peca
+      recorte?: string
+      perto?: string
+      rotulo?: string
+    }
   /** A foto que veio com o depoimento: um recorte de detalhe, sem legenda. */
   | { tipo: 'detalhe'; chave: string; imagem: ImagemDoDepoimento }
   | { tipo: 'depoimento'; chave: string; depoimento: Depoimento }
@@ -59,7 +66,7 @@ export function montarFluxo(
   const porCodigo = new Map(pecas.map((peca) => [peca.codigo, peca]))
 
   const codigos = destaques.map((d) => d.codigo)
-  const recortePorCodigo = new Map(destaques.map((d) => [d.codigo, d.recorte]))
+  const destaquePorCodigo = new Map(destaques.map((d) => [d.codigo, d]))
 
   const fila = [
     ...codigos.map((codigo) => porCodigo.get(codigo)).filter((p): p is Peca => !!p),
@@ -85,7 +92,15 @@ export function montarFluxo(
       const peca = usada && !usadas.has(usada.codigo) ? usada : proximaDaFila()
       if (!peca) break
       usadas.add(peca.codigo)
-      itens.push({ tipo: 'peca', chave: peca.codigo, peca, recorte: recortePorCodigo.get(peca.codigo) })
+      const destaque = destaquePorCodigo.get(peca.codigo)
+      itens.push({
+        tipo: 'peca',
+        chave: peca.codigo,
+        peca,
+        recorte: destaque?.recorte,
+        perto: destaque?.perto,
+        rotulo: destaque?.rotulo,
+      })
     }
 
     if (depoimento) {

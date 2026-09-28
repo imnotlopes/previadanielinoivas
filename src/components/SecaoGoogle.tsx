@@ -48,11 +48,11 @@ export default function SecaoAvaliacoes() {
   const nota = googleNegocio.nota.toLocaleString('pt-BR', { minimumFractionDigits: 1 })
 
   return (
-    <section className="secao border-t border-borda-sutil bg-off-white">
+    <section className="secao bg-bege">
       <div className="container-luxo flex flex-col gap-12">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <Revelar>
-            <SecaoTitulo eyebrow="Avaliações no Google" titulo="Quem já passou por aqui" />
+            <SecaoTitulo script="Avaliações" titulo="Quem já passou por aqui" />
           </Revelar>
 
           <Revelar atraso={120}>
@@ -60,7 +60,7 @@ export default function SecaoAvaliacoes() {
               <span className="texto-display-sm leading-none text-preto">{nota}</span>
               <div className="flex flex-col gap-2">
                 <Estrelas nota={googleNegocio.nota} className="flex items-center" />
-                <span className="text-sm text-preto/65">
+                <span className="text-sm text-cinza">
                   {googleNegocio.totalAvaliacoes} avaliações no Google
                 </span>
               </div>
@@ -176,7 +176,7 @@ function FileiraManual() {
  * componente que a noiva já viu dezenas de vezes fora daqui. Estrela
  * amarela, "G" colorido, selo azul e canto arredondado são o que faz o
  * cérebro dela ler "isto é do Google, não é o ateliê se elogiando". Repintado
- * no preto e off-white da marca, vira só mais um depoimento.
+ * no rosé e no papel da marca, vira só mais um depoimento.
  *
  * Por isso as cores do Google são literais e ficam presas neste arquivo, sem
  * virar token: nada mais na apresentação deve usá-las.
@@ -194,7 +194,7 @@ function Cartao({ avaliacao }: { avaliacao: AvaliacaoGoogle }) {
     <div className="relative h-full w-72 pt-11 sm:w-[21rem]">
       <figure className="flex h-full min-h-[25rem] flex-col items-center gap-3 rounded-[12px] border border-borda bg-branco px-6 pb-8 pt-14 text-center">
         <figcaption className="flex flex-col gap-1">
-          <span className="text-sm font-bold text-preto">{avaliacao.autor}</span>
+          <span className="text-sm font-normal text-preto">{avaliacao.autor}</span>
           <span className="text-xs text-cinza">{avaliacao.quando}</span>
         </figcaption>
 
@@ -206,7 +206,7 @@ function Cartao({ avaliacao }: { avaliacao: AvaliacaoGoogle }) {
         {/* `my-auto`: com a altura travada, relato curto deixaria um vazio
             grande embaixo. Centrado na sobra, o vazio se divide e o cartão
             parece composto em vez de faltando conteúdo. */}
-        <blockquote className="my-auto line-clamp-10 text-sm leading-relaxed text-preto/85">
+        <blockquote className="my-auto line-clamp-10 text-[0.9375rem] font-normal leading-relaxed text-preto/85">
           {avaliacao.texto}
         </blockquote>
       </figure>

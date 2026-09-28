@@ -4,9 +4,10 @@ import { depoimentos, type Depoimento, type ImagemDoDepoimento } from '../data/d
 import { identificacao, type Peca } from '../data/pecas'
 import { selosConfirmados } from '../data/selos'
 import { brand } from '../lib/brand'
-import { montarFluxo } from '../lib/fluxo'
+import { montarFluxo, type ItemDoFluxo } from '../lib/fluxo'
 import { mostrarReservados } from '../lib/previa'
 import { useDeslizeHorizontal } from '../lib/movimento'
+import Dupla from './Dupla'
 import Selos from './Selos'
 
 interface DeslizeModelosProps {
@@ -76,6 +77,15 @@ const RITMO_ESTREITO = 0.8
  *   CARTÃO     medido pela largura, e mais alongado. Ver o bloco de celular
  *              em `.deslize_cartao`.
  *   RITMO      mais lento, para um vestido durar uma dedada.
+ *
+ * DE FAIXA PRETA A FOLHAS DE PAPEL
+ * --------------------------------
+ * Até setembro de 2026 a seção era preta, com cada recorte sozinho num
+ * cartão. A Danielli mandou dois PDFs de fornecedores como referência do
+ * jeito que ela quer, e neles cada página é uma foto grande, uma pequena com
+ * moldura branca por cima da borda, e uma palavra manuscrita. É o que cada
+ * vestido virou aqui: uma folha dessas, passando de lado. No celular, uma
+ * folha por tela, o que é quase folhear o PDF.
  */
 export default function DeslizeModelos({
   pecas,
@@ -112,7 +122,7 @@ export default function DeslizeModelos({
                 <div key={item.chave} className="deslize_painel deslize_painel--peca">
                   {/* As duas primeiras já estão na tela quando a seção prende;
                       o resto só existe depois de a pessoa rolar. */}
-                  <Cartao peca={item.peca} recorte={item.recorte} adiantada={fotos <= 2} />
+                  <Folha item={item} adiantada={fotos <= 2} invertida={fotos % 2 === 0} />
                 </div>
               )
             }
@@ -144,10 +154,12 @@ export default function DeslizeModelos({
 function Abertura({ amostra, estreita }: { amostra: string; estreita: boolean }) {
   const titulo = (
     <>
-      <span className="eyebrow block text-branco rebaixado">Os vestidos</span>
-      <h2 className="mt-5 texto-display text-branco">Um pouco do que te espera</h2>
-      <span className="filete-claro mt-8" />
-      <p className="t-italico mt-8 max-w-[34ch] text-branco">{amostra}</p>
+      <h2 className="font-normal">
+        <span className="t-script block">Os detalhes</span>
+        <span className="t-versal mt-4 block">Um pouco do que te espera</span>
+      </h2>
+      <span className="filete mt-7" />
+      <p className="t-italico mt-7 max-w-[34ch]">{amostra}</p>
     </>
   )
 
@@ -160,11 +172,9 @@ function Abertura({ amostra, estreita }: { amostra: string; estreita: boolean })
 
   const garantias = (
     <>
-      <span className="eyebrow block text-branco rebaixado">Sem surpresa depois</span>
-      <p className="mt-4 font-display text-h4 uppercase tracking-luxo text-branco">
-        O que está incluído
-      </p>
-      <Selos publico="noiva" claro />
+      <span className="eyebrow block">Sem surpresa depois</span>
+      <p className="t-versal mt-4">O que está incluído</p>
+      <Selos publico="noiva" />
     </>
   )
 
@@ -230,12 +240,19 @@ function Fecho() {
   return (
     <div className="deslize_painel deslize_painel--cheio">
       <figure className="container-luxo flex flex-col items-center text-center">
-        <span className="filete-claro" />
-        <blockquote className="t-italico-g mt-9 max-w-[22ch] text-branco">
-          {FRASE_DA_MARCA}
-        </blockquote>
-        <figcaption className="mt-9 font-display text-h6 uppercase tracking-luxo text-branco rebaixado">
-          {brand.subtitulo} {brand.nome}
+        <span className="filete" />
+        <blockquote className="t-italico-g mt-9 max-w-[22ch]">{FRASE_DA_MARCA}</blockquote>
+        {/* A assinatura é a da logo nova: o nome manuscrito dela. */}
+        <figcaption className="mt-9">
+          <img
+            src="/logo/assinatura.webp"
+            alt={`${brand.subtitulo} ${brand.nome}`}
+            width={834}
+            height={191}
+            loading="lazy"
+            decoding="async"
+            className="mx-auto h-auto w-44 md:w-52"
+          />
         </figcaption>
       </figure>
     </div>
@@ -243,36 +260,64 @@ function Fecho() {
 }
 
 /**
- * Um vestido, em detalhe.
+ * Um vestido, em detalhe: uma folha das referências.
  *
- * SÓ A FOTO. Até setembro de 2026 o cartão tinha o nome, a descrição e o
- * código da peça por cima ("Bordado brilhante com manga longa", "[ N-33 ]").
- * Saíram os três: descrição é informação, e informação completa na cabeça da
- * noiva o que o recorte escondeu. Sem legenda, o detalhe fica em aberto, e o
- * resto do vestido vira motivo para ir ao ateliê.
+ * A grande é o recorte; a pequena, com moldura branca, é o mesmo detalhe mais
+ * de perto; e a palavra manuscrita diz para onde olhar ("O bordado"). Folhas
+ * seguidas se espelham, a pequena ora à esquerda ora à direita, como página
+ * par e página ímpar.
  *
- * Antes disso ele também abria a ficha da peça e tinha o "+" de marcar para
- * provar; saíram junto com a ideia de catálogo.
+ * NENHUM NOME DE VESTIDO. Até setembro de 2026 o cartão tinha o nome, a
+ * descrição e o código da peça por cima. Saíram: descrição é informação, e
+ * informação completa na cabeça da noiva o que o recorte escondeu. A palavra
+ * manuscrita nomeia o DETALHE, e o resto do vestido fica em aberto.
  *
  * O `alt` continua dizendo qual é a peça: quem usa leitor de tela não vê o
  * recorte, e para essa pessoa a descrição é a única forma de a foto existir.
+ *
+ * Um vestido sem `perto` (o de um depoimento que não é destaque) vira só a
+ * grande, no cartão de sempre.
  */
-function Cartao({
-  peca,
-  recorte,
+function Folha({
+  item,
   adiantada,
+  invertida,
 }: {
-  peca: Peca
-  recorte?: string
+  item: Extract<ItemDoFluxo, { tipo: 'peca' }>
   adiantada: boolean
+  invertida: boolean
 }) {
+  const { peca, recorte, perto, rotulo } = item
+  const carregar = adiantada ? 'eager' : 'lazy'
+
+  const grande = (
+    <img
+      src={recorte ?? peca.fotos[0]}
+      alt={identificacao(peca)}
+      loading={carregar}
+      decoding="async"
+      className="block aspect-[3/4] w-full object-cover"
+    />
+  )
+
+  if (!perto) return <div className="deslize_cartao">{grande}</div>
+
   return (
-    <div className="deslize_cartao">
-      <img
-        src={recorte ?? peca.fotos[0]}
-        alt={identificacao(peca)}
-        loading={adiantada ? 'eager' : 'lazy'}
-        decoding="async"
+    <div className="deslize_folha">
+      <Dupla
+        parada
+        invertida={invertida}
+        rotulo={rotulo}
+        grande={grande}
+        pequena={
+          <img
+            src={perto}
+            alt=""
+            loading={carregar}
+            decoding="async"
+            className="block aspect-[4/5] w-full object-cover"
+          />
+        }
       />
     </div>
   )
@@ -297,16 +342,14 @@ function PainelDepoimento({ depoimento }: { depoimento: Depoimento }) {
     <div className="deslize_painel deslize_painel--depoimento">
       <figure className="deslize_depoimento">
         {print && <ImagemPrint imagem={print} />}
-        <span className="filete-claro" />
-        <blockquote
-          className={longa ? 't-italico mt-7 text-branco' : 't-italico-g mt-7 text-branco'}
-        >
+        <span className="filete" />
+        <blockquote className={longa ? 't-italico mt-7' : 't-italico-g mt-7'}>
           “{depoimento.fala}”
         </blockquote>
-        <figcaption className="mt-7 font-display text-h6 uppercase tracking-luxo text-branco">
+        <figcaption className="t-script mt-7 text-[calc(var(--fs-script)*0.62)]">
           {depoimento.autora}
           {depoimento.contexto && (
-            <span className="mt-1 block normal-case tracking-normal text-branco rebaixado">
+            <span className="eyebrow mt-3 block">
               {depoimento.contexto}
             </span>
           )}
@@ -364,15 +407,13 @@ function PainelDetalhe({ imagem }: { imagem: ImagemDoDepoimento }) {
 function PainelReservado() {
   return (
     <div className="deslize_painel deslize_painel--depoimento">
-      <figure className="deslize_depoimento border border-dashed border-branco/40 p-8">
-        <span className="filete-claro" />
-        <p className="t-italico mt-7 text-branco rebaixado">
+      <figure className="deslize_depoimento border border-dashed border-rose/60 p-8">
+        <span className="filete" />
+        <p className="t-italico mt-7 rebaixado">
           “Aqui entra o depoimento de uma noiva, do jeito que ela escreveu.”
         </p>
-        <p className="mt-7 font-display text-h6 uppercase tracking-luxo text-branco rebaixado">
-          Espaço para depoimento
-        </p>
-        <p className="mt-5 text-sm leading-relaxed text-branco rebaixado">
+        <p className="eyebrow mt-7">Espaço para depoimento</p>
+        <p className="mt-5 text-sm leading-relaxed text-cinza">
           Pode ser o print da conversa no WhatsApp ou a fala dela escrita. Se
           souber qual vestido ela usou, a foto dele entra logo antes. Este quadro
           só aparece no link de prévia: as noivas não veem.

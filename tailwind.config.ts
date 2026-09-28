@@ -1,8 +1,8 @@
 import type { Config } from 'tailwindcss'
 
 /**
- * Design System — Atelier Danielli Noivas
- * Off-white, preto suave, champagne e pequenos acentos dourados.
+ * Design System, Atelier Danielli Noivas
+ * Papel rosado, texto marrom quase preto, moldura branca e o rosé da logo.
  * Todos os valores abaixo apontam para as CSS variables declaradas em src/index.css,
  * que é a fonte única de verdade dos tokens (inclusive da proporção da paleta).
  */
@@ -20,7 +20,8 @@ export default {
         branco: 'rgb(var(--branco-rgb) / <alpha-value>)',
         'off-white': 'rgb(var(--off-white-rgb) / <alpha-value>)',
         bege: 'rgb(var(--bege-rgb) / <alpha-value>)',
-        dourado: 'rgb(var(--dourado-rgb) / <alpha-value>)',
+        rose: 'rgb(var(--rose-rgb) / <alpha-value>)',
+        'rose-escuro': 'rgb(var(--rose-escuro-rgb) / <alpha-value>)',
         cinza: 'rgb(var(--cinza-rgb) / <alpha-value>)',
         borda: 'rgb(var(--borda-rgb) / <alpha-value>)',
         'borda-sutil': 'rgb(var(--borda-sutil-rgb) / <alpha-value>)',
@@ -31,6 +32,7 @@ export default {
       fontFamily: {
         display: ['var(--font-display)'],
         sans: ['var(--font-corpo)'],
+        script: ['var(--font-script)'],
       },
 
       fontSize: {

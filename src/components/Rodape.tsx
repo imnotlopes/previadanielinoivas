@@ -8,7 +8,7 @@ import { IconeInstagram } from './icones'
   área tocável para perto dos 44px sem mudar nada do que se vê.
 */
 const classeContato =
-  'inline-flex items-center gap-3 py-2.5 font-display text-h6 uppercase tracking-luxo text-branco/80 transition-colors duration-300 ease-suave hover:text-branco'
+  'eyebrow inline-flex items-center gap-3 py-2.5 transition-colors duration-300 ease-suave hover:text-preto'
 
 interface RodapeProps {
   /**
@@ -32,34 +32,36 @@ interface RodapeProps {
 
 export default function Rodape({ compacto = false, publico = 'noiva' }: RodapeProps) {
   return (
-    <footer className="bg-preto text-branco">
+    <footer className="bg-bege">
       <div
         className={cn(
           'container-luxo flex flex-col items-center text-center',
-          compacto ? 'gap-6 py-12' : 'gap-10 py-16 md:py-20',
+          compacto ? 'gap-8 py-16 md:py-20' : 'gap-10 py-16 md:py-20',
         )}
       >
+        {/*
+          A logo inteira, o vestido no arco e o nome, é o fecho da peça. Na
+          capa só entra a assinatura (ver CapaApresentacao); aqui ela aparece
+          uma vez inteira, como a última página das referências, que termina
+          na marca e no contato.
+        */}
+        <img
+          src="/logo/danielli-noivas.webp"
+          alt={`${brand.subtitulo} ${brand.nome}`}
+          width={834}
+          height={774}
+          loading="lazy"
+          decoding="async"
+          className="h-auto w-44 md:w-52"
+        />
+
         {!compacto && (
           <>
-            {/*
-              O selo da marca. A arte disponível é a foto de perfil do
-              Instagram, quadrada e com 150px de lado, em ~160px ela ainda se
-              segura, mas é o limite. Quando chegar o vetorial, troque
-              public/logo.png e rode o script de importação.
-            */}
-            <img
-              src="/logo-completo-claro.webp"
-              alt={`${brand.subtitulo} ${brand.nome}`}
-              width={150}
-              height={150}
-              loading="lazy"
-              decoding="async"
-              className="h-auto w-32 md:w-40"
-            />
+            <span className="filete" />
 
-            <span className="filete-claro" />
-
-            <p className="max-w-sm text-sm leading-relaxed text-branco/60">
+            {/* ATENÇÃO: "ajuste incluso" não foi confirmado pela Danielli, ver
+                data/selos.ts. Esta versão do rodapé não está em uso. */}
+            <p className="max-w-sm text-sm leading-relaxed text-cinza">
               {publico === 'noiva'
                 ? 'Aluguel de vestidos de noiva, com prova no showroom e ajuste incluso.'
                 : 'Aluguel de vestidos de festa e 15 anos, com prova no showroom e ajuste incluso.'}
@@ -81,7 +83,7 @@ export default function Rodape({ compacto = false, publico = 'noiva' }: RodapePr
 
         {/* Sem menção a registro de marca: não há registro no INPI conhecido
             desta marca. Se houver, é aqui que a linha entra. */}
-        <p className="text-xs tracking-wide text-branco/55">
+        <p className="text-xs tracking-wide text-cinza">
           © {new Date().getFullYear()} {brand.subtitulo} {brand.nome}. Todos os
           direitos reservados.
         </p>

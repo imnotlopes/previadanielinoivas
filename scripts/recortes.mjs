@@ -87,6 +87,53 @@ const RECORTES = [
   },
 
   /*
+    OS DETALHES DE PERTO, a foto pequena de cada folha do deslize.
+
+    A Danielli mandou dois PDFs de fornecedores como referência do que ela
+    quer (setembro de 2026), e a página típica deles é uma foto grande e uma
+    pequena, com moldura branca, sobrepostas no canto. Aqui a pequena é o
+    mesmo vestido ainda mais de perto: a renda, as pedras, o laço. Não mostra
+    nada que a grande não mostre; mostra melhor, e é o que dá vontade de ver
+    na mão.
+
+    Retrato em 4:5, que é a proporção da moldura pequena. As caixas foram
+    escolhidas sobre a grade de 10%, como as de cima.
+  */
+  {
+    // O decote e as pedras do ombro, com a mecha do cabelo. Mais para cima
+    // do que o corpete: embaixo, a sombra do buquê escurece o bordado.
+    origem: 'pecas/mariana-bordado-manga-longa.webp',
+    destino: 'recortes/mariana-bordado-perto.webp',
+    caixa: [0.03, 0.5, 0.33, 0.31],
+  },
+  {
+    // As folhas de renda da manga.
+    origem: 'pecas/lorena-manga-longa-em-renda.webp',
+    destino: 'recortes/lorena-renda-da-manga-perto.webp',
+    caixa: [0.6, 0.55, 0.4, 0.375],
+  },
+  {
+    // A renda do corpete descendo para a cintura.
+    origem: 'pecas/rafaela-decote-profundo-bordado.webp',
+    destino: 'recortes/rafaela-coroa-e-decote-perto.webp',
+    caixa: [0.32, 0.42, 0.3, 0.281],
+  },
+  {
+    // O bordado de pedras do ombro.
+    origem: 'pecas/helena-ombros-bordados.webp',
+    destino: 'recortes/helena-ombro-bordado-perto.webp',
+    caixa: [0, 0.56, 0.42, 0.42],
+  },
+  {
+    // A renda das costas, os botões e o laço. É o menor dos cinco (288px de
+    // largura): a original foi feita de longe, e o laço ocupa pouco dela.
+    // Basta para a moldura pequena.
+    origem: 'pecas/antonia-princesa-ombro-a-ombro.webp',
+    destino: 'recortes/antonia-laco-nas-costas-perto.webp',
+    caixa: [0.34, 0.455, 0.32, 0.225],
+  },
+
+  /*
     O MURAL "NO DIA DELAS", o casamento da Natália.
 
     Das 32 fotos, 16 já eram momento ou detalhe e ficam como estão; 9 eram

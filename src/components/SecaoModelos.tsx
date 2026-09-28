@@ -6,6 +6,7 @@ import { montarFluxo, type ItemDoFluxo } from '../lib/fluxo'
 import { mostrarReservados } from '../lib/previa'
 import { movimentoReduzido, useTelaLarga } from '../lib/movimento'
 import DeslizeModelos from './DeslizeModelos'
+import Dupla from './Dupla'
 import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
 import Selos from './Selos'
@@ -86,13 +87,13 @@ export default function SecaoModelos({ pecas, destaques, vazio }: SecaoModelosPr
   const itens = montarFluxo(pecas, destaques, depoimentos, mostrarReservados())
 
   return (
-    <section className="border-t border-borda-sutil bg-branco">
+    <section className="bg-off-white">
       <div className="container-luxo secao">
         {pecas.length > 0 && (
           <>
             <Revelar>
               <SecaoTitulo
-                eyebrow="Os vestidos"
+                script="Os detalhes"
                 titulo="Um pouco do que te espera"
                 descricao={AMOSTRA}
                 centralizado
@@ -122,7 +123,7 @@ export default function SecaoModelos({ pecas, destaques, vazio }: SecaoModelosPr
           {itens.length > 0 ? (
             <FluxoEmpilhado itens={itens} />
           ) : (
-            vazio && <p className="mx-auto max-w-md text-center text-preto/60">{vazio}</p>
+            vazio && <p className="mx-auto max-w-md text-center text-cinza">{vazio}</p>
           )}
         </div>
       </div>
@@ -139,8 +140,37 @@ export default function SecaoModelos({ pecas, destaques, vazio }: SecaoModelosPr
  */
 function FluxoEmpilhado({ itens }: { itens: ItemDoFluxo[] }) {
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-14">
-      {itens.map((item) => {
+    <div className="mx-auto flex max-w-md flex-col gap-16">
+      {itens.map((item, indice) => {
+        /* A mesma folha do deslize: a dupla de fotos das referências. */
+        if (item.tipo === 'peca' && item.perto) {
+          return (
+            <Dupla
+              key={item.chave}
+              invertida={indice % 2 === 1}
+              rotulo={item.rotulo}
+              grande={
+                <img
+                  src={item.recorte ?? item.peca.fotos[0]}
+                  alt={identificacao(item.peca)}
+                  loading="lazy"
+                  decoding="async"
+                  className="block aspect-[3/4] w-full object-cover"
+                />
+              }
+              pequena={
+                <img
+                  src={item.perto}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="block aspect-[4/5] w-full object-cover"
+                />
+              }
+            />
+          )
+        }
+
         if (item.tipo === 'peca' || item.tipo === 'detalhe') {
           const src = item.tipo === 'peca' ? (item.recorte ?? item.peca.fotos[0]) : item.imagem.src
           const alt = item.tipo === 'peca' ? identificacao(item.peca) : item.imagem.alt
@@ -173,7 +203,7 @@ function FluxoEmpilhado({ itens }: { itens: ItemDoFluxo[] }) {
               )}
               <span className="filete mx-auto" />
               <p className="t-italico mt-7 text-preto">“{depoimento.fala}”</p>
-              <p className="mt-6 font-display text-h6 uppercase tracking-luxo text-preto">
+              <p className="t-script mt-6 text-[calc(var(--fs-script)*0.62)]">
                 {depoimento.autora}
               </p>
             </Revelar>
@@ -184,7 +214,7 @@ function FluxoEmpilhado({ itens }: { itens: ItemDoFluxo[] }) {
         return (
           <div
             key={item.chave}
-            className="border border-dashed border-borda p-8 text-center text-sm leading-relaxed text-cinza"
+            className="border border-dashed border-rose/60 p-8 text-center text-sm leading-relaxed text-cinza"
           >
             <p className="t-italico text-preto">
               Aqui entra o depoimento de uma noiva, do jeito que ela escreveu.

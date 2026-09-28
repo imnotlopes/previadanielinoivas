@@ -1,16 +1,13 @@
 import { IMPORTADOS, anosDeCasa } from '../data/autoridade'
 import { videoAtelier } from '../data/videos'
+import Dupla from './Dupla'
 import FaixaMarcas from './FaixaMarcas'
 import Revelar from './Revelar'
+import SecaoTitulo from './SecaoTitulo'
 import VideoVertical from './VideoVertical'
 
 /**
  * Bloco 2, a autoridade.
- *
- * O bloco que estava faltando no site inteiro. Antes havia aqui um espaço
- * reservado pedindo "anos de atelier e quantas noivas já saíram daqui
- * vestidas", porque ninguém tinha o número. Agora tem, e é melhor do que o
- * que eu teria inventado.
  *
  * A ORDEM É DELIBERADA: TEMPO, DEPOIS MARCAS
  * ------------------------------------------
@@ -26,29 +23,51 @@ import VideoVertical from './VideoVertical'
  * dúvida silenciosa é se existe loja de verdade atrás daquilo ou se é um
  * perfil revendendo foto. Trinta segundos de arara resolvem isso sem uma
  * palavra.
+ *
+ * E AGORA ELE VEM EM DUPLA
+ * ------------------------
+ * O vídeo ganhou uma foto pequena sobreposta, uma noiva de roupão ao lado do
+ * vestido no manequim: é a página típica das referências que a Danielli
+ * mandou (foto grande, foto pequena com moldura branca). O vídeo mostra o
+ * lugar; a foto mostra alguém sendo atendida nele. Ver Dupla.
  */
 export default function SecaoAutoridade() {
   const anos = anosDeCasa()
 
   return (
-    <section className="border-t border-borda-sutil bg-branco">
+    <section className="bg-bege">
       <div className="container-luxo secao">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:gap-16">
-          <Revelar distancia="nenhuma">
-            <VideoVertical
-              src={videoAtelier.src}
-              poster={videoAtelier.poster}
-              alt={videoAtelier.alt}
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-20">
+          <div className="mx-auto w-full max-w-md lg:max-w-lg">
+            <Dupla
+              grande={
+                <VideoVertical
+                  src={videoAtelier.src}
+                  poster={videoAtelier.poster}
+                  alt={videoAtelier.alt}
+                />
+              }
+              pequena={
+                <img
+                  src="/atelier/atendimento.webp"
+                  alt="Noiva de roupão ao lado do vestido no manequim, dentro do ateliê."
+                  width={1200}
+                  height={1600}
+                  loading="lazy"
+                  decoding="async"
+                  className="block aspect-[4/5] w-full object-cover object-top"
+                />
+              }
             />
-          </Revelar>
+          </div>
 
-          <div>
+          <div className="text-center lg:text-left">
             <Revelar atraso={80}>
-              <span className="eyebrow block">O ateliê</span>
-              <h2 className="mt-4 texto-display-sm uppercase tracking-luxo">
-                Vestindo noivas desde 2004
-              </h2>
-              <span className="filete mt-7" />
+              <SecaoTitulo
+                script="O ateliê"
+                titulo="Vestindo noivas desde 2004"
+                centralizado="celular"
+              />
             </Revelar>
 
             {/*
@@ -57,13 +76,13 @@ export default function SecaoAutoridade() {
               ver SecaoOferece. Aqui fica quem é o ateliê; lá, o que ele tem.
             */}
             <Revelar atraso={160}>
-              <p className="mt-8 max-w-lg text-preto/75">
+              <p className="mx-auto mt-8 max-w-md lg:mx-0">
                 São {anos} anos atendendo noivas daqui e da região.
               </p>
             </Revelar>
 
             <Revelar atraso={230}>
-              <p className="mt-8 text-sm text-preto rebaixado">
+              <p className="t-italico mx-auto mt-6 max-w-md text-preto/80 lg:mx-0">
                 E algumas peças chegam direto da {IMPORTADOS}.
               </p>
             </Revelar>
@@ -73,20 +92,11 @@ export default function SecaoAutoridade() {
         {/*
           AS MARCAS SAEM DA COLUNA E ATRAVESSAM A SEÇÃO.
 
-          Elas moravam numa lista de caixinhas dentro da coluna de texto, ao
-          lado do vídeo. Ali eram um detalhe do parágrafo. Numa faixa que
-          atravessa a largura inteira, viram um bloco com peso próprio, que é o
-          que elas merecem: representar marca é o argumento mais forte deste
-          trecho, e o menos óbvio para quem lê.
-        */}
-        {/*
-          Nada de banda, nada de borda: a seção é branca de ponta a ponta.
-
-          Cheguei a pôr a faixa numa banda de off-white para destacá-la, e era
-          a resposta errada para o problema certo. Quem destaca a faixa é o
-          TAMANHO dos logotipos, não uma mudança de fundo atrás deles: fundo
-          diferente quebra a seção em duas e faz a faixa parecer um encaixe de
-          outra página. Ver a escala em `.faixa-marcas_logo`.
+          Numa faixa que atravessa a largura inteira, elas viram um bloco com
+          peso próprio, que é o que merecem: representar marca é o argumento
+          mais forte deste trecho, e o menos óbvio para quem lê. Quem destaca a
+          faixa é o TAMANHO dos logotipos, não uma mudança de fundo atrás
+          deles. Ver a escala em `.faixa-marcas_logo`.
         */}
         <Revelar distancia="curta" className="mt-24 md:mt-32">
           <p className="eyebrow mb-12 text-center">Marcas representadas</p>

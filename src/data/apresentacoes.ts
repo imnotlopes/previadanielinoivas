@@ -35,7 +35,7 @@ import type { Publico } from './pecas'
  * mandou.
  */
 /**
- * Uma foto da sequência de modelos: a peça e o recorte que a representa.
+ * Uma folha da sequência de modelos: a peça e os recortes que a representam.
  *
  * O recorte mostra um detalhe (o bordado, a renda, o laço) e não o vestido
  * inteiro, pela regra da Danielli. Sai de scripts/recortes.mjs.
@@ -43,6 +43,20 @@ import type { Publico } from './pecas'
 export interface Destaque {
   codigo: string
   recorte: string
+  /**
+   * O mesmo detalhe mais de perto, para a foto pequena de moldura branca que
+   * cai sobre a borda da grande. É a página típica das referências que a
+   * Danielli mandou, ver components/Dupla. Sem ele, a folha é só a grande.
+   */
+  perto?: string
+  /**
+   * O nome do detalhe, manuscrito ao lado da foto: "O bordado", "A renda".
+   *
+   * Nomeia o detalhe, e não o vestido, de propósito. Nome de vestido é
+   * informação e fecha a curiosidade; nome de detalhe aponta para onde olhar
+   * e deixa o resto do vestido em aberto. Uma linha só, e curta.
+   */
+  rotulo?: string
 }
 
 export interface Apresentacao {
@@ -77,14 +91,13 @@ export interface Apresentacao {
   /**
    * A PALAVRA GRANDE DA CAPA.
    *
-   * Uma só, em corpo colossal, encostada no rodapé da abertura. Ela não
-   * explica nada e não precisa: diz de quem é aquela apresentação antes de
-   * qualquer frase ser lida, e é o que transforma a capa em folha de rosto de
-   * revista em vez de topo de página.
+   * Uma só, manuscrita e grande, onde a foto da capa se desmancha no papel.
+   * Ela não explica nada e não precisa: diz de quem é aquela apresentação
+   * antes de qualquer frase ser lida, como o "Noivas" da capa do Studio
+   * Rodrigues, uma das referências que a Danielli mandou.
    *
-   * Curta obrigatoriamente. A classe `.texto-colosso` divide a largura da
-   * linha pelo número de letras, então palavra comprida não estoura, ela
-   * ENCOLHE, e a partir de umas doze letras o efeito se perde inteiro.
+   * Curta obrigatoriamente, uma palavra. Em `.t-script-g` a letra é enorme, e
+   * uma segunda palavra já quebra a linha no celular.
    */
   palavra: string
 
@@ -150,11 +163,36 @@ export const apresentacoes: Apresentacao[] = [
       evitar; e a Valentina, com cara de foto de catálogo de fornecedor.
     */
     destaques: [
-      { codigo: 'N-33', recorte: '/recortes/mariana-bordado.webp' },
-      { codigo: 'N-03', recorte: '/recortes/lorena-renda-da-manga.webp' },
-      { codigo: 'N-08', recorte: '/recortes/rafaela-coroa-e-decote.webp' },
-      { codigo: 'N-06', recorte: '/recortes/helena-ombro-bordado.webp' },
-      { codigo: 'N-10', recorte: '/recortes/antonia-laco-nas-costas.webp' },
+      {
+        codigo: 'N-33',
+        recorte: '/recortes/mariana-bordado.webp',
+        perto: '/recortes/mariana-bordado-perto.webp',
+        rotulo: 'O bordado',
+      },
+      {
+        codigo: 'N-03',
+        recorte: '/recortes/lorena-renda-da-manga.webp',
+        perto: '/recortes/lorena-renda-da-manga-perto.webp',
+        rotulo: 'A renda',
+      },
+      {
+        codigo: 'N-08',
+        recorte: '/recortes/rafaela-coroa-e-decote.webp',
+        perto: '/recortes/rafaela-coroa-e-decote-perto.webp',
+        rotulo: 'O corpete',
+      },
+      {
+        codigo: 'N-06',
+        recorte: '/recortes/helena-ombro-bordado.webp',
+        perto: '/recortes/helena-ombro-bordado-perto.webp',
+        rotulo: 'O ombro',
+      },
+      {
+        codigo: 'N-10',
+        recorte: '/recortes/antonia-laco-nas-costas.webp',
+        perto: '/recortes/antonia-laco-nas-costas-perto.webp',
+        rotulo: 'As costas',
+      },
     ],
     palavra: 'Noivas',
     saudacao: 'Que bom que você chegou até aqui',

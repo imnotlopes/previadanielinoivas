@@ -1,4 +1,5 @@
 import { EDITORIAL, PARA_QUEM_ESTA_COM_VOCE, PARA_VOCE, type FotoOferece } from '../data/oferece'
+import Dupla from './Dupla'
 import Revelar from './Revelar'
 import SecaoTitulo from './SecaoTitulo'
 
@@ -26,38 +27,38 @@ import SecaoTitulo from './SecaoTitulo'
  */
 export default function SecaoOferece() {
   return (
-    <section className="border-t border-borda-sutil bg-branco">
+    <section className="bg-off-white">
       <div className="container-luxo secao">
-        <Revelar>
-          <SecaoTitulo
-            eyebrow="O que o ateliê oferece"
-            titulo="Tudo para o seu casamento"
-            descricao="Do vestido ao porta-aliança, tudo o que você vai precisar está aqui dentro."
-            centralizado
-          />
-        </Revelar>
-
-        <div className="mt-16 grid items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
-          <div className="max-w-lg space-y-10">
-            <Revelar atraso={80}>
-              <span className="eyebrow block">Para você</span>
-              <span className="filete mt-5" />
-              <p className="mt-5 text-preto/75">{maiuscula(listar(PARA_VOCE))}.</p>
+        <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-20">
+          <div className="text-center lg:text-left">
+            <Revelar>
+              <SecaoTitulo
+                script="Para o seu dia"
+                titulo="Tudo para o seu casamento"
+                descricao="Do vestido ao porta-aliança, tudo o que você vai precisar está aqui dentro."
+                centralizado="celular"
+              />
             </Revelar>
 
-            <Revelar atraso={160}>
-              <span className="eyebrow block">Para quem vai estar do seu lado</span>
-              <span className="filete mt-5" />
-              <div className="mt-5 space-y-2 text-preto/75">
-                {PARA_QUEM_ESTA_COM_VOCE.map((frase) => (
-                  <p key={frase}>{frase}</p>
-                ))}
-              </div>
-            </Revelar>
+            <div className="mx-auto mt-12 max-w-md space-y-10 lg:mx-0">
+              <Revelar atraso={80}>
+                <span className="eyebrow block">Para você</span>
+                <p className="mt-4">{maiuscula(listar(PARA_VOCE))}.</p>
+              </Revelar>
 
-            <Revelar atraso={240}>
-              <p className="t-italico text-preto">Dá para vestir o casamento inteiro com a gente.</p>
-            </Revelar>
+              <Revelar atraso={160}>
+                <span className="eyebrow block">Para quem vai estar do seu lado</span>
+                <div className="mt-4 space-y-2">
+                  {PARA_QUEM_ESTA_COM_VOCE.map((frase) => (
+                    <p key={frase}>{frase}</p>
+                  ))}
+                </div>
+              </Revelar>
+
+              <Revelar atraso={240}>
+                <p className="t-italico">Dá para vestir o casamento inteiro com a gente.</p>
+              </Revelar>
+            </div>
           </div>
 
           <Composicao />
@@ -70,49 +71,37 @@ export default function SecaoOferece() {
 /**
  * A COMPOSIÇÃO EDITORIAL.
  *
- * Três fotos em zigue-zague, numa grade de doze colunas que ninguém vê:
+ * A dupla das referências (ver Dupla): a tiara alta grande, a noiva no espelho
+ * pequena e de moldura branca por cima da borda. Embaixo, a faixa com as três
+ * tiaras, com a legenda ao lado.
  *
- *   ┌──────────────┐
- *   │   espelho    │  colunas 1 a 8
- *   │         ┌────┴────┐
- *   └─────────┤ retrato │  colunas 7 a 12, descida, SOBRE a borda da primeira
- *             │         │
- *   ┌─────────┴───┐     │
- *   │    faixa    │ └───┘  colunas 1 a 9, e a legenda nas colunas 10 a 12
- *   └─────────────┘
- *
- * A sobreposição é o que faz a página parecer paginada e não montada: numa
- * grade, cada foto tem a sua caixa e nenhuma conversa com a outra. A moldura
- * branca do retrato é o que separa as duas onde elas se tocam, e é o
- * recurso mais velho de revista para isso.
- *
- * Cada foto revela com um atraso diferente, na ordem da leitura: primeiro a
- * noiva, depois o detalhe, depois o conjunto.
+ * A noiva é a pequena, e não a grande, de propósito: ela está de costas e o
+ * vestido aparece inteiro de longe. Pequena, ela conta o momento do provador
+ * sem virar vitrine do vestido, que é a regra da Danielli.
  */
 function Composicao() {
   const { espelho, retrato, faixa } = EDITORIAL
 
   return (
-    <div className="oferece_editorial">
-      <Revelar distancia="curta" className="oferece_espelho">
-        <Foto foto={espelho} />
-      </Revelar>
+    <div className="mx-auto w-full max-w-md lg:max-w-lg">
+      <Dupla
+        grande={<Foto foto={retrato} />}
+        pequena={<Foto foto={espelho} />}
+      />
 
-      <Revelar distancia="curta" atraso={180} className="oferece_retrato">
-        <div className="bg-branco p-2 md:p-3">
-          <Foto foto={retrato} />
-        </div>
-      </Revelar>
+      <div className="mt-10 grid grid-cols-12 items-end gap-4">
+        <Revelar distancia="curta" atraso={320} className="col-span-12 sm:col-span-9">
+          <div className="moldura">
+            <Foto foto={faixa} />
+          </div>
+        </Revelar>
 
-      <Revelar distancia="curta" atraso={320} className="oferece_faixa">
-        <Foto foto={faixa} />
-      </Revelar>
-
-      <Revelar atraso={420} className="oferece_legenda">
-        <p className="t-italico text-sm leading-relaxed text-preto rebaixado">
-          Tiaras, pulseiras e enfeites de cabelo: tudo aqui dentro do ateliê.
-        </p>
-      </Revelar>
+        <Revelar atraso={420} className="col-span-12 sm:col-span-3">
+          <p className="t-italico text-base leading-snug text-preto/80">
+            Tiaras, pulseiras e enfeites de cabelo: tudo aqui dentro do ateliê.
+          </p>
+        </Revelar>
+      </div>
     </div>
   )
 }

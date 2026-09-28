@@ -15,7 +15,6 @@
  * A pasta instagram/ NÃO faz parte do repositório (ver .gitignore). Ela é
  * material de trabalho; o que o site publica é o resultado deste script.
  */
-import { existsSync } from 'node:fs'
 import { mkdir, readdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
@@ -95,9 +94,8 @@ const MAPA = {
   84: 'pecas/laura-princesa-prata-2.webp',
   33: 'pecas/rebeca-sereia-preto.webp',
 
-  // ATENÇÃO: a logo NÃO entra nesta tabela. A arte da marca é
-  // public/logo.png, com fundo removido à mão, ver o bloco de identidade
-  // mais abaixo. A foto de perfil do Instagram não serve mais como origem.
+  // ATENÇÃO: a logo NÃO entra nesta tabela, e este script não gera mais nada
+  // de marca. A logo nova e os ícones saem de scripts/logo.mjs.
 
   // ----------------------------------------------------------- casamentos
   29: 'casamentos/nathalia-e-joao-1.webp',
@@ -121,91 +119,8 @@ const MAPA = {
 
 }
 
-/**
- * Arte da marca, já com o fundo removido à mão.
- *
- * Fica em public/ e não em instagram/ porque é asset de verdade, versionado
- * junto com o site, a origem dele foi a foto de perfil do Instagram, mas o
- * recorte do fundo é trabalho manual que não dá para refazer por script.
- */
-const LOGO = path.join(DESTINO, 'logo.png')
-
 /** Preview de link. Precisa ser JPEG e 1200x630, ver scripts/webp.mjs. */
 const OG = { origem: 36, largura: 1200, altura: 630 }
-
-/**
- * Ícones de aba e de tela inicial.
- *
- * Os dois vão ACHATADOS sobre branco, e não com o fundo transparente da arte.
- * A logo é dourada e clara: sobre a barra escura de um navegador em tema
- * escuro, ou sobre a tela inicial de um celular com papel de parede claro, o
- * traço somem. Um quadrado branco com a logo dentro aparece em qualquer
- * lugar, e é o que o iOS espera do apple-touch-icon, que não suporta alfa.
- */
-const ICONES = [
-  { arquivo: 'favicon.png', lado: 180 },
-  { arquivo: 'apple-touch-icon.png', lado: 180 },
-]
-
-/**
- * Variações da logo que os componentes consomem.
- *
- * `claro` é a versão para fundo escuro (o rodapé preto). Ela não é a mesma
- * arte: é a silhueta da logo preenchida de branco, tirada do próprio canal
- * alfa. Foi preciso porque a arte perdeu o fundo creme, sobre preto, o
- * "Danielli" em dourado escuro e o "NOIVAS" simplesmente sumiriam. Como a
- * filigrana é desenhada em traço fino, a silhueta preserva o desenho inteiro
- * em vez de virar uma mancha.
- *
- * A arte tem 150px de lado, o que basta para o símbolo do cabeçalho (44px) e
- * para o selo do rodapé (128px), mas não para muito mais. Quando chegar o
- * arquivo vetorial da marca, é ele que substitui public/logo.png.
- */
-const LOGOS = [
-  { arquivo: 'logo-simbolo.webp', claro: false },
-  { arquivo: 'logo-completo.webp', claro: false },
-  { arquivo: 'logo-simbolo-claro.webp', claro: true },
-  { arquivo: 'logo-completo-claro.webp', claro: true },
-]
-
-/**
- * Encorpa a arte para uso em fundo claro.
- *
- * O dourado da logo é bem claro; reduzida à altura do cabeçalho (44px) sobre
- * o off-white, ela ficava como uma mancha pálida, parecia imagem quebrada,
- * não selo de marca. O `linear(0.8, 0)` multiplica os canais RGB por 0,8:
- * escurece mantendo o matiz e o alfa intactos, então o lettering continua
- * sendo o mesmo, só que presente. Não é recolorir a marca.
- */
-function encorparParaFundoClaro(origem) {
-  return sharp(origem).linear(0.8, 0)
-}
-
-/**
- * Repinta a arte de branco usando o próprio alfa como máscara.
- * Devolve um buffer PNG, pronto para ser convertido pelo chamador.
- */
-async function silhuetaBranca(origem) {
-  const { data, info } = await sharp(origem)
-    .ensureAlpha()
-    .extractChannel(3)
-    .raw()
-    .toBuffer({ resolveWithObject: true })
-
-  return sharp({
-    create: {
-      width: info.width,
-      height: info.height,
-      channels: 3,
-      background: '#ffffff',
-    },
-  })
-    .joinChannel(data, {
-      raw: { width: info.width, height: info.height, channels: 1 },
-    })
-    .png()
-    .toBuffer()
-}
 
 const arquivos = await readdir(ORIGEM)
 
@@ -249,29 +164,8 @@ if (origemOg) {
 }
 
 // --- logo e ícones ---------------------------------------------------------
-if (existsSync(LOGO)) {
-  const branca = await silhuetaBranca(LOGO)
-
-  for (const { arquivo, claro } of LOGOS) {
-    await (claro ? sharp(branca) : encorparParaFundoClaro(LOGO))
-      // alphaQuality no máximo: a filigrana é toda meio-tom de alfa, e é aí
-      // que a compressão come o desenho antes de comer a cor.
-      .webp({ quality: 90, alphaQuality: 100, effort: 5 })
-      .toFile(path.join(DESTINO, arquivo))
-    escritos++
-  }
-
-  for (const { arquivo, lado } of ICONES) {
-    await sharp(LOGO)
-      .resize(lado, lado, { fit: 'contain', background: '#ffffff' })
-      .flatten({ background: '#ffffff' })
-      .png()
-      .toFile(path.join(DESTINO, arquivo))
-    escritos++
-  }
-} else {
-  console.log(`logo não encontrada em ${LOGO}, variações não foram geradas`)
-}
+// Saíram daqui em setembro de 2026, com a logo nova: ver scripts/logo.mjs.
+// Rodar este script não toca mais em favicon.png nem apple-touch-icon.png.
 
 // --- relatório -------------------------------------------------------------
 const relatorio = Object.entries(MAPA)
