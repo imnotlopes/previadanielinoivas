@@ -77,7 +77,7 @@ export default function SecaoAutoridade() {
             */}
             <Revelar atraso={160}>
               <p className="mx-auto mt-8 max-w-md lg:mx-0">
-                São {anos} anos atendendo noivas daqui e da região.
+                São {anos} anos atendendo noivas de São Lourenço e região.
               </p>
             </Revelar>
 

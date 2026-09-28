@@ -45,14 +45,15 @@ const PECAS = [
       e, à direita, a foto grande com a pequena de moldura branca por cima da
       borda. Ver components/Dupla.
 
-      Continua sem vestido inteiro: a grande é o close da Aurora de costas, a
-      mesma da capa, e a pequena é o bordado da Mariana de perto. Numa cidade
-      pequena, a noiva que vê o vestido inteiro no cartão já decidiu que viu.
+      Continua sem vestido inteiro: a grande é a foto da capa, a filha da
+      Danielli de olhos baixos, e a pequena é o bordado do corpete dela de
+      perto. Numa cidade pequena, a noiva que vê o vestido inteiro no cartão
+      já decidiu que viu.
     */
     editorial: {
       logo: 'logo/danielli-noivas.webp',
-      grande: 'capa/aurora-alto.webp',
-      pequena: 'recortes/mariana-bordado-perto.webp',
+      grande: 'capa/filha.webp',
+      pequena: 'recortes/filha-bordado-perto.webp',
     },
   },
   {

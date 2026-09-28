@@ -1,6 +1,7 @@
 import type { Destaque } from '../data/apresentacoes'
 import { FRASE_DA_MARCA } from '../data/autoridade'
 import { depoimentos, type Depoimento, type ImagemDoDepoimento } from '../data/depoimentos'
+import { PRIMEIRA_LOCACAO } from '../data/oferece'
 import { identificacao, type Peca } from '../data/pecas'
 import { selosConfirmados } from '../data/selos'
 import { brand } from '../lib/brand'
@@ -160,6 +161,7 @@ function Abertura({ amostra, estreita }: { amostra: string; estreita: boolean })
       </h2>
       <span className="filete mt-7" />
       <p className="t-italico mt-7 max-w-[34ch]">{amostra}</p>
+      <p className="eyebrow mt-6 max-w-sm leading-relaxed">{PRIMEIRA_LOCACAO}</p>
     </>
   )
 

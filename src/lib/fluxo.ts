@@ -7,15 +7,16 @@ import { ordenadas, type Peca } from '../data/pecas'
  * ===================================
  *
  * A seção de modelos mostrava doze vestidos em sequência, e os depoimentos
- * moravam numa seção separada, mais abaixo. Agora é uma sequência só: cinco
+ * moravam numa seção separada, mais abaixo. Agora é uma sequência só: três
  * fotos, cada uma seguida de uma fala de noiva.
  *
- * Cinco, e não doze, pela regra da Danielli: "muita foto, ela vai tirar toda a
- * curiosidade dela". E intercalado porque foto sozinha é vitrine, e foto com
- * alguém contando como foi é história, que é o que ela pediu no lugar de
- * informação.
+ * Três, e não doze, pela regra da Danielli: "muita foto, ela vai tirar toda a
+ * curiosidade dela". Foram cinco até 28 de setembro de 2026, quando ela pediu
+ * menos fotos ainda ("não posso mostrar muita coisa") e só da filha. E
+ * intercalado porque foto sozinha é vitrine, e foto com alguém contando como
+ * foi é história, que é o que ela pediu no lugar de informação.
  */
-export const FOTOS_NO_FLUXO = 5
+export const FOTOS_NO_FLUXO = 3
 
 export type ItemDoFluxo =
   /**
@@ -55,7 +56,12 @@ export type ItemDoFluxo =
  * completado pela ordem normal das peças, para a sequência não encolher sem
  * ninguém perceber.
  *
- * Depoimentos além do quinto ficam de fora: cinco pares é o tamanho da peça.
+ * UMA PEÇA PODE TER MAIS DE UMA FOLHA. Desde que a sequência passou a ser só
+ * da filha da Danielli, os três destaques são do mesmo vestido, cada um num
+ * detalhe. Por isso a fila é de FOLHAS, cada uma com a própria chave (o
+ * recorte), e não de peças: uma fila de peças engolia as três numa só.
+ *
+ * Depoimentos além do terceiro ficam de fora: três pares é o tamanho da peça.
  */
 export function montarFluxo(
   pecas: Peca[],
@@ -64,20 +70,30 @@ export function montarFluxo(
   reservar: boolean,
 ): ItemDoFluxo[] {
   const porCodigo = new Map(pecas.map((peca) => [peca.codigo, peca]))
+  const codigos = new Set(destaques.map((d) => d.codigo))
 
-  const codigos = destaques.map((d) => d.codigo)
-  const destaquePorCodigo = new Map(destaques.map((d) => [d.codigo, d]))
+  interface Folha {
+    chave: string
+    peca: Peca
+    destaque?: Destaque
+  }
 
-  const fila = [
-    ...codigos.map((codigo) => porCodigo.get(codigo)).filter((p): p is Peca => !!p),
-    ...ordenadas(pecas).filter((peca) => !codigos.includes(peca.codigo)),
+  const fila: Folha[] = [
+    ...destaques.flatMap((destaque) => {
+      const peca = porCodigo.get(destaque.codigo)
+      return peca ? [{ chave: destaque.recorte, peca, destaque }] : []
+    }),
+    ...ordenadas(pecas)
+      .filter((peca) => !codigos.has(peca.codigo))
+      .map((peca) => ({ chave: peca.codigo, peca })),
   ]
   const usadas = new Set<string>()
 
-  const proximaDaFila = (): Peca | undefined => {
-    const peca = fila.find((p) => !usadas.has(p.codigo))
-    if (peca) usadas.add(peca.codigo)
-    return peca
+  /** A próxima folha ainda não usada que passa no filtro. */
+  const tirar = (filtro: (folha: Folha) => boolean = () => true): Folha | undefined => {
+    const folha = fila.find((f) => !usadas.has(f.chave) && filtro(f))
+    if (folha) usadas.add(folha.chave)
+    return folha
   }
 
   const itens: ItemDoFluxo[] = []
@@ -88,18 +104,18 @@ export function montarFluxo(
     if (depoimento?.imagem?.tipo === 'detalhe') {
       itens.push({ tipo: 'detalhe', chave: `detalhe-${depoimento.id}`, imagem: depoimento.imagem })
     } else {
-      const usada = depoimento?.peca ? porCodigo.get(depoimento.peca) : undefined
-      const peca = usada && !usadas.has(usada.codigo) ? usada : proximaDaFila()
-      if (!peca) break
-      usadas.add(peca.codigo)
-      const destaque = destaquePorCodigo.get(peca.codigo)
+      const doVestidoDela = depoimento?.peca
+        ? tirar((f) => f.peca.codigo === depoimento.peca)
+        : undefined
+      const folha = doVestidoDela ?? tirar()
+      if (!folha) break
       itens.push({
         tipo: 'peca',
-        chave: peca.codigo,
-        peca,
-        recorte: destaque?.recorte,
-        perto: destaque?.perto,
-        rotulo: destaque?.rotulo,
+        chave: folha.chave,
+        peca: folha.peca,
+        recorte: folha.destaque?.recorte,
+        perto: folha.destaque?.perto,
+        rotulo: folha.destaque?.rotulo,
       })
     }
 

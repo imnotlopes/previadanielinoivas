@@ -1203,6 +1203,33 @@
   }
 
   /*
+    No desktop a capa é de duas colunas, e a foto fica em pé à direita
+    (ver CapaApresentacao). O véu vira de lado: papel chapado até onde a foto
+    começa, aos 44%, e a foto se desmancha nos primeiros 14% dela. Sem o preto
+    do alto, porque a assinatura ali é rosé, sobre papel.
+
+    E desmancha no pé também, a partir de 72%: ali a foto da filha da Danielli
+    tem a sombra escura do buquê fora de foco, que numa coluna de tela
+    inteira aparecia como uma mancha.
+  */
+  @media (min-width: 768px) {
+    .veu-capa {
+      background:
+        linear-gradient(
+          to right,
+          rgb(var(--off-white-rgb) / 1) 44%,
+          rgb(var(--off-white-rgb) / 0.6) 50%,
+          rgb(var(--off-white-rgb) / 0) 58%
+        ),
+        linear-gradient(
+          to bottom,
+          rgb(var(--off-white-rgb) / 0) 72%,
+          rgb(var(--off-white-rgb) / 1) 100%
+        );
+    }
+  }
+
+  /*
     A MOLDURA
     ---------
     A borda branca em volta da foto pequena, quando ela se sobrepõe à grande.

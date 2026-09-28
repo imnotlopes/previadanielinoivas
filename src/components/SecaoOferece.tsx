@@ -16,7 +16,7 @@ import SecaoTitulo from './SecaoTitulo'
  * As fotos disponíveis são quase todas de tiara. Se a seção fosse um mosaico
  * de itens com legenda, ela diria "o ateliê tem tiaras", que é o contrário do
  * argumento. Então o texto carrega a lista inteira, em duas frases, e as fotos
- * ficam ao lado dando textura: o brilho de um cristal, uma noiva no espelho.
+ * ficam ao lado dando textura: o brilho de um cristal, uma tiara no cabelo.
  *
  * AS FOTOS NUNCA PASSAM DO TAMANHO QUE TÊM
  * ----------------------------------------
@@ -71,22 +71,19 @@ export default function SecaoOferece() {
 /**
  * A COMPOSIÇÃO EDITORIAL.
  *
- * A dupla das referências (ver Dupla): a tiara alta grande, a noiva no espelho
- * pequena e de moldura branca por cima da borda. Embaixo, a faixa com as três
- * tiaras, com a legenda ao lado.
- *
- * A noiva é a pequena, e não a grande, de propósito: ela está de costas e o
- * vestido aparece inteiro de longe. Pequena, ela conta o momento do provador
- * sem virar vitrine do vestido, que é a regra da Danielli.
+ * A dupla das referências (ver Dupla): a tiara alta grande, sobre o cartão do
+ * ateliê, e a pequena de moldura branca por cima da borda, com uma tiara já
+ * no cabelo da filha da Danielli. A peça na caixa e a peça em uso. Embaixo, a
+ * faixa com as três tiaras, com a legenda ao lado.
  */
 function Composicao() {
-  const { espelho, retrato, faixa } = EDITORIAL
+  const { nela, retrato, faixa } = EDITORIAL
 
   return (
     <div className="mx-auto w-full max-w-md lg:max-w-lg">
       <Dupla
         grande={<Foto foto={retrato} />}
-        pequena={<Foto foto={espelho} />}
+        pequena={<Foto foto={nela} />}
       />
 
       <div className="mt-10 grid grid-cols-12 items-end gap-4">

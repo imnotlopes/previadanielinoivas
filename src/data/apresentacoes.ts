@@ -80,11 +80,10 @@ export interface Apresentacao {
    * DIFERENTES: o cartão do WhatsApp é a primeira impressão, e dois links com
    * a mesma foto denunciam que é o mesmo material reetiquetado.
    *
-   * `largo` é a imagem de compartilhamento e a capa em tela deitada; `alto` é
-   * a capa em tela em pé. A mesma foto não serve nas duas, ver `<picture>` em
-   * components/CapaApresentacao.
+   * Uma foto só, VERTICAL. No celular ela ocupa a tela; no desktop, a coluna
+   * da direita. Ver components/CapaApresentacao.
    */
-  capa: { largo: string; alto: string; alt: string } | null
+  capa: { foto: string; alt: string } | null
   /** Imagem do cartão de WhatsApp. Absoluta na hora de montar a tag. */
   ogImagem: string
 
@@ -107,7 +106,7 @@ export interface Apresentacao {
   posicionamento: string
 
   /**
-   * As cinco fotos da sequência de modelos, na ordem em que aparecem.
+   * As folhas da sequência de modelos, na ordem em que aparecem.
    *
    * Escolhidas a dedo, e não as cinco primeiras da ordem do acervo, porque o
    * critério aqui é outro: a Danielli pediu detalhe e curiosidade, e não
@@ -137,60 +136,54 @@ export const apresentacoes: Apresentacao[] = [
     */
     descricao: 'Um pouquinho do nosso ateliê para você conhecer antes de vir provar.',
     /*
-      Era a Aurora sentada com o vestido inteiro aberto, do colo à barra, e
-      era a primeira e maior imagem da página: exatamente o que a Danielli
-      pediu para não fazer. Agora é o close dela de costas, a gola de renda e
-      o buquê. Ver scripts/recortes.mjs.
+      A FILHA DA DANIELLI.
+
+      Desde 28 de setembro de 2026 a capa é ela, a pedido do Edson: é a noiva
+      que abria a sequência de detalhes (N-33, "Mariana" no nome inventado do
+      arquivo). De olhos baixos, a tiara, o véu e o bordado nos ombros: o
+      vestido aparece só até o colo, e o resto se desmancha no papel.
+
+      A página não diz que ela é filha da dona, e nem precisa. O que ela faz
+      pela página é outra coisa: a primeira noiva que a leitora vê é da casa.
+
+      Antes foi a Aurora de costas (N-01), e antes dela a Aurora sentada com o
+      vestido inteiro aberto, que era exatamente o que a Danielli pediu para
+      não fazer. Ver scripts/recortes.mjs.
     */
     capa: {
-      largo: '/capa/aurora-largo.webp',
-      alto: '/capa/aurora-alto.webp',
-      alt: 'Noiva de costas olhando por cima do ombro, com gola alta de renda, véu e buquê.',
+      foto: '/capa/filha.webp',
+      alt: 'Noiva de olhos baixos, com tiara de cristais no coque, véu e bordado de pedras nos ombros.',
     },
     ogImagem: '/og-noiva.jpg',
     /*
-      Setembro de 2026, escolhidas olhando as doze lado a lado:
+      TRÊS FOLHAS, TODAS DA FILHA DA DANIELLI.
 
-        N-33 Mariana   bordado de perto, olhar baixo: o detalhe mais íntimo
-        N-03 Lorena    renda da manga com o buquê, sorriso aberto
-        N-08 Rafaela   sendo vestida, de coroa: a única que conta o antes
-        N-06 Helena    rosto e o bordado do ombro
-        N-10 Antonia   de costas, saindo pela porta azul: fecha a sequência
-                       logo antes da frase da Danielli
+      Eram cinco noivas diferentes (Aurora, Lorena, Rafaela, Helena e
+      Antonia). No áudio de 28 de setembro de 2026 a Danielli pediu mais fotos
+      da filha e menos fotos no geral, porque não pode mostrar muita coisa das
+      clientes. Ficaram as três fotos dela que sobram depois da capa, cada uma
+      num detalhe: o bordado de frente, o véu de perfil, as costas.
 
-      De fora: a Aurora, porque a capa já é ela (mesma noiva, outra foto); a
-      Malu, vestido inteiro de frente, que é o que a Danielli pediu para
-      evitar; e a Valentina, com cara de foto de catálogo de fornecedor.
+      O mesmo código nas três é de propósito: é o mesmo vestido, e a sequência
+      aceita mais de uma folha por peça (ver `montarFluxo`).
     */
     destaques: [
       {
         codigo: 'N-33',
-        recorte: '/recortes/mariana-bordado.webp',
-        perto: '/recortes/mariana-bordado-perto.webp',
+        recorte: '/recortes/filha-bordado.webp',
+        perto: '/recortes/filha-bordado-perto.webp',
         rotulo: 'O bordado',
       },
       {
-        codigo: 'N-03',
-        recorte: '/recortes/lorena-renda-da-manga.webp',
-        perto: '/recortes/lorena-renda-da-manga-perto.webp',
-        rotulo: 'A renda',
+        codigo: 'N-33',
+        recorte: '/recortes/filha-veu.webp',
+        perto: '/recortes/filha-veu-perto.webp',
+        rotulo: 'O véu',
       },
       {
-        codigo: 'N-08',
-        recorte: '/recortes/rafaela-coroa-e-decote.webp',
-        perto: '/recortes/rafaela-coroa-e-decote-perto.webp',
-        rotulo: 'O corpete',
-      },
-      {
-        codigo: 'N-06',
-        recorte: '/recortes/helena-ombro-bordado.webp',
-        perto: '/recortes/helena-ombro-bordado-perto.webp',
-        rotulo: 'O ombro',
-      },
-      {
-        codigo: 'N-10',
-        recorte: '/recortes/antonia-laco-nas-costas.webp',
-        perto: '/recortes/antonia-laco-nas-costas-perto.webp',
+        codigo: 'N-33',
+        recorte: '/recortes/filha-costas.webp',
+        perto: '/recortes/filha-costas-perto.webp',
         rotulo: 'As costas',
       },
     ],

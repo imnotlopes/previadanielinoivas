@@ -1,5 +1,6 @@
 import type { Destaque } from '../data/apresentacoes'
 import { depoimentos } from '../data/depoimentos'
+import { PRIMEIRA_LOCACAO } from '../data/oferece'
 import { identificacao, type Peca } from '../data/pecas'
 import { selosConfirmados } from '../data/selos'
 import { montarFluxo, type ItemDoFluxo } from '../lib/fluxo'
@@ -21,18 +22,20 @@ interface SecaoModelosProps {
 
 /** A frase de amostra. Uma só, porque as duas montagens dizem o mesmo. */
 /*
-  A RESTRIÇÃO VIRANDO PROMESSA.
+  POR QUE A PÁGINA MOSTRA POUCO, SEM PROMETER O QUE NÃO É.
 
   A página mostra pouco de propósito: é o pedido da Danielli, por causa da
-  cidade pequena. Mas mostrar pouco sem dizer por quê pode parecer que o
-  ateliê tem pouco. O motivo dela, dito do lado da noiva, vira cuidado com a
-  noiva e explica por que o resto só existe no provador.
+  cidade pequena. Mas mostrar pouco sem dizer nada pode parecer que o ateliê
+  tem pouco, então a frase diz que o resto está no provador.
 
-  VALIDAR COM A DANIELLI: fala em nome dela. Mostrado ao Edson em setembro
-  de 2026 para levar até ela.
+  A primeira versão terminava em "o do seu casamento não deveria ser visto
+  por ninguém antes do seu dia", e a Danielli vetou no áudio de 28 de
+  setembro de 2026: a frase dá a entender que o vestido é exclusivo da noiva,
+  e ele só é quando ela paga a primeira locação. Uma noiva podia chegar no
+  ateliê dizendo "mas está escrito aqui". Nenhuma frase desta página pode
+  prometer exclusividade.
 */
-const AMOSTRA =
-  'Aqui você vê só os detalhes. O vestido inteiro, só no provador: o do seu casamento não deveria ser visto por ninguém antes do seu dia.'
+const AMOSTRA = 'Aqui você vê só os detalhes. O vestido inteiro, só no provador, com calma.'
 
 /**
  * OS MODELOS E AS GARANTIAS, EM DUAS MONTAGENS.
@@ -98,6 +101,9 @@ export default function SecaoModelos({ pecas, destaques, vazio }: SecaoModelosPr
                 descricao={AMOSTRA}
                 centralizado
               />
+              <p className="eyebrow mx-auto mt-6 max-w-sm text-center leading-relaxed">
+                {PRIMEIRA_LOCACAO}
+              </p>
             </Revelar>
 
             {/*

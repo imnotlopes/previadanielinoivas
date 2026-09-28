@@ -34,13 +34,11 @@ export const brand = {
   whatsappExibicao: '',
 
   /**
-   * TODO: PREENCHER ANTES DE PUBLICAR.
-   * Formato "Cidade, UF". A busca desta loja é local: enquanto esta constante
-   * estiver vazia, os títulos e descrições de SEO saem sem cidade nenhuma, o
-   * que funciona, mas joga fora o termo que mais traz cliente
-   * ("aluguel de vestido de noiva em <cidade>"). Ver `local` em data/pecas.ts.
+   * Formato "Cidade, UF". Confirmado pelo Edson em 28 de setembro de 2026: o
+   * ateliê é de São Lourenço e atende a região, como diz o bloco "O ateliê".
+   * O endereço completo mora em data/google.ts.
    */
-  cidade: '',
+  cidade: 'São Lourenço, MG',
   email: '',
 } as const
 

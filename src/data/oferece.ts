@@ -9,15 +9,26 @@
  * porta-aliança, a tiara, o véu, o acessório do cabelo, tudo ela vai ter aqui
  * dentro do nosso ateliê". Clutch, sapato e gravata vêm da mesma fala.
  *
- * O QUE NÃO ESTÁ AQUI, DE PROPÓSITO
+ * PRIMEIRA LOCAÇÃO, E COMO ESCREVER
  * ---------------------------------
- * Primeira locação e exclusividade. Ela explicou como funciona e disse, com
- * todas as letras, "não é isso que você vai escrever lá, eu só tô explicando
- * pra você". Se um dia ela quiser na peça, entra; até lá, é conversa de
- * provador.
+ * No primeiro áudio ela disse que isso não era para escrever. No de 28 de
+ * setembro de 2026 liberou, com a redação dela: vestidos de primeira locação,
+ * com ou sem exclusividade. E avisou do cuidado que vale para a página
+ * inteira: o vestido só é exclusivo da noiva quando ela paga a primeira
+ * locação, e nenhuma frase pode dar a entender outra coisa. A linha mora na
+ * abertura dos modelos, ver SecaoModelos.
  *
- * Preço, também não: "lá não vai ter valor".
+ * Preço, não: "lá não vai ter valor".
  */
+
+/**
+ * A linha da primeira locação, na redação da própria Danielli (ver o bloco
+ * acima). Aparece na abertura dos modelos, debaixo da frase que diz que o
+ * vestido inteiro só se vê no provador: é a resposta honesta à pergunta que
+ * aquela frase levanta, se o vestido pode ser só dela, e como.
+ */
+export const PRIMEIRA_LOCACAO =
+  'Trabalhamos com vestidos de primeira locação, com ou sem exclusividade.'
 
 /** O que a noiva encontra para ela mesma. A ordem é a de quem se veste. */
 export const PARA_VOCE = [
@@ -33,16 +44,20 @@ export const PARA_VOCE = [
 /**
  * Quem mais do casamento dela se veste aqui.
  *
- * Contado do ponto de vista da noiva ("a sua mãe", "o seu pai"), e não como
- * a lista de públicos da loja. A loja atende madrinha e formanda por conta
- * própria, e isso é assunto da apresentação de trajes femininos; aqui a
- * pergunta é outra: o que mais do casamento DELA dá para resolver no mesmo
- * lugar.
+ * SEM "SEU PAI" E "SUA MÃE". A primeira versão contava do ponto de vista da
+ * noiva ("o seu pai", "a sua mãe"), e a Danielli corrigiu no áudio de 28 de
+ * setembro de 2026: é terno para pais e padrinhos, e não para o pai dela. O
+ * ateliê veste os papéis do casamento, e o possessivo prometia uma coisa
+ * pessoal que a frase não precisa prometer.
+ *
+ * DAMAS E PAJENS, E NÃO "CRIANÇAS". Palavra dela: "eu não tenho roupa pra
+ * criança que não é dama e pajem". Escrever "crianças" promete um infantil
+ * que o ateliê não tem.
  */
 export const PARA_QUEM_ESTA_COM_VOCE = [
-  'Vestidos para as madrinhas, a sua mãe e as convidadas.',
-  'Ternos para o noivo, o seu pai e os padrinhos, com gravata.',
-  'E trajes para as crianças e as damas.',
+  'Vestidos para madrinhas, mães e convidadas.',
+  'Ternos para noivos, pais, padrinhos e convidados.',
+  'E trajes para damas e pajens.',
 ] as const
 
 export interface FotoOferece {
@@ -71,13 +86,19 @@ export interface FotoOferece {
  * Todas vêm do Perfil da Empresa no Google. Quase só há tiara e enfeite ali,
  * por isso o que o ateliê oferece é contado em texto, e as fotos dão o tom.
  */
-export const EDITORIAL: Record<'espelho' | 'retrato' | 'faixa', FotoOferece> = {
-  /** A abertura, e a única com gente: a noiva de costas, sem entregar o vestido. */
-  espelho: {
-    src: '/oferece/noiva-no-espelho.webp',
-    alt: 'Noiva de costas diante do espelho do provador, com vestido de ombros de fora.',
-    largura: 406,
-    altura: 406,
+export const EDITORIAL: Record<'nela' | 'retrato' | 'faixa', FotoOferece> = {
+  /**
+   * A única com gente: a tiara no coque da filha da Danielli, de perto.
+   *
+   * Era uma noiva de costas no espelho do provador, com o vestido inteiro de
+   * longe. Saiu no áudio de 28 de setembro de 2026, quando a Danielli pediu
+   * menos fotos de cliente e mais da filha. Sai de scripts/recortes.mjs.
+   */
+  nela: {
+    src: '/oferece/filha-tiara.webp',
+    alt: 'Tiara de cristais presa no coque de uma noiva, com o véu.',
+    largura: 347,
+    altura: 433,
   },
   /** O contraponto em retrato, que desce e se sobrepõe à borda da primeira. */
   retrato: {
