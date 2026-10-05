@@ -132,11 +132,12 @@ export default function Apresentacao({ publico }: ApresentacaoProps) {
 
         Os depoimentos moravam aqui, numa seção própria. Foram para dentro da
         sequência de modelos, intercalados com as fotos, ver lib/fluxo.ts. Fica
-        o mural dos casamentos, que a Danielli aprovou do jeito que está.
+        "No dia delas", quatro noivas, uma foto de cada (era um mural de 23
+        fotos da mesma noiva até a Danielli pedir menos, em outubro de 2026).
 
         Antes da prova social, o que o ateliê oferece além do vestido: é a
-        parte do áudio dela que a peça ainda não contava. E, entre a oferta e o
-        mural, as avaliações do Google, que são a única voz de fora que a
+        parte do áudio dela que a peça ainda não contava. E, entre a oferta e
+        as noivas, as avaliações do Google, que são a única voz de fora que a
         página tem enquanto os depoimentos não chegam.
       */}
       <SecaoOferece />

@@ -23,6 +23,7 @@
  *
  * NÃO AMPLIA. O recorte sai no tamanho que a caixa tem na foto original.
  */
+import { existsSync } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
 import sharp from 'sharp'
@@ -53,36 +54,48 @@ const RECORTES = [
   },
 
   /*
-    AS FOLHAS DO DESLIZE, TODAS DA FILHA DA DANIELLI.
+    AS FOLHAS DO DESLIZE: QUATRO NOIVAS, UMA FOLHA DE CADA.
 
-    Eram cinco noivas diferentes, cada uma numa folha. No áudio de 28 de
-    setembro de 2026 a Danielli pediu mais fotos da filha e menos fotos no
-    geral: "não posso mostrar muita coisa". Ficaram três folhas, e as três
-    são dela, das três fotos que sobram depois da capa.
+    A sequência já foi de cinco noivas e depois de três folhas só da filha
+    da Danielli. No áudio de 5 de outubro de 2026 ela pediu o meio-termo:
+    "quatro fotos e uma de cada noiva, não precisa ser da mesma noiva". Três
+    folhas do mesmo vestido eram vestido demais mostrado.
+
+    Ficaram a Lorena, a Helena, a filha e a Antonia. A Natália (a Aurora do
+    acervo) fica de fora porque já está em "No dia delas"; a Rafaela, porque
+    o recorte dela era o que mais entregava do vestido.
 
     Cada folha tem a grande e a de perto (a pequena de moldura branca, em
-    4:5). As duas primeiras fotos de origem são print de celular, com a sobra
-    da barra de rolagem na borda direita: nenhuma caixa passa de 97% da
-    largura.
-
-    NÃO AMPLIA, e as fotos da filha são pequenas (uns 960 de largura). A
-    menor de perto fica com uns 350 pixels, o bastante para a moldura
-    pequena.
+    4:5). A foto da filha é print de celular, com a sobra da barra de rolagem
+    na borda direita: a caixa não passa de 97% da largura.
   */
   {
-    // De frente: o rosto e o bordado do corpete, até a ponta do buquê.
-    origem: 'pecas/mariana-bordado-manga-longa-2.webp',
-    destino: 'recortes/filha-bordado.webp',
-    caixa: [0.1, 0.06, 0.75, 0.748],
+    // A renda da manga com o buquê, e o sorriso.
+    origem: 'pecas/lorena-manga-longa-em-renda.webp',
+    destino: 'recortes/lorena-renda-da-manga.webp',
+    caixa: [0.2, 0.12, 0.8, 0.8],
   },
   {
-    // As pedras do corpete, de perto.
-    origem: 'pecas/mariana-bordado-manga-longa-2.webp',
-    destino: 'recortes/filha-bordado-perto.webp',
-    caixa: [0.02, 0.5, 0.36, 0.336],
+    // As folhas de renda da manga, de perto.
+    origem: 'pecas/lorena-manga-longa-em-renda.webp',
+    destino: 'recortes/lorena-renda-da-manga-perto.webp',
+    caixa: [0.6, 0.55, 0.4, 0.375],
   },
   {
-    // De perfil, o coque, o véu caindo e as pedras do ombro.
+    // O rosto e o bordado de pedras do ombro.
+    origem: 'pecas/helena-ombros-bordados.webp',
+    destino: 'recortes/helena-ombro-bordado.webp',
+    caixa: [0, 0, 0.94, 1],
+  },
+  {
+    // O bordado do ombro, de perto.
+    origem: 'pecas/helena-ombros-bordados.webp',
+    destino: 'recortes/helena-ombro-bordado-perto.webp',
+    caixa: [0, 0.56, 0.42, 0.42],
+  },
+  {
+    // A filha da Danielli de perfil: o coque, o véu caindo e as pedras do
+    // ombro. A capa já mostra o rosto dela de frente; aqui é o véu.
     origem: 'pecas/mariana-bordado-manga-longa-3.webp',
     destino: 'recortes/filha-veu.webp',
     caixa: [0.12, 0.04, 0.8, 0.8],
@@ -94,16 +107,17 @@ const RECORTES = [
     caixa: [0.55, 0.45, 0.4, 0.375],
   },
   {
-    // De costas: o coque com a tiara, o perfil e as pedras das costas.
-    origem: 'pecas/mariana-bordado-manga-longa-4.webp',
-    destino: 'recortes/filha-costas.webp',
-    caixa: [0.05, 0.08, 0.8, 0.75],
+    // De costas e de longe na original; o recorte chega no laço.
+    origem: 'pecas/antonia-princesa-ombro-a-ombro.webp',
+    destino: 'recortes/antonia-laco-nas-costas.webp',
+    caixa: [0.25, 0.32, 0.6, 0.45],
   },
   {
-    // As pedras das costas, de perto.
-    origem: 'pecas/mariana-bordado-manga-longa-4.webp',
-    destino: 'recortes/filha-costas-perto.webp',
-    caixa: [0.33, 0.64, 0.38, 0.356],
+    // A renda das costas, os botões e o laço. É a menor de perto (288px de
+    // largura): a original foi feita de longe. Basta para a moldura pequena.
+    origem: 'pecas/antonia-princesa-ombro-a-ombro.webp',
+    destino: 'recortes/antonia-laco-nas-costas-perto.webp',
+    caixa: [0.34, 0.455, 0.32, 0.225],
   },
   {
     // A tiara no coque dela. Vai para "Tudo para o seu casamento", no lugar
@@ -115,76 +129,60 @@ const RECORTES = [
   },
 
   /*
-    O MURAL "NO DIA DELAS", o casamento da Natália.
+    NO DIA DELAS: UMA FOTO DE CADA NOIVA.
 
-    Das 32 fotos, 16 já eram momento ou detalhe e ficam como estão; 9 eram
-    de corpo inteiro sem salvação (o altar visto de longe, o casal inteiro ao
-    ar livre, a saída de costas com a cauda aberta) e saíram da lista em
-    data/casamentos.ts. Estas 7 mostravam o vestido inteiro em volta de um
-    gesto bom, e o recorte fica com o gesto.
+    No áudio de 5 de outubro de 2026 a Danielli pediu quatro fotos, uma de
+    cada noiva, no lugar das 23 da mesma noiva. Três vêm do Instagram dela
+    (fotos que ela mesma já publicou), a quarta é o recorte do casal da
+    Natália, mais abaixo.
 
-    `pequena: 400` gera também a versão de 400px ao lado (`-400.webp`). O
-    mural monta o `srcset` de toda foto com essa versão, e o celular carrega
-    ela; sem o arquivo, o quadro fica vazio. Foi o que aconteceu na primeira
-    rodada destes recortes: sete quadros em branco no mural.
+    A origem é o dump do Instagram, que mora fora do repositório (instagram/,
+    no .gitignore). Sem ele, estas três são puladas com aviso, e os arquivos
+    publicados continuam valendo.
 
-    O mural declara a versão grande como "900w", e estes recortes têm 540 ou
-    585. Não faz diferença aqui: são só duas opções no `srcset`, e o mural
-    desenha a foto preenchendo o quadro, então o número declarado não muda
-    qual arquivo o navegador escolhe nem como ele aparece.
+    Cada uma recortada no momento, e não no vestido: o rosto, o abraço, os
+    braços erguidos. A saia fica fora sempre que dá.
   */
   {
-    // As mãos da mãe na manga, fechando o vestido.
-    origem: 'casamentos/joao-natalia-07.webp',
-    destino: 'casamentos/recortes/joao-natalia-07.webp',
-    caixa: [0.4, 0.3, 0.6, 0.6],
-    pequena: 400,
+    // A filha da Danielli e o noivo, abraçados, com o buquê. Post 95.
+    origem: '../instagram/imgi_95_624198517_18186602110360773_3687668331175928721_n.webp',
+    destino: 'casamentos/no-dia/abraco.webp',
+    caixa: [0, 0.02, 1, 0.75],
   },
   {
-    // O beijo do pai na testa.
-    origem: 'casamentos/joao-natalia-12.webp',
-    destino: 'casamentos/recortes/joao-natalia-12.webp',
-    caixa: [0.25, 0.03, 0.6, 0.6],
-    pequena: 400,
+    // O beijo, ela inclinada para trás: os rostos e o buquê, sem a saia. Post 86.
+    origem: '../instagram/imgi_86_637748399_18394521604196463_2382495323666521258_n.webp',
+    destino: 'casamentos/no-dia/beijo.webp',
+    caixa: [0.25, 0.06, 0.48, 0.512],
   },
   {
-    // Sentada, do rosto à cintura.
-    origem: 'casamentos/joao-natalia-13.webp',
-    destino: 'casamentos/recortes/joao-natalia-13.webp',
-    caixa: [0.2, 0.05, 0.6, 0.6],
-    pequena: 400,
+    // A saída da igreja, os dois de braços erguidos, em preto e branco.
+    // Até o joelho. Post 106.
+    origem: '../instagram/imgi_106_590711812_18545407441037005_4628112711545292596_n.webp',
+    destino: 'casamentos/no-dia/saida.webp',
+    caixa: [0.2, 0, 0.6, 0.8],
   },
+
+  /*
+    A NATÁLIA, a quarta noiva de "No dia delas": o casal, dos rostos ao
+    buquê. É o que sobrou do mural de 23 fotos do casamento dela, que saiu em
+    outubro de 2026 (ver data/casamentos.ts). Os outros seis recortes do
+    mural e as fotos de origem saíram de public/ junto; scripts/casamentos.mjs
+    regenera as fotos se um dia o mural voltar, e a seleção antiga está no
+    histórico do git.
+  */
   {
-    // Olhando para o colo, as mãos juntas.
-    origem: 'casamentos/joao-natalia-14.webp',
-    destino: 'casamentos/recortes/joao-natalia-14.webp',
-    caixa: [0.05, 0.1, 0.65, 0.65],
-    pequena: 400,
-  },
-  {
-    // O olhar para trás, por cima do ombro.
-    origem: 'casamentos/joao-natalia-20.webp',
-    destino: 'casamentos/recortes/joao-natalia-20.webp',
-    caixa: [0.35, 0, 0.65, 0.65],
-    pequena: 400,
-  },
-  {
-    // O casal, dos rostos ao buquê.
     origem: 'casamentos/joao-natalia-27.webp',
     destino: 'casamentos/recortes/joao-natalia-27.webp',
     caixa: [0.15, 0, 0.6, 0.6],
-    pequena: 400,
-  },
-  {
-    // O abraço, ela rindo.
-    origem: 'casamentos/joao-natalia-31.webp',
-    destino: 'casamentos/recortes/joao-natalia-31.webp',
-    caixa: [0.2, 0.1, 0.6, 0.6],
-    pequena: 400,
   },
 ]
 
 for (const { origem, destino, caixa, pequena } of RECORTES) {
+  if (!existsSync(path.join(PUBLICO, origem))) {
+    console.log(`pulado, origem fora do disco: ${origem}`)
+    continue
+  }
   const entrada = sharp(path.join(PUBLICO, origem))
   const { width, height } = await entrada.metadata()
   const [e, t, l, a] = caixa

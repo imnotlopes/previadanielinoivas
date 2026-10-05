@@ -156,23 +156,29 @@ export const apresentacoes: Apresentacao[] = [
     },
     ogImagem: '/og-noiva.jpg',
     /*
-      TRÊS FOLHAS, TODAS DA FILHA DA DANIELLI.
+      QUATRO FOLHAS, UMA DE CADA NOIVA.
 
-      Eram cinco noivas diferentes (Aurora, Lorena, Rafaela, Helena e
-      Antonia). No áudio de 28 de setembro de 2026 a Danielli pediu mais fotos
-      da filha e menos fotos no geral, porque não pode mostrar muita coisa das
-      clientes. Ficaram as três fotos dela que sobram depois da capa, cada uma
-      num detalhe: o bordado de frente, o véu de perfil, as costas.
+      Eram cinco noivas; em 28 de setembro de 2026 viraram três folhas só da
+      filha da Danielli, quando ela pediu mais fotos da filha e menos fotos.
+      No áudio de 5 de outubro ela corrigiu: três folhas do mesmo vestido é
+      vestido demais. "Quatro fotos e uma de cada noiva."
 
-      O mesmo código nas três é de propósito: é o mesmo vestido, e a sequência
-      aceita mais de uma folha por peça (ver `montarFluxo`).
+      A filha fica na terceira, e não na primeira: a capa acabou de mostrar o
+      rosto dela, e a mesma noiva logo na folha seguinte leria como repetição.
+      A Natália (N-01) não entra porque já está em "No dia delas".
     */
     destaques: [
       {
-        codigo: 'N-33',
-        recorte: '/recortes/filha-bordado.webp',
-        perto: '/recortes/filha-bordado-perto.webp',
-        rotulo: 'O bordado',
+        codigo: 'N-03',
+        recorte: '/recortes/lorena-renda-da-manga.webp',
+        perto: '/recortes/lorena-renda-da-manga-perto.webp',
+        rotulo: 'A renda',
+      },
+      {
+        codigo: 'N-06',
+        recorte: '/recortes/helena-ombro-bordado.webp',
+        perto: '/recortes/helena-ombro-bordado-perto.webp',
+        rotulo: 'O ombro',
       },
       {
         codigo: 'N-33',
@@ -181,16 +187,20 @@ export const apresentacoes: Apresentacao[] = [
         rotulo: 'O véu',
       },
       {
-        codigo: 'N-33',
-        recorte: '/recortes/filha-costas.webp',
-        perto: '/recortes/filha-costas-perto.webp',
-        rotulo: 'As costas',
+        codigo: 'N-10',
+        recorte: '/recortes/antonia-laco-nas-costas.webp',
+        perto: '/recortes/antonia-laco-nas-costas-perto.webp',
+        rotulo: 'O laço',
       },
     ],
     palavra: 'Noivas',
     saudacao: 'Que bom que você chegou até aqui',
-    posicionamento:
-      'Separei um pouquinho do nosso ateliê para você conhecer. O resto é pessoalmente, com calma, do jeito que um vestido de noiva merece.',
+    /*
+      Termina em "conhecer" por pedido da Danielli (áudio de 5 de outubro de
+      2026). Seguia com "O resto é pessoalmente, com calma, do jeito que um
+      vestido de noiva merece", e ela cortou: ainda era informação demais.
+    */
+    posicionamento: 'Separei um pouquinho do nosso ateliê para você conhecer.',
   },
 ]
 

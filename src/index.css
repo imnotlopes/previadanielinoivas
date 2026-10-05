@@ -1016,10 +1016,15 @@
     mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
   }
 
+  /*
+    14s por cartão, e não um tempo fixo. Eram 70s para cinco cartões; com um
+    tempo fixo, cada avaliação a mais faria a faixa correr mais rápido, e aqui
+    se lê. O número de cartões chega do componente em `--cartoes`.
+  */
   .faixa-avaliacoes_trilho {
     display: flex;
     width: max-content;
-    animation: faixa-marcas 70s linear infinite;
+    animation: faixa-marcas calc(var(--cartoes, 5) * 14s) linear infinite;
     will-change: transform;
   }
 

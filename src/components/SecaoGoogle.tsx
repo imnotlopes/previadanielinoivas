@@ -1,5 +1,5 @@
 import { MapPin, Pause, Phone, Play } from 'lucide-react'
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 
 import { avaliacoesGoogle, googleNegocio, inicialDe, type AvaliacaoGoogle } from '../data/google'
 import { brand } from '../lib/brand'
@@ -87,8 +87,8 @@ export default function SecaoAvaliacoes() {
  * A DIFERENÇA É A VELOCIDADE, E ONDE ELA PARA
  * -------------------------------------------
  * Logotipo se reconhece num relance; avaliação é um parágrafo. A faixa de
- * marcas dá uma volta em 17s; esta leva 70s, uns 25 pixels por segundo, e um
- * cartão fica mais de dez segundos inteiro na tela do celular. E ela para no
+ * marcas dá uma volta em 17s; esta leva 14s por cartão, uns 25 pixels por
+ * segundo, e um cartão fica mais de dez segundos inteiro na tela do celular. E ela para no
  * mouse, no dedo segurando e no foco: no celular não existe passar por cima,
  * e sem isso quem quisesse reler uma frase não teria como.
  */
@@ -98,7 +98,10 @@ function FaixaAvaliacoes() {
   return (
     <div>
       <div className="faixa-avaliacoes">
-        <div className={cn('faixa-avaliacoes_trilho', parado && 'esta-parada')}>
+        <div
+          className={cn('faixa-avaliacoes_trilho', parado && 'esta-parada')}
+          style={{ '--cartoes': avaliacoesGoogle.length } as CSSProperties}
+        >
           <FileiraAnimada />
           <FileiraAnimada aria-hidden />
         </div>

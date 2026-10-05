@@ -23,7 +23,7 @@ export const googleNegocio = {
    * tempo: vale conferir de vez em quando e atualizar aqui.
    */
   nota: 4.8,
-  totalAvaliacoes: 172,
+  totalAvaliacoes: 174,
 
   /**
    * Link estável do perfil, pelo `cid`, e não pela URL comprida do navegador:
@@ -74,31 +74,48 @@ export interface AvaliacaoGoogle {
 }
 
 /**
- * Avaliações reais, transcritas do perfil público no Google em 21/09/2026.
+ * Avaliações reais, transcritas do perfil público no Google em 5/10/2026.
  *
  * ERA UMA LISTA INVENTADA. Este arquivo já teve 12 avaliações escritas para o
  * site parecer de pé, com nota e total que o Google nunca deu. Foram apagadas
  * quando as peças viraram links mandados a noivas de verdade. O que está
  * abaixo é outra coisa: texto integral de quem avaliou, sem edição, erros de
- * digitação incluídos.
+ * digitação incluídos. Todas com 5 estrelas, conferidas no perfil.
  *
- * POR QUE ESTAS CINCO
- * -------------------
- * Sem login, o Google mostra só 10 das 172. Destas, ficaram as que falam com
- * uma noiva: vestido, véu, ser acolhida, e o pai que "alugou tudo lá", que é
- * o argumento do "tudo para o casamento" dito por um cliente. Ficaram de fora
- * as curtas demais para dizer alguma coisa ("Achei ótimo").
+ * POR QUE ESTAS OITO
+ * ------------------
+ * Pedido da Danielli no áudio de 5 de outubro de 2026: pessoas diferentes, de
+ * tempos diferentes ("de dois anos atrás, de um ano atrás, uma recente"), e
+ * avaliação de mãe. Ficaram uma de seis dias, uma de um mês, e daí até três
+ * anos atrás; quatro noivas, duas mães, um pai e quem diz que "vale muito a
+ * pena ir conhecer", que é o convite da página dito por uma cliente.
  *
- * Com uma conta do Google aberta dá para ler as 172 e trocar por outras.
+ * A ordem alterna tempo e voz, para a faixa não passar três noivas de
+ * seguida nem só avaliação recente.
+ *
+ * QUEM NÃO PODE ENTRAR: FAMÍLIA. O Leandro Pinotti é genro da Danielli, e a
+ * avaliação do Adalberto Pinotti (que estava aqui, sobre o terno "do meu
+ * filho") é da mesma família. Saíram as duas a pedido dela: elogio de
+ * parente desmonta a prova social no dia em que alguém descobrir.
+ *
+ * Com o painel de avaliações aberto no Google dá para ler as 174 e trocar.
  */
 export const avaliacoesGoogle: AvaliacaoGoogle[] = [
   {
-    id: 'nathalia-terto',
-    autor: 'Nathália Terto',
+    id: 'daniela-batista',
+    autor: 'Daniela Batista',
     nota: 5,
-    quando: 'um ano atrás',
+    quando: '6 dias atrás',
     texto:
-      'Fui muito bem atendida! A Dani juntamente com todas as funcionárias foram extremamente simpáticas, amorosas e compreensivas e tudo, mostrei o vestido que eu queria e fui surpreendida, todos elogiaram meu vestido e véu, tenho só que agradecer, recomendo muito!',
+      'Tive a oportunidade de voltar ao Atelier Danielli Noivas depois de um ano, e foi muito especial reviver esse momento. O atendimento continua surreal, sempre com muito carinho, atenção e cuidado. Me sinto sempre muito acolhida e bem recebida por vocês! Sou muito grata por todo carinho e por terem feito parte de um momento tão importante da minha vida. 🤍✨',
+  },
+  {
+    id: 'lucas-henrique-miranda-azevedo',
+    autor: 'Lucas Henrique Miranda Azevedo',
+    nota: 5,
+    quando: '2 anos atrás',
+    texto:
+      'Equipe muito bem capacitada, reflexo dos donos que são um amor de pessoa. Minha filha ficou uma verdadeira princesa. Local muito agradável e atendimento impecável.',
   },
   {
     id: 'debora-silva',
@@ -109,6 +126,22 @@ export const avaliacoesGoogle: AvaliacaoGoogle[] = [
       'Atendimento excelente, muitas dicas sobre tudo que precisei, vestidos para todos os gostos! Fui atendida pela proprietária e de cara ela já acertou o meu vestido dos sonhos, mais lindo do que um dia imaginei! Maravilhosa, super indico!',
   },
   {
+    id: 'luziabnmateus',
+    autor: 'luziabnmateus',
+    nota: 5,
+    quando: 'um mês atrás',
+    texto:
+      'Amei a experiência que tive no atelier, mandei fazer um vestido com uma costureira e qdo ficou pronto não gostei, fui na Dani e ela arrumou um maravilhoso para a renovação de votos da minha filha. Super recomendo 😍',
+  },
+  {
+    id: 'janaina-mira',
+    autor: 'Janaina Mira',
+    nota: 5,
+    quando: '3 anos atrás',
+    texto:
+      'Incrível, equipe acolhedora ,da dicas maravilhosas, trabalho deles vem com amor e carinho , vc sai de lá realizada nas roupas e com a recepção das meninas , o carinho respeito e amor delas completa seu sonho de um dia lindo ,vale muito a pena ir conhecer .',
+  },
+  {
     id: 'alcione-paulino',
     autor: 'Alcione Paulino',
     nota: 5,
@@ -117,20 +150,19 @@ export const avaliacoesGoogle: AvaliacaoGoogle[] = [
       'Atendimento nota 10!!! Precisei de vestido pluszise e ela me ajudou a encontrar um vestido maravilhoso. Me senti muito acolhida.',
   },
   {
-    id: 'genice-faria-ribeiro',
-    autor: 'Genice Faria ribeiro',
+    id: 'nathalia-terto',
+    autor: 'Nathália Terto',
     nota: 5,
-    quando: '10 meses atrás',
+    quando: 'um ano atrás',
     texto:
-      'Aluguei meu vestido com a Dani e ameiiiii!!!! As meninas são muito atenciosas, atendimento nota 1000 Recomendo ❤️',
+      'Fui muito bem atendida! A Dani juntamente com todas as funcionárias foram extremamente simpáticas, amorosas e compreensivas e tudo, mostrei o vestido que eu queria e fui surpreendida, todos elogiaram meu vestido e véu, tenho só que agradecer, recomendo muito!',
   },
   {
-    id: 'adalberto-pinotti',
-    autor: 'Adalberto Pinotti',
+    id: 'ivanete-mendes-pinto',
+    autor: 'Ivanete Mendes Pinto',
     nota: 5,
-    quando: 'editado 11 meses atrás',
-    texto:
-      'Super indico, a melhor loja da região, alugamos tudo lá, o terno do meu filho foi de primeira locação e a Dani trouxe exatamente o que ele queria. As meninas são ótimas!',
+    quando: 'um ano atrás',
+    texto: 'Minha filha vai arrasar com o vestido que ela escolheu. Atendimento nota 10',
   },
 ]
 

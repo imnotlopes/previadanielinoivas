@@ -7,16 +7,16 @@ import { ordenadas, type Peca } from '../data/pecas'
  * ===================================
  *
  * A seção de modelos mostrava doze vestidos em sequência, e os depoimentos
- * moravam numa seção separada, mais abaixo. Agora é uma sequência só: três
+ * moravam numa seção separada, mais abaixo. Agora é uma sequência só: quatro
  * fotos, cada uma seguida de uma fala de noiva.
  *
- * Três, e não doze, pela regra da Danielli: "muita foto, ela vai tirar toda a
- * curiosidade dela". Foram cinco até 28 de setembro de 2026, quando ela pediu
- * menos fotos ainda ("não posso mostrar muita coisa") e só da filha. E
+ * Quatro, e não doze, pela regra da Danielli: "muita foto, ela vai tirar toda
+ * a curiosidade dela". Foram cinco, depois três só da filha dela, e em 5 de
+ * outubro de 2026 ficaram quatro, uma de cada noiva, a pedido dela. E
  * intercalado porque foto sozinha é vitrine, e foto com alguém contando como
  * foi é história, que é o que ela pediu no lugar de informação.
  */
-export const FOTOS_NO_FLUXO = 3
+export const FOTOS_NO_FLUXO = 4
 
 export type ItemDoFluxo =
   /**
@@ -56,12 +56,12 @@ export type ItemDoFluxo =
  * completado pela ordem normal das peças, para a sequência não encolher sem
  * ninguém perceber.
  *
- * UMA PEÇA PODE TER MAIS DE UMA FOLHA. Desde que a sequência passou a ser só
- * da filha da Danielli, os três destaques são do mesmo vestido, cada um num
- * detalhe. Por isso a fila é de FOLHAS, cada uma com a própria chave (o
+ * UMA PEÇA PODE TER MAIS DE UMA FOLHA. Hoje cada destaque é de uma noiva,
+ * mas a sequência já foi de três folhas do mesmo vestido, e pode voltar a
+ * ser. Por isso a fila é de FOLHAS, cada uma com a própria chave (o
  * recorte), e não de peças: uma fila de peças engolia as três numa só.
  *
- * Depoimentos além do terceiro ficam de fora: três pares é o tamanho da peça.
+ * Depoimentos além do quarto ficam de fora: quatro pares é o tamanho da peça.
  */
 export function montarFluxo(
   pecas: Peca[],
